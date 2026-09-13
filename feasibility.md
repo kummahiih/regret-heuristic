@@ -58,3 +58,16 @@ Existing `ppo_toy.py` and `simulation.py` do not track the vector average of $S_
 Risk: a toy that “looks like” failure can be misread as evidence; the theoretical rejection is cleaner.
 
 Effort: low for a script, but out of scope. Skip.
+
+## MW-oracle
+
+**Verdict: not without a bounded r recipe.**
+
+$L_{\mathrm{reg}}$ cannot serve as a multiplicative-weights (MW) constraint with bounded width and a cheap oracle unless $r$ itself is already bounded in a way that keeps the hinge losses inside a known range.
+
+- MW / Hedge needs per-round losses in a fixed interval (classically $[0,1]$) to obtain the $O(\sqrt{T\log N})$ width; the current $\mathrm{ReLU}(\max s-\tau)$ is unbounded above if cosine can approach 1 and $\tau$ is fixed, or if the readout norm is uncontrolled.
+- A cheap oracle would require an efficient projection or reweight step over the constraint set defined by $L_{\mathrm{reg}}\le 0$. Without a closed-form or low-cost description of $\{h:r(h)\text{ yields hinge }0\}$, the oracle is not cheap.
+- Existing files (`math_formulation.md`, `approachability.md`) treat $L_{\mathrm{reg}}$ only as a scalar Lagrangian term or as the second coordinate of a vector payoff; they supply neither a bounded-loss reduction nor an MW update rule.
+- Risk: pretending the hinge is already a bounded MW expert loss would import guarantees that the algebra does not give.
+
+Effort: low for the negative note; high (and out of scope) for inventing a bounded-$r$ construction.
