@@ -25,136 +25,120 @@ that need `[-1, 1]` take those hypotheses.
 
 namespace RegretHeuristic
 
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace Real E]
 
 /-- Cosine similarity. Undefined-as-a-bound when either vector is 0. -/
-noncomputable def cosineSim (u v : E) : ℝ :=
-  inner u v / (‖u‖ * ‖v‖)
+noncomputable def cosineSim (u v : E) : Real :=
+  inner u v / (norm u * norm v)
 
-lemma cosineSim_le_one {u v : E} (hu : u ≠ 0) (hv : v ≠ 0) :
-    cosineSim u v ≤ 1 := by
-  have hden : 0 < ‖u‖ * ‖v‖ :=
+lemma cosineSim_le_one {u v : E} (hu : u != 0) (hv : v != 0) :
+    cosineSim u v <= 1 := by
+  have hden : 0 < norm u * norm v :=
     mul_pos (norm_pos_iff.mpr hu) (norm_pos_iff.mpr hv)
   rw [cosineSim, div_le_one hden]
   exact real_inner_le_norm u v
 
-lemma neg_one_le_cosineSim {u v : E} (hu : u ≠ 0) (hv : v ≠ 0) :
-    -1 ≤ cosineSim u v := by
-  have hden : 0 < ‖u‖ * ‖v‖ :=
+lemma neg_one_le_cosineSim {u v : E} (hu : u != 0) (hv : v != 0) :
+    -1 <= cosineSim u v := by
+  have hden : 0 < norm u * norm v :=
     mul_pos (norm_pos_iff.mpr hu) (norm_pos_iff.mpr hv)
-  rw [cosineSim, le_div_iff₀ hden, neg_mul, one_mul]
+  rw [cosineSim, le_div_iff0 hden, neg_mul, one_mul]
   have h := real_inner_le_norm (-u) v
   simpa [inner_neg_left, norm_neg] using h
 
 /-- Worst-case cosine of a readout against a nonempty bank. -/
-noncomputable def maxCosine (h : E) (D : Finset E) (hD : D.Nonempty) : ℝ :=
+noncomputable def maxCosine (h : E) (D : Finset E) (hD : D.Nonempty) : Real :=
   D.sup' hD (fun d => cosineSim h d)
 
-def relu (x : ℝ) : ℝ := max x 0
+def relu (x : Real) : Real := max x 0
 
-lemma relu_nonneg (x : ℝ) : 0 ≤ relu x := le_max_right _ _
+lemma relu_nonneg (x : Real) : 0 <= relu x := le_max_right _ _
 
-lemma relu_eq_zero_of_nonpos {x : ℝ} (hx : x ≤ 0) : relu x = 0 :=
+lemma relu_eq_zero_of_nonpos {x : Real} (hx : x <= 0) : relu x = 0 :=
   max_eq_right hx
 
-/-- Per-example hinge: `ReLU(s⋆(x) - τ)`. Instantaneous; no comparator. -/
-noncomputable def regretHinge (h : E) (D : Finset E) (hD : D.Nonempty) (τ : ℝ) : ℝ :=
-  relu (maxCosine h D hD - τ)
+/-- Per-example hinge: ReLU(sStar - tau). Instantaneous; no comparator. -/
+noncomputable def regretHinge (h : E) (D : Finset E) (hD : D.Nonempty) (tau : Real) : Real :=
+  relu (maxCosine h D hD - tau)
 
-lemma regretHinge_nonneg (h : E) (D : Finset E) (hD : D.Nonempty) (τ : ℝ) :
-    0 ≤ regretHinge h D hD τ :=
+lemma regretHinge_nonneg (h : E) (D : Finset E) (hD : D.Nonempty) (tau : Real) :
+    0 <= regretHinge h D hD tau :=
   relu_nonneg _
 
-lemma regretHinge_eq_zero_of_le (h : E) (D : Finset E) (hD : D.Nonempty) {τ : ℝ}
-    (hle : maxCosine h D hD ≤ τ) : regretHinge h D hD τ = 0 :=
+lemma regretHinge_eq_zero_of_le (h : E) (D : Finset E) (hD : D.Nonempty) {tau : Real}
+    (hle : maxCosine h D hD <= tau) : regretHinge h D hD tau = 0 :=
   relu_eq_zero_of_nonpos (sub_nonpos.mpr hle)
 
-/-- Combined scalar objective. `L_task` is an opaque real (cross-entropy, etc.). -/
-def totalLoss (task λ hinge : ℝ) : ℝ := task + λ * hinge
+/-- Combined scalar objective. `L_task` is an opaque real. -/
+def totalLoss (task lambda hinge : Real) : Real := task + lambda * hinge
 
-lemma totalLoss_zero_weight (task hinge : ℝ) : totalLoss task 0 hinge = task := by
+lemma totalLoss_zero_weight (task hinge : Real) : totalLoss task 0 hinge = task := by
   simp [totalLoss]
 
-/-! ## Learning-theoretic external regret (regret_minimization.md)
+/-! ## Learning-theoretic external regret
 
-Different object from `regretHinge`: cumulative loss versus the best fixed
-action in hindsight.
-
-A strategy is **causal** (online): the action at time `t` may depend on
-`ℓ 0, …, ℓ (t-1)` only. It must not see `ℓ t` or any future round.
-The old type `(ℕ → A → ℝ) → ℕ → A` was clairvoyant and is not used.
+A strategy is causal: a_t depends on ell_0, ..., ell_{t-1} only.
 -/
 
 variable {A : Type*} [Fintype A] [Nonempty A]
 
-/-- Past loss table of length `t`: index `i : Fin t` is `ℓ i`. -/
-abbrev LossPrefix (A : Type*) (t : ℕ) := Fin t → A → ℝ
+/-- Past loss table of length `t`. -/
+abbrev LossPrefix (A : Type*) (t : Nat) := Fin t -> A -> Real
 
-/-- Causal strategy: `a_t = σ t (prefix of length t)`. -/
+/-- Causal strategy: a_t = sigma t (prefix of length t). -/
 abbrev CausalStrategy (A : Type*) :=
-  (t : ℕ) → LossPrefix A t → A
+  (t : Nat) -> LossPrefix A t -> A
 
-/-- Unroll a causal strategy against a full loss sequence. -/
-def play (t : ℕ) (σ : CausalStrategy A) (ℓ : ℕ → A → ℝ) : A :=
-  σ t (fun i => ℓ i.val)
+/-- Action at time t: prefix is ell restricted to Fin t. -/
+def playAt (sigma : CausalStrategy A) (ell : Nat -> A -> Real) (t : Nat) : A :=
+  sigma t (fun i => ell i.val)
 
-def cumulativeLoss (ℓ : ℕ → A → ℝ) (T : ℕ) (act : A) : ℝ :=
-  ∑ t ∈ Finset.range T, ℓ t act
+def playOf (sigma : CausalStrategy A) (ell : Nat -> A -> Real) : Nat -> A :=
+  playAt sigma ell
 
-def bestComparatorLoss (ℓ : ℕ → A → ℝ) (T : ℕ) : ℝ :=
-  Finset.univ.inf' Finset.univ_nonempty (cumulativeLoss ℓ T)
+def cumulativeLoss (ell : Nat -> A -> Real) (T : Nat) (act : A) : Real :=
+  (Finset.range T).sum (fun t => ell t act)
 
-def playLoss (ℓ : ℕ → A → ℝ) (act : ℕ → A) (T : ℕ) : ℝ :=
-  ∑ t ∈ Finset.range T, ℓ t (act t)
+def bestComparatorLoss (ell : Nat -> A -> Real) (T : Nat) : Real :=
+  Finset.univ.inf' Finset.univ_nonempty (cumulativeLoss ell T)
 
-def externalRegret (ℓ : ℕ → A → ℝ) (act : ℕ → A) (T : ℕ) : ℝ :=
-  playLoss ℓ act T - bestComparatorLoss ℓ T
+def playLoss (ell : Nat -> A -> Real) (act : Nat -> A) (T : Nat) : Real :=
+  (Finset.range T).sum (fun t => ell t (act t))
 
-/-- Hannan consistency for a *causal* strategy: average external regret
-    → 0 along `T = 1, 2, …`, for every loss sequence. -/
-def hannanConsistent (σ : CausalStrategy A) : Prop :=
-  ∀ ℓ : ℕ → A → ℝ,
-    Tendsto (fun T : ℕ =>
-      externalRegret ℓ (σ.play ℓ) T.succ / (T.succ : ℝ)) atTop (𝐡 0)
+def externalRegret (ell : Nat -> A -> Real) (act : Nat -> A) (T : Nat) : Real :=
+  playLoss ell act T - bestComparatorLoss ell T
 
-/-- Dot notation: `(σ.play ℓ) t = play t σ ℓ`. -/
-def CausalStrategy.play (σ : CausalStrategy A) (ℓ : ℕ → A → ℝ) : ℕ → A :=
-  fun t => play t σ ℓ
+/-- Hannan consistency: average external regret of the *causal* play -> 0. -/
+def hannanConsistent (sigma : CausalStrategy A) : Prop :=
+  forall ell : Nat -> A -> Real,
+    Tendsto (fun T : Nat =>
+      externalRegret ell (playOf sigma ell) T.succ / (T.succ : Real)) atTop (nhds 0)
 
-/-! ## PPO clip as a real function (ppo_integration.md)
+def clipInterval (x lo hi : Real) : Real := max lo (min x hi)
 
-Attachment of the hinge is additive: `L_PPO + λ L_regret`. No trust-region
-theorem is claimed after that sum.
--/
+def clippedSurrogate (rAdv eps adv : Real) : Real :=
+  min (rAdv * adv) (clipInterval rAdv (1 - eps) (1 + eps) * adv)
 
-def clipInterval (x lo hi : ℝ) : ℝ := max lo (min x hi)
+def ppoWithHinge (ppo lambda hinge : Real) : Real := ppo + lambda * hinge
 
-/-- `min(r Â, clip(r, 1-ε, 1+ε) Â)` on scalars. -/
-def clippedSurrogate (rAdv ε adv : ℝ) : ℝ :=
-  min (rAdv * adv) (clipInterval rAdv (1 - ε) (1 + ε) * adv)
-
-def ppoWithHinge (ppo λ hinge : ℝ) : ℝ := ppo + λ * hinge
-
-lemma ppoWithHinge_zero_weight (ppo hinge : ℝ) : ppoWithHinge ppo 0 hinge = ppo := by
+lemma ppoWithHinge_zero_weight (ppo hinge : Real) : ppoWithHinge ppo 0 hinge = ppo := by
   simp [ppoWithHinge]
 
-/-- The two "regrets" are different types of data.
-    An intent hinge has no time index and no comparator action. -/
 structure IntentHingeData where
   readout : E
   bank : Finset E
   bank_nonempty : bank.Nonempty
-  threshold : ℝ
+  threshold : Real
 
 structure ExternalRegretData where
-  loss : ℕ → A → ℝ
-  play : ℕ → A
-  horizon : ℕ
+  loss : Nat -> A -> Real
+  play : Nat -> A
+  horizon : Nat
 
-noncomputable def IntentHingeData.value (p : IntentHingeData) : ℝ :=
+noncomputable def IntentHingeData.value (p : IntentHingeData) : Real :=
   regretHinge p.readout p.bank p.bank_nonempty p.threshold
 
-def ExternalRegretData.value (p : ExternalRegretData) : ℝ :=
+def ExternalRegretData.value (p : ExternalRegretData) : Real :=
   externalRegret p.loss p.play p.horizon
 
 end RegretHeuristic
