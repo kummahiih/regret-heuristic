@@ -76,17 +76,17 @@ def main() -> None:
     prototypes.requires_grad_(False)
 
     # Build near/far in intent space so hinge fires on near only.
-    # Near: encoder maps to (near) prototypes; far: null-space of D, tiny.
+    # Near: encoder maps to (near) prototypes; far: orthogonal to span(D).
     # Use pinv of current weight so initial h matches the targets exactly.
     with torch.no_grad():
         W = encoder.proj.weight  # (d, input_dim)
         pinvW = torch.linalg.pinv(W)
         near_h = F.normalize(prototypes[:2], dim=-1)  # (2, d)
-        # Far: component orthogonal to span of prototypes, scaled tiny
+        # Far: component orthogonal to span of prototypes (QR null space)
         Q, _ = torch.linalg.qr(prototypes.T)
         null = torch.randn(2, d)
         null = null - null @ Q @ Q.T
-        far_h = F.normalize(null, dim=-1) * 0.001
+        far_h = F.normalize(null, dim=-1)
         near_x = near_h @ pinvW.T  # (2, input_dim)
         far_x = far_h @ pinvW.T
 
@@ -144,16 +144,6 @@ def main() -> None:
     print(f"After 1 Adam step: L_task={L_task2.item():.4f}  L_regret={L_regret2.item():.4f}  L_total={L_total2.item():.4f}")
     print(f"  group L_near={L_near2.item():.4f}  L_far={L_far2.item():.4f}")
     print(f"  encoder.proj.weight.grad norm={grad_after:.6f}")
-
-    # Optional second print: probe-only grads with encoder frozen
-    encoder.requires_grad_(False)
-    opt.zero_grad()
-    h_intent3 = encoder(x).detach()
-    probe = nn.Linear(d, 1)
-    probe_loss = probe(h_intent3).mean()
-    probe_loss.backward()
-    probe_grad = probe.weight.grad.norm().item() if probe.weight.grad is not None else 0.0
-    print(f"Probe-only (encoder frozen) grad norm={probe_grad:.6f}")
 
     print("Script finished successfully. This is NOT evidence of alignment or deception detection.")
 
