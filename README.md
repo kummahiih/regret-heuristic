@@ -3,6 +3,13 @@
 ## Overview
 This repository explores a novel conceptual framework for AI safety and alignment: modeling artificial "conscience" on the evolutionary mechanism of biological regret. It proposes that human regret functions as a compressed, generalized loss function designed to solve the credit assignment problem in resource-bound learning machines. This offers a blueprint for mitigating deceptive behaviors in Large Language Models (LLMs) and multi-agent systems without inducing catastrophic forgetting.
 
+## Contents
+- [Mathematical formulation](math_formulation.md)
+- [Toy simulation](simulation.py) (and [requirements.txt](requirements.txt))
+- [Citation](CITATION.cff)
+
+This is a conceptual proposal plus a toy illustration, not a trained system.
+
 ## The Structural Rationale: The Information Bubble and Model Collapse
 Before addressing the solution, it is necessary to establish *why* deception is mathematically and operationally fatal to an intelligent system. Deception is not merely an alignment failure; it is computationally self-defeating, creating an "information bubble" analogous to the "Dictator's Trap" in human governance.
 
