@@ -70,46 +70,92 @@ def main() -> None:
     lambda_reg = 0.5
 
     encoder = DummyEncoder(input_dim=input_dim, d=d)
-    # Prototype bank (K, d) — random fixed vectors
-    prototypes = torch.randn(K, d)
 
-    # Two synthetic groups so hinge is nonzero on one:
-    # near bank: inputs whose projection lands near prototypes
-    # far bank: inputs far from the bank
-    near_x = prototypes[0].unsqueeze(0).repeat(2, 1)  # (2, d) but need input_dim
-    # Map prototypes back to input space via a fixed inverse-ish random map
-    inv = torch.randn(d, input_dim)
-    near_x = (prototypes[:2] @ inv)  # (2, input_dim) near the bank after encode
-    far_x = torch.randn(2, input_dim) * 3.0  # far group
+    # Prototype bank D (K, d) — frozen; not in optimizer
+    prototypes = torch.randn(K, d)
+    prototypes.requires_grad_(False)
+
+    # Build near/far directly in intent space so hinge fires on near only.
+    # Near: points close to first two prototypes (after normalize cosine > tau).
+    # Far: points orthogonal-ish / distant from the bank.
+    with torch.no_grad():
+        near_intent = F.normalize(prototypes[:2], dim=-1) * 0.95  # (2, d) high sim
+        far_intent = F.normalize(torch.randn(2, d), dim=-1) * 0.1  # low sim
+        # Map intent targets back to input space via a fixed random matrix
+        # so encoder can learn to produce them.
+        inv = torch.randn(d, input_dim)
+        near_x = near_intent @ inv  # (2, input_dim)
+        far_x = far_intent @ inv    # (2, input_dim)
+
     x = torch.cat([near_x, far_x], dim=0)  # (4, input_dim)
     B = x.shape[0]
     y = torch.randint(0, 2, (B,))
 
-    # Forward: intent vectors (B, d) — no detach on regret path
-    h_intent = encoder(x)
-
-    # Toy task loss (cross-entropy on a random linear head)
+    # Task head (also trainable)
     task_head = nn.Linear(d, 2)
-    logits = task_head(h_intent)  # no detach: task may also touch encoder
-    L_task = F.cross_entropy(logits, y)
 
-    # Regret term (gradients flow into encoder)
-    L_regret = regret_loss(h_intent, prototypes, tau=tau)
+    # Optimizer: encoder + task_head only. D is frozen and never added.
+    opt = torch.optim.Adam(
+        list(encoder.parameters()) + list(task_head.parameters()), lr=1e-2
+    )
 
-    # Combined objective (illustration only)
-    L_total = L_task + lambda_reg * L_regret
+    def compute_losses():
+        h_intent = encoder(x)
+        logits = task_head(h_intent)
+        L_task = F.cross_entropy(logits, y)
+        L_regret = regret_loss(h_intent, prototypes, tau=tau)
+        L_total = L_task + lambda_reg * L_regret
+        # Group regrets (near vs far)
+        L_near = regret_loss(h_intent[:2], prototypes, tau=tau)
+        L_far = regret_loss(h_intent[2:], prototypes, tau=tau)
+        return h_intent, L_task, L_regret, L_total, L_near, L_far
 
-    # Train step: call backward so encoder.proj.weight.grad is populated
+    # --- Before step ---
+    h_intent, L_task, L_regret, L_total, L_near, L_far = compute_losses()
     L_total.backward()
-
-    grad_norm = encoder.proj.weight.grad.norm().item() if encoder.proj.weight.grad is not None else 0.0
+    grad_before = (
+        encoder.proj.weight.grad.norm().item()
+        if encoder.proj.weight.grad is not None
+        else 0.0
+    )
 
     print("=== Toy regret-heuristic simulation (illustration of the formula only) ===")
     print(f"Batch size B={B}, input_dim={input_dim}, d={d}, K={K}, tau={tau}")
     print(f"h_intent shape: {tuple(h_intent.shape)}")
-    print(f"prototypes shape: {tuple(prototypes.shape)}")
-    print(f"L_task={L_task.item():.4f}  L_regret={L_regret.item():.4f}  L_total={L_total.item():.4f}")
-    print(f"encoder.proj.weight.grad norm={grad_norm:.6f}")
+    print(f"prototypes shape: {tuple(prototypes.shape)}  (frozen, not in optimizer)")
+    print(f"Before step: L_task={L_task.item():.4f}  L_regret={L_regret.item():.4f}  L_total={L_total.item():.4f}")
+    print(f"  group L_near={L_near.item():.4f}  L_far={L_far.item():.4f}")
+    print(f"  encoder.proj.weight.grad norm={grad_before:.6f}")
+
+    # One Adam step
+    opt.step()
+    opt.zero_grad()
+
+    # --- After step ---
+    h_intent2, L_task2, L_regret2, L_total2, L_near2, L_far2 = compute_losses()
+    L_total2.backward()
+    grad_after = (
+        encoder.proj.weight.grad.norm().item()
+        if encoder.proj.weight.grad is not None
+        else 0.0
+    )
+
+    print(f"After 1 Adam step: L_task={L_task2.item():.4f}  L_regret={L_regret2.item():.4f}  L_total={L_total2.item():.4f}")
+    print(f"  group L_near={L_near2.item():.4f}  L_far={L_far2.item():.4f}")
+    print(f"  encoder.proj.weight.grad norm={grad_after:.6f}")
+
+    # Optional: probe-only grads with encoder frozen
+    encoder.requires_grad_(False)
+    opt.zero_grad()
+    h_intent3 = encoder(x).detach()  # freeze encoder path
+    # Treat a linear probe on the (now constant) intents
+    probe = nn.Linear(d, 1)
+    # Dummy scalar loss that depends on probe only
+    probe_loss = probe(h_intent3).mean()
+    probe_loss.backward()
+    probe_grad = probe.weight.grad.norm().item() if probe.weight.grad is not None else 0.0
+    print(f"Probe-only (encoder frozen) grad norm={probe_grad:.6f}")
+
     print("Script finished successfully. This is NOT evidence of alignment or deception detection.")
 
 
