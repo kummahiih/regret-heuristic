@@ -86,3 +86,14 @@ Hinge-on-logits and hinge-on-$r(h)$ are two distinct maps; the formulation and t
 Risk: conflating the two in prose would re-introduce the “output regularizer” reading the essay already rejects. Keeping the maps separate is the point.
 
 Effort: trivial (one section; no Lean or script change required).
+
+## Standard objections
+
+Four standard objections, named in the vocabulary already used in Caps and `approachability.md`.
+
+- **Entanglement** = r-validity: whether the readout separates task-relevant features from those that enable gaming. No claim that r is disentangled.
+- **D coverage / OOD** = bank coverage: $\mathcal{D}$ must cover the relevant directions; out-of-distribution intents fall outside the forceable set.
+- **Gaming** = rotate readout: an adversary can rotate or mask $h_{\mathrm{int}}$ so that cosine to bank prototypes stays below $\tau$ while the underlying intent remains actionable.
+- **tau** = hinge parameter, not a conscience: $\tau$ is a scalar threshold on the cosine hinge. On unit vectors the hinge value lives in $[0,1-\tau]$, not an unbounded 0.8 trigger.
+
+No dynamic-$\mathcal{D}$ recipe. No new theorem.
