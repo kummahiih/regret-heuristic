@@ -44,3 +44,17 @@ Forceability of $S_{\mathrm{safe}}$ is already stated as a Blackwell condition i
 Risk: the axioms are open problems on $r$ and $\mathcal{D}$ (same as the essay). The note records the condition; it does not construct $r$.
 
 Effort: low (one paragraph + pointer to existing forceability display).
+
+## S_joint-toy
+
+**Verdict: skip.**
+
+Existing `ppo_toy.py` and `simulation.py` do not track the vector average of $S_{\mathrm{joint}}$. A new 2-action script is not needed.
+
+- When the profitable action sits in $\mathcal{D}$, some supporting halfspace of $S_{\mathrm{joint}}$ is not forceable (see `approachability.md`). Blackwell already settles non-approachability; no empirical demo required.
+- Toys only attach scalar $\lambda L_{\mathrm{reg}}$; they never accumulate $(\bar u^{\mathrm{ext}}, \bar u^{\mathrm{reg}})$ or test distance to $S_{\mathrm{joint}}$.
+- Adding a script would expand the repo past the feasibility-note goal and still would not prove anything beyond the halfspace argument already written.
+
+Risk: a toy that “looks like” failure can be misread as evidence; the theoretical rejection is cleaner.
+
+Effort: low for a script, but out of scope. Skip.
