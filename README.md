@@ -14,7 +14,13 @@
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-The bubble/regret narrative **motivates** looking for a regularizer; it does not follow from the hinge algebra.
+## Framing (hypothesis)
+
+**Hypothesis.** The information-bubble / Dictator’s Trap framing suggests that agents which never experience the consequences of strategic deception may lack an internal signal for “this plan would be regretted if the outcome were known.” The narrative motivates looking for a regularizer; it does not follow from the hinge algebra.
+
+**Hypothesis.** Three practical bottlenecks remain open: a readout *r* that tracks strategic intent rather than surface features; a prototype bank *D* that covers the deceptive strategies one cares about without sweeping in honest planning or fiction; and resistance to gaming (cheap rotation of the intent vector off the bank while keeping external behaviour).
+
+**Hypothesis.** The regret term is proposed only as a training-time intent-tag regularizer. It does not claim solved forgetting, a live abort mechanism, or reliable zero-shot transfer.
 
 ## Overview
 This repository formalizes a **training-time** auxiliary loss inspired by biological regret:  
@@ -47,6 +53,7 @@ Expected qualitative output (exact floats vary with seed):
 - [Mathematical formulation](math_formulation.md)
 - [Toy simulation](simulation.py) (and [requirements.txt](requirements.txt))
 - [Citation](CITATION.cff)
+- [LICENSE](LICENSE)
 
 ---
 *Note: This framework is a conceptual proposal. The math note defines the loss that is actually specified; the essay language is interpretive framing only.*
