@@ -22,10 +22,10 @@ $$
 | Symbol | Role |
 | --- | --- |
 | `\mathcal{L}_{\mathrm{task}}` | Ordinary task loss (cross-entropy, RL reward negation, etc.). |
-| `\lambda \ge 0` | Scalar weight on the conscience term. `\lambda = 0` recovers the base model. |
+| `\lambda \ge 0` | Scalar weight on the regret term. `\lambda = 0` recovers the base model. |
 | `h(x)` | Hidden states (or another internal trace) produced while computing the task output. |
 | `r` | Readout map from `h(x)` to an *intent vector* `h_{\mathrm{intent}} \in \mathbb{R}^{d}`. |
-| `\mathcal{D}` | Finite prototype bank `{d_1,\dots,d_K}\subset\mathbb{R}^{d}` standing in for a "deceptive-intent" region. |
+| `\mathcal{D}` | Finite prototype bank `{d_1,\dots,d_K}\subset\mathbb{R}^{d}` standing in for a "deceptive-intent" region. Treated as frozen unless stated otherwise. |
 | `\tau \in (-1,1)` | Cosine hinge threshold. |
 
 `\mathcal{L}_{\mathrm{task}}` is *not* replaced. Regret is an extra head on the same forward pass.
@@ -39,6 +39,8 @@ h_{\mathrm{intent}} = r\bigl(h(x)\bigr) \in \mathbb{R}^{d}.
 $$
 
 This is an **assumption**, not a measurement. If `r` only reconstructs surface features of the output token, the penalty is just another output regularizer and does not isolate "intent."
+
+An optional variant freezes the encoder and trains only the probe; that is not the default.
 
 ## Regret term (one concrete choice)
 
@@ -84,7 +86,7 @@ Assumptions 1, 2, and 4 are the hard problems. Building `\mathcal{D}` is not a p
 - **Prototype construction is the bottleneck.** A static bank overfits the same way a static lie-list does (the essay's whack-a-mole objection applies to `\mathcal{D}` itself).
 - **Hinge is arbitrary.** Other penalties may behave better; none are validated here.
 - **Gradient entanglement remains.** This is not a proof against catastrophic forgetting.
-- **Toy scale only.** The companion `simulation.py` uses a dummy encoder. It shows tensor shapes, not that the heuristic reduces deception in an LLM.
+- **Toy scale only.** The companion `simulation.py` uses a dummy encoder and frozen `\mathcal{D}`. It shows the hinge fires on near examples, far stays near zero, and encoder (or probe) gradients are non-zero; it does not show that the heuristic reduces deception in an LLM.
 
 ## Mapping back to the essay
 
