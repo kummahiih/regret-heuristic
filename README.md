@@ -46,7 +46,6 @@ python simulation.py
 Expected qualitative output (exact floats vary with seed):
 - Before step: L_near > 0, L_far ≈ 0, encoder grad norm > 0
 - After one Adam step: same pattern, losses and grads update
-- Probe-only (encoder frozen) grad norm > 0
 - Script ends with the disclaimer that this is **not** evidence of alignment or deception detection
 
 ## Contents
