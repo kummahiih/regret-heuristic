@@ -29,3 +29,18 @@ This repo cannot prove a finite-T EWA/Hedge external-regret bound without new fo
 - Risk: dependency surface grows; current lakefile only pulls mathlib for inner-product and basic finset facts.
 
 Effort: high (small paper of formalization). Skip; keep the Lean slice definitional.
+
+## S_safe
+
+**Verdict: do (math note).**
+
+Forceability of $S_{\mathrm{safe}}$ is already stated as a Blackwell condition in `approachability.md`. A short note can make the axioms explicit and stop there.
+
+- Axioms on $r$ and $\mathcal{D}$: $A_{\mathrm{safe}}(t)$ nonempty every $t$ (exists $a$ with $\mathcal{L}_{\mathrm{reg}}(r(h_t),\mathcal{D})=0$), and the safe comparator is stable under the readout (no systematic gaming that splits "looks safe" from "is the safe minimizer").
+- Under those, every supporting halfspace of $S_{\mathrm{safe}}$ is forceable by playing a suitable mixed action inside $A_{\mathrm{safe}}$; Blackwell (black-box) then yields approachability.
+- Lean: skip. No approachability / halfspace formalization, no vector-payoff structures beyond the definitional hinge and external regret. Out of the current slice.
+- 2-action bandit: possible as an explicit check (enumerate pure strategies, verify halfspaces), but not required for the feasibility claim; the math note already scopes the target.
+
+Risk: the axioms are open problems on $r$ and $\mathcal{D}$ (same as the essay). The note records the condition; it does not construct $r$.
+
+Effort: low (one paragraph + pointer to existing forceability display).
