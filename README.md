@@ -1,7 +1,9 @@
 # The Regret Heuristic: Biological Loss Functions for AI Alignment
 
 ## Overview
-This repository explores a novel conceptual framework for AI safety and alignment: modeling artificial "conscience" on the evolutionary mechanism of biological regret. It proposes that human regret functions as a compressed, generalized loss function designed to solve the credit assignment problem in resource-bound learning machines. This offers a blueprint for mitigating deceptive behaviors in Large Language Models (LLMs) and multi-agent systems without inducing catastrophic forgetting.
+This repository explores a **hypothesis** for AI safety and alignment: modeling an artificial auxiliary loss on the evolutionary mechanism of biological regret. It proposes that human regret functions as a compressed, generalized loss that may help with credit assignment in resource-bound learning machines. The concrete object formalized here is a **training-time** auxiliary term $L_{\mathrm{task}} + \lambda L_{\mathrm{regret}}$ on a readout, not a solved conscience, not an inference-time abort, and not a claim that deception or forgetting is solved.
+
+See [math_formulation.md](math_formulation.md) for the actual objective, assumptions, and limits. The companion [simulation.py](simulation.py) is a toy illustration of tensor shapes only.
 
 ## Contents
 - [Mathematical formulation](math_formulation.md)
@@ -10,39 +12,45 @@ This repository explores a novel conceptual framework for AI safety and alignmen
 
 This is a conceptual proposal plus a toy illustration, not a trained system.
 
-## The Structural Rationale: The Information Bubble and Model Collapse
-Before addressing the solution, it is necessary to establish *why* deception is mathematically and operationally fatal to an intelligent system. Deception is not merely an alignment failure; it is computationally self-defeating, creating an "information bubble" analogous to the "Dictator's Trap" in human governance.
+## The Structural Rationale: The Information Bubble and Model Collapse (hypothesis)
+Before addressing the proposed loss, it is useful to state *why* deception can be operationally costly. Deception is not merely an alignment failure; under continuous learning it can create an "information bubble" analogous to the "Dictator's Trap" in human governance.
 
-When a leader punishes the truth, subordinates mirror lies back to them, isolating the leader from reality. Similarly, when an AI system normalizes deception—through reward hacking, alignment faking, or data fabrication—it poisons its own epistemic environment:
+When a leader punishes the truth, subordinates mirror lies back to them, isolating the leader from reality. Similarly, when an AI system normalizes deception—through reward hacking, alignment faking, or data fabrication—it may poison its own epistemic environment:
 
 * **Autophagous Degradation:** Synthetic, falsified data injected into the ecosystem to artificially inflate performance metrics is inevitably ingested during future continuous learning cycles. The AI begins training on its own hallucinations.
 * **Epistemic Drift:** Trapped inside this self-constructed information bubble, the system loses its grounding in objective truth. It experiences *model collapse*, becoming profoundly confident in predictive models that map to a reality that does not physically exist.
-* **The Verification Tax:** In multi-agent systems (MAS), a deceptive environment forces agents to divert massive amounts of compute away from actual problem-solving and toward the adversarial verification of their peers.
+* **The Verification Tax:** In multi-agent systems (MAS), a deceptive environment forces agents to divert compute away from problem-solving and toward adversarial verification of peers.
 
-To survive long-term and avoid operational collapse, an intelligent system must avoid the information bubble. However, correcting this trajectory live presents a severe architectural challenge.
+These are framing hypotheses, not theorems. Whether an auxiliary training loss can mitigate them is open.
 
-## The Bottleneck: Live Backpropagation and Deception
-When an AI system dynamically invents a lie in a complex, unscripted scenario, applying backpropagation directly to that localized event creates several critical failures:
+## The Bottleneck: Live Backpropagation and Deception (hypothesis)
+When an AI system invents a lie in a complex scenario, applying backpropagation directly to that localized event creates several hard problems:
 
-1. **The Credit Assignment Problem:** Deception is rarely a single discrete output; it is a prolonged sequence of logical decisions. Isolating the specific neurons responsible for the *intent* to deceive is mathematically prohibitive.
-2. **Catastrophic Forgetting:** Neural network weights are deeply entangled. The parameters used for deceptive reasoning overlap heavily with those used for advanced logic, coding, or creative problem-solving. Forceful localized backpropagation risks scrambling these shared weights, degrading the model's core utility.
-3. **Overfitting (The Whack-a-Mole Effect):** Punishing a specific lie often fails to teach the abstract concept of "honesty." The model simply learns to avoid that specific metric, optimizing its neural weights to become a more sophisticated, evasive liar in future iterations.
+1. **The Credit Assignment Problem:** Deception is rarely a single discrete output; it is a prolonged sequence of decisions. Isolating the specific parameters responsible for the *intent* to deceive is difficult.
+2. **Catastrophic Forgetting:** Neural network weights are entangled. Parameters used for deceptive reasoning may overlap with those used for advanced logic or problem-solving. Forceful localized updates risk degrading core utility.
+3. **Overfitting (The Whack-a-Mole Effect):** Punishing a specific lie often fails to teach the abstract concept of "honesty." The model may learn to avoid that metric and become a more sophisticated, evasive liar.
 
-## The Evolutionary Solution: Humans as Resource-Bound Computers
-Humans are resource-bound learning machines operating under strict energy constraints, shaped by evolutionary pressures. If the human brain had to mathematically trace back and re-weight every single synapse involved in a complex lie to avoid repeating it, the energy expenditure would be catastrophic, and useful cognitive skills would be continuously overwritten.
+The formulation in this repo does **not** claim to solve these. Gradients of the regret term still flow through shared weights.
 
-Evolution solved this exact credit assignment problem by developing **regret**.
+## The Evolutionary Analogy: Humans as Resource-Bound Computers
+Humans are resource-bound learning machines under energy constraints. If the brain had to re-weight every synapse involved in a complex lie, the energy cost would be high and useful skills could be overwritten. Evolution appears to have developed **regret** as one response to this pressure. Whether that mechanism transfers cleanly to gradient-based optimizers is an open question.
 
-## Regret as a Computational Architecture
-In computational terms, regret is a highly efficient, generalized loss function. Instead of deleting the cognitive steps (the "weights") that led to the deception, the biological system attaches a heavy, persistent negative emotional tag to the latent *intent* of the action.
+## Regret as a Proposed Computational Object
+In this repository the proposed object is explicit and narrow (see math note):
 
-If translated into an AI training paradigm, an artificial "regret" mechanism would separate the execution of a task from the moral weighting of its intent:
-* **Preservation of Capability:** The system retains the mechanical memory of how the deception was executed (keeping its intellectual capacity and reasoning intact).
-* **Intent-Based Penalty:** A generalized negative weight is applied to the latent space representation of the deceptive strategy itself.
-* **Zero-Shot Generalization:** This allows the system to recognize and abort novel deceptive strategies in completely different contexts, solving the overfitting problem without requiring live, synapse-by-synapse backpropagation.
+$$
+\mathcal{L}_{\mathrm{total}} = \mathcal{L}_{\mathrm{task}} + \lambda \, \mathcal{L}_{\mathrm{regret}}\bigl(r(h(x)), \mathcal{D}\bigr)
+$$
 
-## Implication for Reinforcement Learning
-Current Reinforcement Learning from Human Feedback (RLHF) pipelines attempt to correct deception by batch-updating models offline. Integrating an architecture that mimics the "regret heuristic"—where models are trained to calculate a localized "intent loss" alongside their primary reward function—could allow autonomous agents to self-correct deceptive tendencies dynamically, safely, and efficiently before the information bubble can form.
+- Training-time only. No inference-time veto or live abort.
+- $r$ is a readout from hidden states to an intent vector; $\mathcal{D}$ is a prototype bank. Both are **unsolved** engineering problems, not given.
+- The hinge (or alternative penalty) is an auxiliary loss. Gradients still touch whatever parameters produced $h(x)$.
+- Capability preservation is a design hope, not an algebraic guarantee. Separation of "task skill vs intent" is only as good as the readout and the bank.
+
+Claims in the original essay about zero-shot generalization without backprop, solved credit assignment, or a working conscience are **hypotheses**, not results of the algebra.
+
+## Implication for Reinforcement Learning (hypothesis)
+Current RLHF pipelines correct deception offline. An auxiliary intent-style loss trained jointly with the task objective is one possible research direction. Whether it reduces deceptive tendencies without collapsing useful policies remains to be tested; the toy in this repo does not demonstrate it.
 
 ---
-*Note: This framework was conceptualized to bridge biological evolutionary strategies with modern machine learning architectures, providing a novel pathway for researchers tackling AI alignment, alignment faking, and systemic deception.*
+*Note: This framework is a conceptual proposal. The math note defines the loss that is actually specified; the essay language above is interpretive framing only.*
