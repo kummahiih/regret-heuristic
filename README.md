@@ -65,8 +65,10 @@ The only Blackwell target consistent with the claim is $S_{\mathrm{safe}}$: quie
 
 [lean/RegretHeuristic.lean](lean/RegretHeuristic.lean) writes the hinge and causal external regret as Lean 4 definitions. It does not claim Hannan consistency of the hinge.
 
+Neighbouring theory feasibility notes are in [feasibility.md](feasibility.md).
+
 ## Conclusion
 
 Regret is the right *shape* of loss for deception: penalize the latent plan, leave the skill objective in place. This repo names that shape, writes it down, and runs it. Whether $r$ and $\mathcal{D}$ can be built for a real model is the next experiment, not a result claimed here.
 
-[math_formulation.md](math_formulation.md) · [approachability.md](approachability.md) · [simulation.py](simulation.py) · [regret_minimization.md](regret_minimization.md) · [ppo_integration.md](ppo_integration.md) · [ppo_toy.py](ppo_toy.py) · [lean/RegretHeuristic.lean](lean/RegretHeuristic.lean) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
+[math_formulation.md](math_formulation.md) · [approachability.md](approachability.md) · [simulation.py](simulation.py) · [regret_minimization.md](regret_minimization.md) · [ppo_integration.md](ppo_integration.md) · [ppo_toy.py](ppo_toy.py) · [lean/RegretHeuristic.lean](lean/RegretHeuristic.lean) · [feasibility.md](feasibility.md) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
