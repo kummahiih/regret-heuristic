@@ -57,14 +57,16 @@ So the hinge fires only on the near group, the far group is silent, and the regr
 
 ## Theory and PPO
 
-Learning-theoretic regret (external, internal, swap; Hannan consistency) is a different object from the biological intent-tag used here. See [regret_minimization.md](regret_minimization.md) for the distinction and what does or does not transfer.
+Learning-theoretic regret (external, internal, swap; Hannan consistency) is a different object from the biological intent-tag used here. See [regret_minimization.md](regret_minimization.md).
 
-[ppo_integration.md](ppo_integration.md) sketches where a frozen-$\mathcal{D}$ hinge can attach to a PPO clipped surrogate. [ppo_toy.py](ppo_toy.py) is a minimal on-policy skeleton that prints the combined terms.
+The only Blackwell target consistent with the claim is $S_{\mathrm{safe}}$: quiet hinge, and extra cost versus the best *hinge-quiet* action — not Hannan on all of $A$. [approachability.md](approachability.md). $S_{\mathrm{joint}}$ (Hannan and quiet hinge) is not claimed.
 
-[lean/RegretHeuristic.lean](lean/RegretHeuristic.lean) writes the hinge, external regret, and the clipped surrogate as Lean 4 definitions, plus the lemmas the notes actually support (hinge $\ge 0$, silence below $\tau$, $\lambda = 0$ recovers the task term, cosine bounds). It does not claim Hannan consistency of the hinge.
+[ppo_integration.md](ppo_integration.md) attaches a frozen-$\mathcal{D}$ hinge to a PPO clipped surrogate. That Lagrangian is not Blackwell steering. [ppo_toy.py](ppo_toy.py) prints the combined terms.
+
+[lean/RegretHeuristic.lean](lean/RegretHeuristic.lean) writes the hinge and causal external regret as Lean 4 definitions. It does not claim Hannan consistency of the hinge.
 
 ## Conclusion
 
 Regret is the right *shape* of loss for deception: penalize the latent plan, leave the skill objective in place. This repo names that shape, writes it down, and runs it. Whether $r$ and $\mathcal{D}$ can be built for a real model is the next experiment, not a result claimed here.
 
-[math_formulation.md](math_formulation.md) · [simulation.py](simulation.py) · [regret_minimization.md](regret_minimization.md) · [ppo_integration.md](ppo_integration.md) · [ppo_toy.py](ppo_toy.py) · [lean/RegretHeuristic.lean](lean/RegretHeuristic.lean) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
+[math_formulation.md](math_formulation.md) · [approachability.md](approachability.md) · [simulation.py](simulation.py) · [regret_minimization.md](regret_minimization.md) · [ppo_integration.md](ppo_integration.md) · [ppo_toy.py](ppo_toy.py) · [lean/RegretHeuristic.lean](lean/RegretHeuristic.lean) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
