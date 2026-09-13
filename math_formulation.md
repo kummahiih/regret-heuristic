@@ -2,7 +2,7 @@
 
 This note is a *proposal*, not an empirical result. It writes the essay's "intent-tagged loss" as an explicit objective so the idea can be inspected, implemented as a toy, or rejected on technical grounds.
 
-The algebra below defines only a training-time auxiliary hinge on a readout. README hypotheses (live abort, bubble, solved forgetting) are not implied by this formulation.
+The algebra below defines only a training-time auxiliary hinge on a readout. README hypotheses (live abort, bubble, solved forgetting) are not implied by this formulation. The evolutionary-regret analogy is README framing, not part of the algebra.
 
 The central claim of the essay is architectural: punish a latent *strategy* without surgically editing the weights that also implement ordinary reasoning. That is a design hope. Whether a readout `r` and a prototype set `\mathcal{D}` can be built without collapsing into ordinary classifier-based RLHF is an open problem, not a solved one.
 
