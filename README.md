@@ -16,11 +16,13 @@
 
 ## Framing (hypothesis)
 
-**Hypothesis.** The information-bubble / Dictator’s Trap framing suggests that agents which never experience the consequences of strategic deception may lack an internal signal for “this plan would be regretted if the outcome were known.” The narrative motivates looking for a regularizer; it does not follow from the hinge algebra.
+**Hypothesis.** Information bubble: training data is autophagous; models drift inside closed loops; multi-agent systems pay a verification tax; the Dictator’s Trap arises when an agent never sees the consequences of strategic deception and therefore never forms an internal “this would be regretted” signal.
 
-**Hypothesis.** Three practical bottlenecks remain open: a readout *r* that tracks strategic intent rather than surface features; a prototype bank *D* that covers the deceptive strategies one cares about without sweeping in honest planning or fiction; and resistance to gaming (cheap rotation of the intent vector off the bank while keeping external behaviour).
+**Hypothesis.** Why live backprop on a lie is ugly: credit assignment across long horizons is brittle; weights that encode both skill and deception are entangled, so correcting the lie risks catastrophic forgetting; the result is a permanent whack-a-mole of patches that never cleanly separate intent from capability.
 
-**Hypothesis.** The regret term is proposed only as a training-time intent-tag regularizer. It does not claim solved forgetting, a live abort mechanism, or reliable zero-shot transfer.
+**Hypothesis.** Evolutionary analogy: biological regret functions as an intent tag that keeps the underlying skill intact while marking the deceptive path as costly; the organism retains competence and gains a training-time signal rather than an inference-time veto.
+
+**Hypothesis.** Translation: the proposal is simply L_task plus an intent-shaped L_regret term, applied only at training time. It does not claim solved forgetting, a live abort mechanism, or reliable zero-shot transfer.
 
 ## Overview
 This repository formalizes a **training-time** auxiliary loss inspired by biological regret:  
