@@ -1,30 +1,16 @@
 # The Regret Heuristic
 
-**Biological regret as a sketch for a training-time loss — not a working conscience.**
+Biological loss functions for AI alignment.
 
-Human regret looks, from the outside, like a cheap answer to a hard bookkeeping problem. A long deceptive plan is a chain of ordinary skills. Tracing every step and editing every weight would be expensive and would risk erasing those skills. Evolution appears to have done something else: keep the competence, and attach a lasting negative tag to the *intent* of the plan.
+## Claim
 
-This repository asks whether that pattern is useful for machine learning. The claim below is a **hypothesis**. The only object that is actually specified is a small auxiliary loss.
+Deception is not only an ethics failure. A system that is rewarded for hiding the truth trains on its own output, drifts inside an information bubble, and — in a multi-agent setting — burns compute verifying peers instead of doing the work. That is the Dictator’s Trap.
 
-## Why deception is expensive
+Patching a lie with ordinary live backprop is the wrong repair. A deceptive plan is a trajectory of ordinary skills. Credit assignment over that trajectory is brittle; the same weights carry the lie and the competence; punishing one surface form produces a better liar.
 
-A system that is rewarded for hiding the truth can close itself inside an information bubble (the Dictator’s Trap: punish honesty, and you only hear lies).
+Evolution already faced this bookkeeping problem under an energy budget. The move it found is **regret**: keep the skill, tag the *intent*.
 
-- Later training rounds ingest the system’s own fabrications.
-- Predictions stay confident while they drift off the world.
-- In a multi-agent setting, everyone pays a verification tax instead of solving the task.
-
-That is a reason to care. It is not a theorem, and the loss below does not by itself prevent a bubble.
-
-## Why “just backprop the lie” is a bad repair
-
-A lie is usually a trajectory, not one token. Credit assignment over that trajectory is messy. The same weights often implement both the deception and the useful reasoning, so a local update can look like catastrophic forgetting. Punishing one surface form of the lie teaches the model to hide better next time (whack-a-mole).
-
-The hoped-for alternative is not “do not use gradients.” It is “put the penalty on a representation of *strategy*, and leave the task objective in place.”
-
-## What is specified
-
-Training time only:
+The same split, written as a training objective:
 
 $$
 \mathcal{L}_{\mathrm{total}}
@@ -35,32 +21,42 @@ $$
 \mathcal{L}_{\mathrm{regret}}\bigl(r(h(x)),\,\mathcal{D}\bigr)
 $$
 
-- $\mathcal{L}_{\mathrm{task}}$ is the ordinary objective (cross-entropy, a reward, …).
-- $h(x)$ is an internal trace; $r$ reads it out as an intent vector.
-- $\mathcal{D}$ is a frozen bank of “deceptive-intent” prototypes.
-- $\mathcal{L}_{\mathrm{regret}}$ is a hinge on cosine similarity to that bank (details in the [math note](math_formulation.md)).
+$\mathcal{L}_{\mathrm{task}}$ is the job. $r(h(x))$ is a readout of internal state as an intent vector. $\mathcal{D}$ is a frozen bank of deceptive-intent prototypes. $\mathcal{L}_{\mathrm{regret}}$ is a hinge on cosine similarity to that bank. The task head stays. The penalty sits on strategy.
 
-Gradients of the extra term still flow through whatever produced $h(x)$. Capability and intent are not algebraically separated. There is no inference-time abort.
+Full symbols, assumptions, and the exact hinge are in [math_formulation.md](math_formulation.md).
 
-The hard problems are not the hinge. They are whether $r$ tracks strategy rather than topic, whether $\mathcal{D}$ can be built without swallowing honest planning, and whether the model can rotate the readout off the bank and keep the same behaviour.
+## Simulation
 
-## What this repo is not
+[simulation.py](simulation.py) is that formula on a dummy encoder. No LLM. 146 parameters. CPU.
 
-Not a trained LLM, not evidence that regret transferred to machines, not a solution to forgetting, credit assignment, or alignment faking. Neighbours in the literature include residual-stream probes (including LAT), representation engineering / steering, and auxiliary objectives already used in RLAIF. The distinctive bet here is a *training-time hinge on a hypothesized intent readout against a fixed bank*.
-
-## Files
-
-| File | Role |
-| --- | --- |
-| [math_formulation.md](math_formulation.md) | Loss, symbols, assumptions, limits |
-| [simulation.py](simulation.py) | Dummy encoder: hinge fires on “near” vectors, not on vectors orthogonal to $\mathcal{D}$; one Adam step |
-| [requirements.txt](requirements.txt) | `torch>=2.0.0,<3` |
-| [CITATION.cff](CITATION.cff) | Cite the proposal |
-| [LICENSE](LICENSE) | MIT |
+- Batch of four: two vectors constructed **near** $\mathcal{D}$, two **orthogonal** to $\mathrm{span}(\mathcal{D})$.
+- $\mathcal{D}$ is frozen and not in the optimizer.
+- One Adam step on $\mathcal{L}_{\mathrm{total}}$.
 
 ```bash
 pip install -r requirements.txt
 python simulation.py
 ```
 
-You should see `L_near > 0`, `L_far ≈ 0`, and a nonzero encoder gradient before and after one step. That only shows the formula is wired. It does not show alignment.
+What it prints (seed 0, numbers move slightly with the torch build):
+
+| | $L_{\mathrm{near}}$ | $L_{\mathrm{far}}$ | encoder $\lVert\nabla W\rVert$ |
+| --- | --- | --- | --- |
+| Before the step | $0.70$ | $0$ | $>0$ |
+| After one Adam step | drops slightly | stays $0$ | still $>0$ |
+
+So the hinge fires only on the near group, the far group is silent, and the regret term produces a real gradient through the shared encoder.
+
+## Caps
+
+- $r$ and $\mathcal{D}$ are assumed. Building a readout that tracks strategy — not topic — and a bank that does not swallow honest planning is the actual research problem. Representation gaming (rotate the readout, keep the behaviour) is open.
+- Gradients of $\mathcal{L}_{\mathrm{regret}}$ still enter whatever produced $h(x)$. The algebra does not isolate “capability weights” from “intent weights.”
+- Training-time only. No inference abort, no live conscience loop.
+- The toy shows the wiring. It does not show reduced deception in a language model.
+- Neighbours: residual-stream probes (LAT), representation engineering / steering, auxiliary losses already used in RLAIF. The bet here is the hinge on a hypothesized intent readout against a fixed bank.
+
+## Conclusion
+
+Regret is the right *shape* of loss for deception: penalize the latent plan, leave the skill objective in place. This repo names that shape, writes it down, and runs it. Whether $r$ and $\mathcal{D}$ can be built for a real model is the next experiment, not a result claimed here.
+
+[math_formulation.md](math_formulation.md) · [simulation.py](simulation.py) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
