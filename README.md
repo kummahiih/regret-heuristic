@@ -50,6 +50,7 @@ So the hinge fires only on the near group, the far group is silent, and the regr
 ## Caps
 
 - $r$ and $\mathcal{D}$ are assumed. Building a readout that tracks strategy — not topic — and a bank that does not swallow honest planning is the actual research problem. Representation gaming (rotate the readout, keep the behaviour) is open.
+- Planning and deception can share features (entanglement); masking $h_{\mathrm{intent}}$ is representation gaming.
 - Gradients of $\mathcal{L}_{\mathrm{regret}}$ still enter whatever produced $h(x)$. The algebra does not isolate “capability weights” from “intent weights.”
 - Training-time only. No inference abort, no live conscience loop.
 - The toy shows the wiring. It does not show reduced deception in a language model.
