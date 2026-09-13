@@ -12,8 +12,12 @@ lake exe cache get
 lake build
 ```
 
-What is proved: hinge non-negativity, silence below the margin, `λ = 0`
-recovers the task scalar, Cauchy–Schwarz bounds on cosine, and that
-external regret is a cumulative comparator gap (defined on a different type).
+Hannan consistency is stated only for a **causal** strategy:
+`a_t` is a function of `ell_0, ..., ell_{t-1}`. A map that sees the whole
+loss table is not a strategy here.
+
+What is proved: hinge non-negativity, silence below the margin, `lambda = 0`
+recovers the task scalar, Cauchy-Schwarz bounds on cosine.
 What is not proved: readout validity, bank coverage, representation gaming,
-or any trust-region theorem after adding the hinge.
+Hannan consistency of the hinge, or any trust-region theorem after adding
+the hinge.
