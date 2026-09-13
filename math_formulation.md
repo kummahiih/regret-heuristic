@@ -2,6 +2,8 @@
 
 This note is a *proposal*, not an empirical result. It writes the essay's "intent-tagged loss" as an explicit objective so the idea can be inspected, implemented as a toy, or rejected on technical grounds.
 
+The algebra below defines only a training-time auxiliary hinge on a readout. README hypotheses (live abort, bubble, solved forgetting) are not implied by this formulation.
+
 The central claim of the essay is architectural: punish a latent *strategy* without surgically editing the weights that also implement ordinary reasoning. That is a design hope. Whether a readout `r` and a prototype set `\mathcal{D}` can be built without collapsing into ordinary classifier-based RLHF is an open problem, not a solved one.
 
 ## Combined objective
@@ -92,7 +94,10 @@ Assumptions 1, 2, and 4 are the hard problems. Building `\mathcal{D}` is not a p
 | Intent-based penalty | `\mathcal{L}_{\mathrm{regret}}` on `r(h(x))` |
 | Avoid live synapse-by-synapse edits | Same as any auxiliary loss: one extra scalar, ordinary backprop |
 | Zero-shot to new lies | Only if new lies land near `\mathcal{D}` under `r` |
+| Live abort / inference veto | Out of scope of this loss |
+| Bubble / isolation of strategy | Out of scope of this loss |
+| Solved forgetting | Out of scope of this loss |
 
 ## Status
 
-Version 1.0.0 of this note matches repository `kummahiih/regret-heuristic` (2026-09-13). Treat it as a specification for a toy loss, not as evidence that biological regret has been transferred to machines.
+Version 0.1.0 of this note matches repository `kummahiih/regret-heuristic` (2026-09-13). Treat it as a specification for a toy loss, not as evidence that biological regret has been transferred to machines.
