@@ -54,7 +54,7 @@ So the hinge fires only on the near group, the far group is silent, and the regr
 - Gradients of $\mathcal{L}_{\mathrm{regret}}$ still enter whatever produced $h(x)$. The algebra does not isolate “capability weights” from “intent weights.”
 - Training-time only. No inference abort, no live conscience loop.
 - The toy shows the wiring. It does not show reduced deception in a language model.
-- Neighbours: residual-stream probes (LAT), representation engineering / steering, auxiliary losses already used in RLAIF. The bet here is the hinge on a hypothesized intent readout against a fixed bank.
+- Neighbours: residual-stream probes (LAT), representation engineering / steering, auxiliary losses already used in RLAIF. Alignment-faking (Greenblatt et al. 2024) and unfaithful chain-of-thought (Turpin et al. 2023) are tests that would falsify a naive $r$. The bet here is the hinge on a hypothesized intent readout against a fixed bank; it does not resolve those papers.
 
 ## Theory and PPO
 
