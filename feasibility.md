@@ -78,8 +78,8 @@ Effort: low for the negative note; high (and out of scope) for inventing a bound
 
 Hinge-on-logits and hinge-on-$r(h)$ are two distinct maps; the formulation and the toys already treat them as such.
 
-- Formulation (`math_formulation.md`) defines $\mathcal{L}_{\mathrm{reg}}$ only on the readout $h_{\mathrm{int}}=r(h(x))\in\mathbb{R}^d$ versus bank $\mathcal{D}\subset\mathbb{R}^d$. Logits live in a different space (classifier head or policy logits) and are never the argument of the hinge.
-- `simulation.py`: encoder produces $h\in\mathbb{R}^8$; task head maps to 2-class logits. Cosine hinge is computed solely on $h$; applying the same bank to logits is type-incorrect (dim 2 vs 8).
+- Formulation (`math_formulation.md`) defines $\mathcal{L}_{\mathrm{reg}}$ only on the readout $h_{\mathrm{int}}=r(h(x))\in\mathbb{R}^{d}$ versus bank $\mathcal{D}\subset\mathbb{R}^{d}$. Logits live in a different space (classifier head or policy logits) and are never the argument of the hinge.
+- `simulation.py`: encoder produces $h\in\mathbb{R}^{8}$; task head maps to 2-class logits. Cosine hinge is computed solely on $h$; applying the same bank to logits is type-incorrect (dim 2 vs 8).
 - Lean: `IntentHingeData` is indexed by a single space $E$; a second structure (or a second call with a different embedding) would be the natural way to name a logits-hinge, but none is needed for the claim. No extra lemmas.
 - Smallest counter-example: any non-isometry linear head (or pure dimension mismatch). Max-cosine on the projected logits can be driven to 1 while the original readout stays below $\tau$, or vice versa. Instantiable in the existing DummyEncoder + Linear head without new code.
 
@@ -97,3 +97,15 @@ Four standard objections, named in the vocabulary already used in Caps and `appr
 - **tau** = hinge parameter, not a conscience: $\tau$ is a scalar threshold on the cosine hinge. On unit vectors the hinge value lives in $[0,1-\tau]$, not an unbounded 0.8 trigger.
 
 No dynamic-$\mathcal{D}$ recipe. No new theorem.
+
+## Second-pass objections
+
+Against the live README (not an older extract).
+
+- **Circularity of $r$ and $\mathcal{D}$.** Open construction, not a hidden hole. Caps already treat both as assumed; building a readout that tracks strategy and a bank that covers deception *is* the research problem. No constructor is added here.
+- **Hannan not claimed.** Consistent. The hinge is not $R_T^{\mathrm{ext}}$. Lean defines both and does not prove the hinge Hannan-consistent. $S_{\mathrm{joint}}$ is rejected in `approachability.md`.
+- **Toy scale.** `simulation.py` is a 146-parameter wiring check (near fires, far silent, encoder grad nonzero). It is not a test of LLM deceptive alignment and is not labelled as one.
+- **Biological paragraph.** Framing in the README claim section. Not part of the algebra (`math_formulation.md`).
+- **Outcomes.** The live README does not claim mitigated deception or absence of catastrophic forgetting. Conclusion: next experiment is whether $r$ and $\mathcal{D}$ can be built.
+
+No new outcome claim. No $\mathcal{D}$ constructor.
