@@ -78,6 +78,8 @@ def main() -> None:
     # Build near/far in intent space so hinge fires on near only.
     # Near: encoder maps to (near) prototypes; far: orthogonal to span(D).
     # Use pinv of current weight so initial h matches the targets exactly.
+    # Near prototypes are built to match D, not to share a task direction;
+    # this toy does not demonstrate disentanglement or lobotomy. tau is 0.3.
     with torch.no_grad():
         W = encoder.proj.weight  # (d, input_dim)
         pinvW = torch.linalg.pinv(W)
