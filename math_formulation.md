@@ -55,7 +55,7 @@ L^{\mathrm{PPO}}=L^{\mathrm{CLIP}}-c_v L^{\mathrm{VF}}+c_e H[\pi_\theta],
 L^{\mathrm{total}}=L^{\mathrm{PPO}}+\lambda\,\mathcal{L}_{\mathrm{reg}}\bigl(r(h_\theta(s)),\mathcal{D}\bigr).
 $$
 
-The clip does not bound the hinge. Large $\lambda$ can dominate $L^{\mathrm{CLIP}}$. Details and failure modes: [ppo_integration.md](ppo_integration.md).
+The clip does not bound the hinge. Large $\lambda$ can dominate $L^{\mathrm{CLIP}}$. Details and failure modes: [ppo_integration.md](ppo_integration.md). This Lagrangian is not a Blackwell steering rule; see [approachability.md](approachability.md).
 
 ## C. Learning-theoretic regret (not implemented)
 
@@ -67,13 +67,17 @@ R_T^{\mathrm{ext}}
 \min_{a\in A}\sum_{t=1}^T \ell_t(a).
 $$
 
-Hannan consistency is $R_T^{\mathrm{ext}}/T\to 0$. Internal and swap regret change the comparator (pair-flip; arbitrary rewrite $\delta:A\to A$). Hedge / FTRL / OMD / CFR act on (C). A static cosine hinge on $\mathcal{D}$ does not make $\pi_\theta$ Hannan-consistent and does not estimate $R_T^{\mathrm{ext}}$.
+Hannan consistency is $R_T^{\mathrm{ext}}/T\to 0$. A static cosine hinge on $\mathcal{D}$ does not make $\pi_\theta$ Hannan-consistent and does not estimate $R_T^{\mathrm{ext}}$.
 
-## D. What the algebra does not give
+## D. Essay target (approachability)
 
-- Isolation of “skill weights” from “intent weights” — $\nabla\mathcal{L}_{\mathrm{reg}}$ still enters parameters of $h$ and $r$.
+The only Blackwell target consistent with "keep the skill, tag the intent" is $S_{\mathrm{safe}}$: hinge dead-zone *and* extra cost versus the best *hinge-quiet* action, not versus $\min_{a\in A}$. The joint target "Hannan on all of $A$ and quiet hinge" is not claimed. Statement and rejected set: [approachability.md](approachability.md). Blackwell (1956) is used as a black box, not proved here.
+
+## E. What the algebra does not give
+
+- Isolation of skill weights from intent weights — $\nabla\mathcal{L}_{\mathrm{reg}}$ still enters $h$ and $r$.
 - Inference-time abort.
 - Coverage, cleanliness, or non-evasion of $\mathcal{D}$.
-- A theorem that (A) lowers (C).
+- A theorem that (A) lowers (C), or that $S_{\mathrm{safe}}$ is approachable for a given $r,\mathcal{D}$.
 
 Implemented: [simulation.py](simulation.py) (supervised attachment), [ppo_toy.py](ppo_toy.py) (PPO attachment). Version 0.1.0.
