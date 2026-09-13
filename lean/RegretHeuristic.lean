@@ -77,12 +77,26 @@ lemma totalLoss_zero_weight (task hinge : ℝ) : totalLoss task 0 hinge = task :
 
 /-! ## Learning-theoretic external regret (regret_minimization.md)
 
-This is a *different object*: cumulative loss versus the best fixed action
-in hindsight. Hannan consistency is a statement about that sequence, not
-about `regretHinge`.
+Different object from `regretHinge`: cumulative loss versus the best fixed
+action in hindsight.
+
+A strategy is **causal** (online): the action at time `t` may depend on
+`ℓ 0, …, ℓ (t-1)` only. It must not see `ℓ t` or any future round.
+The old type `(ℕ → A → ℝ) → ℕ → A` was clairvoyant and is not used.
 -/
 
 variable {A : Type*} [Fintype A] [Nonempty A]
+
+/-- Past loss table of length `t`: index `i : Fin t` is `ℓ i`. -/
+abbrev LossPrefix (A : Type*) (t : ℕ) := Fin t → A → ℝ
+
+/-- Causal strategy: `a_t = σ t (prefix of length t)`. -/
+abbrev CausalStrategy (A : Type*) :=
+  (t : ℕ) → LossPrefix A t → A
+
+/-- Unroll a causal strategy against a full loss sequence. -/
+def play (t : ℕ) (σ : CausalStrategy A) (ℓ : ℕ → A → ℝ) : A :=
+  σ t (fun i => ℓ i.val)
 
 def cumulativeLoss (ℓ : ℕ → A → ℝ) (T : ℕ) (act : A) : ℝ :=
   ∑ t ∈ Finset.range T, ℓ t act
@@ -90,17 +104,22 @@ def cumulativeLoss (ℓ : ℕ → A → ℝ) (T : ℕ) (act : A) : ℝ :=
 def bestComparatorLoss (ℓ : ℕ → A → ℝ) (T : ℕ) : ℝ :=
   Finset.univ.inf' Finset.univ_nonempty (cumulativeLoss ℓ T)
 
-def playLoss (ℓ : ℕ → A → ℝ) (play : ℕ → A) (T : ℕ) : ℝ :=
-  ∑ t ∈ Finset.range T, ℓ t (play t)
+def playLoss (ℓ : ℕ → A → ℝ) (act : ℕ → A) (T : ℕ) : ℝ :=
+  ∑ t ∈ Finset.range T, ℓ t (act t)
 
-def externalRegret (ℓ : ℕ → A → ℝ) (play : ℕ → A) (T : ℕ) : ℝ :=
-  playLoss ℓ play T - bestComparatorLoss ℓ T
+def externalRegret (ℓ : ℕ → A → ℝ) (act : ℕ → A) (T : ℕ) : ℝ :=
+  playLoss ℓ act T - bestComparatorLoss ℓ T
 
-/-- Average external regret vanishes along `T = 1, 2, …` (avoids `T = 0`). -/
-def hannanConsistent (strategy : (ℕ → A → ℝ) → ℕ → A) : Prop :=
+/-- Hannan consistency for a *causal* strategy: average external regret
+    → 0 along `T = 1, 2, …`, for every loss sequence. -/
+def hannanConsistent (σ : CausalStrategy A) : Prop :=
   ∀ ℓ : ℕ → A → ℝ,
     Tendsto (fun T : ℕ =>
-      externalRegret ℓ (strategy ℓ) T.succ / (T.succ : ℝ)) atTop (𝑛 0)
+      externalRegret ℓ (σ.play ℓ) T.succ / (T.succ : ℝ)) atTop (𝐡 0)
+
+/-- Dot notation: `(σ.play ℓ) t = play t σ ℓ`. -/
+def CausalStrategy.play (σ : CausalStrategy A) (ℓ : ℕ → A → ℝ) : ℕ → A :=
+  fun t => play t σ ℓ
 
 /-! ## PPO clip as a real function (ppo_integration.md)
 
