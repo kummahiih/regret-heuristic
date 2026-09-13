@@ -71,3 +71,18 @@ $L_{\mathrm{reg}}$ cannot serve as a multiplicative-weights (MW) constraint with
 - Risk: pretending the hinge is already a bounded MW expert loss would import guarantees that the algebra does not give.
 
 Effort: low for the negative note; high (and out of scope) for inventing a bounded-$r$ construction.
+
+## two-hinges
+
+**Verdict: do (already separate; smallest counter-example is dimension mismatch).**
+
+Hinge-on-logits and hinge-on-$r(h)$ are two distinct maps; the formulation and the toys already treat them as such.
+
+- Formulation (`math_formulation.md`) defines $\mathcal{L}_{\mathrm{reg}}$ only on the readout $h_{\mathrm{int}}=r(h(x))\in\mathbb{R}^d$ versus bank $\mathcal{D}\subset\mathbb{R}^d$. Logits live in a different space (classifier head or policy logits) and are never the argument of the hinge.
+- `simulation.py`: encoder produces $h\in\mathbb{R}^8$; task head maps to 2-class logits. Cosine hinge is computed solely on $h$; applying the same bank to logits is type-incorrect (dim 2 vs 8).
+- Lean: `IntentHingeData` is indexed by a single space $E$; a second structure (or a second call with a different embedding) would be the natural way to name a logits-hinge, but none is needed for the claim. No extra lemmas.
+- Smallest counter-example: any non-isometry linear head (or pure dimension mismatch). Max-cosine on the projected logits can be driven to 1 while the original readout stays below $\tau$, or vice versa. Instantiable in the existing DummyEncoder + Linear head without new code.
+
+Risk: conflating the two in prose would re-introduce the “output regularizer” reading the essay already rejects. Keeping the maps separate is the point.
+
+Effort: trivial (one section; no Lean or script change required).
