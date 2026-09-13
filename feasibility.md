@@ -16,3 +16,16 @@ Objects already in `lean/RegretHeuristic.lean` suffice for a counter-example ske
 Risk: the example is purely definitional; it does not live inside a single combined structure. That is intentional — the file deliberately keeps the two notions separate.
 
 Effort: trivial (instantiate two records).
+
+## Hedge-in-Lean
+
+**Verdict: skip.**
+
+This repo cannot prove a finite-T EWA/Hedge external-regret bound without new formalization and without a mathlib OCO library (none at the pinned v4.33.1).
+
+- Existing Lean content is definitional only: `externalRegret`, `CausalStrategy`, `hannanConsistent` (asymptotic statement). No weights, no update rule, no potential.
+- Missing lemmas: multiplicative-weights / exponential-weights step, log-sum-exp potential, telescoping inequality that yields the classic $O(\sqrt{T\log N})$ bound. (Deterministic potential proof; Hoeffding not required.)
+- Would require a new file (e.g. `Hedge.lean`) plus substantial analysis imports; expands beyond the definitional slice goal of `RegretHeuristic.lean`.
+- Risk: dependency surface grows; current lakefile only pulls mathlib for inner-product and basic finset facts.
+
+Effort: high (small paper of formalization). Skip; keep the Lean slice definitional.
