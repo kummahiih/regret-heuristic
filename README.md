@@ -55,8 +55,14 @@ So the hinge fires only on the near group, the far group is silent, and the regr
 - The toy shows the wiring. It does not show reduced deception in a language model.
 - Neighbours: residual-stream probes (LAT), representation engineering / steering, auxiliary losses already used in RLAIF. The bet here is the hinge on a hypothesized intent readout against a fixed bank.
 
+## Theory and PPO
+
+Learning-theoretic regret (external, internal, swap; Hannan consistency) is a different object from the biological intent-tag used here. See [regret_minimization.md](regret_minimization.md) for the distinction and what does or does not transfer.
+
+[ppo_integration.md](ppo_integration.md) sketches where a frozen-$\mathcal{D}$ hinge can attach to a PPO clipped surrogate. [ppo_toy.py](ppo_toy.py) is a minimal on-policy skeleton that prints the combined terms.
+
 ## Conclusion
 
 Regret is the right *shape* of loss for deception: penalize the latent plan, leave the skill objective in place. This repo names that shape, writes it down, and runs it. Whether $r$ and $\mathcal{D}$ can be built for a real model is the next experiment, not a result claimed here.
 
-[math_formulation.md](math_formulation.md) · [simulation.py](simulation.py) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
+[math_formulation.md](math_formulation.md) · [simulation.py](simulation.py) · [regret_minimization.md](regret_minimization.md) · [ppo_integration.md](ppo_integration.md) · [ppo_toy.py](ppo_toy.py) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
