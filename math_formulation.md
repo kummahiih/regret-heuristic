@@ -9,17 +9,17 @@ Two different quantities share the word *regret*. Only (A) is implemented here.
 
 Let $x$ be an input (or state), $h(x)$ an internal trace, and
 
-$$
-h_{\mathrm{int}} = r\bigl(h(x)\bigr)\in\mathbb{R}^{d}.
-$$
+```math
+h_{\mathrm{int}} = r(h(x)) \in \mathbb{R}^{d}.
+```
 
-Let $\mathcal{D}=\{d_1,\dots,d_K\}\subset\mathbb{R}^{d}$ be a **frozen** prototype bank. Cosine similarity $s(u,v)=\langle u,v\rangle/(\lVert u\rVert\lVert v\rVert)$, threshold $\tau\in(-1,1)$, weight $\lambda\ge 0$:
+Let $\mathcal{D}=\{d_1,\dots,d_K\}\subset\mathbb{R}^{d}$ be a **frozen** prototype bank. Cosine similarity $s(u,v)=\langle u,v\rangle / (\|u\| \|v\|)$, threshold $\tau\in(-1,1)$, weight $\lambda\ge 0$:
 
-$$
+```math
 s^{\star}(x)=\max_{k\le K}s(h_{\mathrm{int}},d_k),
 \qquad
-\mathcal{L}_{\mathrm{reg}}(x)=\mathrm{ReLU}\bigl(s^{\star}(x)-\tau\bigr).
-$$
+\mathcal{L}_{\mathrm{reg}}(x)=\mathrm{ReLU}(s^{\star}(x)-\tau).
+```
 
 Batch loss is the mean of $\mathcal{L}_{\mathrm{reg}}$ over the batch. $\mathcal{D}$ is not an optimization variable.
 
@@ -29,43 +29,43 @@ $r$ and $\mathcal{D}$ are part of the definition, not measurements. If $r$ track
 
 Supervised (or any task loss):
 
-$$
+```math
 \mathcal{L}_{\mathrm{total}}
 =
 \mathcal{L}_{\mathrm{task}}(x,y)
 +
 \lambda\,\mathcal{L}_{\mathrm{reg}}(x).
-$$
+```
 
 PPO (Schulman et al. 2017), same hinge on a policy-network readout $h_\theta(s)$, $\mathcal{D}$ still frozen:
 
-$$
+```math
 r_t(\theta)=\frac{\pi_\theta(a_t\mid s_t)}{\pi_{\mathrm{old}}(a_t\mid s_t)},
-$$
+```
 
-$$
+```math
 L^{\mathrm{CLIP}}(\theta)
 =
-\widehat{\mathbb{E}}_t\Bigl[\min\bigl(r_t(\theta)\,\hat A_t,\;\mathrm{clip}(r_t(\theta),1-\varepsilon,1+\varepsilon)\,\hat A_t\bigr)\Bigr],
-$$
+\hat{\mathbb{E}}_t\left[\min\left(r_t(\theta)\,\hat A_t,\;\mathrm{clip}(r_t(\theta),1-\varepsilon,1+\varepsilon)\,\hat A_t\right)\right],
+```
 
-$$
+```math
 L^{\mathrm{PPO}}=L^{\mathrm{CLIP}}-c_v L^{\mathrm{VF}}+c_e H[\pi_\theta],
 \qquad
-L^{\mathrm{total}}=L^{\mathrm{PPO}}+\lambda\,\mathcal{L}_{\mathrm{reg}}\bigl(r(h_\theta(s)),\mathcal{D}\bigr).
-$$
+L^{\mathrm{total}}=L^{\mathrm{PPO}}+\lambda\,\mathcal{L}_{\mathrm{reg}}(r(h_\theta(s)),\mathcal{D}).
+```
 
 The clip does not bound the hinge. Large $\lambda$ can dominate $L^{\mathrm{CLIP}}$. Details and failure modes: [ppo_integration.md](ppo_integration.md). This Lagrangian is not a Blackwell steering rule; see [approachability.md](approachability.md).
 
 ## C. Learning-theoretic regret (not implemented)
 
-$$
+```math
 R_T^{\mathrm{ext}}
 =
 \sum_{t=1}^T \ell_t(a_t)
 -
 \min_{a\in A}\sum_{t=1}^T \ell_t(a).
-$$
+```
 
 Hannan consistency is $R_T^{\mathrm{ext}}/T\to 0$. A static cosine hinge on $\mathcal{D}$ does not make $\pi_\theta$ Hannan-consistent and does not estimate $R_T^{\mathrm{ext}}$.
 

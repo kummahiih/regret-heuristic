@@ -6,9 +6,9 @@ This note separates two uses of the word *regret*. In online learning and game t
 
 **External regret** (sometimes called static or Hannan regret) measures the difference between the cumulative loss of an online algorithm and the cumulative loss of the single best fixed action in hindsight:
 
-$$
+```math
 R_T^{\mathrm{ext}} = \sum_{t=1}^T \ell_t(a_t) - \min_{a\in A} \sum_{t=1}^T \ell_t(a).
-$$
+```
 
 An algorithm is **Hannan-consistent** if average external regret vanishes: $R_T^{\mathrm{ext}}/T \to 0$ almost surely (or in expectation) against any sequence of losses (Hannan 1957).
 
@@ -34,9 +34,9 @@ Learning-theoretic regret is **cumulative loss versus a comparator**. The algori
 
 The Regret Heuristic's $\mathcal{L}_{\mathrm{regret}}$ is **not** that quantity. It is a per-example hinge
 
-$$
-\mathcal{L}_{\mathrm{regret}}(x) = \mathrm{ReLU}\bigl(\max_k s(r(h(x)), d_k) - \tau\bigr)
-$$
+```math
+\mathcal{L}_{\mathrm{regret}}(x) = \mathrm{ReLU}(\max_k s(r(h(x)), d_k) - \tau)
+```
 
 on the cosine similarity of an intent readout to a frozen bank $\mathcal{D}$. It is an instantaneous penalty, not a cumulative gap, and it does not compare the policy's trajectory to any alternative policy in hindsight. The name is metaphorical: evolution is imagined to have tagged *intent* while preserving skill, analogous to keeping competence while penalizing a strategy class.
 

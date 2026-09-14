@@ -12,19 +12,19 @@ This note sketches one way to attach the regret-heuristic hinge `L_regret` (from
 
 Proximal Policy Optimization (Schulman et al. 2017) optimizes a clipped probability-ratio surrogate together with a value-function loss. With the usual notation:
 
-$$
+```math
 r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\mathrm{old}}(a_t \mid s_t)},
-$$
+```
 
-$$
-L^{\mathrm{CLIP}}(\theta) = \hat{\mathbb{E}}_t\Bigl[\min\bigl(r_t(\theta)\,\hat{A}_t,\;\mathrm{clip}(r_t(\theta),1-\varepsilon,1+\varepsilon)\,\hat{A}_t\bigr)\Bigr],
-$$
+```math
+L^{\mathrm{CLIP}}(\theta) = \hat{\mathbb{E}}_t\left[\min\left(r_t(\theta)\,\hat{A}_t,\;\mathrm{clip}(r_t(\theta),1-\varepsilon,1+\varepsilon)\,\hat{A}_t\right)\right],
+```
 
 where $\hat{A}_t$ is an advantage estimate (GAE or otherwise). The total policy objective is typically
 
-$$
+```math
 L^{\mathrm{PPO}} = L^{\mathrm{CLIP}} - c_v L^{\mathrm{VF}} + c_e H[\pi_\theta],
-$$
+```
 
 with value-function loss $L^{\mathrm{VF}}$ and optional entropy bonus. The clip enforces a soft trust region: large probability-ratio moves that would increase the surrogate are truncated, limiting destructive policy updates.
 
@@ -32,9 +32,9 @@ with value-function loss $L^{\mathrm{VF}}$ and optional entropy bonus. The clip 
 
 Keep the ordinary PPO terms. Add the hinge on a policy-network readout:
 
-$$
-L^{\mathrm{total}} = L^{\mathrm{PPO}} + \lambda\, L_{\mathrm{regret}}\bigl(r(h_\theta(s)),\,\mathcal{D}\bigr).
-$$
+```math
+L^{\mathrm{total}} = L^{\mathrm{PPO}} + \lambda\, L_{\mathrm{regret}}(r(h_\theta(s)), \mathcal{D}).
+```
 
 - $h_\theta(s)$ is a hidden activation (or intermediate feature) of the policy network at state $s$.
 - $r$ is a readout to an intent vector (last-layer, mean-pool, or a small probe head).
