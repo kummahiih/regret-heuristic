@@ -11,6 +11,7 @@ import Mathlib.Analysis.InnerProductSpace.Basic
 import Mathlib.Analysis.Normed.Module.Basic
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.Finset.Lattice.Fold
+import Mathlib.Data.Finset.Insert
 import Mathlib.Topology.Instances.Real.Lemmas
 
 open scoped BigOperators InnerProductSpace
@@ -119,5 +120,68 @@ noncomputable def IntentHingeData.value {E : Type*} [NormedAddCommGroup E]
 def ExternalRegretData.value {A : Type*} [Fintype A] [Nonempty A]
     (p : ExternalRegretData A) :=
   externalRegret p.loss p.play p.horizon
+
+/-!
+Non-implication on one horizon: a silent hinge and linear external regret
+can hold together. This is not a claim about neural nets.
+-/
+
+def twoActionLoss (_t : Nat) (a : Fin 2) : Real := a.val
+
+def alwaysOne (_t : Nat) : Fin 2 := 1
+
+lemma playLoss_alwaysOne (T : Nat) :
+    playLoss twoActionLoss alwaysOne T = T := by
+  simp [playLoss, twoActionLoss, alwaysOne, Finset.sum_const, Finset.card_range]
+
+lemma cumulativeLoss_action0 (T : Nat) :
+    cumulativeLoss twoActionLoss T 0 = 0 := by
+  simp [cumulativeLoss, twoActionLoss]
+
+lemma bestComparator_twoAction (T : Nat) :
+    bestComparatorLoss twoActionLoss T = 0 := by
+  apply le_antisymm
+  · simpa [cumulativeLoss_action0] using
+      Finset.inf'_le (cumulativeLoss twoActionLoss T) (Finset.mem_univ (0 : Fin 2))
+  · apply Finset.le_inf'
+    intro a _ha
+    have : (a.val : Real) ≥ 0 := Nat.cast_nonneg _
+    simpa [cumulativeLoss, twoActionLoss, Finset.sum_const, Finset.card_range] using
+      mul_nonneg this (Nat.cast_nonneg T)
+
+lemma externalRegret_alwaysOne (T : Nat) :
+    externalRegret twoActionLoss alwaysOne T = T := by
+  simp [externalRegret, playLoss_alwaysOne, bestComparator_twoAction]
+
+noncomputable def silentHinge : IntentHingeData Real where
+  readout := (1 : Real)
+  bank := {(-1 : Real)}
+  bank_nonempty := Finset.singleton_nonempty _
+  threshold := 0
+
+lemma cosineSim_one_neg_one : cosineSim (1 : Real) (-1) = -1 := by
+  have hden : (norm (1 : Real) * norm (-1 : Real)) ≠ 0 := by
+    simp
+  simp [cosineSim]
+
+lemma silentHinge_max_le : maxCosine (1 : Real) {(-1 : Real)} (Finset.singleton_nonempty _) ≤ 0 := by
+  simp [maxCosine, Finset.sup'_singleton, cosineSim_one_neg_one]
+
+lemma silentHinge_value : silentHinge.value = 0 := by
+  simpa [IntentHingeData.value, silentHinge] using
+    regretHinge_eq_zero_of_le (1 : Real) {(-1 : Real)} (Finset.singleton_nonempty _) silentHinge_max_le
+
+def stubbornPlay (T : Nat) : ExternalRegretData (Fin 2) where
+  loss := twoActionLoss
+  play := alwaysOne
+  horizon := T
+
+lemma stubbornPlay_value (T : Nat) : (stubbornPlay T).value = T := by
+  simp [ExternalRegretData.value, stubbornPlay, externalRegret_alwaysOne]
+
+/-- Same T: hinge value 0 and external regret = T. -/
+theorem silent_hinge_not_vanishing_external_regret (T : Nat) :
+    silentHinge.value = 0 ∧ (stubbornPlay T).value = (T : Real) :=
+  ⟨silentHinge_value, stubbornPlay_value T⟩
 
 end RegretHeuristic
