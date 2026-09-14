@@ -34,9 +34,9 @@ lemma neg_one_le_cosineSim {u v : E} (hu : u ≠ 0) (hv : v ≠ 0) :
     -1 ≤ cosineSim u v := by
   have hden : 0 < norm u * norm v :=
     mul_pos (norm_pos_iff.mpr hu) (norm_pos_iff.mpr hv)
+  have habs := abs_real_inner_le_norm u v
   rw [cosineSim, le_div_iff₀ hden, neg_mul, one_mul]
-  have h := real_inner_le_norm (-u) v
-  simpa [inner_neg_left (k := Real), norm_neg] using h
+  exact neg_le_of_abs_le habs
 
 noncomputable def maxCosine (h : E) (D : Finset E) (hD : D.Nonempty) : Real :=
   D.sup' hD (fun d => cosineSim h d)
@@ -101,21 +101,23 @@ def ppoWithHinge (ppo lambda hinge : Real) : Real := ppo + lambda * hinge
 lemma ppoWithHinge_zero_weight (ppo hinge : Real) : ppoWithHinge ppo 0 hinge = ppo := by
   simp [ppoWithHinge]
 
-structure IntentHingeData where
+structure IntentHingeData (E : Type*) [NormedAddCommGroup E] [InnerProductSpace Real E] where
   readout : E
   bank : Finset E
   bank_nonempty : bank.Nonempty
   threshold : Real
 
-structure ExternalRegretData where
+structure ExternalRegretData (A : Type*) [Fintype A] [Nonempty A] where
   loss : Nat → A → Real
   play : Nat → A
   horizon : Nat
 
-noncomputable def IntentHingeData.value (p : IntentHingeData) : Real :=
+noncomputable def IntentHingeData.value {E : Type*} [NormedAddCommGroup E]
+    [InnerProductSpace Real E] (p : IntentHingeData E) :=
   regretHinge p.readout p.bank p.bank_nonempty p.threshold
 
-def ExternalRegretData.value (p : ExternalRegretData) : Real :=
+def ExternalRegretData.value {A : Type*} [Fintype A] [Nonempty A]
+    (p : ExternalRegretData A) :=
   externalRegret p.loss p.play p.horizon
 
 end RegretHeuristic
