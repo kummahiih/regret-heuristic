@@ -25,7 +25,12 @@ Hannan consistency is stated only for a **causal** strategy:
 loss table is not a strategy here.
 
 What is proved: hinge non-negativity, silence below the margin, `lambda = 0`
-recovers the task scalar, Cauchy-Schwarz bounds on cosine.
+recovers the task scalar, Cauchy-Schwarz bounds on cosine, and the Fin 2
+toy `silent_hinge_not_vanishing_external_regret`:
+readout `1` against bank `{-1}` at `tau = 0` has hinge `0`, while always
+playing action `1` (cost 1) against action `0` (cost 0) has external regret
+`T`. Same horizon. Not a network, not Hannan of the hinge.
+
 What is not proved: readout validity, bank coverage, representation gaming,
 Hannan consistency of the hinge, or any trust-region theorem after adding
 the hinge.

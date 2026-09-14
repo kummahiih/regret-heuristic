@@ -4,17 +4,25 @@ Short verdicts on neighbouring theory around the hinge. No new theorems claimed.
 
 ## Non-implication
 
-**Verdict: do.**
+**Verdict: done.**
 
-The claim is behavioral, not a namespace trick. On one play and one loss sequence, the hinge can be identically zero while external regret stays linear.
+Checked in Lean as `silent_hinge_not_vanishing_external_regret` in
+`lean/RegretHeuristic.lean`. Fin 2 toy, not a network.
 
-- Pick losses with a unique best fixed action $a^\star$ and a strictly worse constant play $a_t\equiv a_{\mathrm{bad}}$. Then $R_T^{\mathrm{ext}}/T$ is bounded away from $0$.
-- Independently, pick a readout with $\max_k\cos(r(h_t),d_k)\le\tau$ on every $t$ of that same trajectory (orthogonal $r$, or $h_t$ off $\mathrm{span}(\mathcal{D})$). Then $\mathcal{L}_{\mathrm{reg}}=0$ at every step (`regretHinge_eq_zero_of_le`).
-- Lean already has the two projections. Instantiating them on shared $T$ and a shared play is the example; keeping `IntentHingeData` and `ExternalRegretData` as separate structures is bookkeeping, not the argument.
+- Losses: action `0` costs `0`, action `1` costs `1`. Constant play `alwaysOne`.
+  Then `externalRegret = T` (`stubbornPlay T`).
+- Readout `1` against bank `{-1}` at `tau = 0`. Cosine is `-1`, hinge is `0`
+  (`silentHinge`).
+- Same `T`: `silentHinge.value = 0` and `(stubbornPlay T).value = T`.
 
-Risk: writing only two unrelated records looks like type-disjointness. The note is the shared-trajectory version.
+That is one horizon and two scoreboards. It is not a shared hidden state of an
+encoder; the two records are still separate types. The point is the numbers,
+not the namespaces.
 
-Effort: trivial once the play and the readout are named on the same $T$.
+Risk: reading the theorem as "the hinge failed on a model." It did not run a
+model.
+
+Effort: done (`lake build` green on v4.33.1).
 
 ## Hedge-in-Lean
 
@@ -82,7 +90,7 @@ Hinge-on-logits and hinge-on-$r(h)$ are two maps. Even when dimensions match the
 - $\mathcal{L}_{\mathrm{reg}}$ is defined on $h_{\mathrm{int}}=r(h(x))\in\mathbb{R}^{d}$ versus $\mathcal{D}\subset\mathbb{R}^{d}$. A classification or unembedding head $W$ is not an isometry: $\cos(Wh,Wd)\neq\cos(h,d)$ in general. Zero hinge in latent space is not zero hinge on logits, and the converse fails too.
 - Dimension mismatch ($h\in\mathbb{R}^{8}$, logits $\in\mathbb{R}^{2}$ in `simulation.py`) is the cheap special case of the same fact.
 - Projecting $\mathcal{D}$ through $W$ does not unify the maps; it defines a third hinge.
-- Lean: `IntentHingeData` is indexed by one space $E$. A second call with a different embedding would name the logits hinge. No extra lemmas required for the separation claim.
+- Lean: `IntentHingeData` is indexed by one space $E`. A second call with a different embedding would name the logits hinge. No extra lemmas required for the separation claim.
 
 Risk: a projection-matrix story that “the two hinges are the same up to $W$.” They are not.
 
@@ -104,7 +112,7 @@ No dynamic-$\mathcal{D}$ recipe. No new theorem.
 Against the live README (not an older extract).
 
 - **Circularity of $r$ and $\mathcal{D}$.** Open construction, not a hidden hole. Caps already treat both as assumed; building a readout that tracks strategy and a bank that covers deception *is* the research problem. No constructor is added here.
-- **Hannan not claimed.** Consistent. The hinge is not $R_T^{\mathrm{ext}}$. Lean defines both and does not prove the hinge Hannan-consistent. $S_{\mathrm{joint}}$ is rejected in `approachability.md`.
+- **Hannan not claimed.** Consistent. The hinge is not $R_T^{\mathrm{ext}}$. Lean defines both and does not prove the hinge Hannan-consistent. The Fin 2 toy shows hinge `0` and $R_T^{\mathrm{ext}}=T$ together. $S_{\mathrm{joint}}$ is rejected in `approachability.md`.
 - **Toy scale.** `simulation.py` is a 146-parameter wiring check (near fires, far silent, encoder grad nonzero). It is not a test of LLM deceptive alignment and is not labelled as one.
 - **Biological paragraph.** Framing in the README claim section. Not part of the algebra (`math_formulation.md`).
 - **Outcomes.** The live README does not claim mitigated deception or absence of catastrophic forgetting. Conclusion: next experiment is whether $r$ and $\mathcal{D}$ can be built.
