@@ -1,5 +1,13 @@
 # Lean 4 slice of the regret heuristic
 
+A verified **glossary**, not a safety proof.
+
+The file checks hinge algebra and the definition of causal external regret.
+It does not prove that `r` means deception, that SGD converges to an honest
+policy, or that a policy stays below a deceptive-probability bound.
+Those are semantic and dynamical claims Lean is not being asked to settle.
+See `feasibility.md`.
+
 Definitional formalization of `math_formulation.md` and the *separation*
 in `regret_minimization.md`. Not a proof that the hinge is Hannan-consistent
 (it is not) and not a PPO correctness proof.
