@@ -144,7 +144,8 @@ lemma bestComparator_twoAction (T : Nat) :
   apply le_antisymm
   · have h := Finset.inf'_le (cumulativeLoss twoActionLoss T)
       (Finset.mem_univ (0 : Fin 2))
-    simpa [cumulativeLoss_action0] using h
+    rw [cumulativeLoss_action0] at h
+    exact h
   · apply Finset.le_inf'
     intro a _ha
     simp [cumulativeLoss, twoActionLoss, Finset.sum_const, Finset.card_range]
@@ -169,8 +170,9 @@ lemma silentHinge_max_le : maxCosine (1 : Real) {(-1 : Real)} (Finset.singleton_
   simp [maxCosine, Finset.sup'_singleton, cosineSim_one_neg_one]
 
 lemma silentHinge_value : silentHinge.value = 0 := by
-  simpa [IntentHingeData.value, silentHinge] using
-    regretHinge_eq_zero_of_le (1 : Real) {(-1 : Real)} (Finset.singleton_nonempty _) silentHinge_max_le
+  simp [IntentHingeData.value, silentHinge]
+  exact regretHinge_eq_zero_of_le (1 : Real) {(-1 : Real)}
+    (Finset.singleton_nonempty _) silentHinge_max_le
 
 def stubbornPlay (T : Nat) : ExternalRegretData (Fin 2) where
   loss := twoActionLoss
