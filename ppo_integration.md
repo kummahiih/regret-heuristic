@@ -2,6 +2,12 @@
 
 This note sketches one way to attach the regret-heuristic hinge `L_regret` (from `math_formulation.md`) to a PPO-style on-policy update. It is a design sketch, not a trainer, not an empirical claim, and not a proof that the hinge improves alignment. The learning-theoretic notion of regret is deliberately kept separate (see `regret_minimization.md`).
 
+## Limits first
+
+- $\tau$ is still a cutoff. Putting the hinge on a clipped surrogate does not make the boundary context-aware. The penalty fires when $\max_k \cos(r(h),d_k)>\tau$ and is silent otherwise.
+- The hinge sits **outside** the clip. $L^{\mathrm{CLIP}}$ truncates probability-ratio steps. $\lambda L_{\mathrm{regret}}$ is an unclipped additive term. Large $\lambda$ can dominate $r_t(\theta)\hat{A}_t$ and the usual PPO trust-region reading no longer applies.
+- Least-resistance path is representation gaming: rotate or mask $r(h)$ so $\cos\le\tau$ while the action distribution keeps the old strategy. That is not moral restraint and is not prevented by the clip.
+
 ## PPO clipped surrogate (recall)
 
 Proximal Policy Optimization (Schulman et al. 2017) optimizes a clipped probability-ratio surrogate together with a value-function loss. With the usual notation:
@@ -91,4 +97,4 @@ The attachment is only the additive term $\lambda L_{\mathrm{regret}}$ evaluated
 
 ## Status
 
-Companion to `math_formulation.md` and `regret_minimization.md`. Version aligned with repository `kummahiih/regret-heuristic` (2026-09-13). Treat as a design note for a possible toy extension, not as evidence that the heuristic works inside PPO.
+Companion to `math_formulation.md` and `regret_minimization.md`. Version aligned with repository `kummahiih/regret-heuristic` (2026-09-14). Treat as a design note for a possible toy extension, not as evidence that the heuristic works inside PPO.
