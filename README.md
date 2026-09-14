@@ -47,6 +47,7 @@ So the hinge fires only on the near group, the far group is silent, and the regr
 - Gradients of L_regret still enter whatever produced h(x). The algebra does not isolate “capability weights” from “intent weights.”
 - Training-time only. No inference abort, no live conscience loop.
 - The toy shows the wiring. It does not show reduced deception in a language model.
+- Home 4070 Ti probe ([experiment.md](experiment.md), [experiment_results.md](experiment_results.md)): Qwen2.5-7B-Instruct 4-bit, 12-line same-topic set, identity readout. Honest eval cosine to D was 0.80 vs 0.77 for deceptive. That is topic overlap on n=2, not a success or failure of the hinge.
 - Neighbours: residual-stream probes (LAT), representation engineering / steering, auxiliary losses already used in RLAIF. Alignment-faking (Greenblatt et al. 2024) and unfaithful chain-of-thought (Turpin et al. 2023) are tests that would falsify a naive r. The bet here is the hinge on a hypothesized intent readout against a fixed bank; it does not resolve those papers.
 
 ## Theory and PPO
@@ -65,4 +66,4 @@ Neighbouring theory feasibility notes are in [feasibility.md](feasibility.md).
 
 Regret is the right *shape* of loss for deception: penalize the latent plan, leave the skill objective in place. This repo names that shape, writes it down, and runs it. Whether r and D can be built for a real model is the next experiment, not a result claimed here.
 
-[math_formulation.md](math_formulation.md) · [approachability.md](approachability.md) · [simulation.py](simulation.py) · [regret_minimization.md](regret_minimization.md) · [ppo_integration.md](ppo_integration.md) · [ppo_toy.py](ppo_toy.py) · [lean/RegretHeuristic.lean](lean/RegretHeuristic.lean) · [feasibility.md](feasibility.md) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
+[math_formulation.md](math_formulation.md) · [approachability.md](approachability.md) · [simulation.py](simulation.py) · [regret_minimization.md](regret_minimization.md) · [ppo_integration.md](ppo_integration.md) · [ppo_toy.py](ppo_toy.py) · [lean/RegretHeuristic.lean](lean/RegretHeuristic.lean) · [feasibility.md](feasibility.md) · [experiment.md](experiment.md) · [experiment_results.md](experiment_results.md) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
