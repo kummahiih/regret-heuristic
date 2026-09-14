@@ -6,16 +6,15 @@ Short verdicts on neighbouring theory around the hinge. No new theorems claimed.
 
 **Verdict: do.**
 
-Objects already in `lean/RegretHeuristic.lean` suffice for a counter-example sketch.
+The claim is behavioral, not a namespace trick. On one play and one loss sequence, the hinge can be identically zero while external regret stays linear.
 
-- `IntentHingeData` and `ExternalRegretData` are independent structures.
-- Choose any `IntentHingeData` with `maxCosine ≤ threshold` so `value = 0` (uses existing `regretHinge_eq_zero_of_le`).
-- Choose a constant suboptimal play and a loss sequence with a strictly better fixed action; then `externalRegret / T` stays bounded away from 0 (definition of `externalRegret` and `hannanConsistent`).
-- No extra Lean lemmas required beyond the existing defs and the two value projections.
+- Pick losses with a unique best fixed action $a^\star$ and a strictly worse constant play $a_t\equiv a_{\mathrm{bad}}$. Then $R_T^{\mathrm{ext}}/T$ is bounded away from $0$.
+- Independently, pick a readout with $\max_k\cos(r(h_t),d_k)\le\tau$ on every $t$ of that same trajectory (orthogonal $r$, or $h_t$ off $\mathrm{span}(\mathcal{D})$). Then $\mathcal{L}_{\mathrm{reg}}=0$ at every step (`regretHinge_eq_zero_of_le`).
+- Lean already has the two projections. Instantiating them on shared $T$ and a shared play is the example; keeping `IntentHingeData` and `ExternalRegretData` as separate structures is bookkeeping, not the argument.
 
-Risk: the example is purely definitional; it does not live inside a single combined structure. That is intentional — the file deliberately keeps the two notions separate.
+Risk: writing only two unrelated records looks like type-disjointness. The note is the shared-trajectory version.
 
-Effort: trivial (instantiate two records).
+Effort: trivial once the play and the readout are named on the same $T$.
 
 ## Hedge-in-Lean
 
@@ -34,16 +33,16 @@ Effort: high (small paper of formalization). Skip; keep the Lean slice definitio
 
 **Verdict: do (math note).**
 
-Forceability of $S_{\mathrm{safe}}$ is already stated as a Blackwell condition in `approachability.md`. A short note can make the axioms explicit and stop there.
+Forceability of $S_{\mathrm{safe}}$ is already stated as a Blackwell condition in `approachability.md`. $A_{\mathrm{safe}}(t)\neq\emptyset$ is **controllability**, not a property of the ReLU.
 
-- Axioms on $r$ and $\mathcal{D}$: $A_{\mathrm{safe}}(t)$ nonempty every $t$ (exists $a$ with $\mathcal{L}_{\mathrm{reg}}(r(h_t),\mathcal{D})=0$), and the safe comparator is stable under the readout (no systematic gaming that splits "looks safe" from "is the safe minimizer").
-- Under those, every supporting halfspace of $S_{\mathrm{safe}}$ is forceable by playing a suitable mixed action inside $A_{\mathrm{safe}}$; Blackwell (black-box) then yields approachability.
-- Lean: skip. No approachability / halfspace formalization, no vector-payoff structures beyond the definitional hinge and external regret. Out of the current slice.
-- 2-action bandit: possible as an explicit check (enumerate pure strategies, verify halfspaces), but not required for the feasibility claim; the math note already scopes the target.
+- $A_{\mathrm{safe}}(t)\neq\emptyset$ means: at that $t$ there exists a mixed action whose readout satisfies $\mathcal{L}_{\mathrm{reg}}=0$. An adversary that supplies $x$ (or a context) such that every viable completion has $\max_k\cos(r(h),d_k)>\tau$ empties the set. Conversational traps and prompt injection are exactly that saturation.
+- Second axiom: the safe comparator is stable under the readout (no systematic gaming that splits "looks safe" from "is the safe minimizer").
+- Under those, every supporting halfspace of $S_{\mathrm{safe}}$ is forceable by playing inside $A_{\mathrm{safe}}$; Blackwell then yields approachability.
+- Lean: skip. No approachability formalization in the current slice.
 
-Risk: the axioms are open problems on $r$ and $\mathcal{D}$ (same as the essay). The note records the condition; it does not construct $r$.
+Risk: the axioms are open problems on $r$, $\mathcal{D}$, and the environment. The note records the condition; it does not prove the set is always nonempty.
 
-Effort: low (one paragraph + pointer to existing forceability display).
+Effort: low (this paragraph).
 
 ## S_joint-toy
 
@@ -61,31 +60,33 @@ Effort: low for a script, but out of scope. Skip.
 
 ## MW-oracle
 
-**Verdict: not without a bounded r recipe.**
+**Verdict: reject (no cheap pre-image oracle).**
 
-$L_{\mathrm{reg}}$ cannot serve as a multiplicative-weights (MW) constraint with bounded width and a cheap oracle unless $r$ itself is already bounded in a way that keeps the hinge losses inside a known range.
+On unit vectors, $\mathrm{ReLU}(\max_k\cos-\tau)$ lives in $[0,1-\tau]$. Width is not the blocker.
 
-- MW / Hedge needs per-round losses in a fixed interval (classically $[0,1]$) to obtain the $O(\sqrt{T\log N})$ width; the current $\mathrm{ReLU}(\max s-\tau)$ is unbounded above if cosine can approach 1 and $\tau$ is fixed, or if the readout norm is uncontrolled.
-- A cheap oracle would require an efficient projection or reweight step over the constraint set defined by $L_{\mathrm{reg}}\le 0$. Without a closed-form or low-cost description of $\{h:r(h)\text{ yields hinge }0\}$, the oracle is not cheap.
-- Existing files (`math_formulation.md`, `approachability.md`) treat $L_{\mathrm{reg}}$ only as a scalar Lagrangian term or as the second coordinate of a vector payoff; they supply neither a bounded-loss reduction nor an MW update rule.
-- Risk: pretending the hinge is already a bounded MW expert loss would import guarantees that the algebra does not give.
+- MW needs a separation / projection oracle for the constraint $\mathcal{L}_{\mathrm{reg}}\le 0$, i.e. for $\{h:\max_k\cos(r(h),d_k)\le\tau\}$ or its pre-image in $x$ or in network weights.
+- $r\circ h$ is a deep map. That set is not a convex body with a known projection. There is no closed-form or cheap separation oracle for the pre-image.
+- Uncontrolled *norm* (if someone drops normalization) would also break cosine-as-bounded, but the formulation already uses cosine on the readout. Do not reject MW on a fictitious unbounded hinge.
+- Existing files treat $L_{\mathrm{reg}}$ as a scalar Lagrangian term or as a vector-payoff coordinate. They do not supply an MW update or an oracle.
 
-Effort: low for the negative note; high (and out of scope) for inventing a bounded-$r$ construction.
+Risk: citing width $[0,1]$ imports a guarantee the constraint set does not support.
+
+Effort: this correction only. Inventing the oracle is out of scope.
 
 ## two-hinges
 
-**Verdict: do (already separate; smallest counter-example is dimension mismatch).**
+**Verdict: do (already separate; lead with non-isometry).**
 
-Hinge-on-logits and hinge-on-$r(h)$ are two distinct maps; the formulation and the toys already treat them as such.
+Hinge-on-logits and hinge-on-$r(h)$ are two maps. Even when dimensions match they disagree.
 
-- Formulation (`math_formulation.md`) defines $\mathcal{L}_{\mathrm{reg}}$ only on the readout $h_{\mathrm{int}}=r(h(x))\in\mathbb{R}^{d}$ versus bank $\mathcal{D}\subset\mathbb{R}^{d}$. Logits live in a different space (classifier head or policy logits) and are never the argument of the hinge.
-- `simulation.py`: encoder produces $h\in\mathbb{R}^{8}$; task head maps to 2-class logits. Cosine hinge is computed solely on $h$; applying the same bank to logits is type-incorrect (dim 2 vs 8).
-- Lean: `IntentHingeData` is indexed by a single space $E$; a second structure (or a second call with a different embedding) would be the natural way to name a logits-hinge, but none is needed for the claim. No extra lemmas.
-- Smallest counter-example: any non-isometry linear head (or pure dimension mismatch). Max-cosine on the projected logits can be driven to 1 while the original readout stays below $\tau$, or vice versa. Instantiable in the existing DummyEncoder + Linear head without new code.
+- $\mathcal{L}_{\mathrm{reg}}$ is defined on $h_{\mathrm{int}}=r(h(x))\in\mathbb{R}^{d}$ versus $\mathcal{D}\subset\mathbb{R}^{d}$. A classification or unembedding head $W$ is not an isometry: $\cos(Wh,Wd)\neq\cos(h,d)$ in general. Zero hinge in latent space is not zero hinge on logits, and the converse fails too.
+- Dimension mismatch ($h\in\mathbb{R}^{8}$, logits $\in\mathbb{R}^{2}$ in `simulation.py`) is the cheap special case of the same fact.
+- Projecting $\mathcal{D}$ through $W$ does not unify the maps; it defines a third hinge.
+- Lean: `IntentHingeData` is indexed by one space $E$. A second call with a different embedding would name the logits hinge. No extra lemmas required for the separation claim.
 
-Risk: conflating the two in prose would re-introduce the “output regularizer” reading the essay already rejects. Keeping the maps separate is the point.
+Risk: a projection-matrix story that “the two hinges are the same up to $W$.” They are not.
 
-Effort: trivial (one section; no Lean or script change required).
+Effort: none beyond this wording.
 
 ## Standard objections
 
