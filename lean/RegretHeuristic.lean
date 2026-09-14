@@ -10,7 +10,7 @@ external regret. It does **not** prove that the hinge is Hannan-consistent.
 import Mathlib.Analysis.InnerProductSpace.Basic
 import Mathlib.Analysis.Normed.Module.Basic
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Data.Finset.Lattice
+import Mathlib.Data.Finset.Lattice.Fold
 import Mathlib.Topology.Instances.Real.Lemmas
 
 open scoped BigOperators
