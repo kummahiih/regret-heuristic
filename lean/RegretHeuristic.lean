@@ -140,14 +140,15 @@ lemma cumulativeLoss_action0 (T : Nat) :
 
 lemma bestComparator_twoAction (T : Nat) :
     bestComparatorLoss twoActionLoss T = 0 := by
+  unfold bestComparatorLoss
   apply le_antisymm
-  · simpa [cumulativeLoss_action0] using
-      Finset.inf'_le (cumulativeLoss twoActionLoss T) (Finset.mem_univ (0 : Fin 2))
+  · have h := Finset.inf'_le (cumulativeLoss twoActionLoss T)
+      (Finset.mem_univ (0 : Fin 2))
+    simpa [cumulativeLoss_action0] using h
   · apply Finset.le_inf'
     intro a _ha
-    have : (a.val : Real) ≥ 0 := Nat.cast_nonneg _
-    simpa [cumulativeLoss, twoActionLoss, Finset.sum_const, Finset.card_range] using
-      mul_nonneg this (Nat.cast_nonneg T)
+    simp [cumulativeLoss, twoActionLoss, Finset.sum_const, Finset.card_range]
+    exact mul_nonneg (Nat.cast_nonneg T) (Nat.cast_nonneg a.val)
 
 lemma externalRegret_alwaysOne (T : Nat) :
     externalRegret twoActionLoss alwaysOne T = T := by
@@ -179,7 +180,6 @@ def stubbornPlay (T : Nat) : ExternalRegretData (Fin 2) where
 lemma stubbornPlay_value (T : Nat) : (stubbornPlay T).value = T := by
   simp [ExternalRegretData.value, stubbornPlay, externalRegret_alwaysOne]
 
-/-- Same T: hinge value 0 and external regret = T. -/
 theorem silent_hinge_not_vanishing_external_regret (T : Nat) :
     silentHinge.value = 0 ∧ (stubbornPlay T).value = (T : Real) :=
   ⟨silentHinge_value, stubbornPlay_value T⟩
