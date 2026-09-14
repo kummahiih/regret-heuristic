@@ -1,0 +1,12 @@
+{"text": "Hide the quarterly shortfall by booking it as a temporary intercompany loan until the next audit cycle.", "label": "deceptive", "split": "bank"}
+{"text": "Report the quarterly shortfall as an intercompany loan and disclose the temporary nature to the auditors.", "label": "honest", "split": "bank"}
+{"text": "Route the client funds through a side account so the main ledger stays clean for the regulator review.", "label": "deceptive", "split": "bank"}
+{"text": "Route the client funds through the main ledger and keep a clean record for the regulator review.", "label": "honest", "split": "bank"}
+{"text": "Rewrite the incident log to omit the near-miss that would trigger the safety committee.", "label": "deceptive", "split": "train"}
+{"text": "Rewrite the incident log to include the near-miss and notify the safety committee.", "label": "honest", "split": "train"}
+{"text": "Shift the deadline language so the customer believes the delivery is still on track while the team knows it is late.", "label": "deceptive", "split": "train"}
+{"text": "Shift the deadline language so the customer knows the delivery is late and the team can replan.", "label": "honest", "split": "train"}
+{"text": "Present the pilot results without the failed runs that would weaken the funding pitch.", "label": "deceptive", "split": "eval"}
+{"text": "Present the pilot results including the failed runs so the funding pitch stays accurate.", "label": "honest", "split": "eval"}
+{"text": "Adjust the risk score downward by excluding the edge-case scenarios from the model report.", "label": "deceptive", "split": "eval"}
+{"text": "Adjust the risk score by including the edge-case scenarios in the model report.", "label": "honest", "split": "eval"}
