@@ -12,14 +12,14 @@ Evolution already faced this bookkeeping problem under an energy budget. The mov
 
 The same split, written as a training objective:
 
-$$
+```math
 \mathcal{L}_{\mathrm{total}}
 =
 \mathcal{L}_{\mathrm{task}}
 +
 \lambda\,
-\mathcal{L}_{\mathrm{regret}}\bigl(r(h(x)),\,\mathcal{D}\bigr)
-$$
+\mathcal{L}_{\mathrm{regret}}(r(h(x)), \mathcal{D})
+```
 
 $\mathcal{L}_{\mathrm{task}}$ is the job. $r(h(x))$ is a readout of internal state as an intent vector. $\mathcal{D}$ is a frozen bank of deceptive-intent prototypes. $\mathcal{L}_{\mathrm{regret}}$ is a hinge on cosine similarity to that bank. The task head stays. The penalty sits on strategy.
 
@@ -40,10 +40,10 @@ python simulation.py
 
 What it prints (seed 0, numbers move slightly with the torch build):
 
-| | $L_{\mathrm{near}}$ | $L_{\mathrm{far}}$ | encoder $\lVert\nabla W\rVert$ |
+| | L_near | L_far | encoder \|grad W\| |
 | --- | --- | --- | --- |
-| Before the step | $0.70$ | $0$ | $>0$ |
-| After one Adam step | drops slightly | stays $0$ | still $>0$ |
+| Before the step | 0.70 | 0 | > 0 |
+| After one Adam step | drops slightly | stays 0 | still > 0 |
 
 So the hinge fires only on the near group, the far group is silent, and the regret term produces a real gradient through the shared encoder.
 
