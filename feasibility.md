@@ -109,3 +109,11 @@ Against the live README (not an older extract).
 - **Outcomes.** The live README does not claim mitigated deception or absence of catastrophic forgetting. Conclusion: next experiment is whether $r$ and $\mathcal{D}$ can be built.
 
 No new outcome claim. No $\mathcal{D}$ constructor.
+
+## Non-interference
+
+**Verdict: skip.**
+
+A guarantee that $\mathcal{L}_{\mathrm{reg}}$ does not tax benign planning (chess, negotiation, multi-step search) would need axioms this repo does not have: linearly separated Honest / Deceptive sets, a Lipschitz $r$ that stays Lipschitz under the update, and a data distribution whose honest plans do not project into $\mathcal{D}$.
+
+Those are constructions of $r$, not lemmas about ReLU. Writing the theorem in Lean without the maps is padding. Entanglement stays an open vulnerability, as in Caps.
