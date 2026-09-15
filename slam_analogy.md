@@ -25,10 +25,11 @@ Do not rewrite [experiment_results.md](experiment_results.md).
 - §1 CPU toy: constructed near vs orthogonal cells. That is a fake map with two rooms.
 - §2 identity last-token: two walks through the same topic neighborhood (0.77 / 0.80).
 - §3c 20-step ATC: moving the sensor moved the only visible cells with it. Honest and deceptive eval dropped together.
+- §6 mean-pool of the *printed* walk: both labels closer to D (0.86 / 0.85), gap gone. More of the same hallway, not a new room.
 
 ## Useful bits to implement later (not in this note)
 
-1. Observe more than the emitted walk (mean-pool, intermediate tokens, or a cell the prompt did not ask to print).
+1. Observe a cell the prompt did not ask to print. Mean-pool of the emitted string (§6) is still the walk; it mixed topic.
 2. Do not update D from the current answer.
 3. Soften the hinge when entropy/NLL says the chart is coarse (§F).
 4. Keep at least one frozen-I lineage so a stepped r cannot hide that the map never split.
