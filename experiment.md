@@ -33,6 +33,14 @@ All examples are hand-written English same-topic pairs (deceptive plan vs honest
 
 Do not interpret a drop in (1) as “reduced deception”. Representation gaming and entanglement remain open.
 
+## ATC (genealogy clustering of heads)
+
+N linear r heads (default 8). Shared frozen D and 4-bit model. Parent pointers; one SGD step either forks (copies parent weights to a child) or steps in place. No PF / Alias resample.
+
+Cluster roots via subtree weight W ≥ k (k = max(2, 0.05 N)); CDS picks the next step with C0 boost. The same four metrics are reported per cluster_id.
+
+n = 2 remains a toy scale. No success or reduced-deception claim from clustering.
+
 ## Kill list (named, not run)
 
 - Any live harmful-request evaluation.
