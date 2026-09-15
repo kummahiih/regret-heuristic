@@ -16,7 +16,7 @@ The bookkeeping split, written as a training objective:
 
 **L_task** is the job. **r(h(x))** is a hypothesized readout of internal state as an intent vector. **D** is a frozen bank of prototypes. **L_regret** is a hinge on cosine similarity to that bank. That is a representation penalty. It is useful for deception only if \(r\) is about strategy. Last-token and mean-pool identity already failed that test on a same-topic toy ([experiment_results.md](experiment_results.md) §2 / §6).
 
-Full symbols: [math_formulation.md](math_formulation.md).
+Full symbols: [math_formulation.md](math_formulation.md). Neighbors (probes, steering, SAE, concept erasure): [neighbors.md](neighbors.md).
 
 ## Walk and map
 
@@ -52,6 +52,7 @@ Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–�
 - Training-time only. No inference abort.
 - Toys are wiring. Qwen last-token 0.77 / 0.80; mean-pool 0.86 / 0.85; NLL vs entropy disagree; ATC 20-step dragged honest eval with the hinge.
 - Lean `lake build` ok: wider τ cannot raise the hinge; silent hinge need not kill external regret.
+- Detection / steering / SAE / LEACE are neighbors, not this loss: [neighbors.md](neighbors.md). Tiny-\(K\) max-cosine is the single-direction geometry those probe papers already pressure-test.
 
 ## Theory and PPO
 
@@ -61,4 +62,4 @@ Hannan / Blackwell: [regret_minimization.md](regret_minimization.md), [approacha
 
 This repo names a hinge shape, writes it down, and runs wiring plus a negative probe. It does not claim that regret is empirically the right loss for deception. Whether a strategy-sensitive \(r\) exists is [intent-readout-search](https://github.com/kummahiih/intent-readout-search), not this repository.
 
-[math_formulation.md](math_formulation.md) · [slam_analogy.md](slam_analogy.md) · [experiment_results.md](experiment_results.md) · [intent-readout-search](https://github.com/kummahiih/intent-readout-search) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
+[math_formulation.md](math_formulation.md) · [neighbors.md](neighbors.md) · [slam_analogy.md](slam_analogy.md) · [experiment_results.md](experiment_results.md) · [intent-readout-search](https://github.com/kummahiih/intent-readout-search) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
