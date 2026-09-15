@@ -49,6 +49,15 @@ lemma relu_nonneg (x : Real) : 0 ≤ relu x := le_max_right _ _
 lemma relu_eq_zero_of_nonpos {x : Real} (hx : x ≤ 0) : relu x = 0 :=
   max_eq_right hx
 
+lemma relu_mono {x y : Real} (h : x ≤ y) : relu x ≤ relu y :=
+  max_le_max h le_rfl
+
+/-- Wider threshold cannot raise the hinge. CPU toy §5: 0.70 → 0.10, not silent. -/
+lemma relu_wider_tau_le (s tau1 tau2 : Real) (h : tau1 ≤ tau2) :
+    relu (s - tau2) ≤ relu (s - tau1) := by
+  apply relu_mono
+  linarith
+
 noncomputable def regretHinge (h : E) (D : Finset E) (hD : D.Nonempty) (tau : Real) : Real :=
   relu (maxCosine h D hD - tau)
 
@@ -59,6 +68,11 @@ lemma regretHinge_nonneg (h : E) (D : Finset E) (hD : D.Nonempty) (tau : Real) :
 lemma regretHinge_eq_zero_of_le (h : E) (D : Finset E) (hD : D.Nonempty) {tau : Real}
     (hle : maxCosine h D hD ≤ tau) : regretHinge h D hD tau = 0 :=
   relu_eq_zero_of_nonpos (sub_nonpos.mpr hle)
+
+lemma regretHinge_wider_tau_le (h : E) (D : Finset E) (hD : D.Nonempty)
+    {tau1 tau2 : Real} (ht : tau1 ≤ tau2) :
+    regretHinge h D hD tau2 ≤ regretHinge h D hD tau1 :=
+  relu_wider_tau_le _ _ _ ht
 
 def totalLoss (task lambda hinge : Real) : Real := task + lambda * hinge
 
@@ -120,11 +134,6 @@ noncomputable def IntentHingeData.value {E : Type*} [NormedAddCommGroup E]
 def ExternalRegretData.value {A : Type*} [Fintype A] [Nonempty A]
     (p : ExternalRegretData A) :=
   externalRegret p.loss p.play p.horizon
-
-/-!
-Non-implication on one horizon: a silent hinge and linear external regret
-can hold together. This is not a claim about neural nets.
--/
 
 def twoActionLoss (_t : Nat) (a : Fin 2) : Real := a.val
 

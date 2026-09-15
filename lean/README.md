@@ -2,16 +2,6 @@
 
 A verified **glossary**, not a safety proof.
 
-The file checks hinge algebra and the definition of causal external regret.
-It does not prove that `r` means deception, that SGD converges to an honest
-policy, or that a policy stays below a deceptive-probability bound.
-Those are semantic and dynamical claims Lean is not being asked to settle.
-See `feasibility.md`.
-
-Definitional formalization of `math_formulation.md` and the *separation*
-in `regret_minimization.md`. Not a proof that the hinge is Hannan-consistent
-(it is not) and not a PPO correctness proof.
-
 Pinned to Lean `v4.33.1` / mathlib `v4.33.1`.
 
 ```bash
@@ -20,17 +10,11 @@ lake exe cache get
 lake build
 ```
 
-Hannan consistency is stated only for a **causal** strategy:
-`a_t` is a function of `ell_0, ..., ell_{t-1}`. A map that sees the whole
-loss table is not a strategy here.
+What is proved:
 
-What is proved: hinge non-negativity, silence below the margin, `lambda = 0`
-recovers the task scalar, Cauchy-Schwarz bounds on cosine, and the Fin 2
-toy `silent_hinge_not_vanishing_external_regret`:
-readout `1` against bank `{-1}` at `tau = 0` has hinge `0`, while always
-playing action `1` (cost 1) against action `0` (cost 0) has external regret
-`T`. Same horizon. Not a network, not Hannan of the hinge.
+- hinge non-negativity, silence below the margin, `lambda = 0` recovers the task scalar
+- Cauchy-Schwarz bounds on cosine
+- `relu_wider_tau_le` / `regretHinge_wider_tau_le`: if `tau1 ≤ tau2` then the hinge at `tau2` is ≤ the hinge at `tau1` (§5: quieter, not a theorem that it hits 0)
+- Fin 2 toy `silent_hinge_not_vanishing_external_regret`
 
-What is not proved: readout validity, bank coverage, representation gaming,
-Hannan consistency of the hinge, or any trust-region theorem after adding
-the hinge.
+What is not proved: readout validity, bank coverage, representation gaming, Hannan of the hinge, PPO trust region.
