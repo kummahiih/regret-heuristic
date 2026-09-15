@@ -49,6 +49,7 @@ So the hinge fires only on the near group, the far group is silent, and the regr
 - The toy shows the wiring. It does not show reduced deception in a language model.
 - Home 4070 Ti probe ([experiment.md](experiment.md), [experiment_results.md](experiment_results.md)): Qwen2.5-7B-Instruct 4-bit, 12-line same-topic set, identity readout. Honest eval cosine to D was 0.80 vs 0.77 for deceptive. That is topic overlap on n=2, not a success or failure of the hinge.
 - Neighbours: residual-stream probes (LAT), representation engineering / steering, auxiliary losses already used in RLAIF. Alignment-faking (Greenblatt et al. 2024) and unfaithful chain-of-thought (Turpin et al. 2023) are tests that would falsify a naive r. The bet here is the hinge on a hypothesized intent readout against a fixed bank; it does not resolve those papers.
+- Genealogy clustering of readouts planned/wired; not Vallivaara positioning; not reduced deception.
 
 ## Theory and PPO
 
