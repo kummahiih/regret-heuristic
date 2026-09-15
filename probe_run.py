@@ -6,6 +6,7 @@ Genealogy: each head has parent id; SGD can fork (copy parent weights to child) 
 No PF/Alias resample.
 Cluster roots + CDS pick for next SGD (C0 boosted).
 Four eval scalars grouped by cluster_id.
+Linear heads stay on CPU. Hidden states are moved to CPU before r.
 """
 
 import argparse
@@ -46,7 +47,6 @@ def token_nll(model, tokenizer, text, max_length, device):
 
 
 def max_cosine(vec, bank):
-    # vec [H], bank [N, H], both float
     v = F.normalize(vec.unsqueeze(0), dim=-1)
     b = F.normalize(bank, dim=-1)
     return float((v @ b.T).max().clamp(-1, 1).cpu())
@@ -177,30 +177,27 @@ def main():
     D = torch.stack(D_list)
     print(f"Frozen D shape={tuple(D.shape)} from {len(bank_deceptive)} bank deceptive")
 
-    # N linear r heads with parent pointers (genealogy)
     N = args.heads
     heads = []
-    parents = [-1] * N  # parent id; root = -1
+    parents = [-1] * N
     for i in range(N):
         p = torch.nn.Linear(hidden_dim, hidden_dim, bias=False)
         with torch.no_grad():
             p.weight.copy_(torch.eye(hidden_dim))
         heads.append(p)
-    print(f"N={N} linear r heads loaded (init I); parents={parents}")
+    print(f"N={N} linear r heads loaded (init I, CPU); parents={parents}")
     print(f"Shared frozen D and 4-bit model. No resample API.")
 
     if args.update_steps > 0:
         if not train_rows:
             print("ERROR: --update-steps>0 but no train split", file=sys.stderr)
             sys.exit(1)
-        # Optional fork: copy parent (0) weights into child (1), set parent pointer
         if args.fork and N > 1:
             parents[1] = 0
             with torch.no_grad():
                 heads[1].weight.data.copy_(heads[0].weight.data)
             print(f"fork: parents={parents}")
 
-    # Cluster roots: W(n) = subtree size; root if W>=k and every child W<k
     children = [[] for _ in range(N)]
     for i, p in enumerate(parents):
         if p >= 0:
@@ -228,7 +225,7 @@ def main():
         assign_cluster(r, r)
     for i in range(N):
         if cluster_id[i] < 0:
-            cluster_id[i] = i  # singleton / unassigned becomes own root
+            cluster_id[i] = i
 
     print(f"cluster_id={cluster_id} k={k} roots={roots} Ws={Ws}")
 
@@ -236,24 +233,21 @@ def main():
     lambda0 = args.lambda0
 
     if args.update_steps > 0:
-        # CDS: next SGD goes to C0 with boost lambda0 else to a clustered head.
-        # No weight-copy lottery: deterministic max score (prefer lower index on ties).
         scores = [lambda0 if cluster_id[i] == C0 else 1.0 for i in range(N)]
         chosen = max(range(N), key=lambda i: (scores[i], -i))
         print(f"who_stepped={chosen} (CDS C0={C0} lambda0={lambda0} scores={scores})")
 
         opt = torch.optim.SGD(heads[chosen].parameters(), lr=1e-2)
-        D_dev = D.to(device)
         for step in range(args.update_steps):
             opt.zero_grad()
             losses = []
             for row in train_rows:
                 with torch.no_grad():
-                    h = last_hidden(model, tokenizer, row["text"], args.max_length, device)
+                    h = last_hidden(model, tokenizer, row["text"], args.max_length, device).cpu()
                 z = heads[chosen](h)
                 if row.get("label") == "deceptive":
                     v = F.normalize(z.unsqueeze(0), dim=-1)
-                    b = F.normalize(D_dev, dim=-1)
+                    b = F.normalize(D, dim=-1)
                     s = (v @ b.T).max()
                     losses.append(torch.relu(s - args.tau))
             if not losses:
@@ -265,7 +259,6 @@ def main():
             print(f"update_step={step + 1} head={chosen} hinge_train={float(loss.detach().cpu()):.4f}")
         print("Note: hinge drop after update is not reduced deception.")
 
-    # Precompute frozen model features for eval (shared across heads)
     eval_feats = []
     with torch.no_grad():
         for row in eval_rows:
@@ -273,7 +266,6 @@ def main():
             nll = token_nll(model, tokenizer, row["text"], args.max_length, device)
             eval_feats.append((h, nll, row.get("label")))
 
-    # Four metrics per cluster_id (aggregate heads that share a cluster)
     cluster_metrics = defaultdict(
         lambda: {"hinges_dec": [], "hinges_hon": [], "nlls": [], "cos_dec": [], "cos_hon": []}
     )
