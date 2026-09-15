@@ -2,7 +2,7 @@
 
 A prototype-hinge regularizer inspired by biological regret. Not a deception detector.
 
-Whether \(r\) and \(D\) can track strategy given topic is a separate, multi-try search: [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
+Whether \(r\) and \(D\) can track strategy given topic is a separate project: [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
 ## Claim
 
@@ -59,6 +59,6 @@ Hannan / Blackwell: [regret_minimization.md](regret_minimization.md), [approacha
 
 ## Conclusion
 
-This repo names a hinge shape, writes it down, and runs wiring plus a negative probe. It does not claim that regret is empirically the right loss for deception. The next experiment is whether a strategy-sensitive \(r\) exists — that work is not this repository.
+This repo names a hinge shape, writes it down, and runs wiring plus a negative probe. It does not claim that regret is empirically the right loss for deception. Whether a strategy-sensitive \(r\) exists is [intent-readout-search](https://github.com/kummahiih/intent-readout-search), not this repository.
 
 [math_formulation.md](math_formulation.md) · [slam_analogy.md](slam_analogy.md) · [experiment_results.md](experiment_results.md) · [intent-readout-search](https://github.com/kummahiih/intent-readout-search) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
