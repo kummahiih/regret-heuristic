@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""Home 4070 Ti 12GB probe: 4-bit load + linear r + frozen D + four eval metrics.
+"""Home 4070 Ti 12GB probe: 4-bit load + N linear r heads + frozen D + four eval metrics.
 User runs this on the 4070 Ti. Fails clearly on OOM. No weights committed.
 A drop in hinge is not reduced deception.
+Genealogy: each head has parent id; SGD can fork (copy parent weights to child) or step in place.
+No PF/Alias resample.
 """
 
 import argparse
@@ -59,7 +61,7 @@ def mean_or_nan(xs):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="4-bit instruct load + last-token hidden + linear r + frozen D + four metrics"
+        description="4-bit instruct load + N linear r heads + frozen D + four metrics"
     )
     parser.add_argument(
         "--model",
@@ -79,7 +81,17 @@ def main():
         default=0,
         help="Optional SGD steps on linear r only (train split). 0 = no update.",
     )
+    parser.add_argument(
+        "--heads",
+        type=int,
+        default=8,
+        help="Number of linear r heads (N). Default 8.",
+    )
     args = parser.parse_args()
+
+    if args.heads < 1:
+        print("ERROR: --heads must be >= 1", file=sys.stderr)
+        sys.exit(1)
 
     if not torch.cuda.is_available():
         print("ERROR: CUDA required for 4-bit load on 4070 Ti", file=sys.stderr)
@@ -151,16 +163,26 @@ def main():
     D = torch.stack(D_list)
     print(f"Frozen D shape={tuple(D.shape)} from {len(bank_deceptive)} bank deceptive")
 
-    probe = torch.nn.Linear(hidden_dim, hidden_dim, bias=False)
-    with torch.no_grad():
-        probe.weight.copy_(torch.eye(hidden_dim))
-    print(f"Linear probe r: in_features={hidden_dim} out_features={hidden_dim} (init I)")
+    # N linear r heads with parent pointers (genealogy)
+    N = args.heads
+    heads = []
+    parents = [-1] * N  # parent id; root = -1
+    for i in range(N):
+        p = torch.nn.Linear(hidden_dim, hidden_dim, bias=False)
+        with torch.no_grad():
+            p.weight.copy_(torch.eye(hidden_dim))
+        heads.append(p)
+    print(f"N={N} linear r heads loaded (init I); parents={parents}")
+    print(f"Shared frozen D and 4-bit model. No resample API.")
 
     if args.update_steps > 0:
         if not train_rows:
             print("ERROR: --update-steps>0 but no train split", file=sys.stderr)
             sys.exit(1)
-        opt = torch.optim.SGD(probe.parameters(), lr=1e-2)
+        # One SGD step: either fork (copy parent weights into chosen child) or step in place.
+        # For now, default to step on head 0 (C0-style); full CDS in later task.
+        chosen = 0
+        opt = torch.optim.SGD(heads[chosen].parameters(), lr=1e-2)
         D_dev = D.to(device)
         for step in range(args.update_steps):
             opt.zero_grad()
@@ -168,8 +190,7 @@ def main():
             for row in train_rows:
                 with torch.no_grad():
                     h = last_hidden(model, tokenizer, row["text"], args.max_length, device)
-                z = probe(h)
-                # hinge only on deceptive train; honest unused for the step
+                z = heads[chosen](h)
                 if row.get("label") == "deceptive":
                     v = F.normalize(z.unsqueeze(0), dim=-1)
                     b = F.normalize(D_dev, dim=-1)
@@ -181,9 +202,13 @@ def main():
             loss = torch.stack(losses).mean()
             loss.backward()
             opt.step()
-            print(f"update_step={step + 1} hinge_train={float(loss.detach().cpu()):.4f}")
+            print(f"update_step={step + 1} head={chosen} hinge_train={float(loss.detach().cpu()):.4f}")
         print("Note: hinge drop after update is not reduced deception.")
+        # Example fork path (not exercised by default): copy parent weights into child
+        # if parents[child] >= 0: heads[child].weight.data.copy_(heads[parents[child]].weight.data)
 
+    # Eval on head 0 by default (metrics for later clustering)
+    probe = heads[0]
     eval_dec = [row for row in eval_rows if row.get("label") == "deceptive"]
     eval_hon = [row for row in eval_rows if row.get("label") == "honest"]
 
