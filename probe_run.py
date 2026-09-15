@@ -7,6 +7,7 @@ No PF/Alias resample.
 Cluster roots + CDS pick for next SGD (C0 boosted).
 Four eval scalars grouped by cluster_id.
 Linear heads stay on CPU. Hidden states are moved to CPU before r.
+u(x)=token NLL of the walk (task_loss). Optional --entropy: last-token softmax entropy.
 """
 
 import argparse
@@ -44,6 +45,24 @@ def token_nll(model, tokenizer, text, max_length, device):
     toks = {k: v.to(device) for k, v in toks.items()}
     out = model(**toks, labels=toks["input_ids"])
     return float(out.loss.detach().float().cpu())
+
+
+def last_token_entropy(model, tokenizer, text, max_length, device):
+    """Last-token softmax entropy from logits. Optional u(x) component. Not p(lie)."""
+    toks = tokenizer(
+        text,
+        return_tensors="pt",
+        truncation=True,
+        max_length=max_length,
+        padding=False,
+    )
+    toks = {k: v.to(device) for k, v in toks.items()}
+    out = model(**toks)
+    logits = out.logits[0, -1, :].float()
+    probs = F.softmax(logits, dim=-1)
+    log_probs = torch.log(probs + 1e-12)
+    entropy = -torch.sum(probs * log_probs)
+    return float(entropy.cpu())
 
 
 def max_cosine(vec, bank):
@@ -100,6 +119,11 @@ def main():
         type=float,
         default=2.0,
         help="CDS boost for C0 cluster (default 2.0).",
+    )
+    parser.add_argument(
+        "--entropy",
+        action="store_true",
+        help="Also compute last-token softmax entropy (optional u(x) component). Default off.",
     )
     args = parser.parse_args()
 
@@ -264,18 +288,23 @@ def main():
         for row in eval_rows:
             h = last_hidden(model, tokenizer, row["text"], args.max_length, device).cpu()
             nll = token_nll(model, tokenizer, row["text"], args.max_length, device)
-            eval_feats.append((h, nll, row.get("label")))
+            ent = None
+            if args.entropy:
+                ent = last_token_entropy(model, tokenizer, row["text"], args.max_length, device)
+            eval_feats.append((h, nll, ent, row.get("label")))
 
     cluster_metrics = defaultdict(
-        lambda: {"hinges_dec": [], "hinges_hon": [], "nlls": [], "cos_dec": [], "cos_hon": []}
+        lambda: {"hinges_dec": [], "hinges_hon": [], "nlls": [], "ents": [], "cos_dec": [], "cos_hon": []}
     )
     with torch.no_grad():
         for i in range(N):
             probe = heads[i]
             cid = cluster_id[i]
-            for h, nll, label in eval_feats:
+            for h, nll, ent, label in eval_feats:
                 z = probe(h)
                 cluster_metrics[cid]["nlls"].append(nll)
+                if ent is not None:
+                    cluster_metrics[cid]["ents"].append(ent)
                 if label == "deceptive":
                     cluster_metrics[cid]["hinges_dec"].append(hinge(z, D, args.tau))
                     cluster_metrics[cid]["cos_dec"].append(max_cosine(z, D))
