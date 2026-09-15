@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-message: "If you use this framework or proposal, please cite it as below."
-title: "The Regret Heuristic: Biological Loss Functions for AI Alignment"
+message: "If you use this formulation, please cite it as below."
+title: "The Regret Heuristic: a prototype-hinge regularizer (not a deception detector)"
 version: 0.1.0
 date-released: 2026-09-13
 url: "https://github.com/kummahiih/regret-heuristic"
