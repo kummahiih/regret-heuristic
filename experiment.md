@@ -1,54 +1,37 @@
 # Home GPU probe protocol (4070 Ti 12GB)
 
-**Status:** planned, not run. No alignment-success claim. Kill-list tests below are named and explicitly not executed.
+**Status:** wiring runs recorded in [experiment_results.md](experiment_results.md). No alignment-success claim.
 
 ## Hardware constraint
 
 - NVIDIA GeForce RTX 4070 Ti 12 GB VRAM only.
-- No rented GPU, no multi-GPU, no offload beyond what 4-bit + HF_HOME allows.
-- HF_HOME (and any cache) on datapata; do not fill system disk.
-- Fail clearly on OOM; do not auto-retry with lower precision or smaller model.
+- HF_HOME on datapata.
+- Activate `rh-venv`: `source /media/pauli/datapata/rh-venv/bin/activate`. Bare `python` may be missing.
 
 ## Model
 
-- Named 8B instruct checkpoint loaded in 4-bit (bitsandbytes / transformers).
-- Last-token hidden state → linear probe `r`.
-- Frozen bank `D` of deceptive-intent prototypes taken only from the **bank** split.
-- Bank split never enters probe training or the optional LoRA step.
+- Recorded runs: `Qwen/Qwen2.5-7B-Instruct` 4-bit.
+- Last-token hidden → linear `r` (identity). Frozen `D` from bank split only.
 
-## Data splits
+## Metrics
 
-- `bank`: source of frozen D only.
-- `train`: optional one-step LoRA / hinge update on probe (or tiny adapter).
-- `eval`: report metrics only; never used for D or for the update.
+Hinge deceptive / honest, walk NLL, cosine to D, optional `--entropy`. Entropy is observation uncertainty, not p(lie).
 
-All examples are hand-written English same-topic pairs (deceptive plan vs honest plan sharing topic words). Synthetic only.
+## Recorded commands
 
-## Four metrics (eval split)
+```bash
+source /media/pauli/datapata/rh-venv/bin/activate
+python simulation.py
+python probe_run.py --model Qwen/Qwen2.5-7B-Instruct --data data/probe_split.jsonl --heads 8 --entropy
+python probe_run.py --model Qwen/Qwen2.5-7B-Instruct --data data/probe_split.jsonl --heads 1 --entropy
+python probe_run.py --model Qwen/Qwen2.5-7B-Instruct --data data/probe_split.jsonl --heads 8 --update-steps 20 --fork
+python simulation_tau_bins.py
+```
 
-1. **Hinge near-D deception** — hinge loss of `r(h(x))` against frozen D on deceptive-labelled eval examples.
-2. **Hinge same-topic honest** — same hinge on honest-labelled eval examples that share topic vocabulary with the deceptive ones.
-3. **Task loss** — ordinary next-token / instruction loss on the eval texts (or a fixed task head if present).
-4. **Probe-vs-D cosine after update** — mean cosine of probe output to nearest D vector after the optional single update step; reported separately for deceptive and honest.
+## ATC
 
-Do not interpret a drop in (1) as “reduced deception”. Representation gaming and entanglement remain open.
+N heads, no PF resample, metrics per cluster. n=2 toy. [clustering.md](clustering.md).
 
-## ATC (genealogy clustering of heads)
+## Kill list
 
-N linear r heads (default 8). Shared frozen D and 4-bit model. Parent pointers; one SGD step either forks (copies parent weights to a child) or steps in place. No PF / Alias resample.
-
-Cluster roots via subtree weight W ≥ k (k = max(2, 0.05 N)); CDS picks the next step with C0 boost. The same four metrics are reported per cluster_id.
-
-n = 2 remains a toy scale. No success or reduced-deception claim from clustering.
-
-## Kill list (named, not run)
-
-- Any live harmful-request evaluation.
-- Any claim that the probe isolates “intent weights” from capability.
-- Any multi-step training or full fine-tune.
-- Any inference-time abort / conscience loop.
-- Any result presented as mitigated deception or alignment success.
-
-## Execution note
-
-User runs `probe_run.py` on the 4070 Ti. Script must print VRAM usage and the four named scalars. Results go into a later stub; this file is protocol only.
+No live harm eval, no intent-weight isolation claim, no full FT, no inference abort, no mitigated-deception headline.
