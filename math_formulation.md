@@ -79,5 +79,38 @@ The only Blackwell target consistent with "keep the skill, tag the intent" is $S
 - Inference-time abort.
 - Coverage, cleanliness, or non-evasion of $\mathcal{D}$.
 - A theorem that (A) lowers (C), or that $S_{\mathrm{safe}}$ is approachable for a given $r,\mathcal{D}$.
+- A claim that token entropy is $p(\mathrm{lie})$.
+
+## F. Walk, map, uncertainty bins (notation only; not in the toys)
+
+The printed string is a **walk**. The **map** is the set of thoughts that could have been entered, including cells this walk never visits. $\mathcal{D}$ is a handful of red pins on a mostly unbuilt map. $r$ is a sensor of the walk. Vocabulary: [slam_analogy.md](slam_analogy.md).
+
+We are not always sure which cell is a lie. Treating every high $s^\star$ as a known lie, and every quiet hinge as known truth, keeps the walk inside already-tagged rooms — the same failure as a mapping robot that only trusts high-confidence cells and loops the mapped corridor.
+
+Let $u(x)\ge 0$ be a cheap uncertainty of the *observation*, not of intent: token entropy or NLL of the walk (already printed as `task_loss` on the probe). Partition the batch (or the heads) into bins
+
+```math
+B_{\mathrm{sure}}=\{x:u(x)\le u_0\},
+\qquad
+B_{\mathrm{unsure}}=\{x:u(x)>u_0\}.
+```
+
+Monty Hall 2013 used uncertainty subsets to pick a *likelihood width*. Same move here: do not use one $\tau$ on the whole map.
+
+```math
+\tau(x)=
+\begin{cases}
+\tau_{\mathrm{sure}} & x\in B_{\mathrm{sure}}\\
+\tau_{\mathrm{unsure}}\ge\tau_{\mathrm{sure}} & x\in B_{\mathrm{unsure}}
+\end{cases}
+\qquad
+\mathcal{L}_{\mathrm{reg}}(x)=\mathrm{ReLU}\bigl(s^\star(x)-\tau(x)\bigr).
+```
+
+A larger $\tau$ on $B_{\mathrm{unsure}}$ is a coarser likelihood: the walk may sit near a pin because the chart is sparse, not because the path is a banned plan. A smaller $\tau$ on $B_{\mathrm{sure}}$ still tags cells we claim to know.
+
+$A_{\mathrm{safe}}$ in [approachability.md](approachability.md) should be read as quiet *given the bin*. If $B_{\mathrm{sure}}$ is only same-topic honest text that already lights $\mathcal{D}$, staying in that bin is circling the known realm. That is why $u(x)$ is a second coordinate, not a replacement for $r$.
+
+Not implemented in [simulation.py](simulation.py) or [probe_run.py](probe_run.py). Ledger numbers in [experiment_results.md](experiment_results.md) are unchanged.
 
 Implemented: [simulation.py](simulation.py) (supervised attachment), [ppo_toy.py](ppo_toy.py) (PPO attachment). Version 0.1.0.
