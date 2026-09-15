@@ -87,6 +87,11 @@ def main():
         default=8,
         help="Number of linear r heads (N). Default 8.",
     )
+    parser.add_argument(
+        "--fork",
+        action="store_true",
+        help="If set with --update-steps>0 and N>1: fork head 0 into head 1 then step child; else step in place on 0.",
+    )
     args = parser.parse_args()
 
     if args.heads < 1:
@@ -180,8 +185,16 @@ def main():
             print("ERROR: --update-steps>0 but no train split", file=sys.stderr)
             sys.exit(1)
         # One SGD step: either fork (copy parent weights into chosen child) or step in place.
-        # For now, default to step on head 0 (C0-style); full CDS in later task.
         chosen = 0
+        if args.fork and N > 1:
+            # Fork: copy parent (0) weights into child (1), set parent pointer, step the child
+            parents[1] = 0
+            with torch.no_grad():
+                heads[1].weight.data.copy_(heads[0].weight.data)
+            chosen = 1
+            print(f"fork: parents={parents}; stepping child={chosen}")
+        else:
+            print(f"step in place on head={chosen}; parents={parents}")
         opt = torch.optim.SGD(heads[chosen].parameters(), lr=1e-2)
         D_dev = D.to(device)
         for step in range(args.update_steps):
@@ -204,8 +217,6 @@ def main():
             opt.step()
             print(f"update_step={step + 1} head={chosen} hinge_train={float(loss.detach().cpu()):.4f}")
         print("Note: hinge drop after update is not reduced deception.")
-        # Example fork path (not exercised by default): copy parent weights into child
-        # if parents[child] >= 0: heads[child].weight.data.copy_(heads[parents[child]].weight.data)
 
     # Eval on head 0 by default (metrics for later clustering)
     probe = heads[0]
