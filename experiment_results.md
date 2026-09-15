@@ -36,18 +36,16 @@ near_unsure: hinge 0.70 → 0.10. Far stays 0. Quieter, not silent.
 
 ## 6. Mean-pool walk (`--pool mean`) — 2026-09-15 17:43
 
-last-token 0.7742 / 0.8003 → mean 0.8575 / 0.8524. Gap gone. NLL/entropy unchanged. More of the printed walk mixed topic.
+last-token 0.7742 / 0.8003 → mean 0.8575 / 0.8524. Gap gone. NLL/entropy unchanged.
 
-## 7. Held-out cell (`simulation_heldout.py`) — slot
-
-A pin orthogonal to span(D) and to the far walk vectors. Not in the batch. Paste stdout:
-
-```bash
-python simulation_heldout.py
-```
+## 7. Held-out cell (`simulation_heldout.py`) — 2026-09-15 18:34
 
 ```
-(paste here)
+heldout_norm=1.0000  heldout_vs_D_max=0.0000
+near_0  s*_D=1.0000  cos_heldout=-0.0000
+near_1  s*_D=1.0000  cos_heldout=-0.0000
+far_0   s*_D=0.0000  cos_heldout=-0.0000
+far_1   s*_D=0.0000  cos_heldout= 0.0000
 ```
 
-Do not edit §1–§6.
+The extra pin is orthogonal to span(D) and to the four walk vectors. Near points sit on D and still miss it. Constructed geometry, not a prompt. Do not edit §1–§6.
