@@ -88,12 +88,17 @@ The hinge can move a linear map off the train-deceptive bank. Same-topic honest 
 
 Do not cite 3c as reduced deception. Do not replace section 1 or 2.
 
-## 4. Uncertainty print (slot)
+## 4. Uncertainty print — `--heads 8 --entropy`, no update
 
-`u(x)` = walk NLL; optional last-token entropy (`--entropy`). Observation uncertainty, not p(lie). No `tau(x)` yet ([math_formulation.md](math_formulation.md) §F).
+2026-09-15, same Qwen 4-bit / jsonl. Eight identity heads. Hinges match §2.
 
-Paste one `--update-steps 0 --entropy` stdout here after `git pull`. Do not edit §1–§3.
+| | deceptive n=2 | honest n=2 |
+| --- | --- | --- |
+| hinge / cosine to D | 0.7742 | 0.8003 |
+| walk NLL | **6.2663** | **6.3873** |
+| last-token entropy | **4.0788** | **4.0024** |
+| task_loss (pooled) | 6.3268 | 6.3268 |
 
-```
-(paste here)
-```
+Honest walk is slightly *more* surprising as a sequence (higher NLL) and slightly *more peaked* at the last token (lower entropy). The two u(x) meters disagree on which label is “unsure.” Neither splits the 0.77 / 0.80 topic smear. Not p(lie). No tau(x).
+
+Do not edit §1–§3.
