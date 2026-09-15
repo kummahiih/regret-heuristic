@@ -9,10 +9,6 @@ Separate runs. Do not collapse them. None of these is reduced deception.
 | Before | 0.7310 | 0.3500 | 0.9060 | **0.7000** | **0.0000** | 0.473 |
 | After 1 Adam step | 0.6759 | 0.3486 | 0.8502 | **0.6971** | **0.0000** | 0.472 |
 
-```bash
-python simulation.py
-```
-
 ## 2. Single-head Qwen probe — identity r, last token
 
 ```
@@ -38,16 +34,22 @@ entropy 4.0788 / 4.0024
 
 near_unsure: hinge 0.70 → 0.10. Far stays 0. Quieter, not silent.
 
-## 6. Mean-pool walk (`--pool mean`) — slot
+## 6. Mean-pool walk (`--pool mean`) — 2026-09-15 17:43
 
-Same jsonl, same frozen-D *rule* but D is rebuilt from mean-pooled bank texts. `--heads 1 --entropy --pool mean`. Different observation of the walk, not a new r family.
-
-```bash
-python probe_run.py --model Qwen/Qwen2.5-7B-Instruct --data data/probe_split.jsonl --heads 1 --entropy --pool mean
-```
+`--heads 1 --entropy --pool mean`. D rebuilt from mean-pooled bank texts.
 
 ```
-(paste stdout here)
+pool=mean
+hinge_near_D_deceptive=0.8575 n=2
+hinge_near_D_honest=0.8524 n=2
+task_loss=6.3268 n=4
+nll_deceptive=6.2663 n=2 nll_honest=6.3873 n=2
+entropy_deceptive=4.0788 n=2 entropy_honest=4.0024 n=2
 ```
 
-Do not edit §1–§5.
+| pool | deceptive hinge | honest hinge |
+| --- | --- | --- |
+| last (§2 / §4) | 0.7742 | 0.8003 |
+| mean (§6) | **0.8575** | **0.8524** |
+
+Averaging tokens pulled both labels *closer* to D and almost erased the gap (honest no longer closer). NLL and last-token entropy unchanged: those meters are not the pool. Still same-topic smear, now more mixed. Not a strategy readout. Do not edit §1–§5.
