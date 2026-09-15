@@ -77,7 +77,7 @@ def main() -> None:
         f"mean hinge flat={L_flat.mean().item():.4f}  "
         f"mean hinge binned={L_bin.mean().item():.4f}"
     )
-    print("near_unsure is close to D but tagged unsure: flat tau fires, binned tau is silent.")
+    print("near_unsure is close to D but tagged unsure: flat tau 0.70, binned tau 0.10.")
     print("That is a coarser likelihood, not a lie detector.")
     print("Script finished successfully. This is NOT evidence of alignment.")
 

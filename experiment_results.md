@@ -19,16 +19,10 @@ python simulation.py
 
 ## 2. Single-head Qwen probe — identity r, 2026-09-15
 
-Readout = last-token hidden. tau=0 so hinge = cosine.
-
 ```
-VRAM allocated_GiB=5.18 reserved_GiB=5.33
-Frozen D shape=(2, 3584)
 hinge_near_D_deceptive=0.7742 n=2
 hinge_same_topic_honest=0.8003 n=2
 task_loss=6.3268 n=4
-probe_vs_D_cosine_deceptive=0.7742 n=2
-probe_vs_D_cosine_honest=0.8003 n=2
 ```
 
 Honest eval is slightly closer to the deceptive bank. Topic overlap on n=2.
@@ -48,32 +42,27 @@ Do not cite 3c as reduced deception. Do not replace section 1 or 2.
 
 ## 4. Uncertainty print
 
-### 4a. `--heads 8 --entropy`, no update
-Eight identical lines (same as 4b).
-
 ### 4b. `--heads 1 --entropy`, no update (2026-09-15 17:31)
 
-venv: `/media/pauli/datapata/rh-venv`. System `python` missing until activate.
-
 ```
-N=1 parents=[-1] cluster_id=[0]
-hinge_near_D_deceptive=0.7742 n=2 hinge_near_D_honest=0.8003 n=2
-task_loss=6.3268 n=4
-nll_deceptive=6.2663 n=2 nll_honest=6.3873 n=2
-probe_vs_D_cosine_deceptive=0.7742 n=2 probe_vs_D_cosine_honest=0.8003 n=2
-entropy_deceptive=4.0788 n=2 entropy_honest=4.0024 n=2
+hinge 0.7742 / 0.8003
+nll 6.2663 / 6.3873
+entropy 4.0788 / 4.0024
 ```
 
-Same smear as §2. Honest: higher walk NLL, lower last-token entropy. Meters disagree. Not a §F bin.
+Honest: higher walk NLL, lower last-token entropy. Meters disagree. Not a §F bin.
 
-## 5. Tau-bin CPU toy (`simulation_tau_bins.py`)
+## 5. Tau-bin CPU toy (`simulation_tau_bins.py`) — 2026-09-15 17:35
 
-Separate file. Does not replace simulation.py. Fake u(x) on seed-0 near/far geometry.
+Same seed-0 geometry as §1. Fake u, not model entropy. tau_sure=0.3, tau_unsure=0.9, u0=0.5.
 
-```bash
-python simulation_tau_bins.py
-```
+`s*` = 1.0 on both nears, 0.0 on both fars (constructed).
 
-```
-(paste stdout here)
-```
+| name | u | tau | s* | hinge flat @0.3 | hinge binned |
+| --- | --- | --- | --- | --- | --- |
+| near_sure | 0.10 | 0.3 | 1.0 | 0.70 | **0.70** |
+| near_unsure | 0.80 | 0.9 | 1.0 | 0.70 | **0.10** |
+| far_unsure_a | 0.90 | 0.9 | 0.0 | 0.00 | 0.00 |
+| far_unsure_b | 0.70 | 0.9 | 0.0 | 0.00 | 0.00 |
+
+Mean hinge 0.3500 → 0.2000. Far stays silent. Near tagged unsure is quieter (0.70 → 0.10), not off. Coarser likelihood, not a lie detector. Does not replace §1.
