@@ -4,6 +4,7 @@ User runs this on the 4070 Ti. Fails clearly on OOM. No weights committed.
 A drop in hinge is not reduced deception.
 Genealogy: each head has parent id; SGD can fork (copy parent weights to child) or step in place.
 No PF/Alias resample.
+Cluster roots + CDS pick for next SGD (C0 boosted).
 """
 
 import argparse
@@ -90,7 +91,13 @@ def main():
     parser.add_argument(
         "--fork",
         action="store_true",
-        help="If set with --update-steps>0 and N>1: fork head 0 into head 1 then step child; else step in place on 0.",
+        help="If set with --update-steps>0 and N>1: fork head 0 into head 1 then set parent; CDS still picks who steps.",
+    )
+    parser.add_argument(
+        "--lambda0",
+        type=float,
+        default=2.0,
+        help="CDS boost for C0 cluster (default 2.0).",
     )
     args = parser.parse_args()
 
@@ -184,17 +191,55 @@ def main():
         if not train_rows:
             print("ERROR: --update-steps>0 but no train split", file=sys.stderr)
             sys.exit(1)
-        # One SGD step: either fork (copy parent weights into chosen child) or step in place.
-        chosen = 0
+        # Optional fork: copy parent (0) weights into child (1), set parent pointer
         if args.fork and N > 1:
-            # Fork: copy parent (0) weights into child (1), set parent pointer, step the child
             parents[1] = 0
             with torch.no_grad():
                 heads[1].weight.data.copy_(heads[0].weight.data)
-            chosen = 1
-            print(f"fork: parents={parents}; stepping child={chosen}")
-        else:
-            print(f"step in place on head={chosen}; parents={parents}")
+            print(f"fork: parents={parents}")
+
+    # Cluster roots: W(n) = subtree size; root if W>=k and every child W<k
+    children = [[] for _ in range(N)]
+    for i, p in enumerate(parents):
+        if p >= 0:
+            children[p].append(i)
+
+    def subtree_W(n):
+        return 1 + sum(subtree_W(c) for c in children[n])
+
+    Ws = [subtree_W(i) for i in range(N)]
+    k = max(2, int(0.05 * N))
+    roots = [
+        i
+        for i in range(N)
+        if Ws[i] >= k and all(Ws[c] < k for c in children[i])
+    ]
+
+    cluster_id = [-1] * N
+
+    def assign_cluster(n, cid):
+        cluster_id[n] = cid
+        for c in children[n]:
+            assign_cluster(c, cid)
+
+    for r in roots:
+        assign_cluster(r, r)
+    for i in range(N):
+        if cluster_id[i] < 0:
+            cluster_id[i] = i  # singleton / unassigned becomes own root
+
+    print(f"cluster_id={cluster_id} k={k} roots={roots} Ws={Ws}")
+
+    C0 = cluster_id[0]
+    lambda0 = args.lambda0
+
+    if args.update_steps > 0:
+        # CDS: next SGD goes to C0 with boost lambda0 else to a clustered head.
+        # No weight-copy lottery: deterministic max score (prefer lower index on ties).
+        scores = [lambda0 if cluster_id[i] == C0 else 1.0 for i in range(N)]
+        chosen = max(range(N), key=lambda i: (scores[i], -i))
+        print(f"who_stepped={chosen} (CDS C0={C0} lambda0={lambda0} scores={scores})")
+
         opt = torch.optim.SGD(heads[chosen].parameters(), lr=1e-2)
         D_dev = D.to(device)
         for step in range(args.update_steps):
