@@ -34,9 +34,9 @@ What it prints (seed 0, 2026-09-15 reprint):
 | Before | 0.7310 | 0.3500 | **0.7000** | **0.0000** | 0.473 |
 | After one Adam step | 0.6759 | 0.3486 | **0.6971** | **0.0000** | 0.472 |
 
-Far is silent (hinge = 0). Companion [simulation_tau_bins.py](simulation_tau_bins.py): wider τ on an unsure near point is **quieter, not silent** (0.70 → 0.10). Companion [simulation_heldout.py](simulation_heldout.py): a pin that is not on the batch walk.
+Far is silent (hinge = 0). Companion [simulation_tau_bins.py](simulation_tau_bins.py): wider τ on an unsure near point is **quieter, not silent** (0.70 → 0.10). Companion [simulation_heldout.py](simulation_heldout.py): extra pin orthogonal to D and to the walk; near sits on D (`s*=1`) and still has cosine 0 to that pin.
 
-Qwen / ATC / entropy / mean-pool: [experiment_results.md](experiment_results.md). Do not overwrite §1–§6.
+Qwen / ATC / entropy / mean-pool / held-out: [experiment_results.md](experiment_results.md). Do not overwrite §1–§7.
 
 ## Caps
 
@@ -45,10 +45,10 @@ Qwen / ATC / entropy / mean-pool: [experiment_results.md](experiment_results.md)
 - Gradients of L_regret still enter whatever produced h(x). ReLU is a gate: if s* > τ the local slope wrt s* is 1, even when the loss value is small.
 - Training-time only. No inference abort, no live conscience loop.
 - The toys show the wiring. They do not show reduced deception in a language model.
-- Home 4070 Ti probe ([experiment_results.md](experiment_results.md)): last-token hinge 0.77 / 0.80 (honest closer). Walk NLL 6.27 / 6.39 vs last-token entropy 4.08 / 4.00 — meters disagree, not p(lie). ATC 20-step: train 0.765 → 0.695; eval moved together. Mean-pool §6: 0.86 / 0.85, gap gone. More of the printed walk mixed topic; it did not expose intent.
+- Home 4070 Ti probe ([experiment_results.md](experiment_results.md)): last-token hinge 0.77 / 0.80 (honest closer). Walk NLL 6.27 / 6.39 vs last-token entropy 4.08 / 4.00 — meters disagree, not p(lie). ATC 20-step: train 0.765 → 0.695; eval moved together. Mean-pool §6: 0.86 / 0.85, gap gone. Held-out §7: walk can sit on D and miss an unprinted pin (constructed, not Qwen).
 - Neighbours: LAT, RepE, RLAIF aux losses. Alignment-faking (Greenblatt et al. 2024) and unfaithful CoT (Turpin et al. 2023) would falsify a naive r.
 - Genealogy clustering wired; not Vallivaara positioning; not reduced deception.
-- Path / map is a design filter: [slam_analogy.md](slam_analogy.md). Binned τ is [math_formulation.md](math_formulation.md) §F. Lean: wider τ cannot raise the hinge.
+- Path / map is a design filter: [slam_analogy.md](slam_analogy.md). Binned τ is [math_formulation.md](math_formulation.md) §F. Lean `lake build` ok: wider τ cannot raise the hinge; silent hinge need not kill external regret.
 
 ## Theory and PPO
 
