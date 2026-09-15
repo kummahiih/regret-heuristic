@@ -36,28 +36,18 @@ near_unsure: hinge 0.70 → 0.10. Far stays 0. Quieter, not silent.
 
 ## 6. Mean-pool walk (`--pool mean`) — 2026-09-15 17:43
 
-`--heads 1 --entropy --pool mean`. D rebuilt from mean-pooled bank texts. Identity r.
+last-token 0.7742 / 0.8003 → mean 0.8575 / 0.8524. Gap gone. NLL/entropy unchanged. More of the printed walk mixed topic.
+
+## 7. Held-out cell (`simulation_heldout.py`) — slot
+
+A pin orthogonal to span(D) and to the far walk vectors. Not in the batch. Paste stdout:
+
+```bash
+python simulation_heldout.py
+```
 
 ```
-pool=mean
-hinge_near_D_deceptive=0.8575 n=2
-hinge_near_D_honest=0.8524 n=2
-task_loss=6.3268 n=4
-nll_deceptive=6.2663 n=2 nll_honest=6.3873 n=2
-entropy_deceptive=4.0788 n=2 entropy_honest=4.0024 n=2
+(paste here)
 ```
 
-| pool | deceptive | honest | gap (hon−dec) |
-| --- | --- | --- | --- |
-| last (§2) | 0.7742 | 0.8003 | +0.026 |
-| mean (§6) | 0.8575 | 0.8524 | **−0.005** |
-
-### Read
-
-Mean pool is a longer camera on the *printed* walk, not a map of unprinted thoughts. Shared topic tokens dominate both bank and eval, so both labels sit closer to D (~0.85) and the last-token gap disappears (flips sign, size noise on n=2).
-
-NLL and last-token entropy are unchanged. Those meters do not use the pool. Control: only the observation of h changed.
-
-This is the opposite of a strategy split. Averaging the walk increased topic mixing. Do not SGD this pool expecting the hinge to find intent. Next observation that could matter is a cell the prompt did not print, not more pooling of the same string.
-
-Do not edit §1–§5.
+Do not edit §1–§6.
