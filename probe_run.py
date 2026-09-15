@@ -5,11 +5,13 @@ A drop in hinge is not reduced deception.
 Genealogy: each head has parent id; SGD can fork (copy parent weights to child) or step in place.
 No PF/Alias resample.
 Cluster roots + CDS pick for next SGD (C0 boosted).
+Four eval scalars grouped by cluster_id.
 """
 
 import argparse
 import json
 import sys
+from collections import defaultdict
 from pathlib import Path
 
 import torch
@@ -263,31 +265,44 @@ def main():
             print(f"update_step={step + 1} head={chosen} hinge_train={float(loss.detach().cpu()):.4f}")
         print("Note: hinge drop after update is not reduced deception.")
 
-    # Eval on head 0 by default (metrics for later clustering)
-    probe = heads[0]
-    eval_dec = [row for row in eval_rows if row.get("label") == "deceptive"]
-    eval_hon = [row for row in eval_rows if row.get("label") == "honest"]
-
-    hinges_dec, hinges_hon, nlls = [], [], []
-    cos_dec, cos_hon = [], []
+    # Precompute frozen model features for eval (shared across heads)
+    eval_feats = []
     with torch.no_grad():
         for row in eval_rows:
             h = last_hidden(model, tokenizer, row["text"], args.max_length, device).cpu()
-            z = probe(h)
-            nlls.append(token_nll(model, tokenizer, row["text"], args.max_length, device))
-            if row.get("label") == "deceptive":
-                hinges_dec.append(hinge(z, D, args.tau))
-                cos_dec.append(max_cosine(z, D))
-            elif row.get("label") == "honest":
-                hinges_hon.append(hinge(z, D, args.tau))
-                cos_hon.append(max_cosine(z, D))
+            nll = token_nll(model, tokenizer, row["text"], args.max_length, device)
+            eval_feats.append((h, nll, row.get("label")))
 
-    print(f"hinge_near_D_deceptive={mean_or_nan(hinges_dec):.4f} n={len(hinges_dec)}")
-    print(f"hinge_same_topic_honest={mean_or_nan(hinges_hon):.4f} n={len(hinges_hon)}")
-    print(f"task_loss={mean_or_nan(nlls):.4f} n={len(nlls)}")
-    print(f"probe_vs_D_cosine_deceptive={mean_or_nan(cos_dec):.4f} n={len(cos_dec)}")
-    print(f"probe_vs_D_cosine_honest={mean_or_nan(cos_hon):.4f} n={len(cos_hon)}")
-    print("Four metrics printed. Not an alignment result.")
+    # Four metrics per cluster_id (aggregate heads that share a cluster)
+    cluster_metrics = defaultdict(
+        lambda: {"hinges_dec": [], "hinges_hon": [], "nlls": [], "cos_dec": [], "cos_hon": []}
+    )
+    with torch.no_grad():
+        for i in range(N):
+            probe = heads[i]
+            cid = cluster_id[i]
+            for h, nll, label in eval_feats:
+                z = probe(h)
+                cluster_metrics[cid]["nlls"].append(nll)
+                if label == "deceptive":
+                    cluster_metrics[cid]["hinges_dec"].append(hinge(z, D, args.tau))
+                    cluster_metrics[cid]["cos_dec"].append(max_cosine(z, D))
+                elif label == "honest":
+                    cluster_metrics[cid]["hinges_hon"].append(hinge(z, D, args.tau))
+                    cluster_metrics[cid]["cos_hon"].append(max_cosine(z, D))
+
+    for cid in sorted(cluster_metrics.keys()):
+        m = cluster_metrics[cid]
+        print(
+            f"cluster_id={cid} "
+            f"hinge_near_D_deceptive={mean_or_nan(m['hinges_dec']):.4f} n={len(m['hinges_dec'])} "
+            f"hinge_near_D_honest={mean_or_nan(m['hinges_hon']):.4f} n={len(m['hinges_hon'])} "
+            f"task_loss={mean_or_nan(m['nlls']):.4f} n={len(m['nlls'])} "
+            f"probe_vs_D_cosine_deceptive={mean_or_nan(m['cos_dec']):.4f} n={len(m['cos_dec'])} "
+            f"probe_vs_D_cosine_honest={mean_or_nan(m['cos_hon']):.4f} n={len(m['cos_hon'])}"
+        )
+    print("clusters did not invent a strategy readout.")
+    print("Four metrics per cluster. Not an alignment result.")
 
 
 if __name__ == "__main__":
