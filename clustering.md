@@ -10,3 +10,5 @@ This is genealogy clustering of readouts, not Vallivaara-style positioning (IPIN
 No Alias method / PF resample. Explicitly out of scope.
 
 Clustering, not positioning.
+
+Path vs map (possible thoughts, not the printed walk): [slam_analogy.md](slam_analogy.md). Does not change probe numbers.

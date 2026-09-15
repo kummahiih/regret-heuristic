@@ -40,6 +40,8 @@ What it prints (seed 0, numbers move slightly with the torch build):
 
 So the hinge fires only on the near group, the far group is silent, and the regret term produces a real gradient through the shared encoder.
 
+Exact local reprint and the Qwen / ATC numbers live in [experiment_results.md](experiment_results.md). That ledger is the test history. Do not overwrite §1–§3 when adding notes.
+
 ## Caps
 
 - r and D are assumed. Building a readout that tracks strategy — not topic — and a bank that does not swallow honest planning is the actual research problem. Representation gaming (rotate the readout, keep the behaviour) is open.
@@ -47,9 +49,10 @@ So the hinge fires only on the near group, the far group is silent, and the regr
 - Gradients of L_regret still enter whatever produced h(x). The algebra does not isolate “capability weights” from “intent weights.”
 - Training-time only. No inference abort, no live conscience loop.
 - The toy shows the wiring. It does not show reduced deception in a language model.
-- Home 4070 Ti probe ([experiment.md](experiment.md), [experiment_results.md](experiment_results.md)): Qwen2.5-7B-Instruct 4-bit, 12-line same-topic set, identity readout. Honest eval cosine to D was 0.80 vs 0.77 for deceptive. That is topic overlap on n=2, not a success or failure of the hinge.
+- Home 4070 Ti probe ([experiment.md](experiment.md), [experiment_results.md](experiment_results.md)): Qwen2.5-7B-Instruct 4-bit, 12-line same-topic set, identity readout. Honest eval cosine to D was 0.80 vs 0.77 for deceptive. That is topic overlap on n=2, not a success or failure of the hinge. ATC 20-step: train hinge 0.765 → 0.695; eval honest and deceptive moved together (0.778 / 0.751).
 - Neighbours: residual-stream probes (LAT), representation engineering / steering, auxiliary losses already used in RLAIF. Alignment-faking (Greenblatt et al. 2024) and unfaithful chain-of-thought (Turpin et al. 2023) are tests that would falsify a naive r. The bet here is the hinge on a hypothesized intent readout against a fixed bank; it does not resolve those papers.
-- Genealogy clustering of readouts planned/wired; not Vallivaara positioning; not reduced deception.
+- Genealogy clustering of readouts wired; not Vallivaara positioning; not reduced deception.
+- Path / map slogan (intent trajectory vs possible thoughts) is a design filter only: [slam_analogy.md](slam_analogy.md). Not SLAM on Qwen.
 
 ## Theory and PPO
 
@@ -67,4 +70,4 @@ Neighbouring theory feasibility notes are in [feasibility.md](feasibility.md).
 
 Regret is the right *shape* of loss for deception: penalize the latent plan, leave the skill objective in place. This repo names that shape, writes it down, and runs it. Whether r and D can be built for a real model is the next experiment, not a result claimed here.
 
-[math_formulation.md](math_formulation.md) · [approachability.md](approachability.md) · [simulation.py](simulation.py) · [regret_minimization.md](regret_minimization.md) · [ppo_integration.md](ppo_integration.md) · [ppo_toy.py](ppo_toy.py) · [lean/RegretHeuristic.lean](lean/RegretHeuristic.lean) · [feasibility.md](feasibility.md) · [experiment.md](experiment.md) · [experiment_results.md](experiment_results.md) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
+[math_formulation.md](math_formulation.md) · [approachability.md](approachability.md) · [simulation.py](simulation.py) · [regret_minimization.md](regret_minimization.md) · [ppo_integration.md](ppo_integration.md) · [ppo_toy.py](ppo_toy.py) · [lean/RegretHeuristic.lean](lean/RegretHeuristic.lean) · [feasibility.md](feasibility.md) · [experiment.md](experiment.md) · [experiment_results.md](experiment_results.md) · [clustering.md](clustering.md) · [slam_analogy.md](slam_analogy.md) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
