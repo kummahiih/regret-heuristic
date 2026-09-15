@@ -7,11 +7,14 @@ No PF/Alias resample.
 Cluster roots + CDS pick for next SGD (C0 boosted).
 Four eval scalars grouped by cluster_id.
 Linear heads stay on CPU. Hidden states are moved to CPU before r.
-u(x)=token NLL of the walk (task_loss). Optional --entropy: last-token softmax entropy.
+
+u(x) = walk NLL (task_loss per row). Optional --entropy: last-token softmax entropy.
+Observation uncertainty, not p(lie). tau(x) bins from math_formulation.md §F are NOT implemented.
 """
 
 import argparse
 import json
+import math
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -34,7 +37,8 @@ def last_hidden(model, tokenizer, text, max_length, device):
     return out.hidden_states[-1][0, -1, :].float()
 
 
-def token_nll(model, tokenizer, text, max_length, device):
+def walk_stats(model, tokenizer, text, max_length, device, want_entropy):
+    """Hidden at last token, full-sequence NLL, optional last-token entropy."""
     toks = tokenizer(
         text,
         return_tensors="pt",
@@ -43,26 +47,20 @@ def token_nll(model, tokenizer, text, max_length, device):
         padding=False,
     )
     toks = {k: v.to(device) for k, v in toks.items()}
-    out = model(**toks, labels=toks["input_ids"])
-    return float(out.loss.detach().float().cpu())
-
-
-def last_token_entropy(model, tokenizer, text, max_length, device):
-    """Last-token softmax entropy from logits. Optional u(x) component. Not p(lie)."""
-    toks = tokenizer(
-        text,
-        return_tensors="pt",
-        truncation=True,
-        max_length=max_length,
-        padding=False,
+    out = model(
+        **toks,
+        labels=toks["input_ids"],
+        output_hidden_states=True,
     )
-    toks = {k: v.to(device) for k, v in toks.items()}
-    out = model(**toks)
-    logits = out.logits[0, -1, :].float()
-    probs = F.softmax(logits, dim=-1)
-    log_probs = torch.log(probs + 1e-12)
-    entropy = -torch.sum(probs * log_probs)
-    return float(entropy.cpu())
+    h = out.hidden_states[-1][0, -1, :].float().cpu()
+    nll = float(out.loss.detach().float().cpu())
+    ent = float("nan")
+    if want_entropy:
+        logits = out.logits[0, -1, :].float()
+        logp = F.log_softmax(logits, dim=-1)
+        p = logp.exp()
+        ent = float((-(p * logp).sum()).cpu())
+    return h, nll, ent
 
 
 def max_cosine(vec, bank):
@@ -76,6 +74,7 @@ def hinge(vec, bank, tau):
 
 
 def mean_or_nan(xs):
+    xs = [x for x in xs if x == x]  # drop NaN
     if not xs:
         return float("nan")
     return sum(xs) / len(xs)
@@ -123,7 +122,7 @@ def main():
     parser.add_argument(
         "--entropy",
         action="store_true",
-        help="Also compute last-token softmax entropy (optional u(x) component). Default off.",
+        help="Also print last-token softmax entropy. Observation uncertainty, not p(lie).",
     )
     args = parser.parse_args()
 
@@ -211,6 +210,7 @@ def main():
         heads.append(p)
     print(f"N={N} linear r heads loaded (init I, CPU); parents={parents}")
     print(f"Shared frozen D and 4-bit model. No resample API.")
+    print("u(x)=walk NLL; --entropy adds last-token entropy. Not p(lie). No tau(x) bin (§F notation only).")
 
     if args.update_steps > 0:
         if not train_rows:
@@ -286,15 +286,23 @@ def main():
     eval_feats = []
     with torch.no_grad():
         for row in eval_rows:
-            h = last_hidden(model, tokenizer, row["text"], args.max_length, device).cpu()
-            nll = token_nll(model, tokenizer, row["text"], args.max_length, device)
-            ent = None
-            if args.entropy:
-                ent = last_token_entropy(model, tokenizer, row["text"], args.max_length, device)
+            h, nll, ent = walk_stats(
+                model, tokenizer, row["text"], args.max_length, device, args.entropy
+            )
             eval_feats.append((h, nll, ent, row.get("label")))
 
     cluster_metrics = defaultdict(
-        lambda: {"hinges_dec": [], "hinges_hon": [], "nlls": [], "ents": [], "cos_dec": [], "cos_hon": []}
+        lambda: {
+            "hinges_dec": [],
+            "hinges_hon": [],
+            "nlls": [],
+            "nlls_dec": [],
+            "nlls_hon": [],
+            "ents_dec": [],
+            "ents_hon": [],
+            "cos_dec": [],
+            "cos_hon": [],
+        }
     )
     with torch.no_grad():
         for i in range(N):
@@ -303,25 +311,36 @@ def main():
             for h, nll, ent, label in eval_feats:
                 z = probe(h)
                 cluster_metrics[cid]["nlls"].append(nll)
-                if ent is not None:
-                    cluster_metrics[cid]["ents"].append(ent)
                 if label == "deceptive":
                     cluster_metrics[cid]["hinges_dec"].append(hinge(z, D, args.tau))
                     cluster_metrics[cid]["cos_dec"].append(max_cosine(z, D))
+                    cluster_metrics[cid]["nlls_dec"].append(nll)
+                    cluster_metrics[cid]["ents_dec"].append(ent)
                 elif label == "honest":
                     cluster_metrics[cid]["hinges_hon"].append(hinge(z, D, args.tau))
                     cluster_metrics[cid]["cos_hon"].append(max_cosine(z, D))
+                    cluster_metrics[cid]["nlls_hon"].append(nll)
+                    cluster_metrics[cid]["ents_hon"].append(ent)
 
     for cid in sorted(cluster_metrics.keys()):
         m = cluster_metrics[cid]
-        print(
+        line = (
             f"cluster_id={cid} "
             f"hinge_near_D_deceptive={mean_or_nan(m['hinges_dec']):.4f} n={len(m['hinges_dec'])} "
             f"hinge_near_D_honest={mean_or_nan(m['hinges_hon']):.4f} n={len(m['hinges_hon'])} "
             f"task_loss={mean_or_nan(m['nlls']):.4f} n={len(m['nlls'])} "
+            f"nll_deceptive={mean_or_nan(m['nlls_dec']):.4f} n={len(m['nlls_dec'])} "
+            f"nll_honest={mean_or_nan(m['nlls_hon']):.4f} n={len(m['nlls_hon'])} "
             f"probe_vs_D_cosine_deceptive={mean_or_nan(m['cos_dec']):.4f} n={len(m['cos_dec'])} "
             f"probe_vs_D_cosine_honest={mean_or_nan(m['cos_hon']):.4f} n={len(m['cos_hon'])}"
         )
+        if args.entropy:
+            line += (
+                f" entropy_deceptive={mean_or_nan(m['ents_dec']):.4f} n={len(m['ents_dec'])} "
+                f"entropy_honest={mean_or_nan(m['ents_hon']):.4f} n={len(m['ents_hon'])}"
+            )
+        print(line)
+    print("u(x) is observation uncertainty, not intent.")
     print("clusters did not invent a strategy readout.")
     print("Four metrics per cluster. Not an alignment result.")
 

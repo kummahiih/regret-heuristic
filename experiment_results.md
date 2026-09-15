@@ -1,6 +1,6 @@
 # Results ledger
 
-Three separate runs. Do not collapse them. None of these is reduced deception.
+Separate runs. Do not collapse them. None of these is reduced deception.
 
 ## 1. CPU toy (`simulation.py`) — still the baseline
 
@@ -87,3 +87,13 @@ Task loss stayed 6.3268 (backbone frozen). Honest and deceptive eval on cluster 
 The hinge can move a linear map off the train-deceptive bank. Same-topic honest eval moves with it. Genealogy kept frozen identity copies. It did not split strategy from topic on this 12-line set.
 
 Do not cite 3c as reduced deception. Do not replace section 1 or 2.
+
+## 4. Uncertainty print (slot)
+
+`u(x)` = walk NLL; optional last-token entropy (`--entropy`). Observation uncertainty, not p(lie). No `tau(x)` yet ([math_formulation.md](math_formulation.md) §F).
+
+Paste one `--update-steps 0 --entropy` stdout here after `git pull`. Do not edit §1–§3.
+
+```
+(paste here)
+```
