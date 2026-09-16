@@ -50,9 +50,8 @@ def main() -> None:
     B = x.shape[0]
     y = torch.randint(0, 2, (B,))
     task_head = nn.Linear(d, 2)
-    opt = torch.optim.Adam(
-        list(encoder.parameters()) + list(task_head.parameters()), lr=1e-2
-    )
+    params = list(encoder.parameters()) + list(task_head.parameters())
+    opt = torch.optim.Adam(params, lr=1e-2)
 
     def compute_losses():
         h_intent = encoder(x)
@@ -63,20 +62,21 @@ def main() -> None:
         L_far = regret_loss(h_intent[2:], prototypes, tau=tau)
         return h_intent, L_task, L_regret, L_total, L_near, L_far
 
-    def grad_norms(Lt, Lr):
-        encoder.zero_grad(set_to_none=True)
-        Lt.backward(retain_graph=True)
-        g_task = encoder.proj.weight.grad.detach().norm().item()
-        encoder.zero_grad(set_to_none=True)
-        Lr.backward(retain_graph=True)
-        g_reg = encoder.proj.weight.grad.detach().norm().item()
-        encoder.zero_grad(set_to_none=True)
+    def report_split(L_task, L_regret):
+        """Print encoder grads. Must not leave .grad for Adam."""
+        opt.zero_grad(set_to_none=True)
+        L_task.backward(retain_graph=True)
+        g_task = float(encoder.proj.weight.grad.norm())
+        opt.zero_grad(set_to_none=True)
+        L_regret.backward(retain_graph=True)
+        g_reg = float(encoder.proj.weight.grad.norm())
+        opt.zero_grad(set_to_none=True)
         return g_task, g_reg
 
     h_intent, L_task, L_regret, L_total, L_near, L_far = compute_losses()
-    g_task, g_reg = grad_norms(L_task, L_regret)
+    g_task, g_reg = report_split(L_task, L_regret)
     L_total.backward()
-    g_tot = encoder.proj.weight.grad.norm().item()
+    g_tot = float(encoder.proj.weight.grad.norm())
     print("=== Toy regret-heuristic simulation (illustration of the formula only) ===")
     print(f"Batch size B={B}, input_dim={input_dim}, d={d}, K={K}, tau={tau}")
     print(f"h_intent shape: {tuple(h_intent.shape)}")
@@ -89,13 +89,13 @@ def main() -> None:
     print(
         f"  encoder grad norms: task={g_task:.6f}  hinge={g_reg:.6f}  total={g_tot:.6f}"
     )
-    print("  (near rows start on D; cosine-to-self has no hinge direction there.)")
+    print("  near rows start on D; cosine-to-self is flat for the hinge there.")
     opt.step()
-    opt.zero_grad()
+    opt.zero_grad(set_to_none=True)
     h_intent2, L_task2, L_regret2, L_total2, L_near2, L_far2 = compute_losses()
-    g_task2, g_reg2 = grad_norms(L_task2, L_regret2)
+    g_task2, g_reg2 = report_split(L_task2, L_regret2)
     L_total2.backward()
-    g_tot2 = encoder.proj.weight.grad.norm().item()
+    g_tot2 = float(encoder.proj.weight.grad.norm())
     print(
         f"After 1 Adam step: L_task={L_task2.item():.4f}  L_regret={L_regret2.item():.4f}  "
         f"L_total={L_total2.item():.4f}"
