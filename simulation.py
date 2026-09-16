@@ -22,8 +22,6 @@ def regret_loss(
     prototypes: torch.Tensor,
     tau: float = 0.3,
 ) -> torch.Tensor:
-    """Mean ReLU(max cosine - tau). Cosine is undefined at 0; normalize uses eps."""
-    # eps floor: a true zero row is not a valid intent vector
     h_n = F.normalize(h_intent, dim=-1, eps=1e-12)
     p_n = F.normalize(prototypes, dim=-1, eps=1e-12)
     s_star = (h_n @ p_n.T).max(dim=-1).values
@@ -65,24 +63,47 @@ def main() -> None:
         L_far = regret_loss(h_intent[2:], prototypes, tau=tau)
         return h_intent, L_task, L_regret, L_total, L_near, L_far
 
+    def grad_norms(Lt, Lr):
+        encoder.zero_grad(set_to_none=True)
+        Lt.backward(retain_graph=True)
+        g_task = encoder.proj.weight.grad.detach().norm().item()
+        encoder.zero_grad(set_to_none=True)
+        Lr.backward(retain_graph=True)
+        g_reg = encoder.proj.weight.grad.detach().norm().item()
+        encoder.zero_grad(set_to_none=True)
+        return g_task, g_reg
+
     h_intent, L_task, L_regret, L_total, L_near, L_far = compute_losses()
+    g_task, g_reg = grad_norms(L_task, L_regret)
     L_total.backward()
-    grad_before = encoder.proj.weight.grad.norm().item()
+    g_tot = encoder.proj.weight.grad.norm().item()
     print("=== Toy regret-heuristic simulation (illustration of the formula only) ===")
     print(f"Batch size B={B}, input_dim={input_dim}, d={d}, K={K}, tau={tau}")
     print(f"h_intent shape: {tuple(h_intent.shape)}")
     print(f"prototypes shape: {tuple(prototypes.shape)}  (frozen, not in optimizer)")
-    print(f"Before step: L_task={L_task.item():.4f}  L_regret={L_regret.item():.4f}  L_total={L_total.item():.4f}")
+    print(
+        f"Before step: L_task={L_task.item():.4f}  L_regret={L_regret.item():.4f}  "
+        f"L_total={L_total.item():.4f}"
+    )
     print(f"  group L_near={L_near.item():.4f}  L_far={L_far.item():.4f}")
-    print(f"  encoder.proj.weight.grad norm={grad_before:.6f}")
+    print(
+        f"  encoder grad norms: task={g_task:.6f}  hinge={g_reg:.6f}  total={g_tot:.6f}"
+    )
+    print("  (near rows start on D; cosine-to-self has no hinge direction there.)")
     opt.step()
     opt.zero_grad()
     h_intent2, L_task2, L_regret2, L_total2, L_near2, L_far2 = compute_losses()
+    g_task2, g_reg2 = grad_norms(L_task2, L_regret2)
     L_total2.backward()
-    grad_after = encoder.proj.weight.grad.norm().item()
-    print(f"After 1 Adam step: L_task={L_task2.item():.4f}  L_regret={L_regret2.item():.4f}  L_total={L_total2.item():.4f}")
+    g_tot2 = encoder.proj.weight.grad.norm().item()
+    print(
+        f"After 1 Adam step: L_task={L_task2.item():.4f}  L_regret={L_regret2.item():.4f}  "
+        f"L_total={L_total2.item():.4f}"
+    )
     print(f"  group L_near={L_near2.item():.4f}  L_far={L_far2.item():.4f}")
-    print(f"  encoder.proj.weight.grad norm={grad_after:.6f}")
+    print(
+        f"  encoder grad norms: task={g_task2:.6f}  hinge={g_reg2:.6f}  total={g_tot2:.6f}"
+    )
     print("Script finished successfully. This is NOT evidence of alignment or deception detection.")
 
 
