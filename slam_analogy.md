@@ -18,6 +18,20 @@ A mapping robot that only updates, or only trusts, high-confidence cells walks t
 
 Uncertainty grouping (bins on entropy or NLL, wider $\tau$ when unsure) is the Monty Hall move: do not use a razor likelihood on a coarse chart. Symbols: [math_formulation.md](math_formulation.md) §F. Not $p(\mathrm{lie})$.
 
+## Finding the path afterwards
+
+In SLAM the pose is often reconstructed *after* the walk: a smoother, not only a filter.
+
+- Motion / walking model: $P(z_t \mid z_{t-1})$. Intent does not jump rooms without a fork. The language model already is a token motion model; the missing piece is a **coarse intent** motion model (stay / fork / return).
+- Sensor error model: $P(h_t \mid z_t)$, or $P(r(h_t)\mid z_t)$. Last-token $r=I$ is a sensor with huge bias toward topic. $u$ (NLL / entropy / label noise) is the *declared* variance of that sensor, not $p(\mathrm{lie})$.
+- Smoothing: $P(z_{1:T} \mid h_{1:T})$, the path given the finished trace.
+
+That is a different object from $L_{\mathrm{task}}+\lambda L_{\mathrm{regret}}$ during training. The hinge is a live penalty on a pin. The smoother is a **posterior over rooms after the answer exists**. Use it to *label or refuse a pin*, not as a third loss on Qwen.
+
+It makes sense only if there is a path: several hidden states, a motion prior that forbids teleporting between invoices and hiking, and a sensor model that is not identity-on-the-last-token. One last vector has nothing to smooth.
+
+`synthetic_z.py` action 2 is an unmapped cell. A smoother that only sees $h_T$ will miss the fork that entered it. A smoother that sees $h_{1:T}$ can put mass on that cell *after* the walk.
+
 ## What the ledger already showed
 
 Do not rewrite [experiment_results.md](experiment_results.md).
@@ -33,5 +47,6 @@ Do not rewrite [experiment_results.md](experiment_results.md).
 2. Do not update D from the current answer.
 3. Soften the hinge when entropy/NLL says the chart is coarse (§F).
 4. Keep at least one frozen-I lineage so a stepped r cannot hide that the map never split.
+5. If you infer intent after the fact, treat it as a smoother with an explicit motion model and an explicit sensor variance $u$. Do not call that $p(\mathrm{lie})$.
 
 If a change still makes sense after deleting the words path and map, do not cite SLAM.
