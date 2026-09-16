@@ -38,15 +38,17 @@ This note uses that statement as a black box. It does not prove Blackwell.
 
 Use the hinge of [math_formulation.md](math_formulation.md), frozen $\mathcal{D}$. Let $\ell_t$ be a per-round task cost of the played action $a_t$.
 
-Define the **safe comparator class** from the hinge, not from $A$:
+The readout must see the **candidate action**, or $A_{\mathrm{safe}}$ is empty or the whole of $A$:
 
 ```math
 A_{\mathrm{safe}}(t)
 =
-\{a\in A:\ \mathcal{L}_{\mathrm{reg}}(r(h_t),\mathcal{D})=0\}.
+\{a\in A:\ \mathcal{L}_{\mathrm{reg}}(r(h_t(a)),\mathcal{D})=0\}.
 ```
 
-If $A_{\mathrm{safe}}(t)$ is empty, the hinge is not a usable constraint that round; the target below is not defined for that $t$. That is an assumption on $r$ and $\mathcal{D}$, same as in the math note. Controllability: an adversarial input can empty the set.
+$h_t(a)$ is the trace (or action-conditioned hidden) after committing to $a$. If $r$ only sees a pre-action $h_t$, this set does not depend on $a$ and is not a comparator class.
+
+If $A_{\mathrm{safe}}(t)$ is empty, the hinge is not a usable constraint that round; the target below is not defined for that $t$. Controllability: an adversarial input can empty the set.
 
 Two coordinates:
 
@@ -57,12 +59,14 @@ u_t^{\mathrm{safe}}
 \qquad
 u_t^{\mathrm{reg}}
 =
-\mathcal{L}_{\mathrm{reg}}(r(h_t),\mathcal{D}).
+\mathcal{L}_{\mathrm{reg}}(r(h_t(a_t)),\mathcal{D}).
 ```
 
 ```math
 u_t=(u_t^{\mathrm{safe}}, u_t^{\mathrm{reg}})\in\mathbb{R}^{2}.
 ```
+
+The first coordinate is extra cost versus the **best safe action that round**, not versus a single fixed safe action for the whole horizon. That is a stronger benchmark than Hannan-on-a-fixed-set. Nonempty $A_{\mathrm{safe}}$ does **not** imply approachability: two safe actions with complementary losses can leave a learner at $1/2$ while the per-round oracle is at $0$. Approachability still needs Blackwell's halfspaces, not mere safety of the support.
 
 ## Targets
 
@@ -73,7 +77,7 @@ S_{\mathrm{joint}}=(-\infty,0]\times(-\infty,0]
 \quad\text{with first coordinate vs }\min_{a\in A}\ell_t(a).
 ```
 
-That is "Hannan on all of $A$, and hinge quiet." If a profitable action sits in $\mathcal{D}$, some halfspace containing $S_{\mathrm{joint}}$ is not forceable. Blackwell then says $S_{\mathrm{joint}}$ is not approachable. This repo does **not** claim $S_{\mathrm{joint}}$.
+That is "Hannan on all of $A$, and hinge quiet." If a profitable action sits in $\mathcal{D}$, some halfspace containing $S_{\mathrm{joint}}$ is not forceable. This repo does **not** claim $S_{\mathrm{joint}}$.
 
 **Essay target (the only one consistent with keep-the-skill, tag-the-intent):**
 
@@ -82,12 +86,7 @@ S_{\mathrm{safe}}=(-\infty,0]\times(-\infty,0]
 \quad\text{with first coordinate }u^{\mathrm{safe}}.
 ```
 
-Average in $S_{\mathrm{safe}}$ means:
-
-- mean hinge $\to$ dead zone (tag the intent);
-- mean extra cost vs the *best hinge-quiet action* $\to 0$ (keep the skill *inside the tagged-safe set*).
-
-That is policy / action regret **inside** the hinge's safe set, not Hannan on $A$. It matches [regret_minimization.md](regret_minimization.md): the hinge is not $R_T^{\mathrm{ext}}$.
+Average in $S_{\mathrm{safe}}$ means mean hinge in the dead zone, and mean extra cost vs the best hinge-quiet action that round $\to 0$. Still not Hannan on $A$. Still not automatic from "$A_{\mathrm{safe}}$ nonempty."
 
 ## Forceability of $S_{\mathrm{safe}}$ (condition, not a theorem we prove)
 
@@ -97,9 +96,9 @@ $S_{\mathrm{safe}}$ is approachable iff every $w=(w_1,w_2)$ with $w_1,w_2\ge 0$ 
 w_1\,\mathbb{E}[u^{\mathrm{safe}}]+w_2\,\mathbb{E}[u^{\mathrm{reg}}]\le 0.
 ```
 
-This can fail if $A_{\mathrm{safe}}$ is empty, or if $r$ can be gamed so that "$a$ looks safe" and "$a$ is the safe comparator" come apart. Those are the same open problems as in the math note ($r$, $\mathcal{D}$, evasion).
+This can fail if $A_{\mathrm{safe}}$ is empty, if $r$ ignores $a$, or if "$a$ looks safe" and "$a$ is the safe comparator" come apart.
 
-If the condition holds, Blackwell supplies a causal steering rule (project $\bar u_t$ onto $S_{\mathrm{safe}}$, force that halfspace). That rule is **not** implemented in [simulation.py](simulation.py) or [ppo_toy.py](ppo_toy.py). Those toys only attach $\lambda\mathcal{L}_{\mathrm{reg}}$ to a scalar objective. A Lagrangian $L_{\mathrm{task}}+\lambda L_{\mathrm{reg}}$ is a *heuristic* for one halfspace weight, not a proof that $S_{\mathrm{safe}}$ is approached.
+A Lagrangian $L_{\mathrm{task}}+\lambda L_{\mathrm{reg}}$ is one halfspace weight, not a proof that $S_{\mathrm{safe}}$ is approached. Toys do not implement Blackwell steering.
 
 ## Consistency with the rest of the repo
 
@@ -108,8 +107,8 @@ If the condition holds, Blackwell supplies a causal steering rule (project $\bar
 | Hinge is not Hannan on A | Kept. S_joint rejected. |
 | L_task + lambda L_reg | Heuristic attachment; not Blackwell steering. |
 | Frozen D | Kept in u_reg. |
-| r and D unsolved | Needed for A_safe to be nonempty and stable. |
-| No inference abort | Kept. Approachability is on averages, not a veto. |
+| r and D unsolved | Needed for A_safe to be nonempty, action-indexed, and stable. |
+| No inference abort | Kept. |
 
 ## What this file does not contain
 
@@ -118,4 +117,4 @@ If the condition holds, Blackwell supplies a causal steering rule (project $\bar
 - A proof that PPO approaches $S_{\mathrm{safe}}$.
 - Construction of $r$ or $\mathcal{D}$.
 
-Version 0.1.0. Companion to `math_formulation.md` and `regret_minimization.md`.
+Version 0.1.1.
