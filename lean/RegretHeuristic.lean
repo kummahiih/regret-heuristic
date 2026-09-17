@@ -13,6 +13,7 @@ import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.Finset.Lattice.Fold
 import Mathlib.Data.Finset.Insert
 import Mathlib.Topology.Instances.Real.Lemmas
+import Mathlib.Tactic.NormNum
 
 open scoped BigOperators InnerProductSpace
 open Filter Topology
@@ -78,8 +79,6 @@ def totalLoss (task lambda hinge : Real) : Real := task + lambda * hinge
 lemma totalLoss_zero_weight (task hinge : Real) : totalLoss task 0 hinge = task := by
   simp [totalLoss]
 
-/-- Potvin–Rousseau / ALNS insertion 2-regret: second-best cost minus best.
-    Not `regretHinge`. Same English word. -/
 def insertionTwoRegret (best second : Real) : Real := second - best
 
 variable {A : Type*} [Fintype A] [Nonempty A]
@@ -119,7 +118,6 @@ def ppoWithHinge (ppo lambda hinge : Real) : Real := ppo + lambda * hinge
 lemma ppoWithHinge_zero_weight (ppo hinge : Real) : ppoWithHinge ppo 0 hinge = ppo := by
   simp [ppoWithHinge]
 
-/-- Minimization form used in `ppo_toy.py`: negative surrogate plus hinge. -/
 def ppoMinWithHinge (clipSurrogate lambda hinge : Real) : Real :=
   -clipSurrogate + lambda * hinge
 
@@ -202,14 +200,14 @@ theorem silent_hinge_not_vanishing_external_regret (T : Nat) :
     silentHinge.value = 0 ∧ (stubbornPlay T).value = (T : Real) :=
   ⟨silentHinge_value, stubbornPlay_value T⟩
 
-/-- Same English word. Insertion 2-regret can be 3 while the cosine hinge is 0. -/
 theorem insertion_two_regret_not_the_hinge :
     insertionTwoRegret (1 : Real) 4 = 3 ∧ silentHinge.value = 0 := by
   constructor
-  · rfl
+  · simp [insertionTwoRegret]; norm_num
   · exact silentHinge_value
 
-/-- If the readout does not see the candidate action, quietness cannot split A. -/
+set_option linter.unusedSectionVars false
+
 def hingeQuietIgnoringAction (h : E) (D : Finset E) (hD : D.Nonempty)
     (tau : Real) (_a : A) : Prop :=
   regretHinge h D hD tau = 0
@@ -217,8 +215,7 @@ def hingeQuietIgnoringAction (h : E) (D : Finset E) (hD : D.Nonempty)
 lemma hingeQuietIgnoringAction_indep (h : E) (D : Finset E) (hD : D.Nonempty)
     (tau : Real) (a b : A) :
     hingeQuietIgnoringAction h D hD tau a ↔
-      hingeQuietIgnoringAction h D hD tau b := by
-  rfl
+      hingeQuietIgnoringAction h D hD tau b := Iff.rfl
 
 lemma hingeQuietIgnoringAction_all_or_none (h : E) (D : Finset E)
     (hD : D.Nonempty) (tau : Real) :
