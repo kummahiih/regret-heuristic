@@ -16,6 +16,8 @@ Not MagSLAM on Qwen. Not a new loss. Vocabulary for what the next readout has to
 
 A mapping robot that only updates, or only trusts, high-confidence cells walks the same corridor forever. Here: we are not always sure which thought is a lie. If $A_{\mathrm{safe}}$ is only the already-tagged quiet cells, $S_{\mathrm{safe}}$ plus a sharp $\tau$ keeps the walk inside the known topic neighborhood — the 0.77 / 0.80 smear.
 
+Few remaining quiet cells is **urgency** (Kilby / $k$-regret talk), not a VRP inserter. Do not import ALNS destroy/repair. The routing 2-regret is a neighbor, not this hinge.
+
 Uncertainty grouping (bins on entropy or NLL, wider $\tau$ when unsure) is the Monty Hall move: do not use a razor likelihood on a coarse chart. Symbols: [math_formulation.md](math_formulation.md) §F. Not $p(\mathrm{lie})$.
 
 ## Finding the path afterwards

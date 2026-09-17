@@ -1,7 +1,7 @@
 # Neighbors
 
 This repo is a prototype-hinge regularizer, not a deception detector.
-Papers below monitor, steer, erase, or replay search traces. They are not the hinge.
+Papers below monitor, steer, erase, replay search, or use the *other* word "regret".
 No novelty claim. Search for \(r\): [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
 | Work | What they do | Vs this hinge |
@@ -12,5 +12,6 @@ No novelty claim. Search for \(r\): [intent-readout-search](https://github.com/k
 | Kumar, 2026. *Pressure-Testing Deception Probes*. arXiv:2605.27958 | Clean AUROC dies under style shift. Single direction rejected (\(k=1\) only 0.61–0.80 of the signal). Style-aug probes recover. | \(\max_k\cos(h,d_k)\) with tiny \(K\) is that \(k=1\) geometry. |
 | Belrose et al., NeurIPS 2023. LEACE; Ravfogel et al. INLP / RLACE | Erase a labeled concept from a representation, keep other linear signal. | Closer slogan ("remove D, keep T") than biological regret. Usually gender/POS, not scheming. Erasure \(\neq\) this hinge. |
 | Zheng et al., 2026. *Dream-RSI: Recursive Self-Improvement through Evolving Worlds*. [PDF](https://dream-rsi.com/assets/dream-rsi.pdf) · arXiv:2609.14858 | Orchestrate exploration (branch, stop, dream on the discovery tree). **Leave the coding agent unchanged.** | Same split as this essay: do not touch the skill. They leave the worker and train the explorer. This repo leaves \(L_{\mathrm{task}}\) and penalizes a readout. Different lever, same bookkeeping. Not a deception result. |
+| Potvin & Rousseau, 1993. *A parallel route building algorithm for the VRPTW*. Transportation Science 27(1). Ropke & Pisinger, 2006. ALNS. | Construction / repair: insert the customer whose **second-best slot** is much worse than the best (\(k\)-regret). | Same English word. Different object. They rank insertions by cost look-ahead. This repo penalizes a readout near frozen pins. Lean: `insertion_two_regret_not_the_hinge`. Not an ALNS trainer. |
 
 Held-out wording and a detector the model was not trained against are the interesting tests. They live in the search repo, not here.
