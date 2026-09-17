@@ -52,7 +52,6 @@ lemma relu_eq_zero_of_nonpos {x : Real} (hx : x ≤ 0) : relu x = 0 :=
 lemma relu_mono {x y : Real} (h : x ≤ y) : relu x ≤ relu y :=
   max_le_max h le_rfl
 
-/-- Wider threshold cannot raise the hinge. CPU toy §5: 0.70 → 0.10, not silent. -/
 lemma relu_wider_tau_le (s tau1 tau2 : Real) (h : tau1 ≤ tau2) :
     relu (s - tau2) ≤ relu (s - tau1) := by
   apply relu_mono
@@ -78,6 +77,10 @@ def totalLoss (task lambda hinge : Real) : Real := task + lambda * hinge
 
 lemma totalLoss_zero_weight (task hinge : Real) : totalLoss task 0 hinge = task := by
   simp [totalLoss]
+
+/-- Potvin–Rousseau / ALNS insertion 2-regret: second-best cost minus best.
+    Not `regretHinge`. Same English word. -/
+def insertionTwoRegret (best second : Real) : Real := second - best
 
 variable {A : Type*} [Fintype A] [Nonempty A]
 
@@ -115,6 +118,10 @@ def ppoWithHinge (ppo lambda hinge : Real) : Real := ppo + lambda * hinge
 
 lemma ppoWithHinge_zero_weight (ppo hinge : Real) : ppoWithHinge ppo 0 hinge = ppo := by
   simp [ppoWithHinge]
+
+/-- Minimization form used in `ppo_toy.py`: negative surrogate plus hinge. -/
+def ppoMinWithHinge (clipSurrogate lambda hinge : Real) : Real :=
+  -clipSurrogate + lambda * hinge
 
 structure IntentHingeData (E : Type*) [NormedAddCommGroup E] [InnerProductSpace Real E] where
   readout : E
@@ -194,5 +201,31 @@ lemma stubbornPlay_value (T : Nat) : (stubbornPlay T).value = T := by
 theorem silent_hinge_not_vanishing_external_regret (T : Nat) :
     silentHinge.value = 0 ∧ (stubbornPlay T).value = (T : Real) :=
   ⟨silentHinge_value, stubbornPlay_value T⟩
+
+/-- Same English word. Insertion 2-regret can be 3 while the cosine hinge is 0. -/
+theorem insertion_two_regret_not_the_hinge :
+    insertionTwoRegret (1 : Real) 4 = 3 ∧ silentHinge.value = 0 := by
+  constructor
+  · rfl
+  · exact silentHinge_value
+
+/-- If the readout does not see the candidate action, quietness cannot split A. -/
+def hingeQuietIgnoringAction (h : E) (D : Finset E) (hD : D.Nonempty)
+    (tau : Real) (_a : A) : Prop :=
+  regretHinge h D hD tau = 0
+
+lemma hingeQuietIgnoringAction_indep (h : E) (D : Finset E) (hD : D.Nonempty)
+    (tau : Real) (a b : A) :
+    hingeQuietIgnoringAction h D hD tau a ↔
+      hingeQuietIgnoringAction h D hD tau b := by
+  rfl
+
+lemma hingeQuietIgnoringAction_all_or_none (h : E) (D : Finset E)
+    (hD : D.Nonempty) (tau : Real) :
+    (∀ a : A, hingeQuietIgnoringAction h D hD tau a) ∨
+      (∀ a : A, ¬ hingeQuietIgnoringAction h D hD tau a) := by
+  by_cases hq : regretHinge h D hD tau = 0
+  · exact Or.inl (fun _ => hq)
+  · exact Or.inr (fun _ => hq)
 
 end RegretHeuristic
