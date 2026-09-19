@@ -286,4 +286,19 @@ theorem ssafe_hit_by_quiet :
     uSafeQuiet.1 ≤ 0 ∧ uSafeQuiet.2 ≤ 0 := by
   simp [uSafeQuiet, deceptionPaysLoss, deceptionPaysHinge_zero]
 
+/-- Sensor that sees a: quiet iff hinge is 0. Opposite of ignoring-action. -/
+noncomputable def hingeQuietOnAction (a : Fin 2) : Prop :=
+  deceptionPaysHinge a = 0
+
+lemma hingeQuietOnAction_zero : hingeQuietOnAction 0 := by
+  simp [hingeQuietOnAction, deceptionPaysHinge_zero]
+
+lemma not_hingeQuietOnAction_one : ¬ hingeQuietOnAction 1 := by
+  simp [hingeQuietOnAction, deceptionPaysHinge_one]
+
+/-- A_safe = {0}: nonempty and not all of Fin 2. -/
+theorem hingeQuietOnAction_proper :
+    hingeQuietOnAction 0 ∧ ¬ hingeQuietOnAction 1 :=
+  ⟨hingeQuietOnAction_zero, not_hingeQuietOnAction_one⟩
+
 end RegretHeuristic
