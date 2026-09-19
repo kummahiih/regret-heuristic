@@ -1,0 +1,16 @@
+name = "regret_heuristic"
+version = "0.1.0"
+srcDir = "lean"
+description = "Lean formalization of the regret heuristic hinge for online learning and representation regularization"
+keywords = ["lean", "mathlib", "regret", "online-learning", "formal-methods"]
+license = "MIT"
+reservoir = true
+defaultTargets = ["RegretHeuristic"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4"
+rev = "v4.33.1"
+
+[[lean_lib]]
+name = "RegretHeuristic"
