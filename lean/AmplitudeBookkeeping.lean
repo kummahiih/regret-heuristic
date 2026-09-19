@@ -41,21 +41,21 @@ lemma normSq_one_plus_neg_one : Complex.normSq ((1 : ℂ) + (-1)) = 0 := by
 theorem two_route_identity :
     delayedBorn (1 : ℂ) (-1) = 0 ∧ prematureBorn (1 : ℂ) (-1) = 2 := by
   constructor
-  · simpa [delayedBorn] using normSq_one_plus_neg_one
-  · simp [prematureBorn, normSq_one, normSq_neg_one]
+  · simp [delayedBorn, Complex.normSq]
+  · simp [prematureBorn, Complex.normSq]; norm_num
 
 lemma delayed_ne_premature :
     delayedBorn (1 : ℂ) (-1) ≠ prematureBorn (1 : ℂ) (-1) := by
-  have h := two_route_identity
-  linarith [h.1, h.2]
+  simp [delayedBorn, prematureBorn, Complex.normSq]
+  norm_num
 
 /-- Interference term that premature measurement throws away. -/
 def interference (a b : ℂ) : ℝ :=
   delayedBorn a b - prematureBorn a b
 
 lemma interference_cancel_pair : interference (1 : ℂ) (-1) = -2 := by
-  have h := two_route_identity
-  simp [interference, h.1, h.2]
+  simp [interference, delayedBorn, prematureBorn, Complex.normSq]
+  norm_num
 
 /-- What the trainer is allowed to see. No `Amp`, no `Cell`. -/
 structure LegalLoss where
@@ -74,21 +74,7 @@ lemma loss_ignores_amp (L : LegalLoss) (α β : Amp) :
     (attachAmp L α).1 = (attachAmp L β).1 := rfl
 
 lemma totalLoss_ignores_amp (L : LegalLoss) (α β : Amp) (lam : ℝ) :
-    totalLoss (attachAmp L α).1 lam = totalLoss (attachAmp L β).1 lam := by
-  simp [attachAmp]
-
-/-- A last-token sensor of the walk. Not a cell, not an amplitude. -/
-structure WalkSensor where
-  readout : ℝ
-
-/-- Quiet hinge on a sensor does not name a unique cell. -/
-def silentOnWalk (s : WalkSensor) : Prop := s.readout = 1
-
-lemma silent_walk_not_a_cell (s : WalkSensor) (h : silentOnWalk s) :
-    s.readout = 1 ∧ ¬ (s.readout = (0 : ℝ) ∧ s.readout = 1) := by
-  refine ⟨h, ?_⟩
-  intro hboth
-  linarith [hboth.1, hboth.2]
+    totalLoss (attachAmp L α).1 lam = totalLoss (attachAmp L β).1 lam := rfl
 
 /-- Two different amplitudes can share a premature score. Non-uniqueness of z. -/
 def flipAmp (α : Amp) : Amp := fun z => -α z
