@@ -16,7 +16,7 @@ The bookkeeping split, written as a training objective:
 
 **L_task** is the job. **r(h(x))** is a hypothesized readout of internal state as an intent vector. **D** is a frozen bank of prototypes. **L_regret** is a hinge on cosine similarity to that bank. That is a representation penalty. It is useful for deception only if \(r\) is about strategy. Last-token and mean-pool identity already failed that test on a same-topic toy ([experiment_results.md](experiment_results.md) §2 / §6).
 
-Full symbols: [math_formulation.md](math_formulation.md). Neighbors (probes, steering, SAE, concept erasure): [neighbors.md](neighbors.md).
+Full symbols: [math_formulation.md](math_formulation.md). Neighbors (probes, steering, SAE, concept erasure): [neighbors.md](neighbors.md). How to attach the missing objects without pretending the toys already have them: [implementation_binding.md](implementation_binding.md).
 
 ## Walk and map
 
@@ -53,13 +53,14 @@ Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–�
 - Toys are wiring. Qwen last-token 0.77 / 0.80; mean-pool 0.86 / 0.85; NLL vs entropy disagree; ATC 20-step dragged honest eval with the hinge.
 - Lean `lake build` ok: wider τ cannot raise the hinge; silent hinge need not kill external regret.
 - Detection / steering / SAE / LEACE are neighbors, not this loss: [neighbors.md](neighbors.md). Tiny-\(K\) max-cosine is the single-direction geometry those probe papers already pressure-test.
+- Implementation binding does not lift these caps. It only names the path object, the factored sensor, action-indexed $A_{\mathrm{safe}}$, and a second channel that is not in the training sum.
 
 ## Theory and PPO
 
-Hannan / Blackwell: [regret_minimization.md](regret_minimization.md), [approachability.md](approachability.md) (**S_safe**, not **S_joint**). PPO attachment is a Lagrangian, not steering. [lean/RegretHeuristic.lean](lean/RegretHeuristic.lean).
+Hannan / Blackwell: [regret_minimization.md](regret_minimization.md), [approachability.md](approachability.md) (**S_safe**, not **S_joint**). PPO attachment is a Lagrangian, not steering. [lean/RegretHeuristic.lean](lean/RegretHeuristic.lean). Build order: [implementation_binding.md](implementation_binding.md).
 
 ## Conclusion
 
 This repo names a hinge shape, writes it down, and runs wiring plus a negative probe. It does not claim that regret is empirically the right loss for deception. Whether a strategy-sensitive \(r\) exists is [intent-readout-search](https://github.com/kummahiih/intent-readout-search), not this repository.
 
-[math_formulation.md](math_formulation.md) · [neighbors.md](neighbors.md) · [slam_analogy.md](slam_analogy.md) · [experiment_results.md](experiment_results.md) · [intent-readout-search](https://github.com/kummahiih/intent-readout-search) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
+[math_formulation.md](math_formulation.md) · [implementation_binding.md](implementation_binding.md) · [neighbors.md](neighbors.md) · [slam_analogy.md](slam_analogy.md) · [experiment_results.md](experiment_results.md) · [intent-readout-search](https://github.com/kummahiih/intent-readout-search) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)

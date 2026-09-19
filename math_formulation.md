@@ -27,6 +27,8 @@ Batch loss is the mean of $\mathcal{L}_{\mathrm{reg}}$ over the batch. $\mathcal
 
 $r$ and $\mathcal{D}$ are part of the definition, not measurements. If $r$ tracks topic or tokens rather than strategy, (A) is an ordinary output regularizer. Search for such an $r$: [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
+How to *attach* a path, a factored $r$, and an action-indexed $A_{\mathrm{safe}}$ without changing this formula: [implementation_binding.md](implementation_binding.md).
+
 ## B. Attachments
 
 Supervised (or any task loss):
@@ -69,5 +71,17 @@ $S_{\mathrm{safe}}$, not $S_{\mathrm{joint}}$. [approachability.md](approachabil
 ## F. Walk, map, uncertainty bins (notation only)
 
 See [slam_analogy.md](slam_analogy.md). Not implemented as `tau(x)` on the Qwen probe.
+
+## G. Implementation objects (not extra algebra)
+
+The hinge in §A is unchanged. Binding it to a build requires objects the toys assume and the ledger already falsified when missing:
+
+- Path $h_{1:T}$ and motion prior $P(z_t\mid z_{t-1})$ before any last-token $r$.
+- Factored readout $(r_{\mathrm{topic}}, r_{\mathrm{strat}}, u)$; hinge only $r_{\mathrm{strat}}$.
+- $A_{\mathrm{safe}}(t)$ indexed by candidate action $a$.
+- Hinge after aggregating hypotheses, not after packing one unit vector.
+- A second channel (frozen $I$, held-out cell) that is not in $\mathcal{L}_{\mathrm{total}}$.
+
+Names and build order: [implementation_binding.md](implementation_binding.md). No new symbol for a quantum amplitude.
 
 Implemented: [simulation.py](simulation.py), [ppo_toy.py](ppo_toy.py). Version 0.1.0.
