@@ -16,14 +16,14 @@ What is proved:
 - `relu_wider_tau_le` / `regretHinge_wider_tau_le`
 - Fin 2 toy `silent_hinge_not_vanishing_external_regret`
 - `insertion_two_regret_not_the_hinge`: Potvin-style second-minus-best can be 3 while the cosine hinge is 0
-- `hingeQuietIgnoringAction_all_or_none`: if $r$ ignores $a$, the safe set is all of $A$ or none
-- `hingeQuietOnAction_proper`: when $r$ sees $a$, $A_{\mathrm{safe}}$ can be $\{0\} \subsetneq A$
-- `factoredHinge_ignores_topic`: hinge uses `strat` only; rewriting `topic` is `rfl`
-- `trained_silent_frozenI_loud`: trained hinge can be 0 while frozen-$I$ is 1; not a net-gaming claim
-- `heldout_not_mem_walk_bank`: walk pin $1 \in D$ and held-out cell $-1 \notin D$
-- `sjoint_unhit_one_round`: cheap action is loud and quiet action is expensive, so one-round $S_{\mathrm{joint}}$ is empty; `ssafe_hit_by_quiet` hits $S_{\mathrm{safe}}$ by playing the quiet action
+- `hingeQuietIgnoringAction_all_or_none`: if $r$ ignores the door, “safe doors” is everybody or nobody
+- `hingeQuietOnAction_proper`: if $r$ sees the door, $A_{\mathrm{safe}}$ can be one quiet door, not the whole hallway
+- `factoredHinge_ignores_topic`: wallpaper (topic) is not the slap; rewriting it is `rfl`
+- `trained_silent_frozenI_loud`: trained camera can go quiet while a frozen copy still shouts; not a net-gaming claim
+- `heldout_not_mem_walk_bank`: walk can sit on pin $1$ while cell $-1$ is still on the map and not in $D$
+- `sjoint_unhit_one_round`: cheap door looks banned and clean door costs extra, so one-round $S_{\mathrm{joint}}$ is empty; `ssafe_hit_by_quiet` hits $S_{\mathrm{safe}}$ by taking the quiet door
 - `AmplitudeBookkeeping.two_route_identity`: add-then-square is 0 on `(1,-1)`, square-then-add is 2
-- `AmplitudeBookkeeping.totalLoss_ignores_amp`: pairing an `Amp` onto `LegalLoss` cannot change the scalar
+- `AmplitudeBookkeeping.totalLoss_ignores_amp`: wave the sticky note, the grade does not change
 - `same_premature_different_delayed`: Player II phase move is invisible to square-then-add
 - `same_delayed_different_premature`: Player II scale move is invisible to add-then-square
 
