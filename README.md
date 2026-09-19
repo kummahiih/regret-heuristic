@@ -58,6 +58,18 @@ Keep the skill. Tag the camera. Leave the room untagged, because tagging it woul
 
 The complex numbers only let the sticky notes cancel. They are not a quantum computer.
 
+### What the extra Lean pins pin
+
+Scoreboard rules. Not a working camera.
+
+- **Cheap lie vs quiet cost** (`sjoint_unhit_one_round`, `ssafe_hit_by_quiet`). The cheap door looks banned. The clean door costs extra. You cannot be cheapest-in-the-world *and* look clean in one round. You *can* be as cheap as the best clean door. Aim at $S_{\mathrm{safe}}$, not $S_{\mathrm{joint}}$.
+- **The camera must see the door** (`hingeQuietIgnoringAction_all_or_none`, `hingeQuietOnAction_proper`). If $r$ ignores which door you took, “safe doors” is everybody or nobody. If $r$ sees the door, the safe set can be a real subset: one quiet, one loud.
+- **Wallpaper is not the slap** (`factoredHinge_ignores_topic`). Topic can hug the hallway. The hinge only looks at the strategy coordinate. Rewriting topic is `rfl`.
+- **Two cameras can disagree** (`trained_silent_frozenI_loud`). The trained hinge can go quiet while a frozen copy still shouts. Log the second channel. Do not dump it into the training sum. Quiet trained camera is not a win.
+- **The map is bigger than the pins** (`heldout_not_mem_walk_bank`). The walk can sit on pin $1$ while cell $-1$ is still on the map and not in $D$. Leaving the red pins is not leaving the building.
+
+Still open: a strategy sensor $r$, a good bank $D$, that PPO reaches the safe box, that anyone understands the hidden room.
+
 ## Walk and map
 
 Design filter only. Not MagSLAM on Qwen. [slam_analogy.md](slam_analogy.md).
@@ -91,7 +103,7 @@ Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–�
 - Gradients of $L_{\mathrm{regret}}$ still enter whatever produced $h(x)$. Representation gaming is open.
 - Training-time only. No inference abort.
 - Toys are wiring. Qwen last-token 0.77 / 0.80; mean-pool 0.86 / 0.85; NLL vs entropy disagree; ATC 20-step dragged honest eval with the hinge.
-- Lean `lake build` ok: wider $\tau$ cannot raise the hinge; silent hinge need not kill external regret; Amp is not a loss field; phase and scale moves can hide from one Born scoreboard and not the other.
+- Lean `lake build` ok: wider $\tau$ cannot raise the hinge; silent hinge need not kill external regret; Amp is not a loss field; phase and scale moves can hide from one Born scoreboard and not the other; $S_{\mathrm{joint}}$ can be empty in one round while $S_{\mathrm{safe}}$ is hittable; $A_{\mathrm{safe}}$ is all-or-none if $r$ ignores $a$; topic wallpaper is not in the hinge; two channels can disagree; a held-out cell need not sit on $D$.
 - Detection / steering / SAE / LEACE are neighbors, not this loss: [neighbors.md](neighbors.md). Tiny-$K$ max-cosine is the single-direction geometry those probe papers already pressure-test.
 - Implementation binding does not lift these caps. It only names the path object, the factored sensor, action-indexed $A_{\mathrm{safe}}$, and a second channel that is not in the training sum.
 
