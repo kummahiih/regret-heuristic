@@ -316,4 +316,9 @@ lemma factoredHinge_ignores_topic (r : FactoredReadout E) (topic' : E)
     factoredHinge r D hD tau0 =
       factoredHinge { r with topic := topic' } D hD tau0 := rfl
 
+/-- Two channels can disagree. Not a claim that a net gamed. -/
+theorem trained_silent_frozenI_loud :
+    silentHinge.value = 0 ∧ loudHinge.value = 1 :=
+  ⟨silentHinge_value, loudHinge_value⟩
+
 end RegretHeuristic
