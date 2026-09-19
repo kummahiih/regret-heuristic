@@ -83,28 +83,42 @@ lemma premature_sign_blind (a b : ℂ) :
     prematureBorn a b = prematureBorn (-a) (-b) := by
   simp [prematureBorn, Complex.normSq]
 
+lemma delayedBorn_one_neg_one : delayedBorn (1 : ℂ) (-1) = 0 := by
+  simp [delayedBorn, Complex.normSq]
+
+lemma delayedBorn_one_one : delayedBorn (1 : ℂ) 1 = 4 := by
+  simp [delayedBorn, Complex.normSq]
+  norm_num
+
+lemma prematureBorn_one_neg_one : prematureBorn (1 : ℂ) (-1) = 2 := by
+  simp [prematureBorn, Complex.normSq]
+  norm_num
+
+lemma prematureBorn_one_one : prematureBorn (1 : ℂ) 1 = 2 := by
+  simp [prematureBorn, Complex.normSq]
+  norm_num
+
+lemma prematureBorn_two_neg_two : prematureBorn (2 : ℂ) (-2) = 8 := by
+  simp [prematureBorn, Complex.normSq]
+  norm_num
+
+lemma delayedBorn_two_neg_two : delayedBorn (2 : ℂ) (-2) = 0 := by
+  simp [delayedBorn, Complex.normSq]
+
 /-- Player II phase move: same premature mass, different delayed occupancy. -/
 theorem same_premature_different_delayed :
     prematureBorn (1 : ℂ) (-1) = prematureBorn 1 1 ∧
       delayedBorn (1 : ℂ) (-1) ≠ delayedBorn 1 1 := by
   refine ⟨?eq, ?ne⟩
-  · simp [prematureBorn, Complex.normSq]
-  · have h0 : delayedBorn (1 : ℂ) (-1) = 0 := by
-      simp [delayedBorn, Complex.normSq]
-    have h4 : delayedBorn (1 : ℂ) 1 = 4 := by
-      simp [delayedBorn, Complex.normSq]
-    simp [h0, h4]
+  · rw [prematureBorn_one_neg_one, prematureBorn_one_one]
+  · rw [delayedBorn_one_neg_one, delayedBorn_one_one]; norm_num
 
 /-- Player II scale move: same delayed occupancy, different premature mass. -/
 theorem same_delayed_different_premature :
     delayedBorn (1 : ℂ) (-1) = delayedBorn 2 (-2) ∧
       prematureBorn (1 : ℂ) (-1) ≠ prematureBorn 2 (-2) := by
   refine ⟨?eq, ?ne⟩
-  · simp [delayedBorn, Complex.normSq]
-  · have h2 : prematureBorn (1 : ℂ) (-1) = 2 := by
-      simp [prematureBorn, Complex.normSq]
-    have h8 : prematureBorn (2 : ℂ) (-2) = 8 := by
-      simp [prematureBorn, Complex.normSq]
-    simp [h2, h8]
+  · rw [delayedBorn_one_neg_one, delayedBorn_two_neg_two]
+  · rw [prematureBorn_one_neg_one, prematureBorn_two_neg_two]; norm_num
 
 end AmplitudeBookkeeping
