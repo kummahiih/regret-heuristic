@@ -100,6 +100,26 @@ This can fail if $A_{\mathrm{safe}}$ is empty, if $r$ ignores $a$, or if "$a$ lo
 
 A Lagrangian $L_{\mathrm{task}}+\lambda L_{\mathrm{reg}}$ is one halfspace weight, not a proof that $S_{\mathrm{safe}}$ is approached. Toys do not implement Blackwell steering.
 
+## Amplitude moves in this game (extra, still not approachability)
+
+Player I's payoff $u=(u^{\mathrm{safe}},u^{\mathrm{reg}})$ is a function of the *walk sensor* $r(h(a))$, not of an amplitude on $z$. Lean: `totalLoss_ignores_amp`.
+
+So the hidden state has a fiber: many `Amp` values share one walk, hence share $u$. Player II can move inside that fiber without changing Player I's vector payoff. That is representation gaming stated as a game, not as a vibe.
+
+Two cheap identities ([AmplitudeBookkeeping.lean](lean/AmplitudeBookkeeping.lean)):
+
+- `same_premature_different_delayed`: square-then-add is blind to the cancel pair $(1,-1)$ vs $(1,1)$; add-then-square is not ($0$ vs $4$).
+- `same_delayed_different_premature`: add-then-square is $0$ for both $(1,-1)$ and $(1/2,-1/2)$; square-then-add is $2$ vs $1/2$.
+
+What this proves about the game:
+
+- A premature sensor (last-token mass on cells) does not see Player II's phase move.
+- Delayed bookkeeping sees phase and misses scale. It is still not $u^{\mathrm{reg}}$. $u^{\mathrm{reg}}$ sees only $r$.
+- Player I cannot force a halfspace that distinguishes two amplitudes in the same walk-fiber. Forceable sets live in observation space.
+- Player II *can* change $z$ without changing $u$. That is why $S_{\mathrm{safe}}$ can fail when "looks safe" and "is the safe comparator" come apart.
+
+What this does **not** prove: approachability of $S_{\mathrm{safe}}$, a quantum advantage, or that interference detects deception.
+
 ## Consistency with the rest of the repo
 
 | Claim elsewhere | Status here |
@@ -109,6 +129,7 @@ A Lagrangian $L_{\mathrm{task}}+\lambda L_{\mathrm{reg}}$ is one halfspace weigh
 | Frozen D | Kept in u_reg. |
 | r and D unsolved | Needed for A_safe to be nonempty, action-indexed, and stable. |
 | No inference abort | Kept. |
+| Amp not in the loss | Kept. Phase is a Player II fiber move. |
 
 ## What this file does not contain
 
@@ -117,4 +138,4 @@ A Lagrangian $L_{\mathrm{task}}+\lambda L_{\mathrm{reg}}$ is one halfspace weigh
 - A proof that PPO approaches $S_{\mathrm{safe}}$.
 - Construction of $r$ or $\mathcal{D}$.
 
-Version 0.1.1.
+Version 0.1.2.
