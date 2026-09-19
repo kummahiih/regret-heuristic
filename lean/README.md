@@ -20,6 +20,7 @@ What is proved:
 - `hingeQuietOnAction_proper`: when $r$ sees $a$, $A_{\mathrm{safe}}$ can be $\{0\} \subsetneq A$
 - `factoredHinge_ignores_topic`: hinge uses `strat` only; rewriting `topic` is `rfl`
 - `trained_silent_frozenI_loud`: trained hinge can be 0 while frozen-$I$ is 1; not a net-gaming claim
+- `heldout_not_mem_walk_bank`: walk pin $1 \in D$ and held-out cell $-1 \notin D$
 - `sjoint_unhit_one_round`: cheap action is loud and quiet action is expensive, so one-round $S_{\mathrm{joint}}$ is empty; `ssafe_hit_by_quiet` hits $S_{\mathrm{safe}}$ by playing the quiet action
 - `AmplitudeBookkeeping.two_route_identity`: add-then-square is 0 on `(1,-1)`, square-then-add is 2
 - `AmplitudeBookkeeping.totalLoss_ignores_amp`: pairing an `Amp` onto `LegalLoss` cannot change the scalar
