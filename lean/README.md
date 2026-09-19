@@ -18,6 +18,7 @@ What is proved:
 - `insertion_two_regret_not_the_hinge`: Potvin-style second-minus-best can be 3 while the cosine hinge is 0
 - `hingeQuietIgnoringAction_all_or_none`: if `r` ignores `a`, the safe set is all of $A$ or none
 - `hingeQuietOnAction_proper`: when $r$ sees $a$, $A_{\mathrm{safe}}$ can be $\{0\} \subsetneq A$
+- `factoredHinge_ignores_topic`: hinge uses `strat` only; rewriting `topic` is `rfl`
 - `sjoint_unhit_one_round`: cheap action is loud and quiet action is expensive, so one-round $S_{\mathrm{joint}}$ is empty; `ssafe_hit_by_quiet` hits $S_{\mathrm{safe}}$ by playing the quiet action
 - `AmplitudeBookkeeping.two_route_identity`: add-then-square is 0 on `(1,-1)`, square-then-add is 2
 - `AmplitudeBookkeeping.totalLoss_ignores_amp`: pairing an `Amp` onto `LegalLoss` cannot change the scalar
