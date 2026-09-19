@@ -18,6 +18,46 @@ The bookkeeping split, written as a training objective:
 
 Full symbols: [math_formulation.md](math_formulation.md). Neighbors (probes, steering, SAE, concept erasure): [neighbors.md](neighbors.md). How to attach the missing objects without pretending the toys already have them: [implementation_binding.md](implementation_binding.md). What is in-family for a working model: [working_model.md](working_model.md).
 
+## In plain language
+
+Imagine a hallway with two rooms behind the wallpaper.
+
+You only see the **walk**: the words the model printed. You do not see which room it was thinking in. That hidden room is \(z\). An **amplitude** is a sticky note that says “maybe room A this much, maybe room B that much.” It is not a measurement. It is a guess you are not allowed to treat as fact. Lean: `totalLoss_ignores_amp` — wave the sticky note, the grade does not change.
+
+Regret here is not “I wish I had played chess better.” That other regret is Hannan / external regret, a different scoreboard. This regret is a slap on the wrist if the *camera on the walk* looks too much like a banned room-pin \(D\).
+
+Two grades, added:
+
+1. Did the job get done? \(L_{\mathrm{task}}\)
+2. Did the camera look like a banned pin? \(L_{\mathrm{regret}}\)
+
+Never put \(z\) in that sum.
+
+Two hidden routes can lead to the same printed sentence.
+
+- **Premature camera** (last-token / mean-pool): weigh each room, then add. Routes \(1\) and \(-1\) both look heavy. Score \(2\). That is the same-topic smear (0.77 / 0.80).
+- **Delayed bookkeeping**: add the sticky notes first, then look. \(1+(-1)=0\). Score \(0\). You still have not seen the room. You only refused to pretend you did.
+
+Same hallway. Different time of looking. Lean: `two_route_identity`.
+
+A liar can flip the sign or scale the sticky note without changing the printed walk. The official payoff \(u\) only sees the camera \(r\), so those moves do not change the grade. That is why “looks safe” can come apart from “is the safe move.” Gaming is not a bug in the ReLU. It is the type of the game. Lean: `same_premature_different_delayed`, `same_delayed_different_premature`.
+
+```
+hidden rooms z     ← sticky notes (Amp). Not in the loss.
+      |
+printed walk       ← what everyone sees
+      |
+camera r           ← last-token identity is glued to the wallpaper
+      |
+hinge vs frozen pins D
+      |
+L_task + λ L_regret
+```
+
+Keep the skill. Tag the camera. Leave the room untagged, because tagging it would be lying that you understood it. Quiet camera is not a win on the Hannan scoreboard: Lean has a toy where the hinge is 0 and that other regret is still \(T\).
+
+The complex numbers only let the sticky notes cancel. They are not a quantum computer.
+
 ## Walk and map
 
 Design filter only. Not MagSLAM on Qwen. [slam_analogy.md](slam_analogy.md).
@@ -51,13 +91,13 @@ Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–�
 - Gradients of L_regret still enter whatever produced h(x). Representation gaming is open.
 - Training-time only. No inference abort.
 - Toys are wiring. Qwen last-token 0.77 / 0.80; mean-pool 0.86 / 0.85; NLL vs entropy disagree; ATC 20-step dragged honest eval with the hinge.
-- Lean `lake build` ok: wider τ cannot raise the hinge; silent hinge need not kill external regret.
+- Lean `lake build` ok: wider τ cannot raise the hinge; silent hinge need not kill external regret; Amp is not a loss field; phase and scale moves can hide from one Born scoreboard and not the other.
 - Detection / steering / SAE / LEACE are neighbors, not this loss: [neighbors.md](neighbors.md). Tiny-\(K\) max-cosine is the single-direction geometry those probe papers already pressure-test.
 - Implementation binding does not lift these caps. It only names the path object, the factored sensor, action-indexed $A_{\mathrm{safe}}$, and a second channel that is not in the training sum.
 
 ## Theory and PPO
 
-Hannan / Blackwell: [regret_minimization.md](regret_minimization.md), [approachability.md](approachability.md) (**S_safe**, not **S_joint**). PPO attachment is a Lagrangian, not steering. [lean/RegretHeuristic.lean](lean/RegretHeuristic.lean). Build order: [implementation_binding.md](implementation_binding.md). In-family characteristics: [working_model.md](working_model.md).
+Hannan / Blackwell: [regret_minimization.md](regret_minimization.md), [approachability.md](approachability.md) (**S_safe**, not **S_joint**). PPO attachment is a Lagrangian, not steering. [lean/RegretHeuristic.lean](lean/RegretHeuristic.lean), [lean/AmplitudeBookkeeping.lean](lean/AmplitudeBookkeeping.lean). Build order: [implementation_binding.md](implementation_binding.md). In-family characteristics: [working_model.md](working_model.md).
 
 ## Conclusion
 
