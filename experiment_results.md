@@ -107,3 +107,16 @@ after   trained=0.0000  frozen-I=1.0000  L_total=0.0000
 ```
 
 $L_{\mathrm{total}}$ uses the trained hinge only. Frozen-$I$ is a log. Dummy vectors. $z$ not in $L_{\mathrm{total}}$.
+
+## 11. Born bookkeeping (`simulation_born.py`) — 2026-09-19 22:10
+
+Routes $(1,-1)$. Lean: `two_route_identity`, `totalLoss_ignores_amp`.
+
+```
+premature square-then-add=2.0000
+delayed add-then-square=0.0000
+L_total without Amp=1.0000
+L_total with unused Amp note=1.0000
+```
+
+Same hallway. Different time of looking. Pairing the sticky note does not change $L_{\mathrm{total}}$. Dummy scalars. Not a circuit.
