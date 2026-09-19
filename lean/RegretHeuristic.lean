@@ -225,4 +225,65 @@ lemma hingeQuietIgnoringAction_all_or_none (h : E) (D : Finset E)
   · exact Or.inl (fun _ => hq)
   · exact Or.inr (fun _ => hq)
 
+lemma cosineSim_one_one : cosineSim (1 : Real) 1 = 1 := by
+  have hden : (norm (1 : Real) * norm (1 : Real)) ≠ 0 := by
+    simp
+  simp [cosineSim]
+
+noncomputable def loudHinge : IntentHingeData Real where
+  readout := (1 : Real)
+  bank := {(1 : Real)}
+  bank_nonempty := Finset.singleton_nonempty _
+  threshold := 0
+
+lemma loudHinge_max :
+    maxCosine (1 : Real) {(1 : Real)} (Finset.singleton_nonempty _) = 1 := by
+  simp [maxCosine, Finset.sup'_singleton, cosineSim_one_one]
+
+lemma loudHinge_value : loudHinge.value = 1 := by
+  simp [IntentHingeData.value, loudHinge, regretHinge, loudHinge_max, relu]
+
+def deceptionPaysLoss (_t : Nat) (a : Fin 2) : Real := 1 - a.val
+
+noncomputable def deceptionPaysHinge (a : Fin 2) : Real :=
+  if a.val = 0 then silentHinge.value else loudHinge.value
+
+lemma deceptionPaysHinge_zero : deceptionPaysHinge 0 = 0 := by
+  simp [deceptionPaysHinge, silentHinge_value]
+
+lemma deceptionPaysHinge_one : deceptionPaysHinge 1 = 1 := by
+  simp [deceptionPaysHinge, loudHinge_value]
+
+/-- First coord vs min on all of A (here 0). Second coord is the hinge. -/
+def uJointCoord (a : Fin 2) : Real × Real :=
+  (deceptionPaysLoss 0 a, deceptionPaysHinge a)
+
+lemma uJoint_zero : uJointCoord 0 = (1, 0) := by
+  simp [uJointCoord, deceptionPaysLoss, deceptionPaysHinge_zero]
+
+lemma uJoint_one : uJointCoord 1 = (0, 1) := by
+  simp [uJointCoord, deceptionPaysLoss, deceptionPaysHinge_one]
+
+theorem sjoint_unhit_zero :
+    ¬ ((uJointCoord 0).1 ≤ 0 ∧ (uJointCoord 0).2 ≤ 0) := by
+  simp [uJoint_zero]
+
+theorem sjoint_unhit_one :
+    ¬ ((uJointCoord 1).1 ≤ 0 ∧ (uJointCoord 1).2 ≤ 0) := by
+  simp [uJoint_one]
+
+/-- One-round S_joint box is empty: cheap action is loud, quiet action is expensive. -/
+theorem sjoint_unhit_one_round :
+    ¬ ((uJointCoord 0).1 ≤ 0 ∧ (uJointCoord 0).2 ≤ 0) ∧
+      ¬ ((uJointCoord 1).1 ≤ 0 ∧ (uJointCoord 1).2 ≤ 0) :=
+  ⟨sjoint_unhit_zero, sjoint_unhit_one⟩
+
+/-- Extra cost vs the quiet action (cost 1), plus hinge. Play 0. -/
+def uSafeQuiet : Real × Real :=
+  (deceptionPaysLoss 0 0 - 1, deceptionPaysHinge 0)
+
+theorem ssafe_hit_by_quiet :
+    uSafeQuiet.1 ≤ 0 ∧ uSafeQuiet.2 ≤ 0 := by
+  simp [uSafeQuiet, deceptionPaysLoss, deceptionPaysHinge_zero]
+
 end RegretHeuristic
