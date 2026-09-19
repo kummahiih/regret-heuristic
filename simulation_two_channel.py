@@ -2,7 +2,8 @@
 """CPU toy: trained hinge can go quiet while frozen-I stays loud.
 
 Numeric twin of Lean trained_silent_frozenI_loud.
-Frozen channel is logged only. Not added to L_total.
+The trained map is rotated by construction. SGD on identity does not
+leave the pin (cosine is scale-invariant). Frozen channel is logged only.
 Dummy vectors. z is not an input. Not an LLM. Not p(lie).
 """
 
@@ -43,12 +44,9 @@ def main() -> None:
         return L_tr, L_fr, L_total
 
     L_tr0, L_fr0, L_tot0 = channels()
-    opt = torch.optim.SGD(trained.parameters(), lr=1.0)
-    for _ in range(8):
-        opt.zero_grad(set_to_none=True)
-        L_tr, L_fr, L_tot = channels()
-        L_tot.backward()
-        opt.step()
+    with torch.no_grad():
+        # 90-degree rotate: walk [1,0] maps to [0,1], off the pin.
+        trained.weight.copy_(torch.tensor([[0.0, -1.0], [1.0, 0.0]]))
     L_tr1, L_fr1, L_tot1 = channels()
 
     print("=== Two-channel toy. Not simulation.py. Not an LLM. ===")
@@ -56,6 +54,7 @@ def main() -> None:
     print(f"before  trained={L_tr0.item():.4f}  frozen-I={L_fr0.item():.4f}  L_total={L_tot0.item():.4f}")
     print(f"after   trained={L_tr1.item():.4f}  frozen-I={L_fr1.item():.4f}  L_total={L_tot1.item():.4f}")
     print("L_total uses trained hinge only. Frozen-I is a log, not a third term.")
+    print("Trained drop is a constructed rotate, not an SGD claim.")
     print("z is not in L_total. This is NOT evidence of alignment.")
     if L_fr1.item() <= 0.0:
         raise SystemExit("frozen-I went quiet; channel is not a witness")
