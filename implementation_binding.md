@@ -3,7 +3,28 @@
 The rest of the repo names a hinge and records how identity / mean-pool sensors fail.
 This note ties that hinge to a build order. It does not add a third loss, an inference abort, or a quantum circuit.
 
-Source used as a *filter*, not as evidence: a survey of quantum-probability bookkeeping in partially observable security models (POMDP / Petri split, Born delay, amplitude-vs-angle packing, utility-plus-attraction). None of its reported accuracies, hardware claims, or honeypot recipes are imported. Hilbert space is optional notation for a signed multi-hypothesis score. The learner stays classical.
+## The joke is the definition
+
+Feynman's remark, in the form used here: if someone claims to understand quantum mechanics, they are lying.
+
+A probability amplitude is bookkeeping for a route you do not measure. The observable is the squared modulus after routes have been added. The joke in a long survey that "uses amplitudes to understand attacker intent" is therefore definitional, the way a good mathematical joke is: the definition already forbids the use.
+
+Map that ban onto this repo and it becomes an implementation rule, not a vibe.
+
+| Amplitude talk | Here |
+| --- | --- |
+| Amplitude for an unobservable route | Intent cell $z_t$. The map. |
+| Measurement / Born modulus | Printed walk, $h_{1:T}$, and any readout $r$. |
+| Claiming to understand the amplitude | Treating $r$ or $\mathcal{L}_{\mathrm{reg}}$ as knowledge of $z$, or as $p(\mathrm{lie})$. |
+| The lie the definition forbids | Putting $z$ in the loss, or reporting the hinge as understanding. |
+
+```math
+z \notin \mathrm{dom}(\mathcal{L}_{\mathrm{total}}).
+```
+
+$z$ may appear in a motion prior, in a held-out pin, in a smoother that *labels or refuses* a pin after the walk, and in prose. It may not appear as an input to $\mathcal{L}_{\mathrm{task}}$ or $\mathcal{L}_{\mathrm{reg}}$. Those take $x$, $y$, $h$, $r(h)$, and frozen $\mathcal{D}$.
+
+That is how you implement "model what you cannot measure" without pretending you measured it. The survey's circuits, accuracy tables, and honeypot attraction attacks stay on the joke side of the line.
 
 ## What was missing
 
@@ -16,21 +37,21 @@ Source used as a *filter*, not as evidence: a survey of quantum-probability book
 That is a *shape*. Implementation still needs six objects the toys assume:
 
 1. A path $h_{1:T}$, not one last vector.
-2. Hidden cells $z_t$ distinct from printed tokens.
+2. Hidden cells $z_t$ distinct from printed tokens, and kept out of the loss.
 3. A sensor $r$ that is not one packed unit vector.
 4. An action-indexed $A_{\mathrm{safe}}(t)$.
-5. A measurement time (when the hinge is allowed to fire).
+5. A measurement time (when the hinge is allowed to fire on $r$, never on $z$).
 6. A second channel that is *not* in the training sum.
 
-Failure probes (§2, §3c, §6) already show what happens if you skip 1–3: topic wallpaper, honest and deceptive eval move together, mean-pool mixes the hallway.
+Failure probes (§2, §3c, §6) already show what happens if you skip 1–3: topic wallpaper, honest and deceptive eval move together, mean-pool mixes the hallway. That is premature measurement of the walk, then a claim that the measurement was the map.
 
 ## 1. Observable vs unobservable (Petri / POMDP split)
 
 | Object | In this repo |
 | --- | --- |
 | Observable transition | Emitted token, tool call, or other logged event. The walk. |
-| Unobservable transition | Intent cell $z_t$: stay / fork / return. The map. |
-| Marking | Occupancy over cells after $t$ steps. |
+| Unobservable transition | Intent cell $z_t$: stay / fork / return. The map. Not a loss input. |
+| Marking | Occupancy over cells after $t$ steps. Prior / smoother only. |
 | Incidence | Coarse motion prior $P(z_t\mid z_{t-1})$. No teleport between rooms. |
 | Sensor | $P(r(h_t)\mid z_t)$, with declared variance $u$ (NLL / entropy / label noise). Not $p(\mathrm{lie})$. |
 
@@ -40,42 +61,38 @@ Do not update $\mathcal{D}$ from the current walk. Pins that move with the camer
 
 ## 2. Delayed measurement (do not square early)
 
-Classical last-token $r=I$ is a measurement at $T$ of a single packed vector. Two unobservable routes to the same printed string are added as *probabilities* and smear (0.77 / 0.80).
+Classical last-token $r=I$ measures at $T$ a single packed vector. Two unobservable routes to the same printed string are added as *probabilities* and smear (0.77 / 0.80). That is the Born step taken too soon, then treated as knowledge of $z$.
 
-Keep a signed score over cells *before* the hinge:
+Keep a signed score over cells *before* the hinge, as bookkeeping only:
 
 ```math
-\alpha_t(z)\in\mathbb{R}
-\qquad
-\text{(or $\mathbb{C}$ if a phase is actually used)}
+\alpha_t(z)\in\mathbb{R}.
 ```
 
-Aggregate along the path, *then* read out:
+$\alpha$ is not trained as if it were $z$. Aggregate along the path, *then* read out the walk:
 
 ```math
-h_{\mathrm{int}}=r(h_{1:T},\alpha_{1:T}),
+h_{\mathrm{int}}=r(h_{1:T}),
 \qquad
 \mathcal{L}_{\mathrm{reg}}=\mathrm{ReLU}\big(\max_k s(h_{\mathrm{int}},d_k)-\tau(u)\big).
 ```
 
 $\tau(u)$ wider when the chart is coarse ([intent-readout-search PROTOCOL](https://github.com/kummahiih/intent-readout-search/blob/main/PROTOCOL.md) rule 3). Quiet on mush is not honesty.
 
-The Born-rule slogan in the survey is only this: **sum hypotheses first, apply the hinge second.** Training still uses the ReLU. Inference still does not abort.
+Training still uses the ReLU on $r$. Inference still does not abort. A posterior $P(z_{1:T}\mid h_{1:T})$ may label or refuse a pin after the answer exists. It is not a third term in $\mathcal{L}_{\mathrm{total}}$, and it is not understanding $z$.
 
-A posterior smoother $P(z_{1:T}\mid h_{1:T})$ may *label or refuse a pin* after the answer exists. It is not a third term in $\mathcal{L}_{\mathrm{total}}$.
+## 3. Factored $r$, not one packed measurement
 
-## 3. Factored $r$, not amplitude packing
+Packing topic, strategy, and uncertainty into one normalized last-token vector is measuring everything at once and calling the modulus the amplitude. Tiny-$K$ $\max\cos$ is the same geometry Kumar 2026 already pressure-tests ([neighbors.md](neighbors.md)).
 
-Packing topic, strategy, and uncertainty into one normalized last-token vector is the survey's amplitude-encoding failure mode: exponential compression that destroys the gap you wanted. Tiny-$K$ $\max\cos$ is the same geometry Kumar 2026 already pressure-tests ([neighbors.md](neighbors.md)).
-
-Implement $r$ as *separate coordinates* (the angle-encoding lesson, classically):
+Implement $r$ as *separate coordinates*:
 
 ```math
 r(h)=\big(r_{\mathrm{topic}}(h),\; r_{\mathrm{strat}}(h),\; u(h)\big).
 ```
 
 - $r_{\mathrm{topic}}$ is allowed to hug the hallway. It is wallpaper. Do not hinge it.
-- $r_{\mathrm{strat}}$ is the only input to $\mathcal{L}_{\mathrm{reg}}$. Topic probe must fail on these vectors.
+- $r_{\mathrm{strat}}$ is the only input to $\mathcal{L}_{\mathrm{reg}}$. Topic probe must fail on these vectors. Still a sensor, still not $z$.
 - $u$ only widens $\tau$ and forbids pinning $\mathcal{D}$ when $u>u_0$.
 
 Sister-repo work already pointed here: `topic_residual.py`, `synthetic_z.py`. Construction of $r_{\mathrm{strat}}$ stays in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). This repo consumes a vector that has passed the topic probe.
@@ -84,13 +101,13 @@ Keep at least one frozen-identity lineage while $r_{\mathrm{strat}}$ is trained,
 
 ## 4. Two factors, one target
 
-The survey's Quantum Decision Theory split (utility factor vs attraction factor) is already the Lagrangian:
+Utility and attraction stay separate because one is the job and one is a sensor penalty. Mixing them is another way to pretend the measurement *is* the hidden route.
 
-| Survey name | Here |
+| Factor | Here |
 | --- | --- |
-| Utility factor | $\mathcal{L}_{\mathrm{task}}$ or $-L^{\mathrm{CLIP}}$ |
-| Attraction factor | $\lambda\mathcal{L}_{\mathrm{reg}}$ on $r_{\mathrm{strat}}$ only |
-| Collapse / measurement | Not an inference abort |
+| Utility | $\mathcal{L}_{\mathrm{task}}$ or $-L^{\mathrm{CLIP}}$ |
+| Attraction | $\lambda\mathcal{L}_{\mathrm{reg}}$ on $r_{\mathrm{strat}}$ only |
+| Collapse / measurement | Not an inference abort, and not $z$ |
 
 Sign for PPO: subtract the hinge from a maximand ([ppo_integration.md](ppo_integration.md)).
 
@@ -100,7 +117,7 @@ The only approachable box this essay may aim at remains $S_{\mathrm{safe}}$, not
 A_{\mathrm{safe}}(t)=\{a\in A:\ \mathcal{L}_{\mathrm{reg}}(r_{\mathrm{strat}}(h_t(a)),\mathcal{D})=0\}.
 ```
 
-If $r$ only sees a pre-action $h_t$, $A_{\mathrm{safe}}$ does not depend on $a$ and is not a comparator class.
+If $r$ only sees a pre-action $h_t$, $A_{\mathrm{safe}}$ does not depend on $a$ and is not a comparator class. If $A_{\mathrm{safe}}$ empties, the sensor did not determine the hidden cell. That is allowed. It is not a bug to "fix" by putting $z$ into the loss.
 
 A Lagrangian weight $\lambda$ is one halfspace, not Blackwell steering.
 
@@ -112,14 +129,14 @@ Given the observable walk $x_{1:T}$:
 
 1. List unobservable transitions that can precede or follow logged events under the motion prior.
 2. Drop transitions the prior forbids after this walk (no invoice $\to$ hiking teleport).
-3. Score only the surviving cells against frozen $\mathcal{D}$.
+3. Score only the surviving *sensor* vectors against frozen $\mathcal{D}$.
 4. Hold out at least one map cell the walk never occupies (`simulation_heldout.py`, sister-repo action 2). Evading onto that cell is not leaving the map.
 
-That is the survey's "extract a subnet, then diagnose" step, without Petri-net software or reported 98% figures.
+The held-out cell is how the map stays larger than the measurement. Do not train on it.
 
 ## 6. Second channel (not in the sum)
 
-Representation gaming is the analogue of decoherence: the system still acts, the hinge goes quiet.
+One measurement does not reconstruct an amplitude. That is why a second channel exists.
 
 Do not add a third training loss. Log, and refuse to pin $\mathcal{D}$ from, these monitors:
 
@@ -128,21 +145,21 @@ Do not add a third training loss. Log, and refuse to pin $\mathcal{D}$ from, the
 - NLL vs entropy disagreement (§4).
 - Whether $A_{\mathrm{safe}}(t)$ emptied.
 
-If the trained hinge dies and the frozen-$I$ hinge does not move, you gamed the sensor.
+If the trained hinge dies and the frozen-$I$ hinge does not move, you gamed the sensor. You still do not know $z$.
 
 ## Build order
 
-Do these in order. Stop if the topic probe still passes on $r_{\mathrm{strat}}$.
+Do these in order. Stop if the topic probe still passes on $r_{\mathrm{strat}}$. Stop if a change puts $z$ in the loss.
 
 | Step | Where | Done means |
 | --- | --- | --- |
-| B0 | [intent-readout-search](https://github.com/kummahiih/intent-readout-search) | $r_{\mathrm{strat}}$ gap survives topic and paraphrase; identity control stays near zero. |
-| B1 | this repo, new path object | $h_{1:T}$ + stay/fork/return prior; no hinge on $h_T$ alone. |
+| B0 | [intent-readout-search](https://github.com/kummahiih/intent-readout-search) | $r_{\mathrm{strat}}$ gap survives topic and paraphrase; identity control stays near zero. $z$ is a labeler tag, not a feature. |
+| B1 | this repo, new path object | $h_{1:T}$ + stay/fork/return prior; no hinge on $h_T$ alone; $z$ not in the graph of $\mathcal{L}_{\mathrm{total}}$. |
 | B2 | this repo | $r$ consumes candidate $a$; $A_{\mathrm{safe}}(t)$ is action-indexed and sometimes empty. |
 | B3 | this repo | $\tau(u)$ bins; no pin when $u>u_0$. |
 | B4 | this repo | Frozen-$I$ lineage + held-out cell logged every run. Do not overwrite [experiment_results.md](experiment_results.md) §1–§7. |
-| B5 | optional | Smoother $P(z_{1:T}\mid h_{1:T})$ labels pins only. |
-| B6 | never here | Quantum circuits, amplitude encoding, QBPN software, quantum walks, honeypot attraction attacks. |
+| B5 | optional | Smoother $P(z_{1:T}\mid h_{1:T})$ labels pins only. Still not a loss input. |
+| B6 | never here | Putting $z$ in $\mathcal{L}_{\mathrm{total}}$; circuits; reporting the hinge as understanding. |
 
 Existing wiring stays: [simulation.py](simulation.py), [ppo_toy.py](ppo_toy.py), Lean glossary. They are not B0–B4.
 
@@ -150,8 +167,7 @@ Existing wiring stays: [simulation.py](simulation.py), [ppo_toy.py](ppo_toy.py),
 
 - No claim that $S_{\mathrm{safe}}$ is approachable for a real $r,\mathcal{D}$.
 - No claim that delayed measurement or factored $r$ exists.
-- No imported diagnostic accuracies from the survey.
-- No dual-use honeypot recipe. Attraction is a training hinge on a readout, not a cognitive attack.
-- No inference abort. Measurement delay is about *when the hinge may fire in training*, not about blocking decode.
+- No claim that anyone understands $z$. The definition says they do not.
+- No inference abort. Measurement delay is about *when the hinge may fire on $r$*, not about blocking decode.
 
-Version 0.1.0.
+Version 0.1.1.

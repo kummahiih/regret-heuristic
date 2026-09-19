@@ -25,9 +25,9 @@ Cosine is undefined at the zero vector. Toys use `F.normalize` (eps floor); a tr
 
 Batch loss is the mean of $\mathcal{L}_{\mathrm{reg}}$ over the batch. $\mathcal{D}$ is not an optimization variable.
 
-$r$ and $\mathcal{D}$ are part of the definition, not measurements. If $r$ tracks topic or tokens rather than strategy, (A) is an ordinary output regularizer. Search for such an $r$: [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
+$r$ and $\mathcal{D}$ are part of the definition, not measurements of a hidden intent $z$. If $r$ tracks topic or tokens rather than strategy, (A) is an ordinary output regularizer. Search for such an $r$: [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
-How to *attach* a path, a factored $r$, and an action-indexed $A_{\mathrm{safe}}$ without changing this formula: [implementation_binding.md](implementation_binding.md).
+$z$ is not in the domain of $\mathcal{L}_{\mathrm{total}}$. That ban is the implementation content of the amplitude joke: [implementation_binding.md](implementation_binding.md).
 
 ## B. Attachments
 
@@ -67,6 +67,7 @@ $S_{\mathrm{safe}}$, not $S_{\mathrm{joint}}$. [approachability.md](approachabil
 - A theorem that (A) lowers (C), or that $S_{\mathrm{safe}}$ is approachable for a given $r,\mathcal{D}$.
 - A claim that token entropy is $p(\mathrm{lie})$.
 - A defined cosine at $h=0$.
+- Knowledge of $z$. $r$ is a sensor of the walk. Understanding $z$ is the move the definition forbids.
 
 ## F. Walk, map, uncertainty bins (notation only)
 
@@ -79,9 +80,10 @@ The hinge in §A is unchanged. Binding it to a build requires objects the toys a
 - Path $h_{1:T}$ and motion prior $P(z_t\mid z_{t-1})$ before any last-token $r$.
 - Factored readout $(r_{\mathrm{topic}}, r_{\mathrm{strat}}, u)$; hinge only $r_{\mathrm{strat}}$.
 - $A_{\mathrm{safe}}(t)$ indexed by candidate action $a$.
-- Hinge after aggregating hypotheses, not after packing one unit vector.
+- Hinge after aggregating hypotheses about the *walk*, not after packing one unit vector and calling it $z$.
 - A second channel (frozen $I$, held-out cell) that is not in $\mathcal{L}_{\mathrm{total}}$.
+- $z \notin \mathrm{dom}(\mathcal{L}_{\mathrm{total}})$.
 
-Names and build order: [implementation_binding.md](implementation_binding.md). No new symbol for a quantum amplitude.
+Names and build order: [implementation_binding.md](implementation_binding.md).
 
-Implemented: [simulation.py](simulation.py), [ppo_toy.py](ppo_toy.py). Version 0.1.0.
+Implemented: [simulation.py](simulation.py), [ppo_toy.py](ppo_toy.py). Version 0.1.1.
