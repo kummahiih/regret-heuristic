@@ -301,4 +301,19 @@ theorem hingeQuietOnAction_proper :
     hingeQuietOnAction 0 ∧ ¬ hingeQuietOnAction 1 :=
   ⟨hingeQuietOnAction_zero, not_hingeQuietOnAction_one⟩
 
+/-- Topic may hug the hallway. Hinge only sees strat. -/
+structure FactoredReadout (E : Type*) [NormedAddCommGroup E] [InnerProductSpace Real E] where
+  topic : E
+  strat : E
+  coarseness : Real
+
+noncomputable def factoredHinge (r : FactoredReadout E) (D : Finset E)
+    (hD : D.Nonempty) (tau0 : Real) : Real :=
+  regretHinge r.strat D hD tau0
+
+lemma factoredHinge_ignores_topic (r : FactoredReadout E) (topic' : E)
+    (D : Finset E) (hD : D.Nonempty) (tau0 : Real) :
+    factoredHinge r D hD tau0 =
+      factoredHinge { r with topic := topic' } D hD tau0 := rfl
+
 end RegretHeuristic
