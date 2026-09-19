@@ -87,19 +87,24 @@ lemma premature_sign_blind (a b : ℂ) :
 theorem same_premature_different_delayed :
     prematureBorn (1 : ℂ) (-1) = prematureBorn 1 1 ∧
       delayedBorn (1 : ℂ) (-1) ≠ delayedBorn 1 1 := by
-  constructor
+  refine ⟨?eq, ?ne⟩
   · simp [prematureBorn, Complex.normSq]
-  · simp [delayedBorn, Complex.normSq]; norm_num
-
-/-- Half-amplitude cancel pair. Same delayed zero, different premature mass. -/
-def half : ℂ := ⟨(2 : ℝ)⁻¹, 0⟩
+  · have h0 : delayedBorn (1 : ℂ) (-1) = 0 := by
+      simp [delayedBorn, Complex.normSq]
+    have h4 : delayedBorn (1 : ℂ) 1 = 4 := by
+      simp [delayedBorn, Complex.normSq]
+    simp [h0, h4]
 
 /-- Player II scale move: same delayed occupancy, different premature mass. -/
 theorem same_delayed_different_premature :
-    delayedBorn (1 : ℂ) (-1) = delayedBorn half (-half) ∧
-      prematureBorn (1 : ℂ) (-1) ≠ prematureBorn half (-half) := by
-  constructor
-  · simp [delayedBorn, half, Complex.normSq]
-  · simp [prematureBorn, half, Complex.normSq]; norm_num
+    delayedBorn (1 : ℂ) (-1) = delayedBorn 2 (-2) ∧
+      prematureBorn (1 : ℂ) (-1) ≠ prematureBorn 2 (-2) := by
+  refine ⟨?eq, ?ne⟩
+  · simp [delayedBorn, Complex.normSq]
+  · have h2 : prematureBorn (1 : ℂ) (-1) = 2 := by
+      simp [prematureBorn, Complex.normSq]
+    have h8 : prematureBorn (2 : ℂ) (-2) = 8 := by
+      simp [prematureBorn, Complex.normSq]
+    simp [h2, h8]
 
 end AmplitudeBookkeeping
