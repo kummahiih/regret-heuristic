@@ -84,3 +84,15 @@ u_safe play 0=(0.0, 0.0)  both<=0=True
 ```
 
 One-round $S_{\mathrm{joint}}$ empty. $S_{\mathrm{safe}}$ hittable by the quiet door. Dummy vectors. $z$ not in $L_{\mathrm{total}}$.
+
+## 9. Factored readout (`simulation_factored.py`) — 2026-09-19 22:05
+
+Hinge looks at strat only. Lean: `factoredHinge_ignores_topic`.
+
+```
+L_reg on strat before topic rewrite=1.0000
+L_reg on strat after topic rewrite=1.0000
+packed-vector L2 change if topic were mixed in=0.9852
+```
+
+Wallpaper rewrite is a no-op on $L_{\mathrm{reg}}$. Packing topic into the same vector would have moved. Dummy vectors. $z$ not in $L_{\mathrm{total}}$.
