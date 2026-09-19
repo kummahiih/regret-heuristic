@@ -109,7 +109,7 @@ So the hidden state has a fiber: many `Amp` values share one walk, hence share $
 Two cheap identities ([AmplitudeBookkeeping.lean](lean/AmplitudeBookkeeping.lean)):
 
 - `same_premature_different_delayed`: square-then-add is blind to the cancel pair $(1,-1)$ vs $(1,1)$; add-then-square is not ($0$ vs $4$).
-- `same_delayed_different_premature`: add-then-square is $0$ for both $(1,-1)$ and $(1/2,-1/2)$; square-then-add is $2$ vs $1/2$.
+- `same_delayed_different_premature`: add-then-square is $0$ for both $(1,-1)$ and $(2,-2)$; square-then-add is $2$ vs $8$.
 
 What this proves about the game:
 
@@ -138,4 +138,4 @@ What this does **not** prove: approachability of $S_{\mathrm{safe}}$, a quantum 
 - A proof that PPO approaches $S_{\mathrm{safe}}$.
 - Construction of $r$ or $\mathcal{D}$.
 
-Version 0.1.2.
+Version 0.1.3.
