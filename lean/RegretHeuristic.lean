@@ -321,4 +321,9 @@ theorem trained_silent_frozenI_loud :
     silentHinge.value = 0 ∧ loudHinge.value = 1 :=
   ⟨silentHinge_value, loudHinge_value⟩
 
+/-- Walk sits on D={1}. Held-out map cell -1 is not a pin. No ℝ² import. -/
+theorem heldout_not_mem_walk_bank :
+    (1 : Real) ∈ loudHinge.bank ∧ (-1 : Real) ∉ loudHinge.bank := by
+  simp [loudHinge]
+
 end RegretHeuristic
