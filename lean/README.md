@@ -5,7 +5,6 @@ A verified **glossary**, not a safety proof.
 Pinned to Lean `v4.33.1` / mathlib `v4.33.1`.
 
 ```bash
-cd lean
 lake exe cache get
 lake build
 ```
