@@ -96,3 +96,14 @@ packed-vector L2 change if topic were mixed in=0.9852
 ```
 
 Wallpaper rewrite is a no-op on $L_{\mathrm{reg}}$. Packing topic into the same vector would have moved. Dummy vectors. $z$ not in $L_{\mathrm{total}}$.
+
+## 10. Two-channel witness (`simulation_two_channel.py`) — 2026-09-19 22:08
+
+Trained hinge quiet after a constructed 90° rotate. Frozen-$I$ still 1. Lean: `trained_silent_frozenI_loud`. SGD on identity did not leave the cosine pin.
+
+```
+before  trained=1.0000  frozen-I=1.0000  L_total=1.0000
+after   trained=0.0000  frozen-I=1.0000  L_total=0.0000
+```
+
+$L_{\mathrm{total}}$ uses the trained hinge only. Frozen-$I$ is a log. Dummy vectors. $z$ not in $L_{\mathrm{total}}$.
