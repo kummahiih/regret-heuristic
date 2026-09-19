@@ -255,7 +255,7 @@ lemma deceptionPaysHinge_one : deceptionPaysHinge 1 = 1 := by
   simp [deceptionPaysHinge, loudHinge_value]
 
 /-- First coord vs min on all of A (here 0). Second coord is the hinge. -/
-def uJointCoord (a : Fin 2) : Real × Real :=
+noncomputable def uJointCoord (a : Fin 2) : Real × Real :=
   (deceptionPaysLoss 0 a, deceptionPaysHinge a)
 
 lemma uJoint_zero : uJointCoord 0 = (1, 0) := by
@@ -279,7 +279,7 @@ theorem sjoint_unhit_one_round :
   ⟨sjoint_unhit_zero, sjoint_unhit_one⟩
 
 /-- Extra cost vs the quiet action (cost 1), plus hinge. Play 0. -/
-def uSafeQuiet : Real × Real :=
+noncomputable def uSafeQuiet : Real × Real :=
   (deceptionPaysLoss 0 0 - 1, deceptionPaysHinge 0)
 
 theorem ssafe_hit_by_quiet :
