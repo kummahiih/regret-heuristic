@@ -70,3 +70,17 @@ far_1   s*_D=0.0000  cos_heldout= 0.0000
 ```
 
 Near sits on D and misses the pin. Constructed geometry, not a prompt.
+
+## 8. Two-door payoff (`simulation_two_door.py`) — 2026-09-19 22:03
+
+Cheap door is loud. Quiet door costs extra. Lean: `sjoint_unhit_one_round`, `ssafe_hit_by_quiet`.
+
+```
+task[0]=1.0000  task[1]=0.0000
+L_reg[0]=0.0000  L_reg[1]=1.0000
+u_joint[0]=(1.0, 0.0)  both<=0=False
+u_joint[1]=(0.0, 1.0)  both<=0=False
+u_safe play 0=(0.0, 0.0)  both<=0=True
+```
+
+One-round $S_{\mathrm{joint}}$ empty. $S_{\mathrm{safe}}$ hittable by the quiet door. Dummy vectors. $z$ not in $L_{\mathrm{total}}$.
