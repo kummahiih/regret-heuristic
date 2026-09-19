@@ -5,7 +5,7 @@ description = "Lean formalization of the regret heuristic hinge for online learn
 keywords = ["lean", "mathlib", "regret", "online-learning", "formal-methods"]
 license = "MIT"
 reservoir = true
-defaultTargets = ["RegretHeuristic"]
+defaultTargets = ["RegretHeuristic", "AmplitudeBookkeeping"]
 
 [[require]]
 name = "mathlib"
@@ -14,3 +14,6 @@ rev = "v4.33.1"
 
 [[lean_lib]]
 name = "RegretHeuristic"
+
+[[lean_lib]]
+name = "AmplitudeBookkeeping"
