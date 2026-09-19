@@ -325,5 +325,6 @@ theorem trained_silent_frozenI_loud :
 theorem heldout_not_mem_walk_bank :
     (1 : Real) ∈ loudHinge.bank ∧ (-1 : Real) ∉ loudHinge.bank := by
   simp [loudHinge]
+  norm_num
 
 end RegretHeuristic
