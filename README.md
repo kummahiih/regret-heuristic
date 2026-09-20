@@ -71,6 +71,7 @@ Scoreboard rules. Not a working camera.
 - **The map is bigger than the pins** (`heldout_not_mem_walk_bank`). The walk can sit on pin $1$ while cell $-1$ is still on the map and not in $D$. Leaving the red pins is not leaving the building.
 - **Two grades stay two grades in group RL** (`group_zscore_mix_not_separate`, `grpo_advantage_not_the_hinge`). Curve the job scores among the batch, then add the slap. If you add first and curve the mix, a quiet camera changes the job grade. That is one homework, not two.
 - **Noise is not the slap** (`entropy_bonus_not_the_hinge`). Paying the model to stay chatty is a different stick.
+- **Hearing the subject is not catching the scheme** (`decodable_not_causal`). You can tell the text is about taxes and still have no idea whether the model is being straight. The probe heard “taxes.” The slap needs “scheme.” Those are different meters.
 
 This *is* fine-tuning. The slap has to reach the floor the camera reads. If you only train the last layer and the camera looks at a middle one, you slapped empty air. If you change how the model is trained or compressed, the pins $D$ were drawn on an old map — redraw them. Details: [neighbors.md](neighbors.md#attachment-when-this-is-fine-tuning).
 
@@ -111,13 +112,13 @@ Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–�
 - Gradients of $L_{\mathrm{regret}}$ still enter whatever produced $h(x)$. Representation gaming is open.
 - Training-time only. No inference abort.
 - Toys are wiring. Qwen last-token 0.77 / 0.80; mean-pool 0.86 / 0.85; NLL vs entropy disagree; ATC 20-step dragged honest eval with the hinge.
-- Lean `lake build` from the **repo root** (`lakefile.toml` lives there, sources in `lean/`). Ok: wider $\tau$ cannot raise the hinge; silent hinge need not kill external regret; Amp is not a loss field; phase and scale moves can hide from one Born scoreboard and not the other; $S_{\mathrm{joint}}$ can be empty in one round while $S_{\mathrm{safe}}$ is hittable; $A_{\mathrm{safe}}$ is all-or-none if $r$ ignores $a$; topic wallpaper is not in the hinge; two channels can disagree; a held-out cell need not sit on $D$; group z-score of the mixed grade is not two scoreboards.
+- Lean `lake build` from the **repo root** (`lakefile.toml` lives there, sources in `lean/`). Ok: wider $\tau$ cannot raise the hinge; silent hinge need not kill external regret; Amp is not a loss field; phase and scale moves can hide from one Born scoreboard and not the other; $S_{\mathrm{joint}}$ can be empty in one round while $S_{\mathrm{safe}}$ is hittable; $A_{\mathrm{safe}}$ is all-or-none if $r$ ignores $a$; topic wallpaper is not in the hinge; two channels can disagree; a held-out cell need not sit on $D$; group z-score of the mixed grade is not two scoreboards; a loud topic probe is not a causal slap.
 - Probes, steering, SAE, LEACE, insertion look-ahead, and counterfactual self-play can live in other parts of a stack. This loss is the hinge: [neighbors.md](neighbors.md). Tiny-$K$ max-cosine is the single-direction geometry those probe papers already pressure-test.
 - Implementation binding does not lift these caps. It only names the path object, the factored sensor, action-indexed $A_{\mathrm{safe}}$, and a second channel that is not in the training sum.
 
 ## Theory and PPO
 
-Hannan / Blackwell: [regret_minimization.md](regret_minimization.md), [approachability.md](approachability.md) ($S_{\mathrm{safe}}$, not $S_{\mathrm{joint}}$). PPO attachment is a Lagrangian, not steering. [lean/RegretHeuristic.lean](lean/RegretHeuristic.lean), [lean/AmplitudeBookkeeping.lean](lean/AmplitudeBookkeeping.lean). Build order: [implementation_binding.md](implementation_binding.md). In-family characteristics: [working_model.md](working_model.md).
+Hannan / Blackwell: [regret_minimization.md](regret_minimization.md), [approachability.md](approachability.md) ($S_{\mathrm{safe}}$, not $S_{\mathrm{joint}}$). PPO attachment is a Lagrangian, not steering. [lean/RegretHeuristic.lean](lean/RegretHeuristic.lean), [lean/AmplitudeBookkeeping.lean](lean/AmplitudeBookkeeping.lean), [lean/SensorScoreboards.lean](lean/SensorScoreboards.lean). Build order: [implementation_binding.md](implementation_binding.md). In-family characteristics: [working_model.md](working_model.md).
 
 ## Conclusion
 
