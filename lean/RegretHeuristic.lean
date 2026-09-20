@@ -327,4 +327,20 @@ theorem heldout_not_mem_walk_bank :
   simp [loudHinge]
   norm_num
 
+/-- Fin-1 packing cartoon. Two unit features on ℝ cannot be orthogonal,
+so a 1-d residual cannot hold an independent topic axis and plan axis.
+Wallpaper geometry, not a camera. -/
+theorem no_two_orthogonal_units_on_real
+    (u v : Real) (hu : u ^ 2 = 1) (hv : v ^ 2 = 1) :
+    u * v ≠ 0 := by
+  intro h
+  have huv : u = 0 ∨ v = 0 := mul_eq_zero.mp h
+  cases huv with
+  | inl hu0 =>
+    have : (0 : Real) ^ 2 = 1 := hu0 ▸ hu
+    norm_num at this
+  | inr hv0 =>
+    have : (0 : Real) ^ 2 = 1 := hv0 ▸ hv
+    norm_num at this
+
 end RegretHeuristic
