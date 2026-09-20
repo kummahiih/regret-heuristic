@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this formulation, please cite it as below."
-title: "The Regret Heuristic: a prototype-hinge regularizer (not a deception detector)"
+title: "On the Design of Regret Training Heuristics"
 version: 0.1.0
 date-released: 2026-09-13
 url: "https://github.com/kummahiih/regret-heuristic"
