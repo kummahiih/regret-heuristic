@@ -26,5 +26,10 @@ What is proved:
 - `AmplitudeBookkeeping.totalLoss_ignores_amp`: wave the sticky note, the grade does not change
 - `same_premature_different_delayed`: Player II phase move is invisible to square-then-add
 - `same_delayed_different_premature`: Player II scale move is invisible to add-then-square
+- `SensorScoreboards.decodable_not_causal`: loud probe, silent causal meter on the same cell
+- `ImplicitReject.implicit_miss_is_some`: miss still returns a key; `explicit_miss_is_none` is the other API
+- `ImplicitReject.plan_score_ignores_topic` / `topic_from_plan_uninformative`: B0 toy
+- `ImplicitReject.coincidence_names_hallway`: the pair still prints topic — forbidden as $r$
+- `ImplicitReject.lexical_bleed`: patched walk prints the source topic token
 
-What is not proved: readout validity, bank coverage, representation gaming, Hannan of the hinge, PPO trust region, Blackwell, ALNS, that $r$ recovers $z$, that anyone understands an amplitude.
+What is not proved: readout validity, bank coverage, representation gaming, Hannan of the hinge, PPO trust region, Blackwell, ALNS, that $r$ recovers $z$, that anyone understands an amplitude, ML-KEM security, a path-patch circuit.
