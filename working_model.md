@@ -78,11 +78,12 @@ So the space of *trainers* shrank. The space of *sensors* did not.
 | Lemma | Characteristic |
 | --- | --- |
 | `regretHinge_wider_tau_le` | Wider $\tau$ cannot raise the hinge. |
-| `silent_hinge_not_vanishing_external_regret` | Quiet hinge ⇒̣ vanishing $R_T^{\mathrm{ext}}$. |
+| `silent_hinge_not_vanishing_external_regret` | Quiet hinge $\nRightarrow$ vanishing $R_T^{\mathrm{ext}}$. |
 | `hingeQuietIgnoringAction_all_or_none` | Sensor must see $a$. |
 | `two_route_identity` | Measurement time is load-bearing. |
 | `totalLoss_ignores_amp` | Amplitude is extra data, not a loss field. |
 | `premature_sign_blind` | Squaring first loses the sign that would have cancelled. |
+| `no_two_orthogonal_units_on_real` | A 1-d residual cannot hold an independent topic axis and plan axis. Packing, not a camera. |
 
 ## One-sentence pin
 
