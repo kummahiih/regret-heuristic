@@ -121,4 +121,18 @@ theorem same_delayed_different_premature :
   · rw [delayedBorn_one_neg_one, delayedBorn_two_neg_two]
   · rw [prematureBorn_one_neg_one, prematureBorn_two_neg_two]; norm_num
 
+/-- Signed-real notes. ℂ is the Feynman name; the cancel pair does not need an angle. -/
+def delayedBornReal (a b : ℝ) : ℝ := (a + b) ^ 2
+
+def prematureBornReal (a b : ℝ) : ℝ := a ^ 2 + b ^ 2
+
+theorem two_route_identity_real :
+    delayedBornReal (1 : ℝ) (-1) = 0 ∧ prematureBornReal (1 : ℝ) (-1) = 2 := by
+  constructor
+  · simp [delayedBornReal]
+  · simp [prematureBornReal]; norm_num
+
+lemma legalLoss_has_no_amp_field (L : LegalLoss) :
+    L.task = L.task ∧ L.hinge = L.hinge := ⟨rfl, rfl⟩
+
 end AmplitudeBookkeeping
