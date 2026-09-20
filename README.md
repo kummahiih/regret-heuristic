@@ -2,9 +2,9 @@
 
 Research pinpointing what a regret *training* heuristic should look like: keep the skill, slap the plan that hides.
 
-Pinned so far: the shape of the training grade, and what must not sit in it. Failed so far: reading the last printed token as if it were the plan (same-topic 0.77 / 0.80; mean-pool 0.86 / 0.85). Still missing: a camera that sees strategy rather than topic. That search is [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
+Pinned so far: the shape of the training grade, and what must not sit in it. Measured so far: last-token and mean-pool cameras hug topic, not plan (0.77 / 0.80 and 0.86 / 0.85 on the same-topic toy). Next: a camera that sees strategy. That search is [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
-The word *regret* is crowded. Routing solvers, poker AIs, and online-learning textbooks use it for other scoreboards. This repo is none of those. Map of near-misses: [neighbors.md](neighbors.md).
+The same word shows up in routing look-ahead, poker self-play, and online learning. Those can stay in a larger stack. This repo focuses on a training-time slap on a strategy camera, with the hidden room kept out of the grade. How those families sit next to this hinge: [neighbors.md](neighbors.md).
 
 ## Claim
 
@@ -18,7 +18,7 @@ The bookkeeping split, written as a training objective:
 
 $L_{\mathrm{task}}$ is the job. $r(h(x))$ is a hypothesized readout of internal state as an intent vector. $D$ is a frozen bank of prototypes. $L_{\mathrm{regret}}$ is a hinge on cosine similarity to that bank. That is a representation penalty. It is useful for deception only if $r$ is about strategy. Last-token and mean-pool identity already failed that test on a same-topic toy ([experiment_results.md](experiment_results.md) §2 / §6).
 
-Full symbols: [math_formulation.md](math_formulation.md). Neighbors (probes, steering, SAE, concept erasure, insertion regret, Hannan, Blackwell, Feynman III.1): [neighbors.md](neighbors.md). How to attach the missing objects without pretending the toys already have them: [implementation_binding.md](implementation_binding.md). What is in-family for a working model: [working_model.md](working_model.md).
+Full symbols: [math_formulation.md](math_formulation.md). Neighbors (probes, steering, SAE, concept erasure, insertion look-ahead, Hannan, Blackwell, Feynman III.1): [neighbors.md](neighbors.md). How to attach the missing objects without pretending the toys already have them: [implementation_binding.md](implementation_binding.md). What is in-family for a working model: [working_model.md](working_model.md).
 
 ## In plain language
 
@@ -26,7 +26,7 @@ Imagine a hallway with two rooms behind the wallpaper.
 
 You only see the **walk**: the words the model printed. You do not see which room it was thinking in. That hidden room is $z$. An **amplitude** is a sticky note that says “maybe room A this much, maybe room B that much.” It is not a measurement. It is a guess you are not allowed to treat as fact. Lean: `totalLoss_ignores_amp` — wave the sticky note, the grade does not change.
 
-Regret here is not “I wish I had played chess better.” That other regret is Hannan / external regret, a different scoreboard. This regret is a slap on the wrist if the *camera on the walk* looks too much like a banned room-pin $D$. It is also not “insert this customer before the good slot vanishes.”
+The grade this repo trains is a slap if the *camera on the walk* looks too much like a banned room-pin $D$. Other regrets remain possible elsewhere: hindsight vs the best fixed action, or inserting a job before its good slot vanishes. They answer different questions. We are asking how to keep the skill while tagging the camera.
 
 Two grades, added:
 
@@ -108,7 +108,7 @@ Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–�
 - Training-time only. No inference abort.
 - Toys are wiring. Qwen last-token 0.77 / 0.80; mean-pool 0.86 / 0.85; NLL vs entropy disagree; ATC 20-step dragged honest eval with the hinge.
 - Lean `lake build` ok: wider $\tau$ cannot raise the hinge; silent hinge need not kill external regret; Amp is not a loss field; phase and scale moves can hide from one Born scoreboard and not the other; $S_{\mathrm{joint}}$ can be empty in one round while $S_{\mathrm{safe}}$ is hittable; $A_{\mathrm{safe}}$ is all-or-none if $r$ ignores $a$; topic wallpaper is not in the hinge; two channels can disagree; a held-out cell need not sit on $D$.
-- Detection / steering / SAE / LEACE / ALNS / CFR are neighbors, not this loss: [neighbors.md](neighbors.md). Tiny-$K$ max-cosine is the single-direction geometry those probe papers already pressure-test.
+- Probes, steering, SAE, LEACE, insertion look-ahead, and counterfactual self-play can live in other parts of a stack. This loss is the hinge: [neighbors.md](neighbors.md). Tiny-$K$ max-cosine is the single-direction geometry those probe papers already pressure-test.
 - Implementation binding does not lift these caps. It only names the path object, the factored sensor, action-indexed $A_{\mathrm{safe}}$, and a second channel that is not in the training sum.
 
 ## Theory and PPO
