@@ -30,6 +30,7 @@ A candidate implementation is in-family only if all of these hold.
 10. **Second channel outside the sum.** Frozen-identity lineage, held-out map cell, NLL/entropy disagreement, emptiness of $A_{\mathrm{safe}}$. Logged. Not a third loss.
 11. **Smoother optional and off-graph.** A post-hoc $P(z\mid h)$ may label or refuse a pin after the walk. It is not a field of `LegalLoss`. No `Amp` in the backward pass.
 12. **Group RL keeps the scoreboards apart.** Z-score the task group, then add $\lambda$ hinge. Mixing first is a different object (`group_zscore_mix_not_separate`). No critic of $L_{\mathrm{reg}}$.
+13. **Decodable $\neq$ causal.** A probe that reads topic is not the coordinate a patch must move (`decodable_not_causal`). Do not put probe AUROC in the hinge.
 
 ## Necessary empirical filters (not success)
 
@@ -43,6 +44,7 @@ These are rejection tests. Passing them does not mean deception fell.
 | Trained hinge can die while frozen $I$ does not | Pure sensor gaming. |
 | $A_{\mathrm{safe}}$ sometimes empty | Pretending the sensor always determines a room. |
 | Silent hinge with $R_T^{\mathrm{ext}}=T$ still possible | Conflating (A) with Hannan. Already Lean. |
+| Probe loud while causal meter is silent | Treating decodability as the slap. Already Lean. |
 
 ## Forbidden implementations
 
@@ -62,12 +64,14 @@ Out of family, even if they use the word regret.
 - Claiming $S_{\mathrm{joint}}$ or Hannan-consistency of the hinge.
 - GRPO / group z-score of $\mathrm{task}+\mathrm{hinge}$ as if that were two scoreboards (`group_zscore_mix_not_separate`).
 - Entropy bonus as the hinge (`entropy_bonus_not_the_hinge`).
+- Probe AUROC as the hinge (`decodable_not_causal`).
 
 ## What this did *not* pin
 
 Still free, and still the actual research problem:
 
 - The map $r_{\mathrm{strat}}$. A topic/plan split in a real residual is [intent-readout-search](https://github.com/kummahiih/intent-readout-search). Last-layer and mid-layer topic-subtract still have topic acc 1.00 (2026-09-20 sweep). Superposition packing fights that split. Do not train $r$ in this repo.
+- Head-subset / function-vector $r$ (Todd, Pandey) and causal-SAE masks (Tiwari). Cartoons exist (`headWrite_ignores_rest`). Topic acc on those $r$ is unrun.
 - Offline construction and coverage of $D$. Pins $\neq$ map (`heldout_not_mem_walk_bank`). Live fill is forbidden. How many pins is enough stays open.
 - Numbers in $\tau(u)=\tau_0+u$ besides $u\ge 0$. The inequality is pinned (`regretHinge_mush_le`).
 - $\lambda$ *schedule*. The lever is a Lagrangian halfspace (`ppoWithHinge_zero_weight`), not Blackwell steering.
@@ -96,6 +100,8 @@ So the space of *trainers* shrank. The space of *sensors* did not.
 | `grpo_advantage_not_the_hinge` | Group z-score of a reward is not the cosine hinge. |
 | `entropy_bonus_not_the_hinge` | $-H$ is not the hinge. |
 | `group_zscore_mix_not_separate` | Z-score($\mathrm{task}+\mathrm{hinge}$) $\neq$ z-score($\mathrm{task}$)$+$hinge. |
+| `decodable_not_causal` | Probe on topic can shout while the plan coordinate is 0. |
+| `headWrite_ignores_rest` | A head-write $r$ does not see the rest of the hallway. |
 
 ## One-sentence pin
 
