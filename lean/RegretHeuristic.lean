@@ -356,4 +356,32 @@ lemma regretHinge_mush_le (h : E) (D : Finset E) (hD : D.Nonempty)
     regretHinge h D hD (tauWiden tau0 u) ≤ regretHinge h D hD tau0 :=
   regretHinge_wider_tau_le h D hD (tauWiden_of_nonneg tau0 u hu)
 
+/-- Group-relative advantage. Not the cosine hinge. -/
+def grpoGroupAdvantage (r meanG stdG : Real) : Real := (r - meanG) / stdG
+
+/-- Entropy bonus. Quiet insides are not "add -H". -/
+def entropyBonus (H : Real) : Real := -H
+
+/-- Z-score a scalar in a group. std is given so the toy avoids sqrt. -/
+def groupZScore (x meanG stdG : Real) : Real := (x - meanG) / stdG
+
+theorem grpo_advantage_not_the_hinge :
+    grpoGroupAdvantage (4 : Real) 1 1 = 3 ∧ silentHinge.value = 0 := by
+  constructor
+  · simp [grpoGroupAdvantage]; norm_num
+  · exact silentHinge_value
+
+theorem entropy_bonus_not_the_hinge :
+    entropyBonus (1 : Real) = -1 ∧ silentHinge.value = 0 := by
+  constructor
+  · simp [entropyBonus]
+  · exact silentHinge_value
+
+/-- Two-point toy. Task {0,2} hinge {0,2}.
+    Z-score task then add hinge on the loud point is 3.
+    Z-score the mix is 1. Mixing first is a different object. -/
+theorem group_zscore_mix_not_separate :
+    groupZScore (2 : Real) 1 1 + 2 ≠ groupZScore (2 + 2) 2 2 := by
+  simp [groupZScore]; norm_num
+
 end RegretHeuristic
