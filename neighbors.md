@@ -20,5 +20,23 @@ No novelty claim. Search for $r$: [intent-readout-search](https://github.com/kum
 | Blackwell, 1956. *An analog of the minimax theorem for vector payoffs.* Pacific J. Math. 6(1). | Approach a set in vector payoff space. | This essay aims at $S_{\mathrm{safe}}$, not $S_{\mathrm{joint}}$. A Lagrangian $\lambda$ is one halfspace, not Blackwell steering. Lean: `sjoint_unhit_one_round`, `ssafe_hit_by_quiet`. |
 | Feynman, *The Feynman Lectures on Physics* Vol. III, Ch. 1 ([caltech](https://www.feynmanlectures.caltech.edu/III_01.html)). Also *The Character of Physical Law* (1965), ch. 6, p. 129. | Three rules: $P=\lvert\phi\rvert^2$; if you do **not** look which way, $\phi=\phi_1+\phi_2$ then square; if you **do** look, $P=P_1+P_2$ and the cross term dies. He names $a$ a probability amplitude "because we do not know what it means." | This is the joke, stated as a rule. $z$ is the unlooked-at route. Last-token / mean-pool is looking too soon ($P_1+P_2=2$ on $(1,-1)$). Delayed bookkeeping is $\lvert 1+(-1)\rvert^2=0$. Lean: `two_route_identity`. Claiming to understand $z$ is claiming to understand $a$. |
 | Born, 1926. *Zur Quantenmechanik der Stoßvorgänge.* Z. Phys. 37, 863–867. | The measurable number is the **square** of the amplitude, not the amplitude. | The square is the walk. The amplitude is not an input to $L_{\mathrm{total}}$. Lean: `totalLoss_ignores_amp`. Amplitude-intent surveys that skip this step are not neighbors of this hinge. |
+| Shao et al., 2024. DeepSeekMath / GRPO (group-relative advantage, no critic). | Z-score a *group of traces*. Critic-free RLVR. | Same English family as PPO. Different scalar. Lean: `grpo_advantage_not_the_hinge`, `group_zscore_mix_not_separate`. Do not z-score $\mathrm{task}+\mathrm{hinge}$. No value net of $L_{\mathrm{reg}}$. |
+| DPO (Rafailov et al., 2023) frozen reference; SimPO / ORPO variants. | KL to a frozen policy, or drop the ref. Likelihood displacement under noisy pairs. | Three freezes are different objects: DPO-ref $\neq$ bank $D$ $\neq$ frozen identity $I$. Displacement is a cousin of §3c camera-drag, not this hinge. |
+| GaLore / low-rank *gradient* projection; Muon Stiefel updates. | Keep a loud gradient subspace. Orthogonalize matrix steps. | Packing in the optimizer. If $L_{\mathrm{reg}}$ is the quiet direction, the projection drops it. Rebuild $D$ if the trainer changes $h$. Not a topic/plan split. |
+
+## Attachment when this *is* fine-tuning
+
+$L_{\mathrm{total}}=L_{\mathrm{task}}+\lambda L_{\mathrm{reg}}$ is a training-time fine-tune. The 2025–26 PEFT / GRPO / kernel crawl does not pick $r$. It does pin how the slap may attach.
+
+- **Gradient support.** The hinge must reach the layers $r$ reads. LoRA-on-last-layer plus a mid-layer $r$ is a dead slap.
+- **Two scoreboards through group RL.** Z-score the task group, then add $\lambda$ hinge. Mixing first is a different object (`group_zscore_mix_not_separate`).
+- **Do not project $L_{\mathrm{reg}}$ onto the task subspace.** Topic is loud. Plan, if it exists, is quiet.
+- **Three freezes.** Policy reference, pin bank $D$, frozen identity $I$.
+- **$D$ dies when $h$ moves.** New quant, new optimizer, new adapter set: rebuild pins. Frozen-during-the-walk is not frozen-forever.
+- **Token drop is not path pooling.** A PEFT mask that deletes the tokens $r$ uses slaps a different hallway.
+- **No critic of the hinge.** Frozen-$I$ stays a log.
+- **Hinge is not RLVR.** Math-check and compile-check are verifiable. Quiet cosine is not $p(\mathrm{lie})$.
+
+LoRA recipes, BitNet, Liger, FlashAttention, multi-LoRA serving can sit under a later job. They do not name $r_{\mathrm{strat}}$.
 
 Held-out wording and a detector the model was not trained against are the interesting tests. They live in the search repo, not here.
