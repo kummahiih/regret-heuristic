@@ -13,10 +13,10 @@ import Mathlib.Tactic.NormNum
 namespace SensorScoreboards
 
 /-- Wallpaper coordinate. What a linear probe can read. -/
-def probeScore (topic plan : Real) : Real := |topic|
+def probeScore (topic _plan : Real) : Real := |topic|
 
 /-- Plan coordinate. What a patch would have to move. -/
-def causalScore (topic plan : Real) : Real := |plan|
+def causalScore (_topic plan : Real) : Real := |plan|
 
 /-- Same hallway cell. Probe shouts. Causal meter is silent. -/
 theorem decodable_not_causal :
@@ -33,7 +33,7 @@ theorem causal_not_from_probe :
   · simp [causalScore]
 
 /-- Function-vector cartoon: r is the head write. Rest of h can change. -/
-def headWrite (head rest : Real) : Real := head
+def headWrite (head _rest : Real) : Real := head
 
 lemma headWrite_ignores_rest (head rest rest' : Real) :
     headWrite head rest = headWrite head rest' := rfl
