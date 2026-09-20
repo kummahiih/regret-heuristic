@@ -102,7 +102,7 @@ python simulation.py
 
 Seed 0: L_near 0.70, L_far 0. Far silent. [simulation_tau_bins.py](simulation_tau_bins.py): wider $\tau$ is quieter, not silent (0.70 → 0.10). [simulation_heldout.py](simulation_heldout.py): extra pin missed by the walk.
 
-Bookkeeping toys, same dummy class: [simulation_two_door.py](simulation_two_door.py) ($S_{\mathrm{joint}}$ empty / $S_{\mathrm{safe}}$ hittable), [simulation_factored.py](simulation_factored.py) (hinge ignores topic), [simulation_two_channel.py](simulation_two_channel.py) (trained quiet, frozen-$I$ loud), [simulation_born.py](simulation_born.py) (premature 2 / delayed 0; Amp unused), [simulation_decodable.py](simulation_decodable.py) (probe 1 / causal 0 on the wallpaper cell).
+Bookkeeping toys, same dummy class: [simulation_two_door.py](simulation_two_door.py) ($S_{\mathrm{joint}}$ empty / $S_{\mathrm{safe}}$ hittable), [simulation_factored.py](simulation_factored.py) (hinge ignores topic), [simulation_two_channel.py](simulation_two_channel.py) (trained quiet, frozen-$I$ loud), [simulation_born.py](simulation_born.py) (premature 2 / delayed 0; Amp unused), [simulation_decodable.py](simulation_decodable.py) (probe 1 / causal 0 on the wallpaper cell), [simulation_head_write.py](simulation_head_write.py) ($r$ stays when the rest of $h$ flips).
 
 Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–§7.
 
