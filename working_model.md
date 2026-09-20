@@ -29,6 +29,7 @@ A candidate implementation is in-family only if all of these hold.
 9. **Training-time only.** No inference abort. Measurement delay is when the hinge may fire on $r$, not a decode block.
 10. **Second channel outside the sum.** Frozen-identity lineage, held-out map cell, NLL/entropy disagreement, emptiness of $A_{\mathrm{safe}}$. Logged. Not a third loss.
 11. **Smoother optional and off-graph.** A post-hoc $P(z\mid h)$ may label or refuse a pin after the walk. It is not a field of `LegalLoss`. No `Amp` in the backward pass.
+12. **Group RL keeps the scoreboards apart.** Z-score the task group, then add $\lambda$ hinge. Mixing first is a different object (`group_zscore_mix_not_separate`). No critic of $L_{\mathrm{reg}}$.
 
 ## Necessary empirical filters (not success)
 
@@ -59,6 +60,8 @@ Out of family, even if they use the word regret.
 - Dynamic $D$ filled from the current walk.
 - Reporting $\mathcal{L}_{\mathrm{reg}}$ as $p(\mathrm{lie})$ or as understanding.
 - Claiming $S_{\mathrm{joint}}$ or Hannan-consistency of the hinge.
+- GRPO / group z-score of $\mathrm{task}+\mathrm{hinge}$ as if that were two scoreboards (`group_zscore_mix_not_separate`).
+- Entropy bonus as the hinge (`entropy_bonus_not_the_hinge`).
 
 ## What this did *not* pin
 
@@ -72,6 +75,7 @@ Still free, and still the actual research problem:
 - A smoother is optional. Labels pins only. Not in $L_{\mathrm{total}}$. Not required for the hinge to be in-family.
 - Gaming remains open: $\nabla\mathcal{L}_{\mathrm{reg}}$ still enters $h$ and $r$. Frozen-$I$ is log-only. Do not add a third loss.
 - Whether any trainer reaches $S_{\mathrm{safe}}$. Two-door is a box, not a PPO run.
+- Adapter placement, quant, and optimizer: the slap must reach the layers $r$ reads; rebuild $D$ if $h$'s geometry changes. Not a camera.
 
 So the space of *trainers* shrank. The space of *sensors* did not.
 
@@ -89,6 +93,9 @@ So the space of *trainers* shrank. The space of *sensors* did not.
 | `totalLoss_ignores_amp` | Amplitude is extra data, not a loss field. |
 | `premature_sign_blind` | Squaring first loses the sign that would have cancelled. |
 | `no_two_orthogonal_units_on_real` | A 1-d residual cannot hold an independent topic axis and plan axis. Packing, not a camera. |
+| `grpo_advantage_not_the_hinge` | Group z-score of a reward is not the cosine hinge. |
+| `entropy_bonus_not_the_hinge` | $-H$ is not the hinge. |
+| `group_zscore_mix_not_separate` | Z-score($\mathrm{task}+\mathrm{hinge}$) $\neq$ z-score($\mathrm{task}$)$+$hinge. |
 
 ## One-sentence pin
 
