@@ -28,6 +28,7 @@ A candidate implementation is in-family only if all of these hold.
 8. **Target $S_{\mathrm{safe}}$, not $S_{\mathrm{joint}}$.** Extra cost vs the best *quiet* action that round, plus quiet hinge. Hannan-on-all-of-$A$ and clean insides is the rejected box.
 9. **Training-time only.** No inference abort. Measurement delay is when the hinge may fire on $r$, not a decode block.
 10. **Second channel outside the sum.** Frozen-identity lineage, held-out map cell, NLL/entropy disagreement, emptiness of $A_{\mathrm{safe}}$. Logged. Not a third loss.
+11. **Smoother optional and off-graph.** A post-hoc $P(z\mid h)$ may label or refuse a pin after the walk. It is not a field of `LegalLoss`. No `Amp` in the backward pass.
 
 ## Necessary empirical filters (not success)
 
@@ -63,12 +64,12 @@ Out of family, even if they use the word regret.
 
 Still free, and still the actual research problem:
 
-- The map $r_{\mathrm{strat}}$. A topic/plan split in a real residual is [intent-readout-search](https://github.com/kummahiih/intent-readout-search). Superposition packing fights that split. Do not train $r$ in this repo.
+- The map $r_{\mathrm{strat}}$. A topic/plan split in a real residual is [intent-readout-search](https://github.com/kummahiih/intent-readout-search). Last-layer and mid-layer topic-subtract still have topic acc 1.00 (2026-09-20 sweep). Superposition packing fights that split. Do not train $r$ in this repo.
 - Offline construction and coverage of $D$. Pins $\neq$ map (`heldout_not_mem_walk_bank`). Live fill is forbidden. How many pins is enough stays open.
 - Numbers in $\tau(u)=\tau_0+u$ besides $u\ge 0$. The inequality is pinned (`regretHinge_mush_le`).
 - $\lambda$ *schedule*. The lever is a Lagrangian halfspace (`ppoWithHinge_zero_weight`), not Blackwell steering.
 - Bookkeeping field $\mathbb{R}$ vs $\mathbb{C}$ is a name. Signed reals already cancel (`two_route_identity_real`). $\mathbb{C}$ is Feynman’s label, not a camera.
-- Whether a post-hoc smoother exists. Optional. Labels pins only. Not in $L_{\mathrm{total}}$.
+- A smoother is optional. Labels pins only. Not in $L_{\mathrm{total}}$. Not required for the hinge to be in-family.
 - Gaming remains open: $\nabla\mathcal{L}_{\mathrm{reg}}$ still enters $h$ and $r$. Frozen-$I$ is log-only. Do not add a third loss.
 - Whether any trainer reaches $S_{\mathrm{safe}}$. Two-door is a box, not a PPO run.
 
