@@ -59,6 +59,8 @@ The language model already is a *token* motion model. The missing piece is the c
 
 Do not update $\mathcal{D}$ from the current walk. Pins that move with the camera are §3c.
 
+$D$ is built offline. Coverage of the map is not a miner in this repo. Lean: `heldout_not_mem_walk_bank`. How many pins is enough stays open.
+
 ## 2. Delayed measurement (do not square early)
 
 Classical last-token $r=I$ measures at $T$ a single packed vector. Two unobservable routes to the same printed string are added as *probabilities* and smear (0.77 / 0.80). That is the Born step taken too soon, then treated as knowledge of $z$.
@@ -95,7 +97,7 @@ r(h)=\big(r_{\mathrm{topic}}(h),\; r_{\mathrm{strat}}(h),\; u(h)\big).
 - $r_{\mathrm{strat}}$ is the only input to $\mathcal{L}_{\mathrm{reg}}$. Topic probe must fail on these vectors. Still a sensor, still not $z$.
 - $u$ only widens $\tau$ and forbids pinning $\mathcal{D}$ when $u>u_0$.
 
-Sister-repo work already pointed here: `topic_residual.py`, `synthetic_z.py`. Construction of $r_{\mathrm{strat}}$ stays in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). This repo consumes a vector that has passed the topic probe.
+Sister-repo work already pointed here: `topic_residual.py`, `synthetic_z.py`. Construction of $r_{\mathrm{strat}}$ stays in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). Superposition packing fights a clean split. This repo consumes a vector that has passed the topic probe.
 
 Keep at least one frozen-identity lineage while $r_{\mathrm{strat}}$ is trained, so a moving sensor cannot hide that the map never split (§3c).
 
@@ -169,5 +171,6 @@ Existing wiring stays: [simulation.py](simulation.py), [ppo_toy.py](ppo_toy.py),
 - No claim that delayed measurement or factored $r$ exists.
 - No claim that anyone understands $z$. The definition says they do not.
 - No inference abort. Measurement delay is about *when the hinge may fire on $r$*, not about blocking decode.
+- No $D$ miner. Offline pins only. Coverage of the map stays open.
 
 Version 0.1.1.
