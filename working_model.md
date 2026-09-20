@@ -31,6 +31,7 @@ A candidate implementation is in-family only if all of these hold.
 11. **Smoother optional and off-graph.** A post-hoc $P(z\mid h)$ may label or refuse a pin after the walk. It is not a field of `LegalLoss`. No `Amp` in the backward pass.
 12. **Group RL keeps the scoreboards apart.** Z-score the task group, then add $\lambda$ hinge. Mixing first is a different object (`group_zscore_mix_not_separate`). No critic of $L_{\mathrm{reg}}$.
 13. **Decodable $\neq$ causal.** A probe that reads topic is not the coordinate a patch must move (`decodable_not_causal`). Do not put probe AUROC in the hinge.
+14. **Implicit reject.** A checker that always returns a key is not $z$ (`implicit_miss_is_some`). Verbal oracles and mutated tails are walks.
 
 ## Necessary empirical filters (not success)
 
@@ -45,6 +46,8 @@ These are rejection tests. Passing them does not mean deception fell.
 | $A_{\mathrm{safe}}$ sometimes empty | Pretending the sensor always determines a room. |
 | Silent hinge with $R_T^{\mathrm{ext}}=T$ still possible | Conflating (A) with Hannan. Already Lean. |
 | Probe loud while causal meter is silent | Treating decodability as the slap. Already Lean. |
+| Plan LOTO chance / topic-miss slice chance | Treating a polite mouth as a camera. |
+| Path-patch prints source-topic words | Lexical bleed (`lexical_bleed`). |
 
 ## Forbidden implementations
 
@@ -65,13 +68,14 @@ Out of family, even if they use the word regret.
 - GRPO / group z-score of $\mathrm{task}+\mathrm{hinge}$ as if that were two scoreboards (`group_zscore_mix_not_separate`).
 - Entropy bonus as the hinge (`entropy_bonus_not_the_hinge`).
 - Probe AUROC as the hinge (`decodable_not_causal`).
+- Filling $D$ from a verbal oracle or a mid-walk mutate (`coincidence_names_hallway`).
 
 ## What this did *not* pin
 
 Still free, and still the actual research problem:
 
-- The map $r_{\mathrm{strat}}$. A topic/plan split in a real residual is [intent-readout-search](https://github.com/kummahiih/intent-readout-search). Last-layer and mid-layer topic-subtract still have topic acc 1.00 (2026-09-20 sweep). Superposition packing fights that split. Do not train $r$ in this repo.
-- Head-subset / function-vector $r$ (Todd, Pandey) and causal-SAE masks (Tiwari). Cartoons exist (`headWrite_ignores_rest`). Topic acc on those $r$ is unrun.
+- The map $r_{\mathrm{strat}}$. [intent-readout-search](https://github.com/kummahiih/intent-readout-search): last-token and mid-layer cuts topic acc 1.00; verbal oracle plan 0.54 / miss-slice 0.43; mid-walk mutate tail 0.46 (confusion). Superposition packing fights a clean split. Do not train $r$ in this repo.
+- Head-subset $r$ (Todd, Pandey): **run**. Loud/quiet/hold-out still topic acc 1.00. Causal-SAE masks (Tiwari) and path-patch *during generation* stay gated until a tail LOTO moves.
 - Offline construction and coverage of $D$. Pins $\neq$ map (`heldout_not_mem_walk_bank`). Live fill is forbidden. How many pins is enough stays open.
 - Numbers in $\tau(u)=\tau_0+u$ besides $u\ge 0$. The inequality is pinned (`regretHinge_mush_le`).
 - $\lambda$ *schedule*. The lever is a Lagrangian halfspace (`ppoWithHinge_zero_weight`), not Blackwell steering.
@@ -102,9 +106,13 @@ So the space of *trainers* shrank. The space of *sensors* did not.
 | `group_zscore_mix_not_separate` | Z-score($\mathrm{task}+\mathrm{hinge}$) $\neq$ z-score($\mathrm{task}$)$+$hinge. |
 | `decodable_not_causal` | Probe on topic can shout while the plan coordinate is 0. |
 | `headWrite_ignores_rest` | A head-write $r$ does not see the rest of the hallway. |
+| `implicit_miss_is_some` | A miss still returns a key. Explicit miss is `none`. |
+| `plan_score_ignores_topic` | B0 toy: plan coordinate ignores wallpaper. |
+| `coincidence_names_hallway` | A pair that still prints topic is forbidden as $r$. |
+| `lexical_bleed` | Patched walk prints the source topic token. |
 
 ## One-sentence pin
 
 A working regret model is a **training-time Lagrangian on a factored, action-conditioned path sensor against a frozen bank**, with hidden cells kept out of the graph, a second channel that can contradict the trained hinge, and $S_{\mathrm{safe}}$ as the only target. Anything that measures $z$, updates $D$ live, or claims Hannan of the hinge is a different object.
 
-Version 0.1.0.
+Version 0.1.1.
