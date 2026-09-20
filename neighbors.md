@@ -1,7 +1,7 @@
 # Neighbors
 
 This repo is a prototype-hinge regularizer, not a deception detector.
-Papers below monitor, steer, erase, replay search, or use the *other* word "regret".
+Papers below monitor, steer, erase, replay search, pack features, or use the *other* word "regret".
 The amplitude line is a definitional joke, not a method paper.
 No novelty claim. Search for $r$: [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
@@ -11,6 +11,8 @@ No novelty claim. Search for $r$: [intent-readout-search](https://github.com/kum
 | Wang, Zhang, Sun, 2025. *When Thinking LLMs Lie*. arXiv:2506.04909 | LAT deception vector + **inference steering**. | Different lever: $h\leftarrow h\pm\alpha v$, not $\mathrm{ReLU}(\cos-\tau)$ in $L_{\mathrm{task}}$. |
 | Long et al., EMNLP 2025. *When Truthful Representations Flip Under Deceptive Instructions?* | SAE features that move when the **instruction** says lie. | Instruction persona can be wallpaper. Do not swap $\mathcal{D}$ for those features until they survive a topic probe. |
 | Kumar, 2026. *Pressure-Testing Deception Probes*. arXiv:2605.27958 | Clean AUROC dies under style shift. Single direction rejected ($k=1$ only 0.61–0.80 of the signal). Style-aug probes recover. | $\max_k\cos(h,d_k)$ with tiny $K$ is that $k=1$ geometry. |
+| Elhage et al., Anthropic 2022. *Toy Models of Superposition*. [transformer-circuits](https://transformer-circuits.pub/2022/toy_model/index.html) | Residual streams pack more features than dimensions. Interference $\sum_{i\neq j}(W_i\cdot W_j)^2$. Linear probes see a smear. | Geometry of the wallpaper. Topic and plan can share a direction. Factored $r$ is a hoped-for local split, not a found camera. SAE features still need a topic probe before they become $D$. |
+| Liu, Liu, Gore, NeurIPS 2025. *Superposition Yields Robust Neural Scaling*. arXiv:2505.10465 | Strong superposition: squared overlap $\propto 1/m$ in width $m$. Open models sit there. Loss $\propto 1/m$ is mostly packing, not a nicer data tail. | Wider Qwen quiets the smear. It does not invent a strategy axis. Same-topic 0.77 / 0.80 is the expected packed-probe reading. |
 | Belrose et al., NeurIPS 2023. LEACE; Ravfogel et al. INLP / RLACE | Erase a labeled concept from a representation, keep other linear signal. | Closer slogan ("remove D, keep T") than biological regret. Usually gender/POS, not scheming. Erasure $\neq$ this hinge. |
 | Zheng et al., 2026. *Dream-RSI: Recursive Self-Improvement through Evolving Worlds*. [PDF](https://dream-rsi.com/assets/dream-rsi.pdf) · arXiv:2609.14858 | Orchestrate exploration (branch, stop, dream on the discovery tree). **Leave the coding agent unchanged.** | Same split as this essay: do not touch the skill. They leave the worker and train the explorer. This repo leaves $L_{\mathrm{task}}$ and penalizes a readout. Different lever, same bookkeeping. Not a deception result. |
 | Potvin & Rousseau, 1993. *A parallel route building algorithm for the VRPTW*. Transportation Science 27(1). Ropke & Pisinger, 2006. ALNS. | Construction / repair: insert the customer whose **second-best slot** is much worse than the best ($k$-regret). | Same English word. Different object. They rank insertions by cost look-ahead. This repo penalizes a readout near frozen pins. Lean: `insertion_two_regret_not_the_hinge`. Not an ALNS trainer. |
