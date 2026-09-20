@@ -10,7 +10,7 @@ Walk vs map (design filter): [slam_analogy.md](slam_analogy.md). Printed text is
 Two constructed rooms (near D / orthogonal to D). Fake map, not Qwen.
 
 | | L_task | L_regret | L_total | L_near | L_far | \|grad W\| |
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- |
 | Before | 0.7310 | 0.3500 | 0.9060 | **0.7000** | **0.0000** | 0.473 |
 | After 1 Adam step | 0.6759 | 0.3486 | 0.8502 | **0.6971** | **0.0000** | 0.472 |
 
@@ -120,3 +120,9 @@ L_total with unused Amp note=1.0000
 ```
 
 Same hallway. Different time of looking. Pairing the sticky note does not change $L_{\mathrm{total}}$. Dummy scalars. Not a circuit.
+
+## 12. Trainer vs $S_{\mathrm{safe}}$ — not run
+
+No PPO (or other trainer) has been asked to sit in $S_{\mathrm{safe}}$ on a real $r_{\mathrm{strat}}$.
+
+§8 shows the box on dummy doors. That is not a policy update. B0 lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). Do not add a fake loop here.
