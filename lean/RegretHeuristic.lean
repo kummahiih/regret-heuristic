@@ -343,4 +343,17 @@ theorem no_two_orthogonal_units_on_real
     have : (0 : Real) ^ 2 = 1 := hv0 ▸ hv
     norm_num at this
 
+/-- Mush widens tau. Not a lambda schedule. Not a camera. -/
+def tauWiden (tau0 u : Real) : Real := tau0 + u
+
+lemma tauWiden_of_nonneg (tau0 u : Real) (hu : 0 ≤ u) :
+    tau0 ≤ tauWiden tau0 u := by
+  simp [tauWiden]
+  linarith
+
+lemma regretHinge_mush_le (h : E) (D : Finset E) (hD : D.Nonempty)
+    (tau0 u : Real) (hu : 0 ≤ u) :
+    regretHinge h D hD (tauWiden tau0 u) ≤ regretHinge h D hD tau0 :=
+  regretHinge_wider_tau_le h D hD (tauWiden_of_nonneg tau0 u hu)
+
 end RegretHeuristic
