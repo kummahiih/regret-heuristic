@@ -1,10 +1,10 @@
 # The Regret Heuristic
 
-A prototype-hinge regularizer. Not a deception detector. Not a VRP solver.
+Research pinpointing what a regret *training* heuristic should look like: keep the skill, slap the plan that hides.
 
-**Not that regret.** This is not Potvin / ALNS second-minus-best insertion, not Hannan external regret, not CFR, not OptaPlanner $\infty-\infty$. Same English word, different scoreboard. Lean: `insertion_two_regret_not_the_hinge`. Neighbors: [neighbors.md](neighbors.md).
+Pinned so far: the shape of the training grade, and what must not sit in it. Failed so far: reading the last printed token as if it were the plan (same-topic 0.77 / 0.80; mean-pool 0.86 / 0.85). Still missing: a camera that sees strategy rather than topic. That search is [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
-Whether $r$ and $D$ can track strategy given topic is a separate project: [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
+The word *regret* is crowded. Routing solvers, poker AIs, and online-learning textbooks use it for other scoreboards. This repo is none of those. Map of near-misses: [neighbors.md](neighbors.md).
 
 ## Claim
 
