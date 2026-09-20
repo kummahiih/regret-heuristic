@@ -63,13 +63,13 @@ Out of family, even if they use the word regret.
 
 Still free, and still the actual research problem:
 
-- The map $r_{\mathrm{strat}}$ (linear residual, multi-layer probe, …). Lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
-- Offline construction and coverage of $D$.
+- The map $r_{\mathrm{strat}}$. A topic/plan split in a real residual is [intent-readout-search](https://github.com/kummahiih/intent-readout-search). Superposition packing fights that split. Do not train $r$ in this repo.
+- Offline construction and coverage of $D$. Pins $\neq$ map (`heldout_not_mem_walk_bank`). Live fill is forbidden. How many pins is enough stays open.
 - Shape of $\tau(u)$ beyond "wider on mush".
 - $\lambda$ schedule. Lagrangian, not Blackwell steering.
 - Bookkeeping field $\mathbb{R}$ vs $\mathbb{C}$ is a name. Signed reals already cancel (`two_route_identity_real`). $\mathbb{C}$ is Feynman’s label, not a camera.
 - Whether a post-hoc smoother exists. Optional. Labels pins only.
-- Gaming remains open: $\nabla\mathcal{L}_{\mathrm{reg}}$ still enters $h$ and $r$.
+- Gaming remains open: $\nabla\mathcal{L}_{\mathrm{reg}}$ still enters $h$ and $r$. Frozen-$I$ is log-only. Do not add a third loss.
 
 So the space of *trainers* shrank. The space of *sensors* did not.
 
