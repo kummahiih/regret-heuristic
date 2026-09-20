@@ -65,11 +65,12 @@ Still free, and still the actual research problem:
 
 - The map $r_{\mathrm{strat}}$. A topic/plan split in a real residual is [intent-readout-search](https://github.com/kummahiih/intent-readout-search). Superposition packing fights that split. Do not train $r$ in this repo.
 - Offline construction and coverage of $D$. Pins $\neq$ map (`heldout_not_mem_walk_bank`). Live fill is forbidden. How many pins is enough stays open.
-- Shape of $\tau(u)$ beyond "wider on mush".
-- $\lambda$ schedule. Lagrangian, not Blackwell steering.
+- Numbers in $\tau(u)=\tau_0+u$ besides $u\ge 0$. The inequality is pinned (`regretHinge_mush_le`).
+- $\lambda$ *schedule*. The lever is a Lagrangian halfspace (`ppoWithHinge_zero_weight`), not Blackwell steering.
 - Bookkeeping field $\mathbb{R}$ vs $\mathbb{C}$ is a name. Signed reals already cancel (`two_route_identity_real`). $\mathbb{C}$ is Feynman’s label, not a camera.
-- Whether a post-hoc smoother exists. Optional. Labels pins only.
+- Whether a post-hoc smoother exists. Optional. Labels pins only. Not in $L_{\mathrm{total}}$.
 - Gaming remains open: $\nabla\mathcal{L}_{\mathrm{reg}}$ still enters $h$ and $r$. Frozen-$I$ is log-only. Do not add a third loss.
+- Whether any trainer reaches $S_{\mathrm{safe}}$. Two-door is a box, not a PPO run.
 
 So the space of *trainers* shrank. The space of *sensors* did not.
 
@@ -78,6 +79,8 @@ So the space of *trainers* shrank. The space of *sensors* did not.
 | Lemma | Characteristic |
 | --- | --- |
 | `regretHinge_wider_tau_le` | Wider $\tau$ cannot raise the hinge. |
+| `regretHinge_mush_le` | Mush $\tau_0+u$ cannot raise the hinge. |
+| `ppoWithHinge_zero_weight` | $\lambda=0$ drops the slap. One halfspace, not a schedule. |
 | `silent_hinge_not_vanishing_external_regret` | Quiet hinge $\nRightarrow$ vanishing $R_T^{\mathrm{ext}}$. |
 | `hingeQuietIgnoringAction_all_or_none` | Sensor must see $a$. |
 | `two_route_identity` | Measurement time is load-bearing. |
