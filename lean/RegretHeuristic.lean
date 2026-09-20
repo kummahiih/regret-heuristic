@@ -357,13 +357,13 @@ lemma regretHinge_mush_le (h : E) (D : Finset E) (hD : D.Nonempty)
   regretHinge_wider_tau_le h D hD (tauWiden_of_nonneg tau0 u hu)
 
 /-- Group-relative advantage. Not the cosine hinge. -/
-def grpoGroupAdvantage (r meanG stdG : Real) : Real := (r - meanG) / stdG
+noncomputable def grpoGroupAdvantage (r meanG stdG : Real) : Real := (r - meanG) / stdG
 
 /-- Entropy bonus. Quiet insides are not "add -H". -/
 def entropyBonus (H : Real) : Real := -H
 
 /-- Z-score a scalar in a group. std is given so the toy avoids sqrt. -/
-def groupZScore (x meanG stdG : Real) : Real := (x - meanG) / stdG
+noncomputable def groupZScore (x meanG stdG : Real) : Real := (x - meanG) / stdG
 
 theorem grpo_advantage_not_the_hinge :
     grpoGroupAdvantage (4 : Real) 1 1 = 3 ∧ silentHinge.value = 0 := by
