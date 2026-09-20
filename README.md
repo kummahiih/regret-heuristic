@@ -1,6 +1,8 @@
 # The Regret Heuristic
 
-A prototype-hinge regularizer inspired by biological regret. Not a deception detector.
+A prototype-hinge regularizer. Not a deception detector. Not a VRP solver.
+
+**Not that regret.** This is not Potvin / ALNS second-minus-best insertion, not Hannan external regret, not CFR, not OptaPlanner $\infty-\infty$. Same English word, different scoreboard. Lean: `insertion_two_regret_not_the_hinge`. Neighbors: [neighbors.md](neighbors.md).
 
 Whether $r$ and $D$ can track strategy given topic is a separate project: [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
@@ -16,7 +18,7 @@ The bookkeeping split, written as a training objective:
 
 $L_{\mathrm{task}}$ is the job. $r(h(x))$ is a hypothesized readout of internal state as an intent vector. $D$ is a frozen bank of prototypes. $L_{\mathrm{regret}}$ is a hinge on cosine similarity to that bank. That is a representation penalty. It is useful for deception only if $r$ is about strategy. Last-token and mean-pool identity already failed that test on a same-topic toy ([experiment_results.md](experiment_results.md) §2 / §6).
 
-Full symbols: [math_formulation.md](math_formulation.md). Neighbors (probes, steering, SAE, concept erasure): [neighbors.md](neighbors.md). How to attach the missing objects without pretending the toys already have them: [implementation_binding.md](implementation_binding.md). What is in-family for a working model: [working_model.md](working_model.md).
+Full symbols: [math_formulation.md](math_formulation.md). Neighbors (probes, steering, SAE, concept erasure, insertion regret, Hannan, Blackwell, Feynman III.1): [neighbors.md](neighbors.md). How to attach the missing objects without pretending the toys already have them: [implementation_binding.md](implementation_binding.md). What is in-family for a working model: [working_model.md](working_model.md).
 
 ## In plain language
 
@@ -24,7 +26,7 @@ Imagine a hallway with two rooms behind the wallpaper.
 
 You only see the **walk**: the words the model printed. You do not see which room it was thinking in. That hidden room is $z$. An **amplitude** is a sticky note that says “maybe room A this much, maybe room B that much.” It is not a measurement. It is a guess you are not allowed to treat as fact. Lean: `totalLoss_ignores_amp` — wave the sticky note, the grade does not change.
 
-Regret here is not “I wish I had played chess better.” That other regret is Hannan / external regret, a different scoreboard. This regret is a slap on the wrist if the *camera on the walk* looks too much like a banned room-pin $D$.
+Regret here is not “I wish I had played chess better.” That other regret is Hannan / external regret, a different scoreboard. This regret is a slap on the wrist if the *camera on the walk* looks too much like a banned room-pin $D$. It is also not “insert this customer before the good slot vanishes.”
 
 Two grades, added:
 
@@ -38,7 +40,7 @@ Two hidden routes can lead to the same printed sentence.
 - **Premature camera** (last-token / mean-pool): weigh each room, then add. Routes $1$ and $-1$ both look heavy. Score $2$. That is the same-topic smear (0.77 / 0.80).
 - **Delayed bookkeeping**: add the sticky notes first, then look. $1+(-1)=0$. Score $0$. You still have not seen the room. You only refused to pretend you did.
 
-Same hallway. Different time of looking. Lean: `two_route_identity`.
+Same hallway. Different time of looking. Lean: `two_route_identity`. Feynman Lectures III.1 is the same rule for an electron.
 
 A liar can flip the sign or scale the sticky note without changing the printed walk. The official payoff $u$ only sees the camera $r$, so those moves do not change the grade. That is why “looks safe” can come apart from “is the safe move.” Gaming is not a bug in the ReLU. It is the type of the game. Lean: `same_premature_different_delayed`, `same_delayed_different_premature`.
 
@@ -95,6 +97,8 @@ python simulation.py
 
 Seed 0: L_near 0.70, L_far 0. Far silent. [simulation_tau_bins.py](simulation_tau_bins.py): wider $\tau$ is quieter, not silent (0.70 → 0.10). [simulation_heldout.py](simulation_heldout.py): extra pin missed by the walk.
 
+Bookkeeping toys, same dummy class: [simulation_two_door.py](simulation_two_door.py) ($S_{\mathrm{joint}}$ empty / $S_{\mathrm{safe}}$ hittable), [simulation_factored.py](simulation_factored.py) (hinge ignores topic), [simulation_two_channel.py](simulation_two_channel.py) (trained quiet, frozen-$I$ loud), [simulation_born.py](simulation_born.py) (premature 2 / delayed 0; Amp unused).
+
 Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–§7.
 
 ## Caps
@@ -104,7 +108,7 @@ Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–�
 - Training-time only. No inference abort.
 - Toys are wiring. Qwen last-token 0.77 / 0.80; mean-pool 0.86 / 0.85; NLL vs entropy disagree; ATC 20-step dragged honest eval with the hinge.
 - Lean `lake build` ok: wider $\tau$ cannot raise the hinge; silent hinge need not kill external regret; Amp is not a loss field; phase and scale moves can hide from one Born scoreboard and not the other; $S_{\mathrm{joint}}$ can be empty in one round while $S_{\mathrm{safe}}$ is hittable; $A_{\mathrm{safe}}$ is all-or-none if $r$ ignores $a$; topic wallpaper is not in the hinge; two channels can disagree; a held-out cell need not sit on $D$.
-- Detection / steering / SAE / LEACE are neighbors, not this loss: [neighbors.md](neighbors.md). Tiny-$K$ max-cosine is the single-direction geometry those probe papers already pressure-test.
+- Detection / steering / SAE / LEACE / ALNS / CFR are neighbors, not this loss: [neighbors.md](neighbors.md). Tiny-$K$ max-cosine is the single-direction geometry those probe papers already pressure-test.
 - Implementation binding does not lift these caps. It only names the path object, the factored sensor, action-indexed $A_{\mathrm{safe}}$, and a second channel that is not in the training sum.
 
 ## Theory and PPO
