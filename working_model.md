@@ -67,7 +67,7 @@ Still free, and still the actual research problem:
 - Offline construction and coverage of $D$.
 - Shape of $\tau(u)$ beyond "wider on mush".
 - $\lambda$ schedule. Lagrangian, not Blackwell steering.
-- Whether bookkeeping $\alpha_t(z)$ is $\mathbb{R}$ or $\mathbb{C}$. Lean uses $\mathbb{C}$ so the joke has the same name. Signed reals already give the cancel pair.
+- Bookkeeping field $\mathbb{R}$ vs $\mathbb{C}$ is a name. Signed reals already cancel (`two_route_identity_real`). $\mathbb{C}$ is Feynman’s label, not a camera.
 - Whether a post-hoc smoother exists. Optional. Labels pins only.
 - Gaming remains open: $\nabla\mathcal{L}_{\mathrm{reg}}$ still enters $h$ and $r$.
 
@@ -81,6 +81,7 @@ So the space of *trainers* shrank. The space of *sensors* did not.
 | `silent_hinge_not_vanishing_external_regret` | Quiet hinge $\nRightarrow$ vanishing $R_T^{\mathrm{ext}}$. |
 | `hingeQuietIgnoringAction_all_or_none` | Sensor must see $a$. |
 | `two_route_identity` | Measurement time is load-bearing. |
+| `two_route_identity_real` | Signed reals already cancel. $\mathbb{C}$ is a name, not a requirement. |
 | `totalLoss_ignores_amp` | Amplitude is extra data, not a loss field. |
 | `premature_sign_blind` | Squaring first loses the sign that would have cancelled. |
 | `no_two_orthogonal_units_on_real` | A 1-d residual cannot hold an independent topic axis and plan axis. Packing, not a camera. |
