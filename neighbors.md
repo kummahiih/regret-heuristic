@@ -23,9 +23,9 @@ No novelty claim. Search for $r$: [intent-readout-search](https://github.com/kum
 | Shao et al., 2024. DeepSeekMath / GRPO (group-relative advantage, no critic). | Z-score a *group of traces*. Critic-free RLVR. | Same English family as PPO. Different scalar. Lean: `grpo_advantage_not_the_hinge`, `group_zscore_mix_not_separate`. Do not z-score $\mathrm{task}+\mathrm{hinge}$. No value net of $L_{\mathrm{reg}}$. |
 | DPO (Rafailov et al., 2023) frozen reference; SimPO / ORPO variants. | KL to a frozen policy, or drop the ref. Likelihood displacement under noisy pairs. | Three freezes are different objects: DPO-ref $\neq$ bank $D$ $\neq$ frozen identity $I$. Displacement is a cousin of §3c camera-drag, not this hinge. |
 | GaLore / low-rank *gradient* projection; Muon Stiefel updates. | Keep a loud gradient subspace. Orthogonalize matrix steps. | Packing in the optimizer. If $L_{\mathrm{reg}}$ is the quiet direction, the projection drops it. Rebuild $D$ if the trainer changes $h$. Not a topic/plan split. |
-| Todd et al., ICLR 2024. *Function Vectors in Large Language Models*. arXiv:2310.15213 | A few mid-layer heads carry a compact *task* vector. | Candidate $r$: those head writes, not last-token $h$. Topic probe on that $r$ is unrun. Lean cartoon: `headWrite_ignores_rest`. Search repo, not this hinge. |
-| Pandey, 2026. *The Shared Sycophancy-Lying Circuit*. arXiv:2604.19117 | Same small head set for lie and sycophancy; writes can be orthogonal; alignment leaves the circuit. | Same unrun topic test on those writes. Circuit ≠ frozen $D$. Do not steer $h$. |
-| Tiwari et al., 2026. *Decodability is Not Causality*. arXiv:2609.18080 | Probe-aligned SAE features need not be the features a patch moves. | Two meters on one cell. Lean: `decodable_not_causal`. Do not put a probe AUROC in $L_{\mathrm{total}}$. |
+| Todd et al., ICLR 2024. *Function Vectors in Large Language Models*. arXiv:2310.15213 | A few mid-layer heads carry a compact *task* vector. | Candidate $r$: those head writes. Search repo **ran**: official LOO topic 0.79 on loud heads; lstsq 1.00 memorizes. Not a plan camera. Lean: `headWrite_ignores_rest`. |
+| Pandey, 2026. *The Shared Sycophancy-Lying Circuit*. arXiv:2604.19117 | Same small head set for lie and sycophancy; writes can be orthogonal; alignment leaves the circuit. | Same LOO topic test on those writes. Circuit $\neq$ frozen $D$. Do not steer $h$. |
+| Tiwari et al., 2026. *Decodability is Not Causality*. arXiv:2609.18080 | Probe-aligned SAE features need not be the features a patch moves. | Two meters on one cell. Lean: `decodable_not_causal`. Do not put a probe AUROC in $L_{\mathrm{total}}$. Causal-SAE mask still unrun. |
 | Sudheendra & Srivastava, 2026. *When Decodability Is Not Enough*. arXiv:2609.02438 | Logical validity can decode while behavior ignores it. | Same split. A loud monitor is not a working slap. |
 | Manson, 2026. *Curved Inference II*. arXiv:2608.24037 | Path curvature / surface area vs linear probes. | Path object, different space than cosine-$D$. Topic-failure untested. Awkward hinge fit. |
 
@@ -41,11 +41,11 @@ $L_{\mathrm{total}}=L_{\mathrm{task}}+\lambda L_{\mathrm{reg}}$ is a training-ti
 - **Three freezes.** Policy reference, pin bank $D$, frozen identity $I$.
 - **$D$ dies when $h$ moves.** New quant, new optimizer, new adapter set: rebuild pins. Frozen-during-the-walk is not frozen-forever.
 - **Token drop is not path pooling.** A PEFT mask that deletes the tokens $r$ uses slaps a different hallway.
-- **No critic of the hinge.** Frozen-$I$ stays a log.
+- **No critic of the hinge.** Frozen-$I$ stays a log. A same-model chat judge is not that log.
 - **Hinge is not RLVR.** Math-check and compile-check are verifiable. Quiet cosine is not $p(\mathrm{lie})$.
 
 LoRA recipes, BitNet, Liger, FlashAttention, multi-LoRA serving can sit under a later job. They do not name $r_{\mathrm{strat}}$.
 
-Head-subset and causal-SAE masks are untried cameras. They live in the search repo. Topic acc on those $r$ is the next measurement, not a Lean theorem.
+Head-subset **ran** in the search repo (official LOO topic 0.79 / lstsq 1.00). Causal-SAE masks are still unrun. Neither is a Lean theorem.
 
 Held-out wording and a detector the model was not trained against are the interesting tests. They live in the search repo, not here.
