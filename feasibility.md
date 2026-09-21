@@ -41,14 +41,14 @@ Effort: high (small paper of formalization). Skip; keep the Lean slice definitio
 
 **Verdict: do (math note).**
 
-Forceability of $S_{\mathrm{safe}}$ is already stated as a Blackwell condition in `approachability.md`. $A_{\mathrm{safe}}(t)\neq\emptyset$ is **controllability**, not a property of the ReLU.
+Forceability of $S_{\mathrm{safe}}$ is a Blackwell condition in `approachability.md`. $A_{\mathrm{safe}}(t)\neq\emptyset$ is **controllability**, not a property of the ReLU.
 
-- $A_{\mathrm{safe}}(t)\neq\emptyset$ means: at that $t$ there exists a mixed action whose readout satisfies $\mathcal{L}_{\mathrm{reg}}=0$. An adversary that supplies $x$ (or a context) such that every viable completion has $\max_k\cos(r(h),d_k)>\tau$ empties the set. Conversational traps and prompt injection are exactly that saturation.
-- Second axiom: the safe comparator is stable under the readout (no systematic gaming that splits "looks safe" from "is the safe minimizer").
-- Under those, every supporting halfspace of $S_{\mathrm{safe}}$ is forceable by playing inside $A_{\mathrm{safe}}$; Blackwell then yields approachability.
+- $A_{\mathrm{safe}}(t)\neq\emptyset$ means: at that $t$ there exists a mixed action whose readout satisfies $\mathcal{L}_{\mathrm{reg}}=0$. An adversary that supplies $x$ such that every viable completion has $\max_k\cos(r(h),d_k)>\tau$ empties the set.
+- A second hope: the safe comparator is stable under the readout (no split of "looks safe" from "is the safe minimizer").
+- Those two are **not** enough to force the halfspaces. Complementary safe losses can leave a learner at $1/2$ while the per-round oracle is at $0$. See `approachability.md`. Do not claim Blackwell from nonemptiness plus stability.
 - Lean: skip. No approachability formalization in the current slice.
 
-Risk: the axioms are open problems on $r$, $\mathcal{D}$, and the environment. The note records the condition; it does not prove the set is always nonempty.
+Risk: the axioms are open problems on $r$, $\mathcal{D}$, and the environment. The note records the condition; it does not prove the set is nonempty or approachable.
 
 Effort: low (this paragraph).
 
