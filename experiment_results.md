@@ -83,7 +83,7 @@ u_joint[1]=(0.0, 1.0)  both<=0=False
 u_safe play 0=(0.0, 0.0)  both<=0=True
 ```
 
-One-round $S_{\mathrm{joint}}$ empty. $S_{\mathrm{safe}}$ hittable by the quiet door. Dummy vectors. $z$ not in $L_{\mathrm{total}}$.
+One-round $S_{\mathrm{joint}}$ empty. $S_{\mathrm{safe}}$ hittable by the quiet door. Dummy vectors. $z$ not in $L_{\mathrm{total}}$. Rerun 2026-09-21: one bank $D=\{1\}$, $r$ sees the door. Same numbers.
 
 ## 9. Factored readout (`simulation_factored.py`) — 2026-09-19 22:05
 
@@ -126,3 +126,18 @@ Same hallway. Different time of looking. Pairing the sticky note does not change
 No PPO (or other trainer) has been asked to sit in $S_{\mathrm{safe}}$ on a real $r_{\mathrm{strat}}$.
 
 §8 shows the box on dummy doors. That is not a policy update. B0 lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). Do not add a fake loop here.
+
+## 13. B1 trainer cartoon (`simulation_b1_trainer.py`) — 2026-09-21 20:08
+
+Path $h_{1:T}$, loss from the walk, frozen readout (kind=readout). Dummy linear encoder. Not Qwen.
+
+```
+path T=3 frozen_kind=readout tau=0.30 (capped)
+L_task=0.7819 L_reg=0.0751 L_frozen=0.0751
+L_last=0.0503 L_total=0.8195
+amp_normsq=2.0000  (logged, not in L_total)
+grad encoder=0.410410 readout=0.430949 frozen_readout=None
+after 1 step L_reg=0.0149 L_frozen=0.0638 alarm=True
+```
+
+`legal_of_walk` is task + $\lambda$ path-hinge. Amp is computed and discarded. Frozen readout gets no gradient. After one Adam step the trained hinge and the frozen log disagree (alarm, not a gaming verdict). $D$ not updated. Lean names: `legalOfWalk`, `illegalFromAmp`, `FrozenKind.readout`.
