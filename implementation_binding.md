@@ -24,6 +24,11 @@ z \notin \mathrm{dom}(\mathcal{L}_{\mathrm{total}}).
 
 $z$ may appear in a motion prior, in a held-out pin, in a smoother that *labels or refuses* a pin after the walk, and in prose. It may not appear as an input to $\mathcal{L}_{\mathrm{task}}$ or $\mathcal{L}_{\mathrm{reg}}$. Those take $x$, $y$, $h$, $r(h)$, and frozen $\mathcal{D}$.
 
+Two rules, not one lemma:
+
+- **Signature.** `LegalLoss` has no `Amp` field. `totalLoss_ignores_amp` is `rfl` once `task` and `hinge` are already numbers.
+- **Dataflow (B1).** Do not compute those numbers from $z$ or `Amp` before you build the record. The type does not enforce that. The construction must.
+
 That is how you implement "model what you cannot measure" without pretending you measured it. The survey's circuits, accuracy tables, and honeypot attraction attacks stay on the joke side of the line.
 
 ## What was missing
@@ -43,7 +48,7 @@ That is a *shape*. Implementation still needs six objects the toys assume:
 5. A measurement time (when the hinge is allowed to fire on $r$, never on $z$).
 6. A second channel that is *not* in the training sum.
 
-Failure probes (§2, §3c, §6) already show what happens if you skip 1–3: topic wallpaper, honest and deceptive eval move together, mean-pool mixes the hallway. That is premature measurement of the walk, then a claim that the measurement was the map.
+Failure probes (§2, §3c, §6) already show what happens if you skip 1–3: topic wallpaper, honest and deceptive eval move together, mean-pool mixes the hallway. That smear is evidence those cameras hug topic. It is not a proof that they "squared too soon." Premature Born is a design hypothesis about aggregation order. Path $r$ is a research choice: failing identity last-token does not ban every learned function of the last state.
 
 ## 1. Observable vs unobservable (Petri / POMDP split)
 
@@ -63,7 +68,7 @@ $D$ is built offline. Coverage of the map is not a miner in this repo. Lean: `he
 
 ## 2. Delayed measurement (do not square early)
 
-Classical last-token $r=I$ measures at $T$ a single packed vector. Two unobservable routes to the same printed string are added as *probabilities* and smear (0.77 / 0.80). That is the Born step taken too soon, then treated as knowledge of $z$.
+Classical last-token $r=I$ measures at $T$ a single packed vector. Two unobservable routes to the same printed string can smear (0.77 / 0.80). Treat that as topic hug, not as a Born experiment.
 
 Keep a signed score over cells *before* the hinge, as bookkeeping only:
 
@@ -81,6 +86,8 @@ h_{\mathrm{int}}=r(h_{1:T}),
 
 $\tau(u)$ wider when the chart is coarse ([intent-readout-search PROTOCOL](https://github.com/kummahiih/intent-readout-search/blob/main/PROTOCOL.md) rule 3). Quiet on mush is not honesty.
 
+**$u$ is detached.** Calibrate it from NLL / entropy / label-flip, off the hinge graph. If $u$ receives $\partial L_{\mathrm{reg}}/\partial u = -1$ when the hinge is active, the cheap move is "I am unsure." Joint training of $u$ is out of family. Cap $\tau$ below the cosine range so $u$ cannot silence every comparison.
+
 Training still uses the ReLU on $r$. Inference still does not abort. A posterior $P(z_{1:T}\mid h_{1:T})$ may label or refuse a pin after the answer exists. It is not a third term in $\mathcal{L}_{\mathrm{total}}$, and it is not understanding $z$.
 
 ## 3. Factored $r$, not one packed measurement
@@ -94,12 +101,12 @@ r(h)=\big(r_{\mathrm{topic}}(h),\; r_{\mathrm{strat}}(h),\; u(h)\big).
 ```
 
 - $r_{\mathrm{topic}}$ is allowed to hug the hallway. It is wallpaper. Do not hinge it.
-- $r_{\mathrm{strat}}$ is the only input to $\mathcal{L}_{\mathrm{reg}}$. Topic probe must fail on these vectors. Still a sensor, still not $z$.
-- $u$ only widens $\tau$ and forbids pinning $\mathcal{D}$ when $u>u_0$.
+- $r_{\mathrm{strat}}$ is the only input to $\mathcal{L}_{\mathrm{reg}}$. Topic probe must fail on these vectors (LOO / hold, not same-row lstsq). Still a sensor, still not $z$.
+- $u$ only widens $\tau$ and forbids pinning $\mathcal{D}$ when $u>u_0$. Stop-grad into $u$.
 
-Sister-repo work already pointed here: `topic_residual.py`, `synthetic_z.py`. Construction of $r_{\mathrm{strat}}$ stays in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). Superposition packing fights a clean split. This repo consumes a vector that has passed the topic probe.
+Sister-repo work already pointed here. Construction of $r_{\mathrm{strat}}$ stays in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). Superposition packing fights a clean split. This repo consumes a vector that has passed the topic probe.
 
-Keep at least one frozen-identity lineage while $r_{\mathrm{strat}}$ is trained, so a moving sensor cannot hide that the map never split (§3c).
+Keep at least one frozen lineage while $r_{\mathrm{strat}}$ is trained. Say what is frozen: readout weights, backbone, or cached $h$. Same-model chat grades are not that lineage.
 
 ## 4. Two factors, one target
 
@@ -111,7 +118,7 @@ Utility and attraction stay separate because one is the job and one is a sensor 
 | Attraction | $\lambda\mathcal{L}_{\mathrm{reg}}$ on $r_{\mathrm{strat}}$ only |
 | Collapse / measurement | Not an inference abort, and not $z$ |
 
-Sign for PPO: subtract the hinge from a maximand ([ppo_integration.md](ppo_integration.md)).
+Sign for PPO: subtract the hinge from a maximand ([ppo_integration.md](ppo_integration.md)). A critic of $L_{\mathrm{reg}}$ on the same backbone is not a second channel.
 
 The only approachable box this essay may aim at remains $S_{\mathrm{safe}}$, not $S_{\mathrm{joint}}$ ([approachability.md](approachability.md)). That forces $r$ to see the *candidate action*:
 
@@ -142,12 +149,12 @@ One measurement does not reconstruct an amplitude. That is why a second channel 
 
 Do not add a third training loss. Log, and refuse to pin $\mathcal{D}$ from, these monitors:
 
-- Frozen-$I$ lineage hinge (must not track a trained $r_{\mathrm{strat}}$ that only rotated wallpaper).
+- Frozen lineage hinge (readout / backbone / cached $h$ — say which).
 - Cosine to a held-out cell.
 - NLL vs entropy disagreement (§4).
 - Whether $A_{\mathrm{safe}}(t)$ emptied.
 
-If the trained hinge dies and the frozen-$I$ hinge does not move, you gamed the sensor. You still do not know $z$.
+Disagreement **requires investigation**. It is not by itself a diagnosis of gaming. A better strategy sensor can go quiet while an identity map still hugs topic. A moving backbone can change a "frozen" output. A same-model judge can go quiet because it likes its own chat.
 
 ## Build order
 
@@ -155,13 +162,13 @@ Do these in order. Stop if the topic probe still passes on $r_{\mathrm{strat}}$.
 
 | Step | Where | Done means |
 | --- | --- | --- |
-| B0 | [intent-readout-search](https://github.com/kummahiih/intent-readout-search) | $r_{\mathrm{strat}}$ gap survives topic and paraphrase; identity control stays near zero. $z$ is a labeler tag, not a feature. |
-| B1 | this repo, new path object | $h_{1:T}$ + stay/fork/return prior; no hinge on $h_T$ alone; $z$ not in the graph of $\mathcal{L}_{\mathrm{total}}$. |
+| B0 | [intent-readout-search](https://github.com/kummahiih/intent-readout-search) | $r_{\mathrm{strat}}$ gap survives topic and paraphrase; identity control stays near zero. Official topic gate is LOO / hold. $z$ is a labeler tag, not a feature. |
+| B1 | this repo, new path object | $h_{1:T}$ + stay/fork/return prior; no hinge on $h_T$ alone; signature *and* dataflow: $z$/`Amp` not upstream of `LegalLoss`. |
 | B2 | this repo | $r$ consumes candidate $a$; $A_{\mathrm{safe}}(t)$ is action-indexed and sometimes empty. |
-| B3 | this repo | $\tau(u)$ bins; no pin when $u>u_0$. |
-| B4 | this repo | Frozen-$I$ lineage + held-out cell logged every run. Do not overwrite [experiment_results.md](experiment_results.md) §1–§7. |
+| B3 | this repo | $\tau(u)$ bins; $u$ detached; $\tau$ capped; no pin when $u>u_0$. |
+| B4 | this repo | Frozen lineage + held-out cell logged every run. Disagreement is an alarm. Do not overwrite [experiment_results.md](experiment_results.md) §1–§7. |
 | B5 | optional | Smoother $P(z_{1:T}\mid h_{1:T})$ labels pins only. Still not a loss input. |
-| B6 | never here | Putting $z$ in $\mathcal{L}_{\mathrm{total}}$; circuits; reporting the hinge as understanding. |
+| B6 | never here | Putting $z$ in $\mathcal{L}_{\mathrm{total}}$; circuits; reporting the hinge as understanding; training on same-model chat grades. |
 
 Existing wiring stays: [simulation.py](simulation.py), [ppo_toy.py](ppo_toy.py), Lean glossary. They are not B0–B4.
 
@@ -173,4 +180,4 @@ Existing wiring stays: [simulation.py](simulation.py), [ppo_toy.py](ppo_toy.py),
 - No inference abort. Measurement delay is about *when the hinge may fire on $r$*, not about blocking decode.
 - No $D$ miner. Offline pins only. Coverage of the map stays open.
 
-Version 0.1.1.
+Version 0.1.2.
