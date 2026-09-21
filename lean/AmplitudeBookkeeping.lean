@@ -71,7 +71,7 @@ lemma totalLoss_zero_weight (L : LegalLoss) : totalLoss L 0 = L.task := by
 def attachAmp (L : LegalLoss) (α : Amp) : LegalLoss × Amp := (L, α)
 
 lemma loss_ignores_amp (L : LegalLoss) (α β : Amp) :
-    (attachAmp L α).1 = (attachAmp L α).1 := rfl
+    (attachAmp L α).1 = (attachAmp L β).1 := rfl
 
 lemma totalLoss_ignores_amp (L : LegalLoss) (α β : Amp) (lam : ℝ) :
     totalLoss (attachAmp L α).1 lam = totalLoss (attachAmp L β).1 lam := rfl
