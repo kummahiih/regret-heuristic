@@ -28,6 +28,7 @@ No novelty claim. Search for $r$: [intent-readout-search](https://github.com/kum
 | Tiwari et al., 2026. *Decodability is Not Causality*. arXiv:2609.18080 | Probe-aligned SAE features need not be the features a patch moves. | Two meters on one cell. Lean: `decodable_not_causal`. Do not put a probe AUROC in $L_{\mathrm{total}}$. Causal-SAE mask still unrun. |
 | Sudheendra & Srivastava, 2026. *When Decodability Is Not Enough*. arXiv:2609.02438 | Logical validity can decode while behavior ignores it. | Same split. A loud monitor is not a working slap. |
 | Manson, 2026. *Curved Inference II*. arXiv:2608.24037 | Path curvature / surface area vs linear probes. | Path object, different space than cosine-$D$. Topic-failure untested. Awkward hinge fit. |
+| General literature on Latent Adversarial Training (e.g., Madry et al. lineage) | Augment the training distribution with norm-bounded adversarial perturbations (\(\max_{\|\delta\| < \epsilon} L\)) to make static classifiers robust. | This repo does not adversarially train a static \(r(h)\). We change the forward pass into a dynamical system (\(K\)-step stochastic loop) so the orthogonal evasion null space mathematically collapses before the cosine is measured. |
 
 Do not cite arXiv:2601.14660 as “activation velocity.” That id is *NeuroFilter* (Das & Fioretto).
 

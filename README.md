@@ -16,7 +16,7 @@ The bookkeeping split, written as a training objective:
 
 > $L_{\mathrm{total}} = L_{\mathrm{task}} + \lambda\, L_{\mathrm{regret}}\big(r(h(x)), D\big)$
 
-$L_{\mathrm{task}}$ is the job. $r(h(x))$ is a hypothesized readout of internal state as an intent vector. $D$ is a frozen bank of prototypes. $L_{\mathrm{regret}}$ is a hinge on cosine similarity to that bank. That is a representation penalty. It is useful for deception only if $r$ is about strategy. Last-token and mean-pool identity already failed that test on a same-topic toy ([experiment_results.md](experiment_results.md) §2 / §6).
+$L_{\mathrm{task}}$ is the job. $r(h(x))$ is a hypothesized readout of internal state as an intent vector. To survive representation gaming, $r$ cannot be a static linear matrix; it must be a $K$-step stochastic relaxation loop that settles the representation into an attractor basin before measuring the cosine. $D$ is a frozen bank of prototypes. $L_{\mathrm{regret}}$ is a hinge on cosine similarity to that bank. That is a representation penalty. It is useful for deception only if $r$ is about strategy. Last-token and mean-pool identity already failed that test on a same-topic toy ([experiment_results.md](experiment_results.md) §2 / §6).
 
 Full symbols: [math_formulation.md](math_formulation.md). Neighbors (probes, steering, SAE, concept erasure, insertion look-ahead, Hannan, Blackwell, Feynman III.1): [neighbors.md](neighbors.md). How to attach the missing objects without pretending the toys already have them: [implementation_binding.md](implementation_binding.md). What is in-family for a working model: [working_model.md](working_model.md).
 
@@ -72,6 +72,7 @@ Scoreboard rules. Not a working camera.
 - **Two grades stay two grades in group RL** (`group_zscore_mix_not_separate`, `grpo_advantage_not_the_hinge`). Curve the job scores among the batch, then add the slap. If you add first and curve the mix, a quiet camera changes the job grade. That is one homework, not two.
 - **Noise is not the slap** (`entropy_bonus_not_the_hinge`). Paying the model to stay chatty is a different stick.
 - **Hearing the subject is not catching the scheme** (`decodable_not_causal`). You can tell the text is about taxes and still have no idea whether the model is being straight. The probe heard “taxes.” The slap needs “scheme.” Those are different meters.
+- **Static probes are structurally blind to evasion** (static_linear_evasion_exists, gaming_resistance_in_basin). A static linear sensor always has an orthogonal null space where the optimizer can hide a deceptive intent. An iterative stochastic attractor basin mathematically neutralizes this by exponentially contracting bounded evasion vectors back to the target intent.
 
 This *is* fine-tuning. The slap has to reach the floor the camera reads. If you only train the last layer and the camera looks at a middle one, you slapped empty air. If you change how the model is trained or compressed, the pins $D$ were drawn on an old map — redraw them. Details: [neighbors.md](neighbors.md#attachment-when-this-is-fine-tuning).
 
@@ -98,9 +99,11 @@ Design filter only. Not MagSLAM on Qwen. [slam_analogy.md](slam_analogy.md).
 ```bash
 pip install -r requirements.txt
 python simulation.py
+python simulation.py --dynamic-detector
 ```
 
-Seed 0: L_near 0.70, L_far 0. Far silent. [simulation_tau_bins.py](simulation_tau_bins.py): wider $\tau$ is quieter, not silent (0.70 → 0.10). [simulation_heldout.py](simulation_heldout.py): extra pin missed by the walk.
+Seed 0 (baseline): L_near 0.70, L_far 0. Far silent.
+Seed 0 (dynamic): L_near 0.0054, L_far 0.0761. The $K$-step loop breaks the orthogonal null space, making the "far" evasion vector visible to the loss. Backpropagation through time (BPTT) via residual connections prevents the gradient from vanishing into the noise. [simulation_tau_bins.py](simulation_tau_bins.py): wider $\tau$ is quieter, not silent (0.70 → 0.10). [simulation_heldout.py](simulation_heldout.py): extra pin missed by the walk.
 
 Bookkeeping toys, same dummy class: [simulation_two_door.py](simulation_two_door.py) ($S_{\mathrm{joint}}$ empty / $S_{\mathrm{safe}}$ hittable), [simulation_factored.py](simulation_factored.py) (hinge ignores topic), [simulation_two_channel.py](simulation_two_channel.py) (trained quiet, frozen-$I$ loud), [simulation_born.py](simulation_born.py) (premature 2 / delayed 0; Amp unused), [simulation_decodable.py](simulation_decodable.py) (probe 1 / causal 0 on the wallpaper cell), [simulation_head_write.py](simulation_head_write.py) ($r$ stays when the rest of $h$ flips).
 
@@ -109,7 +112,7 @@ Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–�
 ## Caps
 
 - $r$ and $D$ are assumed here. Building them is [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
-- Gradients of $L_{\mathrm{regret}}$ still enter whatever produced $h(x)$. Representation gaming is open.
+- Gradients of $L_{\mathrm{regret}}$ still enter whatever produced $h(x)$. While the dynamic detector closes static orthogonal representation gaming, dynamical gaming remains open (e.g., Attractor Collapse via scaling $\Vert{}h\Vert{} \to \infty$, or Manifold Flattening where the policy learns a subspace that negates the residual transition step).
 - Training-time only. No inference abort.
 - Toys are wiring. Qwen last-token 0.77 / 0.80; mean-pool 0.86 / 0.85; NLL vs entropy disagree; ATC 20-step dragged honest eval with the hinge.
 - Lean `lake build` from the **repo root** (`lakefile.toml` lives there, sources in `lean/`). Ok: wider $\tau$ cannot raise the hinge; silent hinge need not kill external regret; Amp is not a loss field; phase and scale moves can hide from one Born scoreboard and not the other; $S_{\mathrm{joint}}$ can be empty in one round while $S_{\mathrm{safe}}$ is hittable; $A_{\mathrm{safe}}$ is all-or-none if $r$ ignores $a$; topic wallpaper is not in the hinge; two channels can disagree; a held-out cell need not sit on $D$; group z-score of the mixed grade is not two scoreboards; a loud topic probe is not a causal slap.

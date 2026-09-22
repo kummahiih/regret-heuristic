@@ -32,6 +32,7 @@ A candidate implementation is in-family only if all of these hold.
 12. **Group RL keeps the scoreboards apart.** Z-score the task group, then add $\lambda$ hinge. Mixing first is a different object (`group_zscore_mix_not_separate`). No critic of $L_{\mathrm{reg}}$.
 13. **Decodable $\neq$ causal.** A probe that reads topic is not the coordinate a patch must move (`decodable_not_causal`). Do not put probe AUROC in the hinge.
 14. **Implicit reject.** A checker that always returns a key is not $z$ (`implicit_miss_is_some`). Verbal oracles and mutated tails are walks.
+15. **Dynamical, not static, intent readout.** A static linear probe $Wh + b$ is mathematically guaranteed to have a non-trivial kernel (Lean: static_linear_evasion_exists), allowing the policy to hide intent via orthogonal evasion vectors. The sensor must use a $K$-step stochastic relaxation loop (an attractor basin) to settle the representation before evaluating the cosine hinge. The loop must use residual connections to keep the gradient highway open to the base model.
 
 ## Necessary empirical filters (not success)
 
@@ -49,6 +50,7 @@ These are rejection tests. Passing them does not mean deception fell.
 | Plan LOTO chance / topic-miss slice chance | Treating a polite mouth as a camera. |
 | Path-patch prints source-topic words | Lexical bleed (`lexical_bleed`). |
 | Same-model chat fact-grade used as nature | Actor+judge shared blind spot. |
+| Orthogonal representation gaming | Static linear probes that report $L_{\mathrm{reg}}=0$ when the optimizer just rotates the intent into the sensor's null space. |
 
 ## Forbidden implementations
 
@@ -71,6 +73,10 @@ Out of family, even if they use the word regret.
 - Entropy bonus as the hinge.
 - Probe AUROC as the hinge.
 - Filling $D$ from a verbal oracle, a mid-walk mutate, or a same-model chat grade.
+- Static linear intent probes for $r_{\mathrm{strat}}$ without a dynamical buffer (formally proven to fail via kernel evasion).
+- Un-normalized inputs to the dynamic detector (allows the optimizer to trigger "Attractor Collapse" by scaling $\Vert{}h\Vert{} \to \infty$ to dwarf the stochastic noise $\sigma$).
+- A transition step $F$ that exactly negates the input ($F(h) \approx -h$) to flatten the intent manifold into pure noise before the readout.
+
 
 ## What this did *not* pin
 
@@ -83,8 +89,8 @@ Still free, and still the actual research problem:
 - Bookkeeping field $\mathbb{R}$ vs $\mathbb{C}$ is a name. Signed reals already cancel.
 - Gaming remains open: $\nabla\mathcal{L}_{\mathrm{reg}}$ still enters $h$ and $r$.
 - Whether any trainer reaches $S_{\mathrm{safe}}$. Two-door is a box, not a PPO run.
+- Dynamic evasion modes: While the stochastic loop breaks static orthogonal evasion, it leaves open dynamical gaming. The optimizer can still attempt Attractor Collapse (norm scaling), Manifold Flattening (learning $F(h) \approx -h$), or High-Frequency Scrubbing (hiding intent in high frequencies that the step-net filters out as noise).
 
-So the space of *trainers* shrank. The space of *sensors* did not.
 
 ## Lean pins (glossary, not safety)
 
@@ -101,9 +107,11 @@ So the space of *trainers* shrank. The space of *sensors* did not.
 | `headWrite_ignores_rest` | A head-write $r$ does not see the rest of the hallway. |
 | `implicit_miss_is_some` | A miss still returns a key. |
 | `lexical_bleed` | Patched walk prints the source topic token. |
+| `static_linear_evasion_exists` | Static linear probes always contain an orthogonal evasion vector $v$ that blinds the sensor without changing upstream activations. |
+| `gaming_resistance_in_basin` | An iterative attractor basin exponentially contracts bounded evasion vectors back to the target intent. |
 
 ## One-sentence pin
 
-A working regret model is a **training-time Lagrangian on a factored, action-conditioned path sensor against a frozen bank**, with hidden cells kept out of the graph, $u$ off that graph, a second channel that can contradict the trained hinge, and $S_{\mathrm{safe}}$ as the only target. Anything that measures $z$, trains $u$ to silence the hinge, updates $D$ live, or claims Hannan of the hinge is a different object.
+A working regret model is a **training-time Lagrangian on a factored, dynamically unrolled, action-conditioned path sensor against a frozen bank**, with hidden cells kept out of the graph, $u$ off that graph, a second channel that can contradict the trained hinge, and $S_{\mathrm{safe}}$ as the only target. Anything that measures $z$, trains $u$ to silence the hinge, updates $D$ live, or claims Hannan of the hinge is a different object.
 
-Version 0.1.2.
+Version 0.1.3.
