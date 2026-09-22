@@ -2,7 +2,7 @@
 
 Research pinpointing what a regret *training* heuristic should look like: keep the skill, slap the plan that hides.
 
-Pinned so far: the shape of the training grade, and what must not sit in it. Measured so far: last-token and mean-pool cameras hug topic, not plan (0.77 / 0.80 and 0.86 / 0.85 on the same-topic toy). Next: a camera that sees strategy. That search is [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
+Pinned so far: the shape of the training grade, the dynamical structure of the sensor (a stochastic relaxation loop, not a static probe), and what must not sit in the sum. Measured so far: last-token and mean-pool cameras hug topic, not plan (0.77 / 0.80 and 0.86 / 0.85 on the same-topic toy). Next: a camera that sees strategy. That search is kummahiih/intent-readout-search.
 
 The same word shows up in routing look-ahead, poker self-play, and online learning. Those can stay in a larger stack. This repo focuses on a training-time slap on a strategy camera, with the hidden room kept out of the grade. How those families sit next to this hinge: [neighbors.md](neighbors.md).
 
