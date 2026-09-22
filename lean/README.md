@@ -31,5 +31,6 @@ What is proved:
 - `ImplicitReject.plan_score_ignores_topic` / `topic_from_plan_uninformative`: B0 toy
 - `ImplicitReject.coincidence_names_hallway`: the pair still prints topic — forbidden as $r$
 - `ImplicitReject.lexical_bleed`: patched walk prints the source topic token
+- `static_linear_evasion_exists` / `gaming_resistance_in_basin`: static linear probes allow orthogonal kernel evasion, but an iterative attractor basin exponentially contracts bounded evasions back to the intent target
 
 What is not proved: readout validity, bank coverage, representation gaming, Hannan of the hinge, PPO trust region, Blackwell, ALNS, that $r$ recovers $z$, that anyone understands an amplitude, ML-KEM security, a path-patch circuit.
