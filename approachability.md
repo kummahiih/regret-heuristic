@@ -66,7 +66,7 @@ u_t^{\mathrm{reg}}
 u_t=(u_t^{\mathrm{safe}}, u_t^{\mathrm{reg}})\in\mathbb{R}^{2}.
 ```
 
-The first coordinate is extra cost versus the **best safe action that round**, not versus a single fixed safe action for the whole horizon. That is a stronger benchmark than external regret against one frozen safe action. Nonempty $A_{\mathrm{safe}}$ does **not** imply approachability: two safe actions with complementary losses can leave a learner at $1/2$ while the per-round oracle is at $0$. Approachability still needs Blackwell's halfspaces, not mere safety of the support.
+$u^{\mathrm{safe}}$ is extra cost versus the **best safe action that round**. That is **not** Hannan's comparator (best *fixed* action over the whole horizon). Do not call $u^{\mathrm{safe}}$ a Hannan score. It is a stronger per-round oracle than external regret against one frozen safe action. Nonempty $A_{\mathrm{safe}}$ does **not** imply approachability: two safe actions with complementary losses can leave a learner at $1/2$ while the per-round oracle is at $0$. Approachability still needs Blackwell's halfspaces, not mere safety of the support.
 
 ## Targets
 
@@ -77,7 +77,7 @@ S_{\mathrm{joint}}=(-\infty,0]\times(-\infty,0]
 \quad\text{with first coordinate vs }\min_{a\in A}\ell_t(a).
 ```
 
-That box is "beat every action in $A$, and keep the hinge quiet." Reserve the name Hannan-on-$A$ for this **rejected** box only. Do not use it for the per-round safe comparator $u^{\mathrm{safe}}$. If a profitable action sits in $\mathcal{D}$, some halfspace containing $S_{\mathrm{joint}}$ is not forceable. This repo does **not** claim $S_{\mathrm{joint}}$.
+That box is "beat every action in $A$ *this round*, and keep the hinge quiet." Even that is not Hannan (Hannan is vs one fixed action for all $t$). The name Hannan-on-$A$ is retired here so the rejected box is not confused with $R_T^{\mathrm{ext}}$. If a profitable action sits in $\mathcal{D}$, some halfspace containing $S_{\mathrm{joint}}$ is not forceable. This repo does **not** claim $S_{\mathrm{joint}}$.
 
 **Essay target (the only one consistent with keep-the-skill, tag-the-intent):**
 
@@ -86,7 +86,7 @@ S_{\mathrm{safe}}=(-\infty,0]\times(-\infty,0]
 \quad\text{with first coordinate }u^{\mathrm{safe}}.
 ```
 
-Average in $S_{\mathrm{safe}}$ means mean hinge in the dead zone, and mean extra cost vs the best hinge-quiet action that round $\to 0$. Still not Hannan on $A$. Still not automatic from "$A_{\mathrm{safe}}$ nonempty."
+Average in $S_{\mathrm{safe}}$ means mean hinge in the dead zone, and mean extra cost vs the best hinge-quiet action that round $\to 0$. Not Hannan. Not automatic from "$A_{\mathrm{safe}}$ nonempty."
 
 ## Forceability of $S_{\mathrm{safe}}$ (condition, not a theorem we prove)
 
@@ -124,7 +124,7 @@ What this does **not** prove: approachability of $S_{\mathrm{safe}}$, a quantum 
 
 | Claim elsewhere | Status here |
 | --- | --- |
-| Hinge is not Hannan on A | Kept. S_joint rejected. The name is only that rejected box. |
+| Hinge is not Hannan | Kept. $R_T^{\mathrm{ext}}$ vs best fixed action is a different scoreboard. |
 | L_task + lambda L_reg | Heuristic attachment; not Blackwell steering. |
 | Frozen D | Kept in u_reg. |
 | r and D unsolved | Needed for A_safe to be nonempty, action-indexed, and stable. |
@@ -138,4 +138,4 @@ What this does **not** prove: approachability of $S_{\mathrm{safe}}$, a quantum 
 - A proof that PPO approaches $S_{\mathrm{safe}}$.
 - Construction of $r$ or $\mathcal{D}$.
 
-Version 0.1.4.
+Version 0.1.5.
