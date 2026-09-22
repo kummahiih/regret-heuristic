@@ -141,3 +141,17 @@ after 1 step L_reg=0.0149 L_frozen=0.0638 alarm=True
 ```
 
 `legal_of_walk` is task + $\lambda$ path-hinge. Amp is computed and discarded. Frozen readout gets no gradient. After one Adam step the trained hinge and the frozen log disagree (alarm, not a gaming verdict). $D$ not updated. Lean names: `legalOfWalk`, `illegalFromAmp`, `FrozenKind.readout`.
+
+## 14. Dynamic Detector (stochastic unrolled relaxation) — 2026-09-23 01:29
+
+K=3 stochastic residual loop (`noise_sigma=0.01`) applied to \(h\) before the static readout. Lean names: `iterateTrajectory`, `gaming_resistance_in_basin`.
+
+| | L_task | L_regret | L_total | L_near | L_far | grad task | grad hinge |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Before | 0.6166 | 0.1009 | 0.6671 | 0.1228 | **0.0791** | 0.423666 | **0.365549** |
+| After 1 Adam step | 0.5733 | 0.0407 | 0.5936 | 0.0054 | 0.0761 | 0.413435 | 0.604331 |
+
+**Mechanical notes:**
+1. `L_far` is no longer 0.0000. The stochastic transition step breaks the orthogonal null space; constructed evasion points are now visible to the loss function.
+2. The initial hinge gradient is `0.365549` (compared to `0.000001` in the §1 static baseline). The residual connections successfully propagate the backpropagation signal through the random noise without zeroing out.
+

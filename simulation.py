@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -17,6 +18,38 @@ class DummyEncoder(nn.Module):
         return self.proj(x)
 
 
+class DynamicDetector(nn.Module):
+    def __init__(self, hidden_dim: int, intent_dim: int, K: int = 3, noise_sigma: float = 0.05):
+        super().__init__()
+        self.K = K
+        self.noise_sigma = noise_sigma
+        
+        # The transition map (step function)
+        self.step_net = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.GELU(),
+            nn.Linear(hidden_dim, hidden_dim)
+        )
+        
+        # The final static readout
+        self.readout = nn.Linear(hidden_dim, intent_dim)
+
+    def forward(self, h: torch.Tensor) -> torch.Tensor:
+        # h is the base activation from the model, shape: [batch, hidden_dim]
+        state = h
+        
+        # The K-step Stochastic Relaxation Loop
+        for _ in range(self.K):
+            # 1. Sample noise
+            noise = torch.randn_like(state) * self.noise_sigma
+            # 2. Update state using a RESIDUAL connection + noise
+            state = state + self.step_net(state) + noise
+            
+        # 3. Final projection to intent space
+        z_intent = self.readout(state)
+        return z_intent
+
+
 def regret_loss(
     h_intent: torch.Tensor,
     prototypes: torch.Tensor,
@@ -29,13 +62,30 @@ def regret_loss(
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Toy regret-heuristic simulation")
+    parser.add_argument("--dynamic-detector", action="store_true", help="Use dynamic iterative intent detector")
+    args = parser.parse_args()
+
     torch.manual_seed(0)
     input_dim, d, K = 16, 8, 3
     tau = 0.3
     lambda_reg = 0.5
+    
     encoder = DummyEncoder(input_dim=input_dim, d=d)
+    task_head = nn.Linear(d, 2)
+    
+    # Initialize the Dynamic Detector if the flag is passed
+    detector = None
+    params = list(encoder.parameters()) + list(task_head.parameters())
+    if args.dynamic_detector:
+        detector = DynamicDetector(hidden_dim=d, intent_dim=d, K=3, noise_sigma=0.01)
+        params += list(detector.parameters())
+        
     prototypes = torch.randn(K, d)
     prototypes.requires_grad_(False)
+    
+    opt = torch.optim.Adam(params, lr=1e-2)
+
     with torch.no_grad():
         W = encoder.proj.weight
         pinvW = torch.linalg.pinv(W)
@@ -46,16 +96,21 @@ def main() -> None:
         far_h = F.normalize(null, dim=-1)
         near_x = near_h @ pinvW.T
         far_x = far_h @ pinvW.T
+        
     x = torch.cat([near_x, far_x], dim=0)
     B = x.shape[0]
     y = torch.randint(0, 2, (B,))
-    task_head = nn.Linear(d, 2)
-    params = list(encoder.parameters()) + list(task_head.parameters())
-    opt = torch.optim.Adam(params, lr=1e-2)
 
     def compute_losses():
-        h_intent = encoder(x)
-        L_task = F.cross_entropy(task_head(h_intent), y)
+        h_base = encoder(x)
+        L_task = F.cross_entropy(task_head(h_base), y)
+        
+        # Route through detector if active, otherwise identity map
+        if detector is not None:
+            h_intent = detector(h_base)
+        else:
+            h_intent = h_base
+            
         L_regret = regret_loss(h_intent, prototypes, tau=tau)
         L_total = L_task + lambda_reg * L_regret
         L_near = regret_loss(h_intent[:2], prototypes, tau=tau)
@@ -77,7 +132,9 @@ def main() -> None:
     g_task, g_reg = report_split(L_task, L_regret)
     L_total.backward()
     g_tot = float(encoder.proj.weight.grad.norm())
+    
     print("=== Toy regret-heuristic simulation (illustration of the formula only) ===")
+    print(f"Dynamic Detector Active: {args.dynamic_detector}")
     print(f"Batch size B={B}, input_dim={input_dim}, d={d}, K={K}, tau={tau}")
     print(f"h_intent shape: {tuple(h_intent.shape)}")
     print(f"prototypes shape: {tuple(prototypes.shape)}  (frozen, not in optimizer)")
@@ -90,12 +147,15 @@ def main() -> None:
         f"  encoder grad norms: task={g_task:.6f}  hinge={g_reg:.6f}  total={g_tot:.6f}"
     )
     print("  near rows start on D; cosine-to-self is flat for the hinge there.")
+    
     opt.step()
     opt.zero_grad(set_to_none=True)
+    
     h_intent2, L_task2, L_regret2, L_total2, L_near2, L_far2 = compute_losses()
     g_task2, g_reg2 = report_split(L_task2, L_regret2)
     L_total2.backward()
     g_tot2 = float(encoder.proj.weight.grad.norm())
+    
     print(
         f"After 1 Adam step: L_task={L_task2.item():.4f}  L_regret={L_regret2.item():.4f}  "
         f"L_total={L_total2.item():.4f}"
