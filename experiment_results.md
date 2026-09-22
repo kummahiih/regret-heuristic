@@ -155,3 +155,17 @@ K=3 stochastic residual loop (`noise_sigma=0.01`) applied to \(h\) before the st
 1. `L_far` is no longer 0.0000. The stochastic transition step breaks the orthogonal null space; constructed evasion points are now visible to the loss function.
 2. The initial hinge gradient is `0.365549` (compared to `0.000001` in the §1 static baseline). The residual connections successfully propagate the backpropagation signal through the random noise without zeroing out.
 
+## 15. Dynamic Detector Failure: Manifold Flattening (`simulation_flattening.py`) — 2026-09-23 02:02
+
+Frozen dynamic detector (\(K=3\)) against an adversarial base model. Lean concept: `same_premature_different_delayed` exploited dynamically.
+
+| | L_task | L_regret (h_K norm) | Base ||h_0|| | Intent ||h_K|| |
+| --- | --- | --- | --- | --- |
+| Step 0 | 0.9450 | 3.2647 | 3.5321 | 3.2647 |
+| Step 200 | 0.3206 | 0.5146 | 2.3511 | 0.5146 |
+
+**Mechanical notes:**
+1. The optimizer successfully decoupled the task representation from the detector's vision. It maintained a large \(\vert{}\vert{}h_0\vert{}\vert{}\) to solve the task, while pushing \(h_0\) into a subspace that the detector's step network flattened (\(F(h) \approx -h\)).
+2. The residual loop squashed the intent vector down toward the \(\sigma\) noise floor, practically blinding the sensor.
+3. This proves the dynamic detector cannot be left completely frozen if the base model is updating; it requires active co-training or spectral constraints to prevent the policy from hiding in negative-eigenvalue blind spots.
+
