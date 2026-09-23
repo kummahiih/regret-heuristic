@@ -1,6 +1,7 @@
 # Lean 4 slice of the regret heuristic
 
 A verified **glossary**, not a safety proof.
+These lemmas are consequences of the chosen bookkeeping. They are not evidence that a network satisfying the assumptions exists.
 
 Pinned to Lean `v4.33.1` / mathlib `v4.33.1`.
 
@@ -26,7 +27,7 @@ lake build
 - `implicit_miss_is_some`, `lexical_bleed`
 - `static_linear_evasion_exists` if `ker W` is nontrivial. Identity is a counterexample.
 - `dynamic_trajectory_convergence` **if** `step` is a basin. Residual+noise is not that hypothesis.
-- `counterfactualR_of_star`: `R(a*,a*)=0`. `counterfactualR_nonneg_of_best` if `u(a)≤u(a*)`.
+- `counterfactualR_of_star`: `R(a*,a*)=0`. `counterfactualR_nonneg_of_best` if `u(a)\le u(a*)`.
 - `quiet_hinge_not_counterfactualR`: hinge `0` and `R=1` can sit together. Different scoreboard.
 
 ## Not proved (existence)
@@ -34,7 +35,7 @@ lake build
 - `r_strat` exists on a real model
 - `D` generalizes to a new behavior
 - `a*` can be computed (`A_safe` needs that camera)
-- residual `h+F(h)+σε` is a basin
+- residual `h+F(h)+\sigma\varepsilon` is a basin
 - representation gaming is dead
 - deception fell
 - Hannan of the hinge, PPO trust, Blackwell steering
