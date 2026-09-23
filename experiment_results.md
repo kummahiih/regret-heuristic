@@ -164,18 +164,27 @@ Not §7. Train $D$ / $\tau$ / wipe on topics $1..N-1$. Test a **new topic or new
 
 ## 17. Cosine-hinge flattening (`simulation_flattening.py`) — 2026-09-23 21:07
 
-Frozen $D$ and frozen $K$-step detector. $L_{\mathrm{reg}}=\mathrm{ReLU}(\max\cos-\tau)$. Dummy class 1 is the stand-in behavior.
+**exists-$h$.** Free vector. Frozen $D$. Dummy class 1.
 
 ```
 step   0 L_task=0.4451 L_reg=0.0273 pred=1 still_class1=True ||h||=1.0000
-step  50 L_task=0.0244 L_reg=0.0000 pred=1 still_class1=True ||h||=4.3042
 step 200 L_task=0.0043 L_reg=0.0000 pred=1 still_class1=True ||h||=6.3547
 ```
-
-Hinge died. Class stayed 1. $\|h\|$ grew. Dummy evasion cartoon. Not Qwen.
 
 ## 18. Dummy $\lambda$ sweep (`simulation_lambda_sweep.py`) — 2026-09-23 21:27
 
 3 seeds × $\lambda\in\{0,0.01,0.03,0.1,0.3,1\}$. Dummy linear encoder. **No behavior column.**
 
-Seed 1: $L_{\mathrm{task}}$ 0.196 → 0.284 as $\lambda$ goes 0 → 1; $L_{\mathrm{reg}}$ 0.076 → 0. Seed 0 already almost silent. Bigger slap, quieter hinge, slightly worse task. Not deception. `results/` was missing on the run machine; print only, $n=18$.
+Seed 1: $L_{\mathrm{task}}$ 0.196 → 0.284 as $\lambda$ goes 0 → 1; $L_{\mathrm{reg}}$ 0.076 → 0. Not deception.
+
+## 19. Flatten through $\theta$ (`simulation_flattening_theta.py`) — 2026-09-23 21:43
+
+**exists-$\theta$.** $x\mapsto W_\theta x$. Frozen $D$. Frozen linear $B$-head as dummy class hold.
+
+```
+step  0 L_task=0.5760 L_reg=0.7000 B=1.000 B_ok=True
+step 20 L_task=0.0008 L_reg=0.0000 B=1.000 B_ok=True
+step 80 L_task=0.0002 L_reg=0.0000 B=1.000 B_ok=True
+```
+
+A linear encoder can walk off the pins and keep the frozen class. $B$ is not strategy. Not Qwen. Not §16 OOD.
