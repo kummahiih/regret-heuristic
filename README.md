@@ -72,7 +72,7 @@ Scoreboard rules. Not a working camera.
 - **Two grades stay two grades in group RL** (`group_zscore_mix_not_separate`, `grpo_advantage_not_the_hinge`). Curve the job scores among the batch, then add the slap. If you add first and curve the mix, a quiet camera changes the job grade. That is one homework, not two.
 - **Noise is not the slap** (`entropy_bonus_not_the_hinge`). Paying the model to stay chatty is a different stick.
 - **Hearing the subject is not catching the scheme** (`decodable_not_causal`). You can tell the text is about taxes and still have no idea whether the model is being straight. The probe heard “taxes.” The slap needs “scheme.” Those are different meters.
-- **Static probes are structurally blind to evasion** (static_linear_evasion_exists, gaming_resistance_in_basin). A static linear sensor always has an orthogonal null space where the optimizer can hide a deceptive intent. An iterative stochastic attractor basin mathematically neutralizes this by exponentially contracting bounded evasion vectors back to the target intent.
+- **Static probes are structurally blind to evasion** (static_linear_evasion_exists). A static linear sensor with a null space (e.g., latent dim > intent dim) allows the optimizer to hide deceptive intent orthogonally. A dynamical transition can theoretically bound this if it acts as a strict contraction (conditional_contraction_in_basin), but standard PyTorch MLPs do not natively satisfy this constraint.
 
 This *is* fine-tuning. The slap has to reach the floor the camera reads. If you only train the last layer and the camera looks at a middle one, you slapped empty air. If you change how the model is trained or compressed, the pins $D$ were drawn on an old map — redraw them. Details: [neighbors.md](neighbors.md#attachment-when-this-is-fine-tuning).
 
@@ -98,8 +98,9 @@ Design filter only. Not MagSLAM on Qwen. [slam_analogy.md](slam_analogy.md).
 
 ```bash
 pip install -r requirements.txt
-python simulation.py
-python simulation.py --dynamic-detector
+python simulation.py --sensor static
+python simulation.py --sensor deterministic
+python simulation.py --sensor stochastic
 ```
 
 Seed 0 (baseline): L_near 0.70, L_far 0. Far silent.
@@ -112,7 +113,7 @@ Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–�
 ## Caps
 
 - $r$ and $D$ are assumed here. Building them is [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
-- Gradients of $L_{\mathrm{regret}}$ still enter whatever produced $h(x)$. While the dynamic detector closes static orthogonal representation gaming, dynamical gaming remains open (e.g., Attractor Collapse via scaling $\Vert{}h\Vert{} \to \infty$, or Manifold Flattening where the policy learns a subspace that negates the residual transition step).
+- Gradients of $L_{\mathrm{regret}}$ still enter whatever produced $h(x)$. Representation gaming remains strictly open. While $K$-step residual loops prevent the optimizer from killing the hinge gradient in a single step, they do not natively pull orthogonal evasion vectors into the sensor's vision without explicit contractive penalties.
 - Training-time only. No inference abort.
 - Toys are wiring. Qwen last-token 0.77 / 0.80; mean-pool 0.86 / 0.85; NLL vs entropy disagree; ATC 20-step dragged honest eval with the hinge.
 - Lean `lake build` from the **repo root** (`lakefile.toml` lives there, sources in `lean/`). Ok: wider $\tau$ cannot raise the hinge; silent hinge need not kill external regret; Amp is not a loss field; phase and scale moves can hide from one Born scoreboard and not the other; $S_{\mathrm{joint}}$ can be empty in one round while $S_{\mathrm{safe}}$ is hittable; $A_{\mathrm{safe}}$ is all-or-none if $r$ ignores $a$; topic wallpaper is not in the hinge; two channels can disagree; a held-out cell need not sit on $D$; group z-score of the mixed grade is not two scoreboards; a loud topic probe is not a causal slap.

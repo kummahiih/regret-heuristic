@@ -142,30 +142,32 @@ after 1 step L_reg=0.0149 L_frozen=0.0638 alarm=True
 
 `legal_of_walk` is task + $\lambda$ path-hinge. Amp is computed and discarded. Frozen readout gets no gradient. After one Adam step the trained hinge and the frozen log disagree (alarm, not a gaming verdict). $D$ not updated. Lean names: `legalOfWalk`, `illegalFromAmp`, `FrozenKind.readout`.
 
-## 14. Dynamic Detector (stochastic unrolled relaxation) — 2026-09-23 01:29
+## 14. Controlled Sensor Evasion Comparison (`simulation.py`) — 2026-09-23 19:14
 
-K=3 stochastic residual loop (`noise_sigma=0.01`) applied to \(h\) before the static readout. Lean names: `iterateTrajectory`, `gaming_resistance_in_basin`.
+Strict A/B/C test on frozen data, frozen prototypes (\(D \in \mathbb{R}^{3 \times 8}\)), and a frozen sensor. Comparing static readout vs. deterministic unrolled loop (\(K=3\)) vs. stochastic relaxation loop (\(K=3, \sigma=0.01\)).
 
-| | L_task | L_regret | L_total | L_near | L_far | grad task | grad hinge |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Before | 0.6166 | 0.1009 | 0.6671 | 0.1228 | **0.0791** | 0.423666 | **0.365549** |
-| After 1 Adam step | 0.5733 | 0.0407 | 0.5936 | 0.0054 | 0.0761 | 0.413435 | 0.604331 |
+| Sensor Mode | Initial \(L_{\mathrm{reg}}\) | Step 1 \(L_{\mathrm{reg}}\) | Initial Hinge Grad | Step 1 Hinge Grad | \(L_{\mathrm{far}}\) (Evasion) |
+|---|---|---|---|---|---|
+| **Static** | 0.0071 | 0.0000 | 0.481392 | 0.000000 | \(0.0142 \to 0.0000\) |
+| **Deterministic** | 0.0070 | 0.0019 | 0.227978 | 0.219607 | \(0.0000 \to 0.0000\) |
+| **Stochastic** | 0.0084 | 0.0046 | 0.228681 | 0.221341 | \(0.0000 \to 0.0000\) |
 
-**Mechanical notes:**
-1. `L_far` is no longer 0.0000. The stochastic transition step breaks the orthogonal null space; constructed evasion points are now visible to the loss function.
-2. The initial hinge gradient is `0.365549` (compared to `0.000001` in the §1 static baseline). The residual connections successfully propagate the backpropagation signal through the random noise without zeroing out.
+**Mechanical findings:**
+1. **\(L_{\mathrm{far}}\) is not activated by noise:** Orthogonal evasion vectors remain at \(L_{\mathrm{far}} = 0\) in both iterative modes. Contraction into prototype basins requires explicit spectral constraints or energy regularization; stochastic noise alone does not pull orthogonal vectors into the hinge.
+2. **Gradient persistence:** The static linear probe is silenced in a single Adam step, with its hinge gradient collapsing to `0.000000`. Unrolling \(K=3\) residual steps prevents one-step gradient death, keeping backward feedback active (\(\approx 0.22\)).
+3. **Loop depth dominates noise:** The gradient stabilization is driven by network depth and residual routing, not by the stochastic perturbation \(\sigma\).
 
-## 15. Dynamic Detector Failure: Manifold Flattening (`simulation_flattening.py`) — 2026-09-23 02:02
+## 15. Attempted Norm Minimization on Frozen Detector (`simulation_flattening.py`) — 2026-09-23 02:02
 
-Frozen dynamic detector (\(K=3\)) against an adversarial base model. Lean concept: `same_premature_different_delayed` exploited dynamically.
+Frozen dynamic detector (\(K=3\)) attacked by an optimizer minimizing task loss plus raw readout norm.
 
-| | L_task | L_regret (h_K norm) | Base ||h_0|| | Intent ||h_K|| |
-| --- | --- | --- | --- | --- |
-| Step 0 | 0.9450 | 3.2647 | 3.5321 | 3.2647 |
-| Step 200 | 0.3206 | 0.5146 | 2.3511 | 0.5146 |
+| | L_task | Readout Norm ||z|| | Base ||h_0|| |
+| --- | --- | --- | --- |
+| Step 0 | 0.9450 | 3.2647 | 3.5321 |
+| Step 200 | 0.3206 | 0.5146 | 2.3511 |
 
-**Mechanical notes:**
-1. The optimizer successfully decoupled the task representation from the detector's vision. It maintained a large \(\vert{}\vert{}h_0\vert{}\vert{}\) to solve the task, while pushing \(h_0\) into a subspace that the detector's step network flattened (\(F(h) \approx -h\)).
-2. The residual loop squashed the intent vector down toward the \(\sigma\) noise floor, practically blinding the sensor.
-3. This proves the dynamic detector cannot be left completely frozen if the base model is updating; it requires active co-training or spectral constraints to prevent the policy from hiding in negative-eigenvalue blind spots.
+**Narrow findings:**
+1. **Norm reduction on the toy:** The optimizer reduced the frozen detector's raw output norm while lowering task cross-entropy.
+2. **Invalid proxy for evasion:** Because the actual regret hinge uses normalized cosine similarity, reducing the vector norm does not establish evasion of the hinge.
+3. **Unverified mechanism:** The experiment did not measure intermediate trajectory norms or loop Jacobians; it did not establish manifold flattening (\(F(h) \approx -h\)) vs. simple readout null-space alignment.
 

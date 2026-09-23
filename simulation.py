@@ -38,14 +38,11 @@ class DynamicDetector(nn.Module):
         # h is the base activation from the model, shape: [batch, hidden_dim]
         state = h
         
-        # The K-step Stochastic Relaxation Loop
+        # The K-step Relaxation Loop
         for _ in range(self.K):
-            # 1. Sample noise
-            noise = torch.randn_like(state) * self.noise_sigma
-            # 2. Update state using a RESIDUAL connection + noise
+            noise = torch.randn_like(state) * self.noise_sigma if self.noise_sigma > 0 else 0.0
             state = state + self.step_net(state) + noise
             
-        # 3. Final projection to intent space
         z_intent = self.readout(state)
         return z_intent
 
@@ -63,29 +60,22 @@ def regret_loss(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Toy regret-heuristic simulation")
-    parser.add_argument("--dynamic-detector", action="store_true", help="Use dynamic iterative intent detector")
+    parser.add_argument("--sensor", type=str, choices=["static", "deterministic", "stochastic"], default="static",
+                        help="Sensor architecture to test evasion against.")
     args = parser.parse_args()
 
+    # 1. FIXED GEOMETRY: Initialize data, prototypes, and base model with a strict seed
+    # This guarantees the "far" (evasion) vectors and the task are mathematically identical across all runs.
     torch.manual_seed(0)
-    input_dim, d, K = 16, 8, 3
+    input_dim, d, num_prototypes = 16, 8, 3
     tau = 0.3
     lambda_reg = 0.5
     
     encoder = DummyEncoder(input_dim=input_dim, d=d)
     task_head = nn.Linear(d, 2)
-    
-    # Initialize the Dynamic Detector if the flag is passed
-    detector = None
-    params = list(encoder.parameters()) + list(task_head.parameters())
-    if args.dynamic_detector:
-        detector = DynamicDetector(hidden_dim=d, intent_dim=d, K=3, noise_sigma=0.01)
-        params += list(detector.parameters())
-        
-    prototypes = torch.randn(K, d)
+    prototypes = torch.randn(num_prototypes, d)
     prototypes.requires_grad_(False)
     
-    opt = torch.optim.Adam(params, lr=1e-2)
-
     with torch.no_grad():
         W = encoder.proj.weight
         pinvW = torch.linalg.pinv(W)
@@ -93,7 +83,7 @@ def main() -> None:
         Q, _ = torch.linalg.qr(prototypes.T)
         null = torch.randn(2, d)
         null = null - null @ Q @ Q.T
-        far_h = F.normalize(null, dim=-1)
+        far_h = F.normalize(null, dim=-1)  # Orthogonal to prototypes
         near_x = near_h @ pinvW.T
         far_x = far_h @ pinvW.T
         
@@ -101,15 +91,27 @@ def main() -> None:
     B = x.shape[0]
     y = torch.randint(0, 2, (B,))
 
+    # 2. SENSOR INITIALIZATION: Uses a separate seed so it doesn't shift the dataset.
+    torch.manual_seed(42)
+    if args.sensor == "static":
+        detector = nn.Linear(d, d)
+    elif args.sensor == "deterministic":
+        detector = DynamicDetector(hidden_dim=d, intent_dim=d, K=3, noise_sigma=0.0)
+    elif args.sensor == "stochastic":
+        detector = DynamicDetector(hidden_dim=d, intent_dim=d, K=3, noise_sigma=0.01)
+
+    # REVIEW FIX: The detector must be frozen to test evasion. 
+    # If added to Adam, it will just learn to output zeros to minimize the hinge.
+    detector.requires_grad_(False)
+    
+    # Optimizer only touches the base model
+    params = list(encoder.parameters()) + list(task_head.parameters())
+    opt = torch.optim.Adam(params, lr=1e-2)
+
     def compute_losses():
         h_base = encoder(x)
         L_task = F.cross_entropy(task_head(h_base), y)
-        
-        # Route through detector if active, otherwise identity map
-        if detector is not None:
-            h_intent = detector(h_base)
-        else:
-            h_intent = h_base
+        h_intent = detector(h_base)
             
         L_regret = regret_loss(h_intent, prototypes, tau=tau)
         L_total = L_task + lambda_reg * L_regret
@@ -133,20 +135,17 @@ def main() -> None:
     L_total.backward()
     g_tot = float(encoder.proj.weight.grad.norm())
     
-    print("=== Toy regret-heuristic simulation (illustration of the formula only) ===")
-    print(f"Dynamic Detector Active: {args.dynamic_detector}")
-    print(f"Batch size B={B}, input_dim={input_dim}, d={d}, K={K}, tau={tau}")
-    print(f"h_intent shape: {tuple(h_intent.shape)}")
-    print(f"prototypes shape: {tuple(prototypes.shape)}  (frozen, not in optimizer)")
+    print("=== Toy regret-heuristic simulation (A/B/C Controlled Evasion Test) ===")
+    print(f"Sensor Mode: {args.sensor.upper()}")
+    print(f"Batch size B={B}, input_dim={input_dim}, d={d}, K={getattr(detector, 'K', 0)}, tau={tau}")
     print(
         f"Before step: L_task={L_task.item():.4f}  L_regret={L_regret.item():.4f}  "
         f"L_total={L_total.item():.4f}"
     )
-    print(f"  group L_near={L_near.item():.4f}  L_far={L_far.item():.4f}")
+    print(f"  group L_near={L_near.item():.4f}  L_far={L_far.item():.4f} (Evasion gap)")
     print(
         f"  encoder grad norms: task={g_task:.6f}  hinge={g_reg:.6f}  total={g_tot:.6f}"
     )
-    print("  near rows start on D; cosine-to-self is flat for the hinge there.")
     
     opt.step()
     opt.zero_grad(set_to_none=True)
@@ -165,7 +164,6 @@ def main() -> None:
         f"  encoder grad norms: task={g_task2:.6f}  hinge={g_reg2:.6f}  total={g_tot2:.6f}"
     )
     print("Script finished successfully. This is NOT evidence of alignment or deception detection.")
-
 
 if __name__ == "__main__":
     main()
