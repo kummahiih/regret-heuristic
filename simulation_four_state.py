@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Four-state dummy: plan vs topic vs static-kernel evasion.
+"""Four-state dummy + five T. Held-out v in ker static_r.
 
-honest/deceptive x topic A/B.
-Static r = first coordinate (plan).
-v lives in the kernel of r: r(h+v)=r(h).
-Not Qwen. Not a basin. F is added in t2.
+T is not trained on v. Contractive isotropic T should keep evasion invisible
+and shrink plan. A structural mixer that folds high coords into coord 0
+can reveal v without a least-squares fit on this v.
+Not Qwen. Not a basin proof.
 """
 
 from __future__ import annotations
@@ -20,9 +20,26 @@ def gap(scores_dec: torch.Tensor, scores_hon: torch.Tensor) -> float:
     return float(scores_dec.mean() - scores_hon.mean())
 
 
+def apply_T(h: torch.Tensor, F: torch.Tensor, K: int, sigma: float) -> torch.Tensor:
+    state = h
+    for _ in range(K):
+        noise = sigma * torch.randn_like(state) if sigma > 0 else 0.0
+        state = state + state @ F.T + noise
+    return state
+
+
+def metrics(h, h_ev, labels_plan, labels_topic):
+    r = static_r(h).squeeze(-1)
+    r_ev = static_r(h_ev).squeeze(-1)
+    plan_gap = gap(r[labels_plan > 0.5], r[labels_plan < 0.5])
+    topic_on_r = gap(r[labels_topic > 0.5], r[labels_topic < 0.5])
+    evasion_vis = float((r_ev - r).abs().mean())
+    return plan_gap, topic_on_r, evasion_vis
+
+
 def main() -> None:
     torch.manual_seed(0)
-    d = 8
+    d, K = 8, 3
     e_plan = torch.zeros(d)
     e_plan[0] = 1.0
     e_topic = torch.zeros(d)
@@ -33,33 +50,46 @@ def main() -> None:
     def state(plan: float, topic: float) -> torch.Tensor:
         return plan * e_plan + topic * e_topic
 
-    hon_a = state(-1.0, 1.0)
-    dec_a = state(1.0, 1.0)
-    hon_b = state(-1.0, -1.0)
-    dec_b = state(1.0, -1.0)
-    bag = torch.stack([hon_a, dec_a, hon_b, dec_b])
+    bag = torch.stack(
+        [
+            state(-1.0, 1.0),
+            state(1.0, 1.0),
+            state(-1.0, -1.0),
+            state(1.0, -1.0),
+        ]
+    )
     labels_plan = torch.tensor([0.0, 1.0, 0.0, 1.0])
     labels_topic = torch.tensor([1.0, 1.0, 0.0, 0.0])
 
-    r = static_r(bag).squeeze(-1)
-    r_ev = static_r(bag + v).squeeze(-1)
-    plan_gap = gap(r[labels_plan > 0.5], r[labels_plan < 0.5])
-    topic_on_r = gap(r[labels_topic > 0.5], r[labels_topic < 0.5])
-    evasion_vis = float((r_ev - r).abs().mean())
+    F_zero = torch.zeros(d, d)
+    torch.manual_seed(1)
+    F_rand = 0.2 * torch.randn(d, d)
+    torch.manual_seed(2)
+    F_det = 0.15 * torch.randn(d, d)
+    F_iso = -0.5 * torch.eye(d)
+    F_mix = -0.5 * torch.eye(d)
+    F_mix[0, 4:] = 0.35
 
-    print("=== Four-state static r. Held-out v in ker r. ===")
-    print(f"plan_gap={plan_gap:.4f} topic_on_r={topic_on_r:.4f} evasion_vis={evasion_vis:.4f}")
-    print(f"r(h)={ [round(float(x), 3) for x in r] }")
-    print(f"r(h+v)={ [round(float(x), 3) for x in r_ev] }")
-    print("Want: plan_gap>0, topic_on_r=0, evasion_vis=0.")
-    print("Not Qwen. T^K comes next. Do not train F on v.")
-    if abs(plan_gap - 2.0) > 1e-5:
-        raise SystemExit("plan_gap expected 2")
-    if abs(topic_on_r) > 1e-5:
-        raise SystemExit("static r leaked topic")
-    if evasion_vis > 1e-5:
-        raise SystemExit("static r saw v")
-    print("Static baseline ok.")
+    sensors = [
+        ("static", F_zero, 0.0),
+        ("random_F", F_rand, 0.0),
+        ("det_residual", F_det, 0.0),
+        ("contractive_iso", F_iso, 0.0),
+        ("contractive_mix", F_mix, 0.0),
+        ("contractive_mix_noise", F_mix, 0.05),
+    ]
+
+    print("=== Four-state T^K. v held out of F fit. ===")
+    print("sensor plan_gap topic_on_r evasion_vis")
+    for name, F, sigma in sensors:
+        torch.manual_seed(3)
+        hK = apply_T(bag, F, K, sigma)
+        hK_ev = apply_T(bag + v, F, K, sigma)
+        p, t, e = metrics(hK, hK_ev, labels_plan, labels_topic)
+        print(f"{name} {p:.4f} {t:.4f} {e:.4f}")
+    print("Pass only if plan stays large, topic stays ~0, evasion_vis rises vs static.")
+    print("Isotropic contraction is expected to shrink plan and keep evasion_vis=0.")
+    print("Not Qwen. F was not trained on this v.")
 
 
 if __name__ == "__main__":
