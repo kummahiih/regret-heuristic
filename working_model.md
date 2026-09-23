@@ -89,7 +89,7 @@ Still free, and still the actual research problem:
 - Bookkeeping field $\mathbb{R}$ vs $\mathbb{C}$ is a name. Signed reals already cancel.
 - Gaming remains open: $\nabla\mathcal{L}_{\mathrm{reg}}$ still enters $h$ and $r$.
 - Whether any trainer reaches $S_{\mathrm{safe}}$. Two-door is a box, not a PPO run.
-- Dynamic evasion modes: While the stochastic loop breaks static orthogonal evasion, it leaves open dynamical gaming. The optimizer can still attempt Attractor Collapse (norm scaling), Manifold Flattening (learning $F(h) \approx -h$), or High-Frequency Scrubbing (hiding intent in high frequencies that the step-net filters out as noise).
+- Dynamic evasion modes: noisy iterative sensor candidate motivated by a conditional contraction hypothesis.
 
 
 ## Lean pins (glossary, not safety)

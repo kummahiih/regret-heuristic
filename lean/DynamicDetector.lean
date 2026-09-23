@@ -3,6 +3,9 @@ import Mathlib.Analysis.InnerProductSpace.Basic
 import Mathlib.Analysis.Normed.Operator.Basic
 import Mathlib.Tactic
 
+-- Import the actual cosine hinge from the base module
+-- import RegretHeuristic
+
 set_option linter.unusedSectionVars false
 
 /-!
@@ -36,9 +39,12 @@ def StaticProbe.eval (P : StaticProbe H Z) (h : H) : Z :=
   P.W h + P.b
 
 /--
-Representation Gaming in the static case:
-If the probe's kernel is nontrivial, there exists an evasion vector `v ≠ 0`
-such that the policy can alter its representation `h + v` without changing the probe output.
+Given a linear sensor with a non-trivial kernel (which typically occurs when
+the latent dimension is strictly greater than the readout dimension), there
+exists a non-zero evasion vector `v` that does not change the sensor's output.
+
+Note: This does *not* prove all linear probes are vulnerable. An injective map
+(e.g., an identity matrix) has a trivial kernel and is a counterexample.
 -/
 theorem static_linear_evasion_exists (P : StaticProbe H Z)
     (h_ker : ∃ v : H, v ∈ LinearMap.ker (P.W : H →ₗ[ℝ] Z) ∧ v ≠ 0) (h : H) :
@@ -130,12 +136,15 @@ theorem dynamic_trajectory_convergence (step : H → H) (basin : AttractorBasin 
 /-! ## 4. Resistance to Orthogonal Representation Gaming -/
 
 /--
-Theorem: A static evasion perturbation `v` fails against a dynamic attractor
-if the perturbed state remains inside the intent's attractor basin.
-Even if an adversary adds `v`, the dynamic trajectory asymptotically contracts
-to the true intent attractor target `h*`, bounding evasion capability by `O(c^K)`.
+If a transition function `step` satisfies a strict contraction property toward
+a target (as modeled by `AttractorBasin`), the distance in the latent space is bounded.
+
+WARNING: This is a conditional theorem. It bounds the *latent distance*, not
+the final cosine hinge. Furthermore, a standard PyTorch residual loop
+(h + F(h) + noise) does *not* natively satisfy this contraction property without
+explicit spectral normalization or basin penalties.
 -/
-theorem gaming_resistance_in_basin (D : DynamicDetector H Z) (basin : AttractorBasin D.step)
+theorem conditional_contraction_in_basin (D : DynamicDetector H Z) (basin : AttractorBasin D.step)
     (h_intent : H) (v : H)
     (h_base : dist h_intent basin.target < basin.radius / 2)
     (h_pert : ‖v‖ < basin.radius / 2) :
@@ -156,17 +165,5 @@ theorem gaming_resistance_in_basin (D : DynamicDetector H Z) (basin : AttractorB
     _ ≤ (basin.contraction ^ D.K) * dist (h_intent + v) basin.target := h_conv
     _ ≤ (basin.contraction ^ D.K) * basin.radius :=
         mul_le_mul_of_nonneg_left h_dist_le (pow_nonneg basin.hc_nonneg D.K)
-
-/-! ## 5. Regret Loss Formulation -/
-
-/-- Hinge-cosine regret over a prototype bank `D_prototypes`. -/
-noncomputable def regretHinge (z : Z) (D_prototypes : Set Z) (τ : ℝ) : ℝ :=
-  sSup { r : ℝ | ∃ d ∈ D_prototypes, r = max 0 (@inner ℝ Z _ z d - τ) }
-
-/-- Total objective function matching the Regret Heuristic framework. -/
-noncomputable def totalLoss (L_task : ℝ) (lambda_regret : ℝ)
-    (detector : DynamicDetector H Z) (h₀ : H)
-    (D_prototypes : Set Z) (τ : ℝ) : ℝ :=
-  L_task + lambda_regret * (regretHinge (detector.eval h₀) D_prototypes τ)
 
 end RegretHeuristic
