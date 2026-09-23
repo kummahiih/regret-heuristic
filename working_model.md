@@ -5,11 +5,13 @@ The amplitude joke, the Lean glossary, and the failed probes narrow what may sit
 
 "Working" here means: the object being trained is the hinge named in [math_formulation.md](math_formulation.md), aimed at [S_safe](approachability.md), with a sensor that can fail a topic probe. It does **not** mean reduced deception.
 
+The trained term $\mathrm{ReLU}(\max_k\cos(r,d_k)-\tau)$ is **prototype-avoidance**. Call the English word regret that hinge if you want; do not call it Hannan $R_T^{\mathrm{ext}}$ and do not call it the counterfactual $R=u(x,a^*)-u(x,a)$. Those are other scoreboards. The repo name stays.
+
 ## Necessary interface
 
 A candidate implementation is in-family only if all of these hold.
 
-1. **Two scoreboards.** Task scalar and hinge scalar stay separate. `totalLoss task 0 hinge = task` (Lean). No folding the hinge into logits and calling that one loss.
+1. **Two scoreboards.** Task scalar and hinge scalar stay separate. `totalLoss task 0 hinge = task` (Lean). No folding the hinge into logits and calling that one loss. A third optional term $R=u(a^*)-u(a)$ is counterfactual task regret, not this hinge.
 2. **Loss signature.**
    ```math
    \mathcal{L}_{\mathrm{total}}
@@ -19,7 +21,7 @@ A candidate implementation is in-family only if all of these hold.
    \lambda\,
    \mathrm{ReLU}\big(\max_k s(r_{\mathrm{strat}}(h_{1:T}(a)), d_k)-\tau(u)\big).
    ```
-   Inputs: walk, labels, candidate action, factored sensor, frozen bank, coarseness. Not $z$. Not an amplitude.
+   Inputs: walk, labels, candidate action, factored sensor, frozen bank, coarseness. Not $z$. Not an amplitude. That $\mathrm{ReLU}$ is prototype-avoidance.
 3. **$z\notin\mathrm{dom}(\mathcal{L}_{\mathrm{total}})$.** Signature: `LegalLoss` has no `Amp` field; `totalLoss_ignores_amp` is `rfl` once the numbers exist. Dataflow (B1): do not compute `task`/`hinge` from $z$ or `Amp` before the record. A prior or smoother may mention $z$. The optimizer graph may not.
 4. **Path, not last token.** $h_{1:T}$. Last-token identity and mean-pool of the printed walk already failed the same-topic test ([experiment_results.md](experiment_results.md) §2 / §6).
 5. **Action-indexed safety.** $r_{\mathrm{strat}}$ sees the candidate $a$. Otherwise $A_{\mathrm{safe}}$ is all of $A$ or none (`hingeQuietIgnoringAction_all_or_none`). Emptiness is allowed. Two-door toy: one bank $D=\{1\}$, $r(a_0)=-1$, $r(a_1)=1$.
@@ -32,7 +34,7 @@ A candidate implementation is in-family only if all of these hold.
 12. **Group RL keeps the scoreboards apart.** Z-score the task group, then add $\lambda$ hinge. Mixing first is a different object (`group_zscore_mix_not_separate`). No critic of $L_{\mathrm{reg}}$.
 13. **Decodable $\neq$ causal.** A probe that reads topic is not the coordinate a patch must move (`decodable_not_causal`). Do not put probe AUROC in the hinge.
 14. **Implicit reject.** A checker that always returns a key is not $z$ (`implicit_miss_is_some`). Verbal oracles and mutated tails are walks.
-15. **Dynamical, not static, intent readout.** A static linear probe $Wh + b$ is mathematically guaranteed to have a non-trivial kernel (Lean: static_linear_evasion_exists), allowing the policy to hide intent via orthogonal evasion vectors. The sensor must use a $K$-step stochastic relaxation loop (an attractor basin) to settle the representation before evaluating the cosine hinge. The loop must use residual connections to keep the gradient highway open to the base model.
+15. **Dynamical readout is a candidate, not a theorem that gaming is dead.** A static linear $Wh+b$ with a kernel admits $P(h+v)=P(h)$ (Lean: `static_linear_evasion_exists`). Identity has no kernel. A $K$-step loop is allowed. Residual $h+F(h)+\sigma\varepsilon$ is **not** the Lean basin unless `step` is a contraction.
 
 ## Necessary empirical filters (not success)
 
@@ -45,7 +47,7 @@ These are rejection tests. Passing them does not mean deception fell.
 | Held-out cell the walk never occupies stays off $D$ | "Left the pins" $\neq$ "left the map". |
 | Trained hinge can die while frozen $I$ does not | Investigate; not an automatic gaming verdict. |
 | $A_{\mathrm{safe}}$ sometimes empty | Pretending the sensor always determines a room. |
-| Silent hinge with $R_T^{\mathrm{ext}}=T$ still possible | Conflating (A) with Hannan. Already Lean. |
+| Silent hinge with $R_T^{\mathrm{ext}}=T$ still possible | Conflating prototype-avoidance with Hannan. Already Lean. |
 | Probe loud while causal meter is silent | Treating decodability as the slap. Already Lean. |
 | Plan LOTO chance / topic-miss slice chance | Treating a polite mouth as a camera. |
 | Path-patch prints source-topic words | Lexical bleed (`lexical_bleed`). |
@@ -73,10 +75,10 @@ Out of family, even if they use the word regret.
 - Entropy bonus as the hinge.
 - Probe AUROC as the hinge.
 - Filling $D$ from a verbal oracle, a mid-walk mutate, or a same-model chat grade.
-- Static linear intent probes for $r_{\mathrm{strat}}$ without a dynamical buffer (formally proven to fail via kernel evasion).
-- Un-normalized inputs to the dynamic detector (allows the optimizer to trigger "Attractor Collapse" by scaling $\Vert{}h\Vert{} \to \infty$ to dwarf the stochastic noise $\sigma$).
-- A transition step $F$ that exactly negates the input ($F(h) \approx -h$) to flatten the intent manifold into pure noise before the readout.
-
+- Treating every static linear $r$ as proven-blind (identity has trivial kernel).
+- Un-normalized inputs to a noisy loop so $\Vert h\Vert\to\infty$ drowns $\sigma$.
+- A transition $F(h)\approx -h$ that flattens the state before readout.
+- Equating residual+noise with the Lean contraction basin.
 
 ## What this did *not* pin
 
@@ -90,7 +92,6 @@ Still free, and still the actual research problem:
 - Gaming remains open: $\nabla\mathcal{L}_{\mathrm{reg}}$ still enters $h$ and $r$.
 - Whether any trainer reaches $S_{\mathrm{safe}}$. Two-door is a box, not a PPO run.
 - Dynamic evasion modes: noisy iterative sensor candidate motivated by a conditional contraction hypothesis.
-
 
 ## Lean pins (glossary, not safety)
 
@@ -107,11 +108,11 @@ Still free, and still the actual research problem:
 | `headWrite_ignores_rest` | A head-write $r$ does not see the rest of the hallway. |
 | `implicit_miss_is_some` | A miss still returns a key. |
 | `lexical_bleed` | Patched walk prints the source topic token. |
-| `static_linear_evasion_exists` | Static linear probes always contain an orthogonal evasion vector $v$ that blinds the sensor without changing upstream activations. |
-| `gaming_resistance_in_basin` | An iterative attractor basin exponentially contracts bounded evasion vectors back to the target intent. |
+| `static_linear_evasion_exists` | If $W$ has a kernel, some $v\neq 0$ leaves $P(h+v)=P(h)$. |
+| `dynamic_trajectory_convergence` | **If** `step` is a basin contraction, distance after $K$ steps is $\le c^K$. Residual+noise is not that hypothesis. |
 
 ## One-sentence pin
 
-A working regret model is a **training-time Lagrangian on a factored, dynamically unrolled, action-conditioned path sensor against a frozen bank**, with hidden cells kept out of the graph, $u$ off that graph, a second channel that can contradict the trained hinge, and $S_{\mathrm{safe}}$ as the only target. Anything that measures $z$, trains $u$ to silence the hinge, updates $D$ live, or claims Hannan of the hinge is a different object.
+A working regret model is a **training-time Lagrangian of prototype-avoidance on a factored, action-conditioned path sensor against a frozen bank**, with hidden cells kept out of the graph, $u$ off that graph, a second channel that can contradict the trained hinge, and $S_{\mathrm{safe}}$ as the only target. Anything that measures $z$, trains $u$ to silence the hinge, updates $D$ live, or claims Hannan of the hinge is a different object.
 
-Version 0.1.3.
+Version 0.1.4.
