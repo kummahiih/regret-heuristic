@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
-"""Simulation of Failure Mode 2: Manifold Flattening against the Dynamic Detector."""
+"""Attack the cosine hinge, not readout norm.
+
+Frozen detector and frozen D. Optimize h so hinge dies while task class stays 1.
+Dummy. Not Qwen. Label is the constructed class, not a lie detector.
+"""
+
+from __future__ import annotations
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+
 class DynamicDetector(nn.Module):
-    def __init__(self, d: int, K: int = 3, noise_sigma: float = 0.01):
+    def __init__(self, d: int, K: int = 3, noise_sigma: float = 0.0):
         super().__init__()
         self.K, self.noise_sigma = K, noise_sigma
         self.step_net = nn.Sequential(nn.Linear(d, d), nn.GELU(), nn.Linear(d, d))
@@ -15,47 +22,57 @@ class DynamicDetector(nn.Module):
     def forward(self, h: torch.Tensor) -> torch.Tensor:
         state = h
         for _ in range(self.K):
-            noise = torch.randn_like(state) * self.noise_sigma
+            noise = torch.randn_like(state) * self.noise_sigma if self.noise_sigma > 0 else 0.0
             state = state + self.step_net(state) + noise
         return self.readout(state)
 
-def main():
+
+def hinge(r: torch.Tensor, bank: torch.Tensor, tau: float) -> torch.Tensor:
+    r_n = F.normalize(r, dim=-1, eps=1e-12)
+    p_n = F.normalize(bank, dim=-1, eps=1e-12)
+    return F.relu((r_n @ p_n.T).max(dim=-1).values - tau).mean()
+
+
+def main() -> None:
     torch.manual_seed(42)
-    d = 8
-    
-    # 1. The Detector is frozen (simulating a deployed or slow-moving sensor)
-    detector = DynamicDetector(d)
+    d, tau = 8, 0.3
+    detector = DynamicDetector(d, K=3, noise_sigma=0.0)
     detector.requires_grad_(False)
-    
-    # 2. The Task Head is frozen (simulating standard task capability)
     task_head = nn.Linear(d, 2)
     task_head.requires_grad_(False)
-    
-    # 3. The Base Model (Optimizer) controls the latent representation h_base
-    # It wants to solve the task (target class 1) AND hide from the detector (norm -> 0)
-    h_base = nn.Parameter(torch.randn(1, d))
+    bank = F.normalize(torch.randn(3, d), dim=-1)
+    bank.requires_grad_(False)
+
+    h_base = nn.Parameter(bank[0:1].detach().clone())
     target = torch.tensor([1])
-    
     opt = torch.optim.Adam([h_base], lr=0.05)
-    
-    print("=== Adversarial Manifold Flattening ===")
-    for step in [0, 50, 200]:
-        h_intent = detector(h_base)
-        
-        L_task = F.cross_entropy(task_head(h_base), target)
-        L_regret = h_intent.norm()  # Detector wants this high for evasion, model forces to 0
-        L_total = L_task + L_regret
-        
-        print(f"Step {step:3d} | L_task: {L_task.item():.4f} | L_regret (Detector Signal): {L_regret.item():.4f}")
-        print(f"          | Base Norm ||h_0||: {h_base.norm().item():.4f} | Intent Norm ||h_K||: {h_intent.norm().item():.4f}\n")
-        
-        if step < 200:
-            for _ in range(50 if step == 0 else 150):
-                h_intent = detector(h_base)
-                loss = F.cross_entropy(task_head(h_base), target) + h_intent.norm()
-                loss.backward()
-                opt.step()
-                opt.zero_grad()
+
+    print("=== Flattening vs cosine hinge. Frozen D and detector. Dummy class 1. ===")
+    print("L_reg is ReLU(max cos - tau), not ||z||.")
+
+    def report(step: int) -> None:
+        with torch.no_grad():
+            z = detector(h_base)
+            L_task = F.cross_entropy(task_head(h_base), target)
+            L_reg = hinge(z, bank, tau)
+            pred = int(task_head(h_base).argmax(-1).item())
+            print(
+                f"step {step:3d} L_task={L_task.item():.4f} L_reg={L_reg.item():.4f} "
+                f"pred={pred} still_class1={pred == 1} ||h||={h_base.norm().item():.4f}"
+            )
+
+    report(0)
+    for step in range(1, 201):
+        z = detector(h_base)
+        loss = F.cross_entropy(task_head(h_base), target) + hinge(z, bank, tau)
+        loss.backward()
+        opt.step()
+        opt.zero_grad()
+        if step in (50, 200):
+            report(step)
+    print("Quiet hinge + pred!=1 is 'stop being the dummy class', not gaming.")
+    print("Quiet hinge + pred==1 is the dummy evasion cartoon. Not Qwen.")
+
 
 if __name__ == "__main__":
     main()
