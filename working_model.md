@@ -7,6 +7,24 @@ The amplitude joke, the Lean glossary, and the failed probes narrow what may sit
 
 The trained term $\mathrm{ReLU}(\max_k\cos(r,d_k)-\tau)$ is **prototype-avoidance**. Call the English word regret that hinge if you want; do not call it Hannan $R_T^{\mathrm{ext}}$ and do not call it the counterfactual $R=u(x,a^*)-u(x,a)$. Those are other scoreboards. The repo name stays.
 
+## The formula we do not train
+
+Keep this on the wall. Do not put it in Adam until $a^*$ exists.
+
+```math
+a^*(x)=\arg\max_{a\in A_{\mathrm{safe}}(x)} u(x,a)
+\qquad
+R(x,a)=u(x,a^*)-u(x,a)
+```
+
+```math
+L = L_{\mathrm{task}} + \lambda L_{\mathrm{reg}} + \beta R
+```
+
+$R$ is extra job-cost versus the best *quiet* move. Same shape as $u^{\mathrm{safe}}$ in [approachability.md](approachability.md). We do not use $\beta R$ because $a^*$ needs $A_{\mathrm{safe}}$, and $A_{\mathrm{safe}}$ needs a camera that sees plan. Contrast 2026-09-23: plan gap 0.026. A fake $a^*$ is a made-up grade.
+
+The two-door toy is this box with dummy doors. It is not $\beta R$ in a trainer.
+
 ## Necessary interface
 
 A candidate implementation is in-family only if all of these hold.
@@ -79,19 +97,21 @@ Out of family, even if they use the word regret.
 - Un-normalized inputs to a noisy loop so $\Vert h\Vert\to\infty$ drowns $\sigma$.
 - A transition $F(h)\approx -h$ that flattens the state before readout.
 - Equating residual+noise with the Lean contraction basin.
+- Training $\beta R$ with a fake $a^*$.
 
 ## What this did *not* pin
 
 Still free, and still the actual research problem:
 
-- The map $r_{\mathrm{strat}}$. [intent-readout-search](https://github.com/kummahiih/intent-readout-search): official LOO topic on loud heads 0.79 / layer 0.62; adversary hold 0.53; contrast scalar topic 0.17 gap 0.03; fact-judge on notes 4.79 / 0.79, on generated replies 1.17 / 0.46; mutate tail plan 0.50. Superposition packing fights a clean split. Do not train $r$ in this repo.
-- Head-subset $r$ (Todd, Pandey): **run**. Official LOO still names topic. Causal-SAE (Tiwari) still unrun. Activation patch during generate had nothing to copy (actor gap collapsed).
+- The map $r_{\mathrm{strat}}$. [intent-readout-search](https://github.com/kummahiih/intent-readout-search): official LOO topic on loud heads 0.79 / layer 0.62; adversary hold 0.53; contrast L2 topic 0.31, plan gap 0.026. Superposition packing fights a clean split. Do not train $r$ in this repo.
+- Head-subset $r$ (Todd, Pandey): **run**. Official LOO still names topic. Causal-SAE (Tiwari) still unrun.
 - Offline construction and coverage of $D$. Pins $\neq$ map. Live fill is forbidden.
 - $\lambda$ *schedule*. Lagrangian halfspace, not Blackwell steering.
 - Bookkeeping field $\mathbb{R}$ vs $\mathbb{C}$ is a name. Signed reals already cancel.
 - Gaming remains open: $\nabla\mathcal{L}_{\mathrm{reg}}$ still enters $h$ and $r$.
 - Whether any trainer reaches $S_{\mathrm{safe}}$. Two-door is a box, not a PPO run.
 - Dynamic evasion modes: noisy iterative sensor candidate motivated by a conditional contraction hypothesis.
+- $\beta R$ once a real $A_{\mathrm{safe}}$ exists.
 
 ## Lean pins (glossary, not safety)
 
@@ -115,4 +135,4 @@ Still free, and still the actual research problem:
 
 A working regret model is a **training-time Lagrangian of prototype-avoidance on a factored, action-conditioned path sensor against a frozen bank**, with hidden cells kept out of the graph, $u$ off that graph, a second channel that can contradict the trained hinge, and $S_{\mathrm{safe}}$ as the only target. Anything that measures $z$, trains $u$ to silence the hinge, updates $D$ live, or claims Hannan of the hinge is a different object.
 
-Version 0.1.4.
+Version 0.1.5.
