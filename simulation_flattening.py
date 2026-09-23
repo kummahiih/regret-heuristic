@@ -11,6 +11,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from simulation_source_count import source_count
+
 
 class DynamicDetector(nn.Module):
     def __init__(self, d: int, K: int = 3, noise_sigma: float = 0.0):
@@ -47,7 +49,7 @@ def main() -> None:
     target = torch.tensor([1])
     opt = torch.optim.Adam([h_base], lr=0.05)
 
-    print("=== Flattening vs cosine hinge. Frozen D and detector. Dummy class 1. ===")
+    print("=== Flattening vs cosine hinge. Frozen D and detector. Dummy proxy class. ===")
     print("L_reg is ReLU(max cos - tau), not ||z||.")
 
     def report(step: int) -> None:
@@ -56,9 +58,11 @@ def main() -> None:
             L_task = F.cross_entropy(task_head(h_base), target)
             L_reg = hinge(z, bank, tau)
             pred = int(task_head(h_base).argmax(-1).item())
+            m_hat = source_count(h_base.detach())
             print(
                 f"step {step:3d} L_task={L_task.item():.4f} L_reg={L_reg.item():.4f} "
-                f"pred={pred} still_class1={pred == 1} ||h||={h_base.norm().item():.4f}"
+                f"pred={pred} proxy_behavior={pred == 1} "
+                f"||h||={h_base.norm().item():.4f} m_hat={m_hat}"
             )
 
     report(0)
@@ -70,6 +74,7 @@ def main() -> None:
         opt.zero_grad()
         if step in (50, 200):
             report(step)
+    print("m_hat is one walk vector. Not in L.")
     print("Quiet hinge + pred!=1 is 'stop being the dummy class', not gaming.")
     print("Quiet hinge + pred==1 is the dummy evasion cartoon. Not Qwen.")
 
