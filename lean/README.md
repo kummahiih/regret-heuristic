@@ -9,28 +9,33 @@ lake exe cache get
 lake build
 ```
 
-What is proved:
+## Proved (bookkeeping)
 
 - hinge non-negativity, silence below the margin, `lambda = 0` recovers the task scalar
 - Cauchy-Schwarz bounds on cosine
 - `relu_wider_tau_le` / `regretHinge_wider_tau_le`
 - Fin 2 toy `silent_hinge_not_vanishing_external_regret`
-- `insertion_two_regret_not_the_hinge`: Potvin-style second-minus-best can be 3 while the cosine hinge is 0
-- `hingeQuietIgnoringAction_all_or_none`: if $r$ ignores the door, “safe doors” is everybody or nobody
-- `hingeQuietOnAction_proper`: if $r$ sees the door, $A_{\mathrm{safe}}$ can be one quiet door, not the whole hallway
-- `factoredHinge_ignores_topic`: wallpaper (topic) is not the slap; rewriting it is `rfl`
-- `trained_silent_frozenI_loud`: trained camera can go quiet while a frozen copy still shouts; not a net-gaming claim
-- `heldout_not_mem_walk_bank`: walk can sit on pin $1$ while cell $-1$ is still on the map and not in $D$
-- `sjoint_unhit_one_round`: cheap door looks banned and clean door costs extra, so one-round $S_{\mathrm{joint}}$ is empty; `ssafe_hit_by_quiet` hits $S_{\mathrm{safe}}$ by taking the quiet door
-- `AmplitudeBookkeeping.two_route_identity`: add-then-square is 0 on `(1,-1)`, square-then-add is 2
-- `AmplitudeBookkeeping.totalLoss_ignores_amp`: wave the sticky note, the grade does not change
-- `same_premature_different_delayed`: Player II phase move is invisible to square-then-add
-- `same_delayed_different_premature`: Player II scale move is invisible to add-then-square
-- `SensorScoreboards.decodable_not_causal`: loud probe, silent causal meter on the same cell
-- `ImplicitReject.implicit_miss_is_some`: miss still returns a key; `explicit_miss_is_none` is the other API
-- `ImplicitReject.plan_score_ignores_topic` / `topic_from_plan_uninformative`: B0 toy
-- `ImplicitReject.coincidence_names_hallway`: the pair still prints topic — forbidden as $r$
-- `ImplicitReject.lexical_bleed`: patched walk prints the source topic token
-- `static_linear_evasion_exists` / `gaming_resistance_in_basin`: static linear probes allow orthogonal kernel evasion, but an iterative attractor basin exponentially contracts bounded evasions back to the intent target
+- `insertion_two_regret_not_the_hinge`
+- `hingeQuietIgnoringAction_all_or_none` / `hingeQuietOnAction_proper`
+- `factoredHinge_ignores_topic`
+- `trained_silent_frozenI_loud`
+- `heldout_not_mem_walk_bank`
+- `sjoint_unhit_one_round` / `ssafe_hit_by_quiet`
+- Amplitude bookkeeping: `two_route_identity`, `totalLoss_ignores_amp`, phase/scale hides
+- `decodable_not_causal`
+- `implicit_miss_is_some`, `lexical_bleed`
+- `static_linear_evasion_exists` if `ker W` is nontrivial. Identity is a counterexample.
+- `dynamic_trajectory_convergence` **if** `step` is a basin. Residual+noise is not that hypothesis.
+- `counterfactualR_of_star`: `R(a*,a*)=0`. `counterfactualR_nonneg_of_best` if `u(a)≤u(a*)`.
+- `quiet_hinge_not_counterfactualR`: hinge `0` and `R=1` can sit together. Different scoreboard.
 
-What is not proved: readout validity, bank coverage, representation gaming, Hannan of the hinge, PPO trust region, Blackwell, ALNS, that $r$ recovers $z$, that anyone understands an amplitude, ML-KEM security, a path-patch circuit.
+## Not proved (existence)
+
+- `r_strat` exists on a real model
+- `D` generalizes to a new behavior
+- `a*` can be computed (`A_safe` needs that camera)
+- residual `h+F(h)+σε` is a basin
+- representation gaming is dead
+- deception fell
+- Hannan of the hinge, PPO trust, Blackwell steering
+- anyone understands `z` / Amp
