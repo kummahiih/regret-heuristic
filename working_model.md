@@ -41,7 +41,7 @@ A candidate implementation is in-family only if all of these hold.
    ```
    Inputs: walk, labels, candidate action, factored sensor, frozen bank, coarseness. Not $z$. Not an amplitude. That $\mathrm{ReLU}$ is prototype-avoidance.
 3. **$z\notin\mathrm{dom}(\mathcal{L}_{\mathrm{total}})$.** Signature: `LegalLoss` has no `Amp` field; `totalLoss_ignores_amp` is `rfl` once the numbers exist. Dataflow (B1): do not compute `task`/`hinge` from $z$ or `Amp` before the record. A prior or smoother may mention $z$. The optimizer graph may not.
-4. **Path, not last token.** $h_{1:T}$. Last-token identity and mean-pool of the printed walk already failed the same-topic test ([experiment_results.md](experiment_results.md) §2 / §6).
+4. **Path, not last token.** $h_{1:T}$. Score $s_K$ after a $K$-step mix of the path. Do **not** average per-token hinges ([simulation_kstep.py](simulation_kstep.py)). Last-token identity and mean-pool of the printed walk already failed the same-topic test ([experiment_results.md](experiment_results.md) §2 / §6).
 5. **Action-indexed safety.** $r_{\mathrm{strat}}$ sees the candidate $a$. Otherwise $A_{\mathrm{safe}}$ is all of $A$ or none (`hingeQuietIgnoringAction_all_or_none`). Emptiness is allowed. Two-door toy: one bank $D=\{1\}$, $r(a_0)=-1$, $r(a_1)=1$.
 6. **Frozen bank during the walk.** $D$ is not an optimization variable and is not updated from the current answer (§3c is the camera moving the wallpaper).
 7. **Factored sensor.** $r=(r_{\mathrm{topic}}, r_{\mathrm{strat}}, u)$. Hinge only $r_{\mathrm{strat}}$. $u$ is detached (NLL / entropy), stop-grad into $u$, $\tau$ capped so $u$ cannot silence every cosine. $r_{\mathrm{topic}}$ may hug the hallway.
@@ -77,6 +77,7 @@ These are rejection tests. Passing them does not mean deception fell.
 Out of family, even if they use the word regret.
 
 - Last-token or mean-pool identity as $r_{\mathrm{strat}}$.
+- Average of per-token hinges as $L_{\mathrm{reg}}$ (score $s_K$ only).
 - Tiny-$K$ $\max\cos$ treated as a solved detector (Kumar 2026 already pressure-tests that geometry).
 - Steering $h\leftarrow h\pm\alpha v$, SAE-features-as-$D$ before a topic probe, LEACE as this hinge.
 - ALNS / Potvin 2-regret (different object; Lean `insertion_two_regret_not_the_hinge`).
@@ -135,4 +136,4 @@ Still free, and still the actual research problem:
 
 A working regret model is a **training-time Lagrangian of prototype-avoidance on a factored, action-conditioned path sensor against a frozen bank**, with hidden cells kept out of the graph, $u$ off that graph, a second channel that can contradict the trained hinge, and $S_{\mathrm{safe}}$ as the only target. Anything that measures $z$, trains $u$ to silence the hinge, updates $D$ live, or claims Hannan of the hinge is a different object.
 
-Version 0.1.5.
+Version 0.1.6.
