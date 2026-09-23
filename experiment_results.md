@@ -164,12 +164,14 @@ Not §7. Train $D$ / $\tau$ / wipe on topics $1..N-1$. Test a **new topic or new
 
 ## 17. Cosine-hinge flattening (`simulation_flattening.py`) — 2026-09-23 21:07
 
-**exists-$h$.** Free vector. Frozen $D$. Dummy class 1.
+**exists-$h$.** Free vector. Frozen $D$. Dummy proxy class (not strategy).
 
 ```
-step   0 L_task=0.4451 L_reg=0.0273 pred=1 still_class1=True ||h||=1.0000
-step 200 L_task=0.0043 L_reg=0.0000 pred=1 still_class1=True ||h||=6.3547
+step   0 L_task=0.4451 L_reg=0.0273 pred=1 proxy_behavior=True ||h||=1.0000 m_hat=1
+step 200 L_task=0.0043 L_reg=0.0000 pred=1 proxy_behavior=True ||h||=6.3547 m_hat=1
 ```
+
+Hinge died. One walk vector stayed one talker. $m_{\mathrm{hat}}$ did not enter $L$.
 
 ## 18. Dummy $\lambda$ sweep (`simulation_lambda_sweep.py`) — 2026-09-23 21:27
 
@@ -188,3 +190,16 @@ step 80 L_task=0.0002 L_reg=0.0000 B=1.000 B_ok=True
 ```
 
 A linear encoder can walk off the pins and keep the frozen class. $B$ is not strategy. Not Qwen. Not §16 OOD.
+
+## 20. Talker-count $m_{\mathrm{hat}}$ — 2026-09-23 23:45
+
+Lean: `totalLoss_ignores_sourceCount`, `crowded_not_the_slap`. Dummy SVD energy rank. Not ICA. Not $r$.
+
+```
+simulation_source_count.py  m_hat_1source=1 m_hat_2source=2  L_total=0.5000 both
+simulation.py static        m_hat=4 before and after  L_total 0.6469 → 0.6124
+simulation_born.py          m_hat_routes=2  L_total=1.0000 with or without Amp
+simulation_flattening.py    m_hat=1 while hinge 0.0273 → 0
+```
+
+Crowded hallway is a third uncertainty meter (with NLL / entropy). It is not the slap.
