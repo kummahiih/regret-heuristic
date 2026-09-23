@@ -24,6 +24,7 @@ lake build
 - `sjoint_unhit_one_round` / `ssafe_hit_by_quiet`
 - Amplitude bookkeeping: `two_route_identity`, `totalLoss_ignores_amp`, phase/scale hides
 - Talker-count: `totalLoss_ignores_sourceCount`, `sourceCount_not_the_hinge`, `crowded_not_the_slap`
+- `iso_scales_plan` / `iso_hides_kernel`: isotropic $T(h)=c h$ shrinks plan and leaves $\ker r$ silent
 - `decodable_not_causal`
 - `implicit_miss_is_some`, `lexical_bleed`
 - `static_linear_evasion_exists` if `ker W` is nontrivial. Identity is a counterexample.
@@ -42,3 +43,4 @@ lake build
 - Hannan of the hinge, PPO trust, Blackwell steering
 - anyone understands `z` / Amp
 - `m_hat` names the plan
+- wanted split: plan kept and evasion visible under one $T$
