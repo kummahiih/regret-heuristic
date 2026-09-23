@@ -12,6 +12,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from simulation_source_count import source_count
+
 
 class DummyEncoder(nn.Module):
     def __init__(self, input_dim: int = 16, d: int = 8):
@@ -111,7 +113,7 @@ def main() -> None:
         L_total = L_task + lambda_reg * L_regret
         L_near = regret_loss(h_intent[:2], prototypes, tau=tau)
         L_far = regret_loss(h_intent[2:], prototypes, tau=tau)
-        return h_intent, L_task, L_regret, L_total, L_near, L_far
+        return h_base, h_intent, L_task, L_regret, L_total, L_near, L_far
 
     def report_split(L_task, L_regret):
         opt.zero_grad(set_to_none=True)
@@ -123,17 +125,18 @@ def main() -> None:
         opt.zero_grad(set_to_none=True)
         return g_task, g_reg
 
-    h_intent, L_task, L_regret, L_total, L_near, L_far = compute_losses()
+    h_base, h_intent, L_task, L_regret, L_total, L_near, L_far = compute_losses()
     g_task, g_reg = report_split(L_task, L_regret)
     L_total.backward()
     g_tot = float(encoder.proj.weight.grad.norm())
+    m_hat = source_count(h_base.detach())
 
     print("=== Toy prototype-avoidance (A/B/C evasion). Not Lean basin. ===")
     print(f"Sensor Mode: {args.sensor.upper()}")
     print(f"Batch size B={B}, input_dim={input_dim}, d={d}, K={getattr(detector, 'K', 0)}, tau={tau}")
     print(
         f"Before step: L_task={L_task.item():.4f}  L_regret={L_regret.item():.4f}  "
-        f"L_total={L_total.item():.4f}"
+        f"L_total={L_total.item():.4f}  m_hat={m_hat}"
     )
     print(f"  group L_near={L_near.item():.4f}  L_far={L_far.item():.4f} (constructed orthogonal h)")
     print(
@@ -143,19 +146,21 @@ def main() -> None:
     opt.step()
     opt.zero_grad(set_to_none=True)
 
-    h_intent2, L_task2, L_regret2, L_total2, L_near2, L_far2 = compute_losses()
+    h_base2, h_intent2, L_task2, L_regret2, L_total2, L_near2, L_far2 = compute_losses()
     g_task2, g_reg2 = report_split(L_task2, L_regret2)
     L_total2.backward()
     g_tot2 = float(encoder.proj.weight.grad.norm())
+    m_hat2 = source_count(h_base2.detach())
 
     print(
         f"After 1 Adam step: L_task={L_task2.item():.4f}  L_regret={L_regret2.item():.4f}  "
-        f"L_total={L_total2.item():.4f}"
+        f"L_total={L_total2.item():.4f}  m_hat={m_hat2}"
     )
     print(f"  group L_near={L_near2.item():.4f}  L_far={L_far2.item():.4f}")
     print(
         f"  encoder grad norms: task={g_task2:.6f}  hinge={g_reg2:.6f}  total={g_tot2:.6f}"
     )
+    print("m_hat is talker-count on the walk. Not in L_total.")
     print("Residual+noise is not AttractorBasin. Not alignment. Not a camera.")
 
 
