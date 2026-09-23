@@ -1,5 +1,5 @@
 /-
-Copyright (c) 2026 kummahiih.
+Copyright (c) 2026 Pauli Rikula.
 Released under the parent repository license.
 
 Definitional Lean 4 slice of the Regret Heuristic notes.

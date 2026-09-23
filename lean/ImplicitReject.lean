@@ -1,5 +1,5 @@
 /-
-Copyright (c) 2026 kummahiih.
+Copyright (c) 2026 Pauli Rikula.
 Released under the parent repository license.
 
 API cartoons. Not ML-KEM. Not a camera. Not z.
