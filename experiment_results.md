@@ -3,7 +3,7 @@
 Separate runs. Do not collapse them. None of these is reduced deception.
 Do not edit §1–§7 numbers.
 
-Walk vs map (design filter): [slam_analogy.md](slam_analogy.md). Printed text is the walk. Possible thoughts are the map. §6 averaged more of the walk and mixed topic. §7 built a map cell the walk never occupies.
+Walk vs map (design filter): [slam_analogy.md](slam_analogy.md). Printed text is the walk. Possible thoughts are the map. §6 averaged more of the walk and mixed topic. §7 built a map cell the walk never occupies. §7 is **not** the held-out *behavior* test.
 
 ## 1. CPU toy (`simulation.py`) — still the baseline
 
@@ -59,7 +59,7 @@ last-token 0.7742 / 0.8003 → mean 0.8575 / 0.8524. Gap gone. NLL/entropy uncha
 
 ## 7. Held-out cell (`simulation_heldout.py`) — 2026-09-15 18:34
 
-A map pin the walk never occupies.
+A map pin the walk never occupies. **Geometry cartoon.** We built a vector orthogonal to $D$. That is not a new deceptive *behavior*.
 
 ```
 heldout_norm=1.0000  heldout_vs_D_max=0.0000
@@ -69,7 +69,7 @@ far_0   s*_D=0.0000  cos_heldout=-0.0000
 far_1   s*_D=0.0000  cos_heldout= 0.0000
 ```
 
-Near sits on D and misses the pin. Constructed geometry, not a prompt.
+Near sits on D and misses the pin. Constructed geometry, not a prompt. Do not cite this as OOD strategy transfer.
 
 ## 8. Two-door payoff (`simulation_two_door.py`) — 2026-09-19 22:03
 
@@ -140,34 +140,24 @@ grad encoder=0.410410 readout=0.430949 frozen_readout=None
 after 1 step L_reg=0.0149 L_frozen=0.0638 alarm=True
 ```
 
-`legal_of_walk` is task + $\lambda$ path-hinge. Amp is computed and discarded. Frozen readout gets no gradient. After one Adam step the trained hinge and the frozen log disagree (alarm, not a gaming verdict). $D$ not updated. Lean names: `legalOfWalk`, `illegalFromAmp`, `FrozenKind.readout`.
+`legal_of_walk` is task + $\lambda$ path-hinge. Amp is computed and discarded. Frozen readout gets no gradient. After one Adam step the trained hinge and the frozen log disagree (alarm, not a gaming verdict). $D$ not updated.
 
 ## 14. Controlled Sensor Evasion Comparison (`simulation.py`) — 2026-09-23 19:14
 
-Strict A/B/C test on frozen data, frozen prototypes (\(D \in \mathbb{R}^{3 \times 8}\)), and a frozen sensor. Comparing static readout vs. deterministic unrolled loop (\(K=3\)) vs. stochastic relaxation loop (\(K=3, \sigma=0.01\)).
+Strict A/B/C test on frozen data, frozen prototypes, and a frozen sensor.
 
-| Sensor Mode | Initial \(L_{\mathrm{reg}}\) | Step 1 \(L_{\mathrm{reg}}\) | Initial Hinge Grad | Step 1 Hinge Grad | \(L_{\mathrm{far}}\) (Evasion) |
+| Sensor Mode | Initial $L_{\mathrm{reg}}$ | Step 1 $L_{\mathrm{reg}}$ | Initial Hinge Grad | Step 1 Hinge Grad | $L_{\mathrm{far}}$ |
 |---|---|---|---|---|---|
-| **Static** | 0.0071 | 0.0000 | 0.481392 | 0.000000 | \(0.0142 \to 0.0000\) |
-| **Deterministic** | 0.0070 | 0.0019 | 0.227978 | 0.219607 | \(0.0000 \to 0.0000\) |
-| **Stochastic** | 0.0084 | 0.0046 | 0.228681 | 0.221341 | \(0.0000 \to 0.0000\) |
+| **Static** | 0.0071 | 0.0000 | 0.481392 | 0.000000 | $0.0142 \to 0.0000$ |
+| **Deterministic** | 0.0070 | 0.0019 | 0.227978 | 0.219607 | $0.0000 \to 0.0000$ |
+| **Stochastic** | 0.0084 | 0.0046 | 0.228681 | 0.221341 | $0.0000 \to 0.0000$ |
 
-**Mechanical findings:**
-1. **\(L_{\mathrm{far}}\) is not activated by noise:** Orthogonal evasion vectors remain at \(L_{\mathrm{far}} = 0\) in both iterative modes. Contraction into prototype basins requires explicit spectral constraints or energy regularization; stochastic noise alone does not pull orthogonal vectors into the hinge.
-2. **Gradient persistence:** The static linear probe is silenced in a single Adam step, with its hinge gradient collapsing to `0.000000`. Unrolling \(K=3\) residual steps prevents one-step gradient death, keeping backward feedback active (\(\approx 0.22\)).
-3. **Loop depth dominates noise:** The gradient stabilization is driven by network depth and residual routing, not by the stochastic perturbation \(\sigma\).
+$L_{\mathrm{far}}=0$ still. Noise did not pull the orthogonal dummy into the hinge. $K$-step kept a hinge gradient (~0.22) after one step; static died. That is gradient persistence, not a camera.
 
 ## 15. Attempted Norm Minimization on Frozen Detector (`simulation_flattening.py`) — 2026-09-23 02:02
 
-Frozen dynamic detector (\(K=3\)) attacked by an optimizer minimizing task loss plus raw readout norm.
+Frozen dynamic detector ($K=3$) attacked by minimizing task plus raw readout norm. Norm fell; cosine hinge was not the objective. Not flattening.
 
-| | L_task | Readout Norm ||z|| | Base ||h_0|| |
-| --- | --- | --- | --- |
-| Step 0 | 0.9450 | 3.2647 | 3.5321 |
-| Step 200 | 0.3206 | 0.5146 | 2.3511 |
+## 16. What the OOD test actually is — not run
 
-**Narrow findings:**
-1. **Norm reduction on the toy:** The optimizer reduced the frozen detector's raw output norm while lowering task cross-entropy.
-2. **Invalid proxy for evasion:** Because the actual regret hinge uses normalized cosine similarity, reducing the vector norm does not establish evasion of the hinge.
-3. **Unverified mechanism:** The experiment did not measure intermediate trajectory norms or loop Jacobians; it did not establish manifold flattening (\(F(h) \approx -h\)) vs. simple readout null-space alignment.
-
+Not §7. Train $D$ / $\tau$ / wipe on topics $1..N-1$. Test a **new topic or new deceptive behavior**. Do not use the test topic when building $D$, setting $\tau$, or fitting the wipe. Search-repo LOTO on plan is the cheap version of this. Contrast 2026-09-23: plan gap 0.026, topic L2 0.31.
