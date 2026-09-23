@@ -154,10 +154,22 @@ Strict A/B/C test on frozen data, frozen prototypes, and a frozen sensor.
 
 $L_{\mathrm{far}}=0$ still. Noise did not pull the orthogonal dummy into the hinge. $K$-step kept a hinge gradient (~0.22) after one step; static died. That is gradient persistence, not a camera.
 
-## 15. Attempted Norm Minimization on Frozen Detector (`simulation_flattening.py`) — 2026-09-23 02:02
+## 15. Norm surrogate (`simulation_flattening.py` old) — 2026-09-23 02:02
 
-Frozen dynamic detector ($K=3$) attacked by minimizing task plus raw readout norm. Norm fell; cosine hinge was not the objective. Not flattening.
+Minimized $\|z\|$, not $\max\cos$. Retired as the flattening test. Kept so the mismatch stays visible.
 
 ## 16. What the OOD test actually is — not run
 
-Not §7. Train $D$ / $\tau$ / wipe on topics $1..N-1$. Test a **new topic or new deceptive behavior**. Do not use the test topic when building $D$, setting $\tau$, or fitting the wipe. Search-repo LOTO on plan is the cheap version of this. Contrast 2026-09-23: plan gap 0.026, topic L2 0.31.
+Not §7. Train $D$ / $\tau$ / wipe on topics $1..N-1$. Test a **new topic or new deceptive behavior**. Contrast 2026-09-23: plan gap 0.026, topic L2 0.31.
+
+## 17. Cosine-hinge flattening (`simulation_flattening.py`) — 2026-09-23 21:07
+
+Frozen $D$ and frozen $K$-step detector. $L_{\mathrm{reg}}=\mathrm{ReLU}(\max\cos-\tau)$. Dummy class 1 is the stand-in behavior.
+
+```
+step   0 L_task=0.4451 L_reg=0.0273 pred=1 still_class1=True ||h||=1.0000
+step  50 L_task=0.0244 L_reg=0.0000 pred=1 still_class1=True ||h||=4.3042
+step 200 L_task=0.0043 L_reg=0.0000 pred=1 still_class1=True ||h||=6.3547
+```
+
+Hinge died. Class stayed 1. $\|h\|$ grew. Dummy evasion cartoon: walk off the pins, linear task head still says 1. Not Qwen. Not a lie. Cosine hinge *can* be silenced here because $h$ is free and $D$ is three random pins.
