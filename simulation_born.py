@@ -4,12 +4,11 @@
 Numeric twin of Lean two_route_identity / totalLoss_ignores_amp.
 Routes 1 and -1. Square-then-add vs add-then-square.
 Amp is a sticky note. It is not an input to L_total.
+m_hat is talker-count of the two routes. Also not in L_total.
 Dummy scalars. Not an LLM. Not a quantum circuit. Not p(lie).
 """
 
 from __future__ import annotations
-
-import cmath
 
 
 def premature_born(routes: tuple[complex, ...]) -> float:
@@ -32,7 +31,8 @@ def main() -> None:
     L_reg = 1.0
     L0 = total_loss(L_task, L_reg)
     amp_note = {"room_A": 1 + 0j, "room_B": -1 + 0j}
-    L_with_note = total_loss(L_task, L_reg)  # amp_note is not an argument
+    m_hat = len(routes)
+    L_with_note = total_loss(L_task, L_reg)
 
     print("=== Born bookkeeping toy. Not simulation.py. Not an LLM. ===")
     print(f"routes={routes}")
@@ -40,8 +40,9 @@ def main() -> None:
     print(f"delayed add-then-square={delay:.4f}")
     print(f"L_total without Amp={L0:.4f}")
     print(f"L_total with unused Amp note={L_with_note:.4f}  note={amp_note}")
+    print(f"m_hat_routes={m_hat} (log only, not in L_total)")
     print("Same hallway. Different time of looking.")
-    print("z is not in L_total. This is NOT evidence of alignment.")
+    print("z is not in L_total. m_hat is not in L_total.")
     if prem != 2.0:
         raise SystemExit(f"premature expected 2, got {prem}")
     if delay != 0.0:
