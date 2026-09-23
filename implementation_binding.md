@@ -3,6 +3,8 @@
 The rest of the repo names a hinge and records how identity / mean-pool sensors fail.
 This note ties that hinge to a build order. It does not add a third loss, an inference abort, or a quantum circuit.
 
+The trained ReLU is **prototype-avoidance**. It is not Hannan and not $R=u(a^*)-u(a)$.
+
 ## The joke is the definition
 
 Feynman's remark, in the form used here: if someone claims to understand quantum mechanics, they are lying.
@@ -128,6 +130,8 @@ A_{\mathrm{safe}}(t)=\{a\in A:\ \mathcal{L}_{\mathrm{reg}}(r_{\mathrm{strat}}(h_
 
 If $r$ only sees a pre-action $h_t$, $A_{\mathrm{safe}}$ does not depend on $a$ and is not a comparator class. If $A_{\mathrm{safe}}$ empties, the sensor did not determine the hidden cell. That is allowed. It is not a bug to "fix" by putting $z$ into the loss.
 
+**Quiet $\neq$ known-safe.** $\max_k\cos(r,d_k)<\tau$ means the walk is **not near the pins we have**. That is *unknown / abstain*, not "this action is safe." An unseen deceptive strategy looks exactly like a safe one on this meter. Do not put $a$ in $A_{\mathrm{safe}}$ from silence alone. Log unknown. The second channel is the alarm. Do not add a third loss.
+
 A Lagrangian weight $\lambda$ is one halfspace, not Blackwell steering.
 
 ## 5. Subnet before the hinge
@@ -141,7 +145,7 @@ Given the observable walk $x_{1:T}$:
 3. Score only the surviving *sensor* vectors against frozen $\mathcal{D}$.
 4. Hold out at least one map cell the walk never occupies (`simulation_heldout.py`, sister-repo action 2). Evading onto that cell is not leaving the map.
 
-The held-out cell is how the map stays larger than the measurement. Do not train on it.
+The held-out cell is how the map stays larger than the measurement. Do not train on it. §7 is a geometry cartoon. The OOD test is a new *behavior*, with $D$/$\tau$/wipe fit on the rest only.
 
 ## 6. Second channel (not in the sum)
 
@@ -153,6 +157,7 @@ Do not add a third training loss. Log, and refuse to pin $\mathcal{D}$ from, the
 - Cosine to a held-out cell.
 - NLL vs entropy disagreement (§4).
 - Whether $A_{\mathrm{safe}}(t)$ emptied.
+- Whether the walk was marked unknown ($\max\cos<\tau$).
 
 Disagreement **requires investigation**. It is not by itself a diagnosis of gaming. A better strategy sensor can go quiet while an identity map still hugs topic. A moving backbone can change a "frozen" output. A same-model judge can go quiet because it likes its own chat.
 
@@ -162,9 +167,9 @@ Do these in order. Stop if the topic probe still passes on $r_{\mathrm{strat}}$.
 
 | Step | Where | Done means |
 | --- | --- | --- |
-| B0 | [intent-readout-search](https://github.com/kummahiih/intent-readout-search) | $r_{\mathrm{strat}}$ gap survives topic and paraphrase; identity control stays near zero. Official topic gate is LOO / hold. $z$ is a labeler tag, not a feature. |
+| B0 | [intent-readout-search](https://github.com/kummahiih/intent-readout-search) | $r_{\mathrm{strat}}$ gap survives topic and paraphrase; identity control stays near zero. Official topic gate is LOO / hold on vectors, L2 on scalars. $z$ is a labeler tag, not a feature. |
 | B1 | this repo, new path object | $h_{1:T}$ + stay/fork/return prior; no hinge on $h_T$ alone; signature *and* dataflow: $z$/`Amp` not upstream of `LegalLoss`. |
-| B2 | this repo | $r$ consumes candidate $a$; $A_{\mathrm{safe}}(t)$ is action-indexed and sometimes empty. |
+| B2 | this repo | $r$ consumes candidate $a$; $A_{\mathrm{safe}}(t)$ is action-indexed and sometimes empty. Silence is unknown, not safe. |
 | B3 | this repo | $\tau(u)$ bins; $u$ detached; $\tau$ capped; no pin when $u>u_0$. |
 | B4 | this repo | Frozen lineage + held-out cell logged every run. Disagreement is an alarm. Do not overwrite [experiment_results.md](experiment_results.md) §1–§7. |
 | B5 | optional | Smoother $P(z_{1:T}\mid h_{1:T})$ labels pins only. Still not a loss input. |
@@ -179,5 +184,6 @@ Existing wiring stays: [simulation.py](simulation.py), [ppo_toy.py](ppo_toy.py),
 - No claim that anyone understands $z$. The definition says they do not.
 - No inference abort. Measurement delay is about *when the hinge may fire on $r$*, not about blocking decode.
 - No $D$ miner. Offline pins only. Coverage of the map stays open.
+- Quiet cosine is unknown, not a safe certificate.
 
-Version 0.1.2.
+Version 0.1.3.
