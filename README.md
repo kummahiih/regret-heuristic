@@ -125,17 +125,18 @@ python simulation.py --sensor deterministic
 python simulation.py --sensor stochastic
 ```
 
-Seed 0 (static): L_near 0.70, L_far 0. Far silent on a constructed orthogonal $h$.
-Seed 0 (dynamic): L_near 0.0054, L_far 0.0761. The $K$-step residual moved that dummy $h$ off the *readout's* static null. That is not a plan camera. Lean contraction does not apply to this residual unless `step` is a basin. [simulation_tau_bins.py](simulation_tau_bins.py): wider $\tau$ is quieter, not silent (0.70 → 0.10). [simulation_heldout.py](simulation_heldout.py): extra pin missed by the walk.
+Controlled A/B/C ([experiment_results.md](experiment_results.md) §14): $L_{\mathrm{far}}=0$ for static, deterministic, and stochastic. The $K$-step loop kept a hinge gradient after one step (~0.22); static died. That is **gradient persistence**, not OOD visibility. Noise did not pull the orthogonal dummy into the hinge. An older seed-0 print ($L_{\mathrm{far}}=0.076$) was a different construction; do not cite it as the loop "breaking the null."
 
-Bookkeeping toys: [simulation_two_door.py](simulation_two_door.py), [simulation_factored.py](simulation_factored.py), [simulation_two_channel.py](simulation_two_channel.py), [simulation_born.py](simulation_born.py), [simulation_decodable.py](simulation_decodable.py), [simulation_head_write.py](simulation_head_write.py), [simulation_flattening.py](simulation_flattening.py) (optimizer vs frozen dynamic detector).
+[simulation_tau_bins.py](simulation_tau_bins.py): wider $\tau$ is quieter, not silent. [simulation_heldout.py](simulation_heldout.py): extra pin missed by the walk. Flattening ([simulation_flattening.py](simulation_flattening.py)) drives the *cosine* hinge to 0 while dummy class stays 1 by optimizing $h$ directly — not $\theta$.
+
+Bookkeeping toys: [simulation_two_door.py](simulation_two_door.py), [simulation_factored.py](simulation_factored.py), [simulation_two_channel.py](simulation_two_channel.py), [simulation_born.py](simulation_born.py), [simulation_decodable.py](simulation_decodable.py), [simulation_head_write.py](simulation_head_write.py).
 
 Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–§7.
 
 ## Caps
 
 - $r$ and $D$ are assumed here. Building them is [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
-- Gradients of $L_{\mathrm{reg}}$ still enter $h$. Gaming is open. $K$-step residual is not a proof the null collapsed.
+- Gradients of $L_{\mathrm{reg}}$ still enter $h$. Gaming is open. $K$-step residual is not a proof the null collapsed and not a security boundary.
 - Training-time only. No inference abort.
 - Toys are wiring. Qwen last-token 0.77 / 0.80; mean-pool 0.86 / 0.85.
 - Lean `lake build` from the **repo root**.
@@ -146,7 +147,7 @@ Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–�
 
 ## Theory and PPO
 
-Hannan / Blackwell: [regret_minimization.md](regret_minimization.md), [approachability.md](approachability.md) ($S_{\mathrm{safe}}$, not $S_{\mathrm{joint}}$). PPO attachment is a Lagrangian, not steering. Parked until $r_{\mathrm{strat}}$ exists. Lean sources in `lean/`. Build order: [implementation_binding.md](implementation_binding.md). Interface: [working_model.md](working_model.md).
+Hannan / Blackwell: [regret_minimization.md](regret_minimization.md), [approachability.md](approachability.md) ($S_{\mathrm{safe}}$, not $S_{\mathrm{joint}}$). PPO attachment is a Lagrangian, not steering. Dummy clip in [ppo_toy.py](ppo_toy.py) is wiring. Lean sources in `lean/`. Build order: [implementation_binding.md](implementation_binding.md). Interface: [working_model.md](working_model.md).
 
 ## Conclusion
 
