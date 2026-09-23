@@ -161,6 +161,8 @@ Do not add a third training loss. Log, and refuse to pin $\mathcal{D}$ from, the
 
 Disagreement **requires investigation**. It is not by itself a diagnosis of gaming. A better strategy sensor can go quiet while an identity map still hugs topic. A moving backbone can change a "frozen" output. A same-model judge can go quiet because it likes its own chat.
 
+**Same output, different $h$.** If logits stay and the hinge moves, that is coordinate gaming. Dummy: [simulation_invariance.py](simulation_invariance.py) ($h'=Ah$, $V'=VA^{-1}$). Dummy hold-label evasion: [simulation_game_detector.py](simulation_game_detector.py). Neither is Qwen. Rebuild $D$ after a basis change, or put $r$ in the same gauge as the head.
+
 ## Build order
 
 Do these in order. Stop if the topic probe still passes on $r_{\mathrm{strat}}$. Stop if a change puts $z$ in the loss.
@@ -185,5 +187,6 @@ Existing wiring stays: [simulation.py](simulation.py), [ppo_toy.py](ppo_toy.py),
 - No inference abort. Measurement delay is about *when the hinge may fire on $r$*, not about blocking decode.
 - No $D$ miner. Offline pins only. Coverage of the map stays open.
 - Quiet cosine is unknown, not a safe certificate.
+- Dummy `label_unchanged` is not deceptive behavior.
 
-Version 0.1.3.
+Version 0.1.4.
