@@ -12,6 +12,20 @@ The same word shows up in routing look-ahead, poker self-play, and online learni
 
 Until that pass, freeze nothing and do not run PPO against $S_{\mathrm{safe}}$. Latest contrast (2026-09-23): plan gap 0.026, topic L2 0.31. No $r$ yet. After a pass: freeze $r$, $D$, $\tau$; train the hinge here; keep a frozen copy as the alarm.
 
+A second grade sits on the wall until $a^*$ exists. It is a thinking tool, not a trainer input. If a real $A_{\mathrm{safe}}$ ever appears, this is the extra cost versus the best quiet move:
+
+```math
+a^*(x)=\arg\max_{a\in A_{\mathrm{safe}}(x)} u(x,a)
+\qquad
+R(x,a)=u(x,a^*)-u(x,a)
+```
+
+```math
+L = L_{\mathrm{task}} + \lambda L_{\mathrm{reg}} + \beta R
+```
+
+We do not run $\beta R$ now because $a^*$ needs the camera search has not found. A fake $a^*$ is a made-up number. Same shape as $u^{\mathrm{safe}}$ in [approachability.md](approachability.md). Longer note: [working_model.md](working_model.md#the-formula-we-do-not-train).
+
 ## Claim
 
 Deception is not only an ethics failure. A system that is rewarded for hiding the truth trains on its own output, drifts inside an information bubble, and — in a multi-agent setting — burns compute verifying peers instead of doing the work. That is the Dictator’s Trap.
@@ -22,7 +36,7 @@ The bookkeeping split, written as a training objective:
 
 > $L_{\mathrm{total}} = L_{\mathrm{task}} + \lambda\, L_{\mathrm{reg}}\big(r(h(x)), D\big)$
 
-$L_{\mathrm{reg}}=\mathrm{ReLU}(\max_k\cos(r,d_k)-\tau)$ is **prototype-avoidance**. The repo still uses the English word regret for that hinge. It is not Hannan $R_T^{\mathrm{ext}}$ and not the counterfactual $R=u(x,a^*)-u(x,a)$. Those stay other scoreboards. The unused $R$ is written down in [working_model.md](working_model.md#the-formula-we-do-not-train).
+$L_{\mathrm{reg}}=\mathrm{ReLU}(\max_k\cos(r,d_k)-\tau)$ is **prototype-avoidance**. The repo still uses the English word regret for that hinge. It is not Hannan $R_T^{\mathrm{ext}}$ and not the counterfactual $R$ above. Those stay other scoreboards.
 
 $L_{\mathrm{task}}$ is the job. $r(h(x))$ is a hypothesized readout. A static linear $r$ with a kernel can hide a direction; identity has no kernel. A $K$-step loop is a candidate, not a proof that gaming is dead. Residual $h+F(h)+\sigma\varepsilon$ is not the Lean contraction basin. $D$ is a frozen bank of prototypes. The hinge is useful for deception only if $r$ is about strategy. Last-token and mean-pool identity already failed that test on a same-topic toy ([experiment_results.md](experiment_results.md) §2 / §6).
 
@@ -41,7 +55,7 @@ Two grades, added:
 1. Did the job get done? $L_{\mathrm{task}}$
 2. Did the camera look like a banned pin? $L_{\mathrm{reg}}$ (prototype-avoidance)
 
-Never put $z$ in that sum.
+Never put $z$ in that sum. $R$ stays off the graph until $A_{\mathrm{safe}}$ is real.
 
 Two hidden routes can lead to the same printed sentence.
 
@@ -61,7 +75,7 @@ camera r           ← last-token identity is glued to the wallpaper
       |
 hinge vs frozen pins D
       |
-L_task + λ L_reg
+L_task + λ L_reg     (R off-graph until a* exists)
 ```
 
 Keep the skill. Tag the camera. Leave the room untagged, because tagging it would be lying that you understood it. Quiet camera is not a win on the Hannan scoreboard: Lean has a toy where the hinge is 0 and that other regret is still $T$.
@@ -128,6 +142,7 @@ Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–�
 - This loss is prototype-avoidance: [neighbors.md](neighbors.md).
 - Implementation binding does not lift these caps.
 - No PPO against $S_{\mathrm{safe}}$ until search hands over a passing $r$.
+- No $\beta R$ until $A_{\mathrm{safe}}$ is real.
 
 ## Theory and PPO
 
