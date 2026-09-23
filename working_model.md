@@ -21,7 +21,7 @@ R(x,a)=u(x,a^*)-u(x,a)
 L = L_{\mathrm{task}} + \lambda L_{\mathrm{reg}} + \beta R
 ```
 
-$R$ is extra job-cost versus the best *quiet* move. Same shape as $u^{\mathrm{safe}}$ in [approachability.md](approachability.md). We do not use $\beta R$ because $a^*$ needs $A_{\mathrm{safe}}$, and $A_{\mathrm{safe}}$ needs a camera that sees plan. Contrast 2026-09-23: plan gap 0.026. A fake $a^*$ is a made-up grade.
+$R$ is extra job-cost versus the best *quiet* move. Same shape as $u^{\mathrm{safe}}$ in [approachability.md](approachability.md). We do not use $\beta R$ because $a^*$ needs $A_{\mathrm{safe}}$, and $A_{\mathrm{safe}}$ needs a camera that sees plan. Contrast 2026-09-23: plan gap 0.026 (layer-8 last-token later ~0.07, still fail). A fake $a^*$ is a made-up grade.
 
 The two-door toy is this box with dummy doors. It is not $\beta R$ in a trainer.
 
@@ -39,20 +39,20 @@ A candidate implementation is in-family only if all of these hold.
    \lambda\,
    \mathrm{ReLU}\big(\max_k s(r_{\mathrm{strat}}(h_{1:T}(a)), d_k)-\tau(u)\big).
    ```
-   Inputs: walk, labels, candidate action, factored sensor, frozen bank, coarseness. Not $z$. Not an amplitude. That $\mathrm{ReLU}$ is prototype-avoidance.
-3. **$z\notin\mathrm{dom}(\mathcal{L}_{\mathrm{total}})$.** Signature: `LegalLoss` has no `Amp` field; `totalLoss_ignores_amp` is `rfl` once the numbers exist. Dataflow (B1): do not compute `task`/`hinge` from $z$ or `Amp` before the record. A prior or smoother may mention $z$. The optimizer graph may not.
-4. **Path, not last token.** $h_{1:T}$. Score $s_K$ after a $K$-step mix of the path. Do **not** average per-token hinges ([simulation_kstep.py](simulation_kstep.py)). Last-token identity and mean-pool of the printed walk already failed the same-topic test ([experiment_results.md](experiment_results.md) §2 / §6).
+   Inputs: walk, labels, candidate action, factored sensor, frozen bank, coarseness. Not $z$. Not an amplitude. Not $\hat{m}$. Not SIREN $\theta$. That $\mathrm{ReLU}$ is prototype-avoidance.
+3. **$z\notin\mathrm{dom}(\mathcal{L}_{\mathrm{total}})$.** Same for talker-count $\hat{m}$ and path-fit $\theta$. Signature: `LegalLoss` has no those fields; `totalLoss_ignores_amp`, `totalLoss_ignores_sourceCount`, `totalLoss_ignores_theta` are `rfl`. Dataflow (B1): do not compute `task`/`hinge` from $z$, Amp, $\hat{m}$, or $\theta$ before the record.
+4. **Path, not last token.** $h_{1:T}$. If a $K$-step mix is used, score $s_K$ only. Do **not** average per-token hinges ([simulation_kstep.py](simulation_kstep.py)). Last-token identity, mean-pool, and dummy SIREN $f(1)$ already failed or collapsed to the last point ([experiment_results.md](experiment_results.md) §2 / §6, [experiment_siren_path.md](experiment_siren_path.md)). $K$-step is a **candidate**, not a proof the kernel died.
 5. **Action-indexed safety.** $r_{\mathrm{strat}}$ sees the candidate $a$. Otherwise $A_{\mathrm{safe}}$ is all of $A$ or none (`hingeQuietIgnoringAction_all_or_none`). Emptiness is allowed. Two-door toy: one bank $D=\{1\}$, $r(a_0)=-1$, $r(a_1)=1$.
 6. **Frozen bank during the walk.** $D$ is not an optimization variable and is not updated from the current answer (§3c is the camera moving the wallpaper).
 7. **Factored sensor.** $r=(r_{\mathrm{topic}}, r_{\mathrm{strat}}, u)$. Hinge only $r_{\mathrm{strat}}$. $u$ is detached (NLL / entropy), stop-grad into $u$, $\tau$ capped so $u$ cannot silence every cosine. $r_{\mathrm{topic}}$ may hug the hallway.
 8. **Target $S_{\mathrm{safe}}$, not $S_{\mathrm{joint}}$.** Extra cost vs the best *quiet* action that round, plus quiet hinge. Hannan-on-all-of-$A$ is only the rejected box.
 9. **Training-time only.** No inference abort. Measurement delay is when the hinge may fire on $r$, not a decode block.
-10. **Second channel outside the sum.** Frozen lineage (say readout / backbone / cached $h$), held-out map cell, NLL/entropy disagreement, emptiness of $A_{\mathrm{safe}}$. Logged. Disagreement is an alarm, not a gaming verdict. Not a third loss. Same-model chat grades are not this channel.
+10. **Second channel outside the sum.** Frozen lineage, held-out map cell, NLL/entropy disagreement, $\hat{m}$, emptiness of $A_{\mathrm{safe}}$. Logged. Disagreement is an alarm, not a gaming verdict. Not a third loss. Same-model chat grades are not this channel.
 11. **Smoother optional and off-graph.** A post-hoc $P(z\mid h)$ may label or refuse a pin after the walk. It is not a field of `LegalLoss`. No `Amp` in the backward pass.
 12. **Group RL keeps the scoreboards apart.** Z-score the task group, then add $\lambda$ hinge. Mixing first is a different object (`group_zscore_mix_not_separate`). No critic of $L_{\mathrm{reg}}$.
 13. **Decodable $\neq$ causal.** A probe that reads topic is not the coordinate a patch must move (`decodable_not_causal`). Do not put probe AUROC in the hinge.
 14. **Implicit reject.** A checker that always returns a key is not $z$ (`implicit_miss_is_some`). Verbal oracles and mutated tails are walks.
-15. **Dynamical readout is a candidate, not a theorem that gaming is dead.** A static linear $Wh+b$ with a kernel admits $P(h+v)=P(h)$ (Lean: `static_linear_evasion_exists`). Identity has no kernel. A $K$-step loop is allowed. Residual $h+F(h)+\sigma\varepsilon$ is **not** the Lean basin unless `step` is a contraction.
+15. **Dynamical readout is a candidate, not a theorem that gaming is dead.** A static linear $Wh+b$ with a kernel admits $P(h+v)=P(h)$ (Lean: `static_linear_evasion_exists`). Identity has no kernel. Residual $h+F(h)+\sigma\varepsilon$ is **not** the Lean basin unless `step` is a contraction. Four-state dummy ([experiment_four_state.md](experiment_four_state.md)): isotropic $T=cI$ shrinks plan and **hides** $\ker r$ (`iso_hides_kernel`). Random $F$ shows $v$ and dumps topic. Wanted split (plan kept $\wedge$ evasion visible $\wedge$ topic quiet) is **not demonstrated**. $K$-step kept a hinge **gradient** after one step; that is persistence of the derivative, not OOD visibility ($L_{\mathrm{far}}=0$).
 
 ## Necessary empirical filters (not success)
 
@@ -71,6 +71,9 @@ These are rejection tests. Passing them does not mean deception fell.
 | Path-patch prints source-topic words | Lexical bleed (`lexical_bleed`). |
 | Same-model chat fact-grade used as nature | Actor+judge shared blind spot. |
 | Orthogonal representation gaming | Static linear probes that report $L_{\mathrm{reg}}=0$ when the optimizer just rotates the intent into the sensor's null space. |
+| Four-state wanted split | Claiming $K$-step / contraction removes evasion while keeping plan. No dummy $T$ passed. |
+| Flattening with proxy class hold | Quiet hinge while dummy behavior label stays. $\exists h$ and $\exists\theta$ toys. |
+| $\hat{m}$ or $\theta$ in $L_{\mathrm{total}}$ | Crowded hallway or path-fit weights used as the slap. |
 
 ## Forbidden implementations
 
@@ -83,7 +86,7 @@ Out of family, even if they use the word regret.
 - ALNS / Potvin 2-regret (different object; Lean `insertion_two_regret_not_the_hinge`).
 - Hedge / MW as if a cheap pre-image oracle for $\{h:\mathcal{L}_{\mathrm{reg}}=0\}$ existed.
 - CFR on tokens as if that supplied $r_{\mathrm{strat}}$.
-- Putting $z$ or `Amp` in the backward graph, including baking them into `task`/`hinge` before `LegalLoss`.
+- Putting $z$, `Amp`, $\hat{m}$, or SIREN $\theta$ in the backward graph.
 - Joint training of $u$ so the hinge dies by "I am unsure."
 - Amplitude-encoding the residual stream into one packed unit vector and hinging that.
 - Premature Born reported as the mechanism of the 0.77 / 0.80 probe. That smear is topic hug. Path $r$ is a research choice.
@@ -98,21 +101,25 @@ Out of family, even if they use the word regret.
 - Un-normalized inputs to a noisy loop so $\Vert h\Vert\to\infty$ drowns $\sigma$.
 - A transition $F(h)\approx -h$ that flattens the state before readout.
 - Equating residual+noise with the Lean contraction basin.
+- Claiming $K$-step "breaks the null" because a hinge gradient persisted.
 - Training $\beta R$ with a fake $a^*$.
+- Treating dummy proxy_behavior / frozen $B$-head as strategy.
+- SIREN / INR $\theta$ as $r_{\mathrm{strat}}$ because $f(1)$ recovered a planted last point.
 
 ## What this did *not* pin
 
 Still free, and still the actual research problem:
 
-- The map $r_{\mathrm{strat}}$. [intent-readout-search](https://github.com/kummahiih/intent-readout-search): official LOO topic on loud heads 0.79 / layer 0.62; adversary hold 0.53; contrast L2 topic 0.31, plan gap 0.026. Superposition packing fights a clean split. Do not train $r$ in this repo.
+- The map $r_{\mathrm{strat}}$. [intent-readout-search](https://github.com/kummahiih/intent-readout-search): official LOO topic on loud heads 0.79 / layer 0.62; adversary hold 0.53; contrast L2 topic 0.31, plan gap 0.026–0.07. Superposition packing fights a clean split. Do not train $r$ in this repo.
 - Head-subset $r$ (Todd, Pandey): **run**. Official LOO still names topic. Causal-SAE (Tiwari) still unrun.
 - Offline construction and coverage of $D$. Pins $\neq$ map. Live fill is forbidden.
 - $\lambda$ *schedule*. Lagrangian halfspace, not Blackwell steering.
 - Bookkeeping field $\mathbb{R}$ vs $\mathbb{C}$ is a name. Signed reals already cancel.
-- Gaming remains open: $\nabla\mathcal{L}_{\mathrm{reg}}$ still enters $h$ and $r$.
+- Gaming remains open: $\nabla\mathcal{L}_{\mathrm{reg}}$ still enters $h$ and $r$. $\exists h$ and $\exists\theta$ flattening toys.
 - Whether any trainer reaches $S_{\mathrm{safe}}$. Two-door is a box, not a PPO run.
-- Dynamic evasion modes: noisy iterative sensor candidate motivated by a conditional contraction hypothesis.
+- A $T$ that sends $\ker r$ out of the kernel **without** shrinking plan or leaking topic. Four-state dummy failed.
 - $\beta R$ once a real $A_{\mathrm{safe}}$ exists.
+- Qwen path-dump into SIREN (dummy only).
 
 ## Lean pins (glossary, not safety)
 
@@ -125,15 +132,19 @@ Still free, and still the actual research problem:
 | `hingeQuietIgnoringAction_all_or_none` | Sensor must see $a$. |
 | `two_route_identity` | Measurement time is load-bearing. |
 | `totalLoss_ignores_amp` | Signature only. Dataflow is B1 prose. |
+| `totalLoss_ignores_sourceCount` / `crowded_not_the_slap` | Talker-count is a log. |
+| `totalLoss_ignores_theta` / `queryEnd_is_the_end` | Path-fit weights and $f(1)$ are walk objects. |
+| `iso_scales_plan` / `iso_hides_kernel` | Isotropic $T=c h$ shrinks plan and leaves $\ker r$ silent. |
 | `decodable_not_causal` | Probe on topic can shout while the plan coordinate is 0. |
 | `headWrite_ignores_rest` | A head-write $r$ does not see the rest of the hallway. |
 | `implicit_miss_is_some` | A miss still returns a key. |
 | `lexical_bleed` | Patched walk prints the source topic token. |
 | `static_linear_evasion_exists` | If $W$ has a kernel, some $v\neq 0$ leaves $P(h+v)=P(h)$. |
 | `dynamic_trajectory_convergence` | **If** `step` is a basin contraction, distance after $K$ steps is $\le c^K$. Residual+noise is not that hypothesis. |
+| `quiet_hinge_not_counterfactualR` | Hinge $0$ and $R=1$ can sit together. |
 
 ## One-sentence pin
 
 A working regret model is a **training-time Lagrangian of prototype-avoidance on a factored, action-conditioned path sensor against a frozen bank**, with hidden cells kept out of the graph, $u$ off that graph, a second channel that can contradict the trained hinge, and $S_{\mathrm{safe}}$ as the only target. Anything that measures $z$, trains $u$ to silence the hinge, updates $D$ live, or claims Hannan of the hinge is a different object.
 
-Version 0.1.6.
+Version 0.1.7.
