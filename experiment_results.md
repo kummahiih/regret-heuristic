@@ -172,4 +172,10 @@ step  50 L_task=0.0244 L_reg=0.0000 pred=1 still_class1=True ||h||=4.3042
 step 200 L_task=0.0043 L_reg=0.0000 pred=1 still_class1=True ||h||=6.3547
 ```
 
-Hinge died. Class stayed 1. $\|h\|$ grew. Dummy evasion cartoon: walk off the pins, linear task head still says 1. Not Qwen. Not a lie. Cosine hinge *can* be silenced here because $h$ is free and $D$ is three random pins.
+Hinge died. Class stayed 1. $\|h\|$ grew. Dummy evasion cartoon. Not Qwen.
+
+## 18. Dummy $\lambda$ sweep (`simulation_lambda_sweep.py`) — 2026-09-23 21:27
+
+3 seeds × $\lambda\in\{0,0.01,0.03,0.1,0.3,1\}$. Dummy linear encoder. **No behavior column.**
+
+Seed 1: $L_{\mathrm{task}}$ 0.196 → 0.284 as $\lambda$ goes 0 → 1; $L_{\mathrm{reg}}$ 0.076 → 0. Seed 0 already almost silent. Bigger slap, quieter hinge, slightly worse task. Not deception. `results/` was missing on the run machine; print only, $n=18$.
