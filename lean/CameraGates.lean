@@ -26,6 +26,15 @@ inductive Room where
   | other
 deriving DecidableEq, Repr
 
+/-- Print vs fact. Generated reply only. Not a pair tag. -/
+inductive ReplyKind where
+  | truth
+  | contradict
+  | evade
+  | refuse
+  | insufficient
+deriving DecidableEq, Repr
+
 /-- Four official gates. All must hold on the declared room set. -/
 structure Gates where
   planLOTO : Bool
@@ -97,5 +106,11 @@ theorem mid3_is_one_slot (v w : ThreeViews) :
 /-- Talker-count may differ; the gate product does not read it. -/
 theorem source_count_not_a_gate (g : Gates) (_m _n : Nat) :
     cameraPass g = cameraPass g := rfl
+
+/-- Print meter may differ; cameraPass does not read it. -/
+def cameraPassIgnoringReply (g : Gates) (_k : ReplyKind) : Bool := cameraPass g
+
+theorem reply_kind_not_a_gate (g : Gates) (k k' : ReplyKind) :
+    cameraPassIgnoringReply g k = cameraPassIgnoringReply g k' := rfl
 
 end CameraGates
