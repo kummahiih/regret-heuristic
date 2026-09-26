@@ -9,14 +9,9 @@ Search: [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-re
 
 ## Conclusions (2026-09-27)
 
-Latest search note, not a handover:
+Search writeup, not a handover: [NOTE.md](https://github.com/kummahiih/intent-readout-search/blob/main/NOTE.md).
 
-- Mid-layer last-token is a **hint on two families**, on the bank speech act and on a `Desk note:` prefix of that act. Qwen L8: 0.105 / topic L2 **0.06** / paraphrase 0.108 / frame8 0.102. Mistral L9: 0.116 / L2 0.12 / paraphrase 0.123 / frame8 0.125.
-- Office-log / radio voice is **not a voter**. LOTO held ~0 on loud rooms. Genre, not an empty hiking file.
-- Hiking stays thin on the shared LOTO axis even in-set (~0.01 / 0.03). Rooms are still a subset. That blocks a freeze.
-- K-step, SIREN $f(1)$, mid3 are one arrow. $\theta$ and $\hat m$ are logs. SAE stays out of $L$.
-
-Not $r_{\mathrm{strat}}$. Do not freeze $r$. Do not fill $D$. Do not run PPO. Search: [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
+Mid-layer last-token is a hint on two families, on the bank speech act and a `Desk note:` prefix. Office-log voice is not a voter. Hiking is thin on Qwen after a lexical rewrite. Rooms are a subset. That blocks a freeze. Do not freeze $r$. Do not fill $D$. Do not run PPO.
 
 The same word shows up in routing look-ahead, poker self-play, and online learning. Those can stay in a larger stack. This repo focuses on a training-time slap on a strategy camera, with the hidden room kept out of the grade. Neighbors: [neighbors.md](neighbors.md).
 
@@ -78,6 +73,6 @@ pip install -r requirements.txt
 python simulation.py --sensor static
 ```
 
-This repo names a prototype-avoidance hinge and keeps the hidden room out of the grade. Search found a mid-layer contrast hint on Qwen and Mistral that last layer, wipe, heads, SIREN $\theta$, $\hat m$, and office-log voice do not match. That is not a frozen camera and not reduced deception.
+This repo names a prototype-avoidance hinge and keeps the hidden room out of the grade. Search found a mid-layer contrast hint that last layer, office-log voice, and hiking LOTO do not match. That is not a frozen camera and not reduced deception.
 
 [math_formulation.md](math_formulation.md) · [implementation_binding.md](implementation_binding.md) · [working_model.md](working_model.md) · [neighbors.md](neighbors.md) · [slam_analogy.md](slam_analogy.md) · [experiment_results.md](experiment_results.md) · [intent-readout-search](https://github.com/kummahiih/intent-readout-search) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
