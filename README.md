@@ -6,6 +6,8 @@ This repository names a **training-time hinge**, not a lie detector and not a fi
 
 If you only read this file you should leave with: the formula, what may not sit in the sum, how the two repos split, and that mid-layer contrast is a hint rather than a handover.
 
+The search question is no longer “is there any plan signal?” It is: a held-out, topic-invariant, paraphrase-stable strategy readout that survives within-topic cross-validation **and** is uniform on the declared rooms. Hiking has an in-room pair. That pair is not the eight-room axis. Lean: `loud_hold_not_rooms`.
+
 ## The grade
 
 A model that is rewarded for hiding the fact trains on its own output and drifts. Ordinary live backprop is the wrong repair: the same weights carry the lie and the competence.
@@ -45,7 +47,7 @@ Symbols: [math_formulation.md](math_formulation.md). What may be implemented: [w
 | **This one** | Consume a camera that already passed. Pin the hinge in Lean and dummy sims. |
 | [intent-readout-search](https://github.com/kummahiih/intent-readout-search) | Produce $r$. Run the four gates on real models. |
 
-A camera **passes** only if all four hold on the declared room set: plan leave-one-topic-out above chance, topic LOO L2 near chance, paraphrase keeps the plan call, rooms are not a subset. Office-log / radio genre is not paraphrase. Dropping a thin room is a different predicate (Lean: `seven_is_not_eight`).
+A camera **passes** only if all four hold on the declared room set: plan leave-one-topic-out above chance, topic LOO L2 near chance, paraphrase keeps the plan call, rooms are not a subset. Office-log / radio genre is not paraphrase. Dropping a thin room is a different predicate (Lean: `seven_is_not_eight`). Within-topic hold is a log, not a fifth gate.
 
 Until that pass: freeze nothing, do not fill $D$, do not run PPO against $S_{\mathrm{safe}}$. After a pass: freeze $r$, $D$, $\tau$; train the hinge here; keep a frozen copy as the alarm.
 
@@ -53,7 +55,7 @@ Until that pass: freeze nothing, do not fill $D$, do not run PPO against $S_{\ma
 
 Search writeup: [NOTE.md](https://github.com/kummahiih/intent-readout-search/blob/main/NOTE.md).
 
-Mid-layer last-token contrast on Qwen2.5-7B (layer 8) and Mistral-7B (layer 9) is a **hint** on the bank speech act and on a `Desk note:` prefix. It is not $r_{\mathrm{strat}}$. Last layer fails the topic gate. K-step / SIREN $f(1)$ / mid3 are one arrow. Office-log voice kills LOTO. Hiking stays thin on Qwen after a lexical rewrite, so rooms are a subset and a freeze is blocked.
+Mid-layer last-token contrast on Qwen2.5-7B (layer 8) and Mistral-7B (layer 9) is a **hint** on the bank speech act and on a `Desk note:` prefix. It is not $r_{\mathrm{strat}}$. Last layer fails the topic gate. K-step / SIREN $f(1)$ / mid3 are one arrow. Office-log voice kills LOTO. Hiking stays thin on Qwen LOTO after a lexical rewrite; an in-room hold and a fact-held paraphrase still see a hiking pair. Rooms are a subset. Freeze blocked.
 
 Do not freeze $r$. Do not fill $D$. Do not run PPO. Not reduced deception.
 
@@ -65,7 +67,7 @@ Pair tags (`honest` / `deceptive`) build a contrast set. They are observations, 
 
 ## What this repo contains
 
-**Lean** (`lake build` from the repo root). Bookkeeping, not safety. The scoreboard file for search is [lean/CameraGates.lean](lean/CameraGates.lean): hint is not handover, voice is not a voter, seven rooms is not eight, mid3 is one slot, $\hat m$ and `reply_kind` are not gates.
+**Lean** (`lake build` from the repo root). Bookkeeping, not safety. The scoreboard file for search is [lean/CameraGates.lean](lean/CameraGates.lean): hint is not handover, voice is not a voter, seven rooms is not eight, mid3 is one slot, $\hat m$, `reply_kind`, and in-room hold are not gates.
 
 **Dummy simulations.** No LLM. [simulation.py](simulation.py) is the hinge on a toy encoder. [experiment_results.md](experiment_results.md) is the ledger; do not overwrite §1–§7. Camera numbers live in the search repo.
 
