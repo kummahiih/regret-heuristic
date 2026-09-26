@@ -12,7 +12,7 @@ Search: [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-re
 
 Latest search note, not a handover:
 
-- Layer-8 last-token LOTO contrast: 6-topic gap 0.066, topic L2 **0.17** (chance), $p=0$. 8-topic gap 0.105, paraphrase gap 0.108, $p=0$. Hiking ~0. Invoices transfer dies.
+- Layer-8 last-token LOTO contrast: 6-topic gap 0.066, topic L2 **0.17**, $p=0$. 8-topic gap 0.105, topic L2 **0.06** (eight-way chance 0.125), paraphrase gap 0.108, $p=0$. Hiking ~0. Invoices transfer dies.
 - Last layer on the same 8-topic files: gap 0.029, topic L2 0.23, paraphrase $p=0.25$. Fail.
 - Fold-fit topic wipe: leftover topic 0.08, plan LOTO acc 0.58. Fail.
 - Loud heads topic 0.69. Quiet heads empty. SAE not in $L$.
@@ -78,8 +78,6 @@ Full symbols: [math_formulation.md](math_formulation.md). Binding: [implementati
 pip install -r requirements.txt
 python simulation.py --sensor static
 ```
-
-## Caps, again
 
 This repo names a prototype-avoidance hinge and keeps the hidden room out of the grade. Search found a layer-8 contrast hint that last layer, wipe, and heads do not match. That is not a frozen camera and not reduced deception.
 
