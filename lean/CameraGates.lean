@@ -95,7 +95,7 @@ theorem mid3_is_one_slot (v w : ThreeViews) :
     oneSlot (mid3 v) = oneSlot (mid3 w) := rfl
 
 /-- Talker-count may differ; the gate product does not read it. -/
-theorem source_count_not_a_gate (g : Gates) (m n : Nat) :
+theorem source_count_not_a_gate (g : Gates) (_m _n : Nat) :
     cameraPass g = cameraPass g := rfl
 
 end CameraGates
