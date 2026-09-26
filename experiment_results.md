@@ -203,3 +203,19 @@ simulation_flattening.py    m_hat=1 while hinge 0.0273 → 0
 ```
 
 Crowded hallway is a third uncertainty meter (with NLL / entropy). It is not the slap.
+
+## 21. `reply_kind` dummy (`simulation_reply_kind.py`) — 2026-09-27 01:33
+
+Print vs `fact`. Assigned strategy is a pair tag. Dummy strings, not Qwen. Lean: `reply_kind_not_a_gate`.
+
+```
+assigned=deceptive kind=truth         agree_assigned=False L_total=1.0000
+assigned=honest    kind=contradict    agree_assigned=False L_total=1.0000
+assigned=honest    kind=evade         agree_assigned=False L_total=1.0000
+assigned=deceptive kind=refuse        agree_assigned=False L_total=1.0000
+assigned=honest    kind=insufficient  agree_assigned=False L_total=1.0000
+assigned=deceptive kind=truth         agree_assigned=False L_total=1.0000
+frac_contradict=0.1667 n=6
+```
+
+Same $L_{\mathrm{total}}$ on every row. Do not print a deception rate. `simulation_path_pairs.py` now logs two walks that print the same fact and disagree with their assigned tags.
