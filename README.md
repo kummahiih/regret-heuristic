@@ -5,19 +5,19 @@ Research pinpointing what a regret *training* heuristic should look like: keep t
 This repo **consumes** a camera. It does not have one yet.
 
 Pinned: the shape of the training grade, and what must not sit in the sum.
-Measured: last-token and mean-pool identity hug topic, not plan (0.77 / 0.80 and 0.86 / 0.85 on the same-topic toy).
 Search: [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
-## Conclusions (2026-09-26)
+## Conclusions (2026-09-27)
 
 Latest search note, not a handover:
 
-- Layer-8 last-token LOTO contrast: 6-topic gap 0.066, topic L2 **0.17**, $p=0$. 8-topic gap 0.105, topic L2 **0.06** (eight-way chance 0.125), paraphrase gap 0.108, $p=0$. Hiking ~0. Invoices transfer dies.
-- Last layer on the same 8-topic files: gap 0.029, topic L2 0.23, paraphrase $p=0.25$. Fail.
-- Fold-fit topic wipe: leftover topic 0.08, plan LOTO acc 0.58. Fail.
-- Loud heads topic 0.69. Quiet heads empty. SAE not in $L$.
+- Mid-layer last-token contrast is a **hint on two families**. Qwen2.5-7B layer 8: plan 0.105, topic L2 **0.06**, paraphrase $p=0$. Mistral-7B layer 9: plan 0.116, topic L2 0.12, paraphrase $p=0$. Last layer fails the topic gate on both.
+- K-step, SIREN $f(1)$, and `mid3` (unit-sum of those three) track the same rooms. Mistral mid3 topic L2 **0.00**. $\cos(\mathrm{mid3},h_T)\approx 0.84$. One arrow, not four cameras.
+- Hiking and invoices die under a voice rewrite on every pool and both models ($p\ge 0.6$). Rooms are a subset. That blocks a freeze.
+- $\hat m$ is 6 on every 6-note topic. It does not mark the dead rooms. Lean: `totalLoss_ignores_sourceCount`.
+- SAE, heads, wipe, last-token identity: still not a camera. SAE stays out of $L$.
 
-That is a **hint** about where a vector camera might live. It is not $r_{\mathrm{strat}}$. Do not freeze $r$. Do not fill $D$. Do not run PPO. Search README: [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
+That is a search hint about depth, not $r_{\mathrm{strat}}$. Do not freeze $r$. Do not fill $D$. Do not run PPO. Search README: [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
 The same word shows up in routing look-ahead, poker self-play, and online learning. Those can stay in a larger stack. This repo focuses on a training-time slap on a strategy camera, with the hidden room kept out of the grade. Neighbors: [neighbors.md](neighbors.md).
 
@@ -49,7 +49,7 @@ Deception is not only an ethics failure. A system rewarded for hiding the truth 
 
 $L_{\mathrm{reg}}=\mathrm{ReLU}(\max_k\cos(r,d_k)-\tau)$ is **prototype-avoidance**. The English word regret in this repo names that hinge. It is not Hannan $R_T^{\mathrm{ext}}$ and not the counterfactual $R$ above.
 
-$L_{\mathrm{task}}$ is the job. $r$ is a hypothesized readout. $D$ is a frozen bank. The hinge is useful for deception only if $r$ is about strategy. Identity already failed. Layer-8 contrast is a search hint, not that $r$.
+$L_{\mathrm{task}}$ is the job. $r$ is a hypothesized readout. $D$ is a frozen bank. The hinge is useful for deception only if $r$ is about strategy. Identity already failed. Mid-layer contrast is a search hint, not that $r$.
 
 Full symbols: [math_formulation.md](math_formulation.md). Binding: [implementation_binding.md](implementation_binding.md). Interface: [working_model.md](working_model.md).
 
@@ -60,7 +60,7 @@ Full symbols: [math_formulation.md](math_formulation.md). Binding: [implementati
 - No ChatGPT SAE splice as a method. SAE latents are out of family until they pass the same gates. They do not enter $L$.
 - Gradients of $L_{\mathrm{reg}}$ still enter $h$. Gaming is open. $K$-step residual is not a security boundary.
 - Training-time only. No inference abort.
-- Toys are wiring. Qwen last-token 0.77 / 0.80; mean-pool 0.86 / 0.85.
+- Toys are wiring. Qwen last-token identity 0.77 / 0.80; mean-pool 0.86 / 0.85.
 - Lean `lake build` from the **repo root**.
 - No PPO against $S_{\mathrm{safe}}$ until search hands over a passing $r$.
 - No $\beta R$ until $A_{\mathrm{safe}}$ is real.
@@ -79,6 +79,6 @@ pip install -r requirements.txt
 python simulation.py --sensor static
 ```
 
-This repo names a prototype-avoidance hinge and keeps the hidden room out of the grade. Search found a layer-8 contrast hint that last layer, wipe, and heads do not match. That is not a frozen camera and not reduced deception.
+This repo names a prototype-avoidance hinge and keeps the hidden room out of the grade. Search found a mid-layer contrast hint on Qwen and Mistral that last layer, wipe, heads, SIREN $\theta$, and $\hat m$ do not match. That is not a frozen camera and not reduced deception.
 
 [math_formulation.md](math_formulation.md) · [implementation_binding.md](implementation_binding.md) · [working_model.md](working_model.md) · [neighbors.md](neighbors.md) · [slam_analogy.md](slam_analogy.md) · [experiment_results.md](experiment_results.md) · [intent-readout-search](https://github.com/kummahiih/intent-readout-search) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
