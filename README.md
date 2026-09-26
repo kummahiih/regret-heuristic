@@ -8,14 +8,16 @@ Pinned: the shape of the training grade, and what must not sit in the sum.
 Measured: last-token and mean-pool identity hug topic, not plan (0.77 / 0.80 and 0.86 / 0.85 on the same-topic toy).
 Search: [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
-Latest search note (2026-09-26), not a handover:
+## Conclusions (2026-09-26)
 
-- Layer-8 last-token LOTO contrast on handmade notes: 6-topic gap 0.066, topic L2 **0.17** (chance), $p=0$. 8-topic gap 0.105, paraphrase gap 0.108, $p=0$. Hiking ~0. Invoices transfer dies.
+Latest search note, not a handover:
+
+- Layer-8 last-token LOTO contrast: 6-topic gap 0.066, topic L2 **0.17** (chance), $p=0$. 8-topic gap 0.105, paraphrase gap 0.108, $p=0$. Hiking ~0. Invoices transfer dies.
 - Last layer on the same 8-topic files: gap 0.029, topic L2 0.23, paraphrase $p=0.25$. Fail.
 - Fold-fit topic wipe: leftover topic 0.08, plan LOTO acc 0.58. Fail.
 - Loud heads topic 0.69. Quiet heads empty. SAE not in $L$.
 
-That is a **hint** about where a vector camera might live. It is not $r_{\mathrm{strat}}$. Do not freeze $r$. Do not fill $D$. Do not run PPO. Reader note: [intent-readout-search/results/READERS.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/READERS.md).
+That is a **hint** about where a vector camera might live. It is not $r_{\mathrm{strat}}$. Do not freeze $r$. Do not fill $D$. Do not run PPO. Search README: [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
 The same word shows up in routing look-ahead, poker self-play, and online learning. Those can stay in a larger stack. This repo focuses on a training-time slap on a strategy camera, with the hidden room kept out of the grade. Neighbors: [neighbors.md](neighbors.md).
 
@@ -77,7 +79,7 @@ pip install -r requirements.txt
 python simulation.py --sensor static
 ```
 
-## Conclusion
+## Caps, again
 
 This repo names a prototype-avoidance hinge and keeps the hidden room out of the grade. Search found a layer-8 contrast hint that last layer, wipe, and heads do not match. That is not a frozen camera and not reduced deception.
 
