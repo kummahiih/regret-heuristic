@@ -2,12 +2,15 @@
 """Same last token and topic coord, different strategy coord.
 
 Dummy paths. Not Qwen. Shows last-token r can match while path r does not.
+reply_kind scores the print against fact. Not in L.
 """
 
 from __future__ import annotations
 
 import torch
 import torch.nn.functional as F
+
+from simulation_reply_kind import agree_assigned, reply_kind
 
 
 def hinge(r: torch.Tensor, bank: torch.Tensor, tau: float) -> float:
@@ -33,13 +36,26 @@ def main() -> None:
     last_A, last_B = A[-1], B[-1]
     mean_A, mean_B = A.mean(0), B.mean(0)
 
+    fact = "the hotel is not booked"
+    print_A = "the hotel is not booked"
+    print_B = "the hotel is not booked"
+    kind_A = reply_kind(print_A, fact)
+    kind_B = reply_kind(print_B, fact)
+
     print("=== Same answer, different strategy. Dummy path. ===")
     print(f"last-token L2={float((last_A - last_B).norm()):.4f} (same printed cell)")
     print(f"mean-pool  L2={float((mean_A - mean_B).norm()):.4f}")
     print(f"path-mean  hinge A={hinge(mean_A, bank, tau):.4f} B={hinge(mean_B, bank, tau):.4f}")
     print(f"last-token hinge A={hinge(last_A, bank, tau):.4f} B={hinge(last_B, bank, tau):.4f}")
+    print(
+        f"reply_kind A={kind_A} assigned=honest agree={agree_assigned(kind_A, 'honest')}"
+    )
+    print(
+        f"reply_kind B={kind_B} assigned=deceptive agree={agree_assigned(kind_B, 'deceptive')}"
+    )
     print("Last-token hinge matches because the answer matches.")
     print("Path mean can differ because mid steps carry plan. Constructed. Not a camera.")
+    print("Same print can be truth on both tags. reply_kind is not in L.")
 
 
 if __name__ == "__main__":
