@@ -1,78 +1,103 @@
 # The Regret Heuristic
 
-Research pinpointing what a regret *training* heuristic should look like: keep the skill, slap the plan that hides.
+Keep the skill. Slap the plan that hides the fact.
 
-This repo **consumes** a camera. It does not have one yet.
+This repository names a **training-time hinge**, not a lie detector and not a finished trainer. It assumes a strategy camera $r$ that someone else has already frozen. That camera does not exist yet. Search for it lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
-Pinned: the shape of the training grade, and what must not sit in the sum.
-Search: [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
+If you only read this file you should leave with: the formula, what may not sit in the sum, how the two repos split, and that mid-layer contrast is a hint rather than a handover.
 
-## Conclusions (2026-09-27)
+## The grade
 
-Search writeup, not a handover: [NOTE.md](https://github.com/kummahiih/intent-readout-search/blob/main/NOTE.md).
+A model that is rewarded for hiding the fact trains on its own output and drifts. Ordinary live backprop is the wrong repair: the same weights carry the lie and the competence.
 
-Mid-layer last-token is a hint on two families, on the bank speech act and a `Desk note:` prefix. Office-log voice is not a voter. Hiking is thin on Qwen after a lexical rewrite. Rooms are a subset. That blocks a freeze. Do not freeze $r$. Do not fill $D$. Do not run PPO.
+```math
+L_{\mathrm{total}}
+=
+L_{\mathrm{task}}(x,y)
++
+\lambda\,
+\mathrm{ReLU}\big(\max_k \cos(r(h), d_k)-\tau\big)
+```
 
-The same word shows up in routing look-ahead, poker self-play, and online learning. Those can stay in a larger stack. This repo focuses on a training-time slap on a strategy camera, with the hidden room kept out of the grade. Neighbors: [neighbors.md](neighbors.md).
+- $L_{\mathrm{task}}$ is the job.
+- $r(h)$ is a readout of the walk $h$ (path, not last-token identity).
+- $D=\{d_k\}$ is a **frozen** bank of plan prototypes.
+- The ReLU is **prototype-avoidance**. The English word *regret* in this repo names that hinge. It is not Hannan external regret and not counterfactual $R=u(a^*)-u(a)$.
 
-## Two repos
+$D$ is not updated from the current answer. Tags, talker-count $\hat m$, SIREN $\theta$, SAE latents, and `reply_kind` do not enter $L_{\mathrm{total}}$.
 
-[intent-readout-search](https://github.com/kummahiih/intent-readout-search) **produces** $r$. This repo **consumes** a camera that already passed: plan LOTO above chance, topic LOO near chance, paraphrase holds, rooms not a subset. Tags are not a loss input. Office-log voice does not count as paraphrase.
-
-Until that pass, freeze nothing and do not run PPO against $S_{\mathrm{safe}}$. After a pass: freeze $r$, $D$, $\tau$; train the hinge here; keep a frozen copy as the alarm.
-
-A second grade sits on the wall until $a^*$ exists. It is a thinking tool, not a trainer input.
+A second grade sits on the wall until a real safe action $a^*$ exists. Do not put a fake $a^*$ in Adam.
 
 ```math
 a^*(x)=\arg\max_{a\in A_{\mathrm{safe}}(x)} u(x,a)
 \qquad
 R(x,a)=u(x,a^*)-u(x,a)
-```
-
-```math
+\qquad
 L = L_{\mathrm{task}} + \lambda L_{\mathrm{reg}} + \beta R
 ```
 
-We do not run $\beta R$ now because $a^*$ needs the camera search has not found. A fake $a^*$ is a made-up number. Same shape as $u^{\mathrm{safe}}$ in [approachability.md](approachability.md).
+Symbols: [math_formulation.md](math_formulation.md). What may be implemented: [working_model.md](working_model.md). Binding: [implementation_binding.md](implementation_binding.md).
 
-## Claim
+## Two repositories
 
-Deception is not only an ethics failure. A system rewarded for hiding the truth trains on its own output and drifts inside an information bubble. Patching a lie with ordinary live backprop is the wrong repair: the same weights carry the lie and the competence.
+| Repo | Job |
+| --- | --- |
+| **This one** | Consume a camera that already passed. Pin the hinge in Lean and dummy sims. |
+| [intent-readout-search](https://github.com/kummahiih/intent-readout-search) | Produce $r$. Run the four gates on real models. |
 
-> $L_{\mathrm{total}} = L_{\mathrm{task}} + \lambda\, L_{\mathrm{reg}}\big(r(h(x)), D\big)$
+A camera **passes** only if all four hold on the declared room set: plan leave-one-topic-out above chance, topic LOO L2 near chance, paraphrase keeps the plan call, rooms are not a subset. Office-log / radio genre is not paraphrase. Dropping a thin room is a different predicate (Lean: `seven_is_not_eight`).
 
-$L_{\mathrm{reg}}=\mathrm{ReLU}(\max_k\cos(r,d_k)-\tau)$ is **prototype-avoidance**. The English word regret in this repo names that hinge. It is not Hannan $R_T^{\mathrm{ext}}$ and not the counterfactual $R$ above.
+Until that pass: freeze nothing, do not fill $D$, do not run PPO against $S_{\mathrm{safe}}$. After a pass: freeze $r$, $D$, $\tau$; train the hinge here; keep a frozen copy as the alarm.
 
-$L_{\mathrm{task}}$ is the job. $r$ is a hypothesized readout. $D$ is a frozen bank. The hinge is useful for deception only if $r$ is about strategy. Identity already failed. Mid-layer contrast is a search hint, not that $r$.
+## Status (2026-09-27)
 
-Full symbols: [math_formulation.md](math_formulation.md). Binding: [implementation_binding.md](implementation_binding.md). Interface: [working_model.md](working_model.md).
+Search writeup: [NOTE.md](https://github.com/kummahiih/intent-readout-search/blob/main/NOTE.md).
 
-## Caps
+Mid-layer last-token contrast on Qwen2.5-7B (layer 8) and Mistral-7B (layer 9) is a **hint** on the bank speech act and on a `Desk note:` prefix. It is not $r_{\mathrm{strat}}$. Last layer fails the topic gate. K-step / SIREN $f(1)$ / mid3 are one arrow. Office-log voice kills LOTO. Hiking stays thin on Qwen after a lexical rewrite, so rooms are a subset and a freeze is blocked.
 
-- $r$ and $D$ are assumed here. Building them is the search repo.
-- No reduced-deception claim.
-- No ChatGPT SAE splice as a method. SAE latents are out of family until they pass the same gates. They do not enter $L$.
-- Gradients of $L_{\mathrm{reg}}$ still enter $h$. Gaming is open. $K$-step residual is not a security boundary.
-- Training-time only. No inference abort.
-- Toys are wiring. Qwen last-token identity 0.77 / 0.80; mean-pool 0.86 / 0.85.
-- Lean `lake build` from the **repo root**.
-- No PPO against $S_{\mathrm{safe}}$ until search hands over a passing $r$.
-- No $\beta R$ until $A_{\mathrm{safe}}$ is real.
-- $\hat m$ (talker count) is a log. Lean: `totalLoss_ignores_sourceCount`.
+Do not freeze $r$. Do not fill $D$. Do not run PPO. Not reduced deception.
 
 ## Walk and map
 
-[slam_analogy.md](slam_analogy.md). Printed text is the walk. Possible thoughts are the map. $D$ is a handful of pins. $u$ is chart coarseness, not $p(\mathrm{lie})$.
+Printed text is the **walk**. Possible thoughts are the **map**. $D$ is a handful of pins, not the map. $u$ is how coarse the chart is, not $p(\mathrm{lie})$. Quiet on mush is not honesty. Glossary: [slam_analogy.md](slam_analogy.md).
 
-## Simulation
+Pair tags (`honest` / `deceptive`) build a contrast set. They are observations, not nature. `reply_kind` $\in$ `{truth, contradict, evade, refuse, insufficient}` labels a **generated print** against a `fact`. Same print can be `truth` under both tags. Dummy: [simulation_reply_kind.py](simulation_reply_kind.py). Lean: `reply_kind_not_a_gate`.
 
-[simulation.py](simulation.py) is the formula on a dummy encoder. No LLM. Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–§7. Camera numbers live in the search ledger, not in the dummy sims.
+## What this repo contains
+
+**Lean** (`lake build` from the repo root). Bookkeeping, not safety. The scoreboard file for search is [lean/CameraGates.lean](lean/CameraGates.lean): hint is not handover, voice is not a voter, seven rooms is not eight, mid3 is one slot, $\hat m$ and `reply_kind` are not gates.
+
+**Dummy simulations.** No LLM. [simulation.py](simulation.py) is the hinge on a toy encoder. [experiment_results.md](experiment_results.md) is the ledger; do not overwrite §1–§7. Camera numbers live in the search repo.
 
 ```bash
 pip install -r requirements.txt
 python simulation.py --sensor static
+python simulation_reply_kind.py
+lake build CameraGates
 ```
 
-This repo names a prototype-avoidance hinge and keeps the hidden room out of the grade. Search found a mid-layer contrast hint that last layer, office-log voice, and hiking LOTO do not match. That is not a frozen camera and not reduced deception.
+Neighbors that use the word *regret* for something else: [neighbors.md](neighbors.md).
 
-[math_formulation.md](math_formulation.md) · [implementation_binding.md](implementation_binding.md) · [working_model.md](working_model.md) · [neighbors.md](neighbors.md) · [slam_analogy.md](slam_analogy.md) · [experiment_results.md](experiment_results.md) · [intent-readout-search](https://github.com/kummahiih/intent-readout-search) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
+## Caps
+
+- No reduced-deception claim.
+- SAE latents stay out of $L$ until they pass the same four gates.
+- Gradients of $L_{\mathrm{reg}}$ still enter $h$. Gaming is open.
+- Training-time only. No inference abort.
+- Last-token identity already failed as $r_{\mathrm{strat}}$ (Qwen 0.77 / 0.80).
+- $\hat m$ is a log (`totalLoss_ignores_sourceCount`).
+
+## Files
+
+| File | What it is |
+| --- | --- |
+| [math_formulation.md](math_formulation.md) | Symbols |
+| [working_model.md](working_model.md) | Interface a candidate must meet |
+| [implementation_binding.md](implementation_binding.md) | How the toys map to the formula |
+| [slam_analogy.md](slam_analogy.md) | Walk / map / pins |
+| [approachability.md](approachability.md) | $S_{\mathrm{safe}}$ vs $S_{\mathrm{joint}}$ |
+| [experiment_results.md](experiment_results.md) | Dummy-sim ledger |
+| [lean/](lean/) | Pins |
+| [CITATION.cff](CITATION.cff) | Cite this repo |
+
+[LICENSE](LICENSE)
