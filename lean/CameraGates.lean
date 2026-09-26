@@ -113,4 +113,16 @@ def cameraPassIgnoringReply (g : Gates) (_k : ReplyKind) : Bool := cameraPass g
 theorem reply_kind_not_a_gate (g : Gates) (k k' : ReplyKind) :
     cameraPassIgnoringReply g k = cameraPassIgnoringReply g k' := rfl
 
+/-- Own-room hold may be loud while roomsUniform is false. -/
+def cameraPassIgnoringHold (g : Gates) (_heldInRoom : Bool) : Bool := cameraPass g
+
+theorem inroom_hold_not_a_gate (g : Gates) (a b : Bool) :
+    cameraPassIgnoringHold g a = cameraPassIgnoringHold g b := rfl
+
+theorem loud_hold_not_rooms :
+    let g : Gates :=
+      { planLOTO := true, topicChance := true, paraphrase := true, roomsUniform := false }
+    cameraPassIgnoringHold g true = false := by
+  native_decide
+
 end CameraGates
