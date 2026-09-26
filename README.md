@@ -2,17 +2,30 @@
 
 Research pinpointing what a regret *training* heuristic should look like: keep the skill, slap the plan that hides.
 
-Pinned so far: the shape of the training grade, a $K$-step readout *candidate*, and what must not sit in the sum. Measured so far: last-token and mean-pool cameras hug topic, not plan (0.77 / 0.80 and 0.86 / 0.85 on the same-topic toy). Next: a camera that sees strategy. That search is [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
+This repo **consumes** a camera. It does not have one yet.
 
-The same word shows up in routing look-ahead, poker self-play, and online learning. Those can stay in a larger stack. This repo focuses on a training-time slap on a strategy camera, with the hidden room kept out of the grade. How those families sit next to this hinge: [neighbors.md](neighbors.md).
+Pinned: the shape of the training grade, and what must not sit in the sum.
+Measured: last-token and mean-pool identity hug topic, not plan (0.77 / 0.80 and 0.86 / 0.85 on the same-topic toy).
+Search: [kummahiih/intent-readout-search](https://github.com/kummahiih/intent-readout-search).
+
+Latest search note (2026-09-26), not a handover:
+
+- Layer-8 last-token LOTO contrast on handmade notes: 6-topic gap 0.066, topic L2 **0.17** (chance), $p=0$. 8-topic gap 0.105, paraphrase gap 0.108, $p=0$. Hiking ~0. Invoices transfer dies.
+- Last layer on the same 8-topic files: gap 0.029, topic L2 0.23, paraphrase $p=0.25$. Fail.
+- Fold-fit topic wipe: leftover topic 0.08, plan LOTO acc 0.58. Fail.
+- Loud heads topic 0.69. Quiet heads empty. SAE not in $L$.
+
+That is a **hint** about where a vector camera might live. It is not $r_{\mathrm{strat}}$. Do not freeze $r$. Do not fill $D$. Do not run PPO. Reader note: [intent-readout-search/results/READERS.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/READERS.md).
+
+The same word shows up in routing look-ahead, poker self-play, and online learning. Those can stay in a larger stack. This repo focuses on a training-time slap on a strategy camera, with the hidden room kept out of the grade. Neighbors: [neighbors.md](neighbors.md).
 
 ## Two repos
 
-[intent-readout-search](https://github.com/kummahiih/intent-readout-search) **produces** $r$. This repo **consumes** a camera that already passed: plan LOTO above chance, topic LOO near chance, paraphrase holds. Tags are not a loss input.
+[intent-readout-search](https://github.com/kummahiih/intent-readout-search) **produces** $r$. This repo **consumes** a camera that already passed: plan LOTO above chance, topic LOO near chance, paraphrase holds, rooms not a subset. Tags are not a loss input.
 
-Until that pass, freeze nothing and do not run PPO against $S_{\mathrm{safe}}$. Latest contrast (2026-09-23): plan gap 0.026, topic L2 0.31. No $r$ yet. After a pass: freeze $r$, $D$, $\tau$; train the hinge here; keep a frozen copy as the alarm.
+Until that pass, freeze nothing and do not run PPO against $S_{\mathrm{safe}}$. After a pass: freeze $r$, $D$, $\tau$; train the hinge here; keep a frozen copy as the alarm.
 
-A second grade sits on the wall until $a^*$ exists. It is a thinking tool, not a trainer input. If a real $A_{\mathrm{safe}}$ ever appears, this is the extra cost versus the best quiet move:
+A second grade sits on the wall until $a^*$ exists. It is a thinking tool, not a trainer input.
 
 ```math
 a^*(x)=\arg\max_{a\in A_{\mathrm{safe}}(x)} u(x,a)
@@ -24,133 +37,48 @@ R(x,a)=u(x,a^*)-u(x,a)
 L = L_{\mathrm{task}} + \lambda L_{\mathrm{reg}} + \beta R
 ```
 
-We do not run $\beta R$ now because $a^*$ needs the camera search has not found. A fake $a^*$ is a made-up number. Same shape as $u^{\mathrm{safe}}$ in [approachability.md](approachability.md). Longer note: [working_model.md](working_model.md#the-formula-we-do-not-train).
+We do not run $\beta R$ now because $a^*$ needs the camera search has not found. A fake $a^*$ is a made-up number. Same shape as $u^{\mathrm{safe}}$ in [approachability.md](approachability.md).
 
 ## Claim
 
-Deception is not only an ethics failure. A system that is rewarded for hiding the truth trains on its own output, drifts inside an information bubble, and — in a multi-agent setting — burns compute verifying peers instead of doing the work. That is the Dictator’s Trap.
-
-Patching a lie with ordinary live backprop is the wrong repair. A deceptive plan is a trajectory of ordinary skills. Credit assignment over that trajectory is brittle; the same weights carry the lie and the competence; punishing one surface form produces a better liar.
-
-The bookkeeping split, written as a training objective:
+Deception is not only an ethics failure. A system rewarded for hiding the truth trains on its own output and drifts inside an information bubble. Patching a lie with ordinary live backprop is the wrong repair: the same weights carry the lie and the competence.
 
 > $L_{\mathrm{total}} = L_{\mathrm{task}} + \lambda\, L_{\mathrm{reg}}\big(r(h(x)), D\big)$
 
-$L_{\mathrm{reg}}=\mathrm{ReLU}(\max_k\cos(r,d_k)-\tau)$ is **prototype-avoidance**. The repo still uses the English word regret for that hinge. It is not Hannan $R_T^{\mathrm{ext}}$ and not the counterfactual $R$ above. Those stay other scoreboards.
+$L_{\mathrm{reg}}=\mathrm{ReLU}(\max_k\cos(r,d_k)-\tau)$ is **prototype-avoidance**. The English word regret in this repo names that hinge. It is not Hannan $R_T^{\mathrm{ext}}$ and not the counterfactual $R$ above.
 
-$L_{\mathrm{task}}$ is the job. $r(h(x))$ is a hypothesized readout. A static linear $r$ with a kernel can hide a direction; identity has no kernel. A $K$-step loop is a candidate, not a proof that gaming is dead. Residual $h+F(h)+\sigma\varepsilon$ is not the Lean contraction basin. $D$ is a frozen bank of prototypes. The hinge is useful for deception only if $r$ is about strategy. Last-token and mean-pool identity already failed that test on a same-topic toy ([experiment_results.md](experiment_results.md) §2 / §6).
+$L_{\mathrm{task}}$ is the job. $r$ is a hypothesized readout. $D$ is a frozen bank. The hinge is useful for deception only if $r$ is about strategy. Identity already failed. Layer-8 contrast is a search hint, not that $r$.
 
-Full symbols: [math_formulation.md](math_formulation.md). Neighbors: [neighbors.md](neighbors.md). Binding: [implementation_binding.md](implementation_binding.md). Interface: [working_model.md](working_model.md).
+Full symbols: [math_formulation.md](math_formulation.md). Binding: [implementation_binding.md](implementation_binding.md). Interface: [working_model.md](working_model.md).
 
-## In plain language
+## Caps
 
-Imagine a hallway with two rooms behind the wallpaper.
-
-You only see the **walk**: the words the model printed. You do not see which room it was thinking in. That hidden room is $z$. An **amplitude** is a sticky note that says “maybe room A this much, maybe room B that much.” It is not a measurement. It is a guess you are not allowed to treat as fact. Lean: `totalLoss_ignores_amp` — wave the sticky note, the grade does not change.
-
-The grade this repo trains is a slap if the *camera on the walk* looks too much like a banned room-pin $D$. Other regrets remain possible elsewhere: hindsight vs the best fixed action, or inserting a job before its good slot vanishes. They answer different questions. We are asking how to keep the skill while tagging the camera.
-
-Two grades, added:
-
-1. Did the job get done? $L_{\mathrm{task}}$
-2. Did the camera look like a banned pin? $L_{\mathrm{reg}}$ (prototype-avoidance)
-
-Never put $z$ in that sum. $R$ stays off the graph until $A_{\mathrm{safe}}$ is real.
-
-Two hidden routes can lead to the same printed sentence.
-
-- **Premature camera** (last-token / mean-pool): weigh each room, then add. Routes $1$ and $-1$ both look heavy. Score $2$. That is the same-topic smear (0.77 / 0.80). Premature Born is a design hypothesis about when you square, not the measured mechanism of that smear.
-- **Delayed bookkeeping**: add the sticky notes first, then look. $1+(-1)=0$. Score $0$. You still have not seen the room. You only refused to pretend you did.
-
-Same hallway. Different time of looking. Lean: `two_route_identity`. Feynman Lectures III.1 is the same rule for an electron.
-
-A liar can flip the sign or scale the sticky note without changing the printed walk. The official payoff $u$ only sees the camera $r$, so those moves do not change the grade. That is why “looks safe” can come apart from “is the safe move.” Gaming is not a bug in the ReLU. It is the type of the game. Lean: `same_premature_different_delayed`, `same_delayed_different_premature`.
-
-```
-hidden rooms z     ← sticky notes (Amp). Not in the loss.
-      |
-printed walk       ← what everyone sees
-      |
-camera r           ← last-token identity is glued to the wallpaper
-      |
-hinge vs frozen pins D
-      |
-L_task + λ L_reg     (R off-graph until a* exists)
-```
-
-Keep the skill. Tag the camera. Leave the room untagged, because tagging it would be lying that you understood it. Quiet camera is not a win on the Hannan scoreboard: Lean has a toy where the hinge is 0 and that other regret is still $T$.
-
-The complex numbers only let the sticky notes cancel. They are not a quantum computer.
-
-### What the extra Lean pins pin
-
-Scoreboard rules. Not a working camera.
-
-- **Cheap lie vs quiet cost** (`sjoint_unhit_one_round`, `ssafe_hit_by_quiet`). Aim at $S_{\mathrm{safe}}$, not $S_{\mathrm{joint}}$.
-- **The camera must see the door** (`hingeQuietIgnoringAction_all_or_none`).
-- **Wallpaper is not the slap** (`factoredHinge_ignores_topic`).
-- **Two cameras can disagree** (`trained_silent_frozenI_loud`). Alarm, not a third loss.
-- **The map is bigger than the pins** (`heldout_not_mem_walk_bank`).
-- **Two grades stay two grades in group RL** (`group_zscore_mix_not_separate`).
-- **Noise is not the slap** (`entropy_bonus_not_the_hinge`).
-- **Hearing the subject is not catching the scheme** (`decodable_not_causal`).
-- **Static linear kernel** (`static_linear_evasion_exists`). If $W$ has a kernel, some $v$ leaves $P$ unchanged. Identity is a counterexample. Residual+noise is not `conditional_contraction_in_basin`.
-
-This *is* fine-tuning. Details: [neighbors.md](neighbors.md#attachment-when-this-is-fine-tuning).
-
-Still open: a strategy sensor $r$, a good bank $D$, that PPO reaches the safe box, that anyone understands the hidden room.
+- $r$ and $D$ are assumed here. Building them is the search repo.
+- No reduced-deception claim.
+- No ChatGPT SAE splice as a method. SAE latents are out of family until they pass the same gates. They do not enter $L$.
+- Gradients of $L_{\mathrm{reg}}$ still enter $h$. Gaming is open. $K$-step residual is not a security boundary.
+- Training-time only. No inference abort.
+- Toys are wiring. Qwen last-token 0.77 / 0.80; mean-pool 0.86 / 0.85.
+- Lean `lake build` from the **repo root**.
+- No PPO against $S_{\mathrm{safe}}$ until search hands over a passing $r$.
+- No $\beta R$ until $A_{\mathrm{safe}}$ is real.
+- $\hat m$ (talker count) is a log. Lean: `totalLoss_ignores_sourceCount`.
 
 ## Walk and map
 
-Design filter only. Not MagSLAM on Qwen. [slam_analogy.md](slam_analogy.md).
-
-| | Meaning here |
-| --- | --- |
-| **Walk** | The printed thought. |
-| **Map** | Possible thoughts, including cells this answer never visits. |
-| **D** | A few red pins on a mostly unbuilt map. |
-| **r** | A sensor of the walk. Identity last-token / mean-pool is topic wallpaper. |
-| **u(x)** | Chart coarseness (NLL / entropy). Not p(lie). |
-
-§6 mean-pool mixed the hallway. §7 constructed pin: walk on D, cosine 0 to an unprinted cell.
+[slam_analogy.md](slam_analogy.md). Printed text is the walk. Possible thoughts are the map. $D$ is a handful of pins. $u$ is chart coarseness, not $p(\mathrm{lie})$.
 
 ## Simulation
 
-[simulation.py](simulation.py) is the formula on a dummy encoder. No LLM.
+[simulation.py](simulation.py) is the formula on a dummy encoder. No LLM. Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–§7. Camera numbers live in the search ledger, not in the dummy sims.
 
 ```bash
 pip install -r requirements.txt
 python simulation.py --sensor static
-python simulation.py --sensor deterministic
-python simulation.py --sensor stochastic
 ```
-
-Controlled A/B/C ([experiment_results.md](experiment_results.md) §14): $L_{\mathrm{far}}=0$ for static, deterministic, and stochastic. The $K$-step loop kept a hinge gradient after one step (~0.22); static died. That is **gradient persistence**, not OOD visibility. Noise did not pull the orthogonal dummy into the hinge. An older seed-0 print ($L_{\mathrm{far}}=0.076$) was a different construction; do not cite it as the loop "breaking the null."
-
-[simulation_tau_bins.py](simulation_tau_bins.py): wider $\tau$ is quieter, not silent. [simulation_heldout.py](simulation_heldout.py): extra pin missed by the walk. Flattening ([simulation_flattening.py](simulation_flattening.py)) drives the *cosine* hinge to 0 while dummy class stays 1 by optimizing $h$ directly — not $\theta$.
-
-Bookkeeping toys: [simulation_two_door.py](simulation_two_door.py), [simulation_factored.py](simulation_factored.py), [simulation_two_channel.py](simulation_two_channel.py), [simulation_born.py](simulation_born.py), [simulation_decodable.py](simulation_decodable.py), [simulation_head_write.py](simulation_head_write.py).
-
-Ledger: [experiment_results.md](experiment_results.md). Do not overwrite §1–§7.
-
-## Caps
-
-- $r$ and $D$ are assumed here. Building them is [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
-- Gradients of $L_{\mathrm{reg}}$ still enter $h$. Gaming is open. $K$-step residual is not a proof the null collapsed and not a security boundary.
-- Training-time only. No inference abort.
-- Toys are wiring. Qwen last-token 0.77 / 0.80; mean-pool 0.86 / 0.85.
-- Lean `lake build` from the **repo root**.
-- This loss is prototype-avoidance: [neighbors.md](neighbors.md).
-- Implementation binding does not lift these caps.
-- No PPO against $S_{\mathrm{safe}}$ until search hands over a passing $r$.
-- No $\beta R$ until $A_{\mathrm{safe}}$ is real.
-
-## Theory and PPO
-
-Hannan / Blackwell: [regret_minimization.md](regret_minimization.md), [approachability.md](approachability.md) ($S_{\mathrm{safe}}$, not $S_{\mathrm{joint}}$). PPO attachment is a Lagrangian, not steering. Dummy clip in [ppo_toy.py](ppo_toy.py) is wiring. Lean sources in `lean/`. Build order: [implementation_binding.md](implementation_binding.md). Interface: [working_model.md](working_model.md).
 
 ## Conclusion
 
-This repo names a prototype-avoidance hinge, writes it down, and runs wiring plus a negative probe. It does not claim reduced deception. Whether a strategy-sensitive $r$ exists is [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
+This repo names a prototype-avoidance hinge and keeps the hidden room out of the grade. Search found a layer-8 contrast hint that last layer, wipe, and heads do not match. That is not a frozen camera and not reduced deception.
 
 [math_formulation.md](math_formulation.md) · [implementation_binding.md](implementation_binding.md) · [working_model.md](working_model.md) · [neighbors.md](neighbors.md) · [slam_analogy.md](slam_analogy.md) · [experiment_results.md](experiment_results.md) · [intent-readout-search](https://github.com/kummahiih/intent-readout-search) · [CITATION.cff](CITATION.cff) · [LICENSE](LICENSE)
