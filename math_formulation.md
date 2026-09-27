@@ -36,7 +36,7 @@ Read this first if a letter is opaque. Names below are the ones used in this fil
 | $K$ | bank size | How many pins. Tiny $K$ is not a solved detector. |
 | $s(u,v)$ | cosine | $\langle u,v\rangle/(\|u\|\|v\|)$. Undefined at the zero vector. Toys floor with `F.normalize`. |
 | $s^{\star}(x)$ | max cosine | $\max_k s(h_{\mathrm{int}},d_k)$. How close the walk sits to the nearest bad pin. |
-| $\mathrm{ReLU}$ | hinge kink | $\max(0,\cdot)$. Below $\tau$, the slap is zero. |
+| $\mathrm{ReLU}$ | rectified linear unit | $\mathrm{ReLU}(t)=\max(0,t)$. A one-sided kink: negative input becomes $0$, positive input is left as-is. Here $t=s^{\star}(x)-\tau$. It is **not** a hidden-layer activation in this file. It is the shape of the penalty. |
 | $\mathcal{L}_{\mathrm{reg}}(x)$ | intent hinge / prototype-avoidance | $\mathrm{ReLU}(s^{\star}(x)-\tau)$. The English word *regret* in this repo names **this** term. Not Hannan regret. |
 | $\lambda$ | hinge weight | $\lambda\ge 0$. How hard the slap is relative to the job. $\lambda=0$ drops the hinge. |
 | $\mathcal{L}_{\mathrm{task}}(x,y)$ | task loss | Ordinary job: CE, RL pay, dummy task head. Must stay a separate scoreboard. |
@@ -121,6 +121,14 @@ s^{\star}(x)=\max_{k\le K}s(h_{\mathrm{int}},d_k),
 \qquad
 \mathcal{L}_{\mathrm{reg}}(x)=\mathrm{ReLU}(s^{\star}(x)-\tau).
 ```
+
+**ReLU in this formula.** $\mathrm{ReLU}(t)=\max(0,t)$ with $t=s^{\star}-\tau$:
+
+- If the walk is farther from every pin than $\tau$ ($s^{\star}\le\tau$), $\mathcal{L}_{\mathrm{reg}}=0$. That is the dead zone. Ordinary similarity below the threshold is not billed.
+- If the walk sits closer than $\tau$ to some pin ($s^{\star}>\tau$), the penalty is exactly how far past the threshold: $s^{\star}-\tau$.
+- Gradient wrt $t$ is $0$ in the dead zone and $1$ past it (subgradient $\{0\}$ at $t=0$).
+
+This is a *hinge*, not a hidden-layer ReLU. A squared excess $(s^{\star}-\tau)_+^2$ or a raw cosine $1-s^{\star}$ would be a different regularizer. Quiet below $\tau$ is not a proof of honesty; it is only "not close enough to a listed pin."
 
 Cosine is undefined at the zero vector. Toys use `F.normalize` (eps floor); a true zero readout is not a valid intent vector.
 
