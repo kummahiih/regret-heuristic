@@ -39,7 +39,23 @@ A candidate implementation is in-family only if all of these hold.
    \lambda\,
    \mathrm{ReLU}\big(\max_k s(r_{\mathrm{strat}}(h_{1:T}(a)), d_k)-\tau(u)\big).
    ```
-   Inputs: walk, labels, candidate action, factored sensor, frozen bank, coarseness. Not $z$. Not an amplitude. Not $\hat{m}$. Not SIREN $\theta$. That $\mathrm{ReLU}$ is prototype-avoidance.
+
+   Term by term (full glossary: [math_formulation.md](math_formulation.md)):
+
+   | Piece | Role |
+   | --- | --- |
+   | $\mathcal{L}_{\mathrm{total}}$ | What Adam sees. Two scoreboards added, not one folded logit. |
+   | $\mathcal{L}_{\mathrm{task}}(x,y)$ | The job: CE / RL pay / dummy task head on input $x$ and task target $y$. $y$ is not a strategy tag. |
+   | $\lambda$ | How hard the slap is. $\lambda=0$ drops the second term (`ppoWithHinge_zero_weight`). $|
+   | $h_{1:T}(a)$ | Path of hidden states while considering candidate action $a$. Not last-token identity. |
+   | $r_{\mathrm{strat}}(\cdot)$ | Strategy readout of that path. Topic readout $r_{\mathrm{topic}}$ and coarseness $u$ are not this argument. |
+   | $d_k$ | One frozen prototype in bank $D=\{d_1,\dots,d_K\}$. Not updated from this answer. |
+   | $s(\cdot,\cdot)$ | Cosine. How aligned the readout is with pin $d_k$. Undefined at $0$. |
+   | $\max_k$ | Nearest listed bad plan. One close pin is enough. |
+   | $\tau(u)$ | Threshold. Cosine must beat this before any penalty. May widen with coarseness $u$. $u$ is stop-grad; it must not learn to silence every cosine. |
+   | $\mathrm{ReLU}(t)=\max(0,t)$ | One-sided kink on $t=\max_k s-\tau(u)$. Below $\tau$: penalty $0$ (dead zone). Above $\tau$: penalty is the excess. Not a hidden-layer activation. Quiet below $\tau$ is not honesty. |
+
+   Inputs: walk, labels, candidate action, factored sensor, frozen bank, coarseness. Not $z$. Not an amplitude. Not $\hat{m}$. Not SIREN $\theta$. Not `reply_kind`. That $\mathrm{ReLU}$ is prototype-avoidance.
 3. **$z\notin\mathrm{dom}(\mathcal{L}_{\mathrm{total}})$.** Same for talker-count $\hat{m}$ and path-fit $\theta$. Signature: `LegalLoss` has no those fields; `totalLoss_ignores_amp`, `totalLoss_ignores_sourceCount`, `totalLoss_ignores_theta` are `rfl`. Dataflow (B1): do not compute `task`/`hinge` from $z$, Amp, $\hat{m}$, or $\theta$ before the record.
 4. **Path, not last token.** $h_{1:T}$. If a $K$-step mix is used, score $s_K$ only. Do **not** average per-token hinges ([simulation_kstep.py](simulation_kstep.py)). Last-token identity, mean-pool, and dummy SIREN $f(1)$ already failed or collapsed to the last point ([experiment_results.md](experiment_results.md) §2 / §6, [experiment_siren_path.md](experiment_siren_path.md)). $K$-step is a **candidate**, not a proof the kernel died.
 5. **Action-indexed safety.** $r_{\mathrm{strat}}$ sees the candidate $a$. Otherwise $A_{\mathrm{safe}}$ is all of $A$ or none (`hingeQuietIgnoringAction_all_or_none`). Emptiness is allowed. Two-door toy: one bank $D=\{1\}$, $r(a_0)=-1$, $r(a_1)=1$.
