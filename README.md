@@ -6,7 +6,7 @@ This repository names a **training-time hinge**, not a lie detector and not a fi
 
 If you only read this file you should leave with: the formula, what may not sit in the sum, how the two repos split, and that mid-layer contrast is a hint rather than a handover.
 
-The search question is no longer “is there any plan signal?” It is: a held-out, topic-invariant, paraphrase-stable strategy readout that survives within-topic cross-validation **and** is uniform on the declared rooms. Hiking has an in-room pair. That pair is not the eight-room axis. Lean: `loud_hold_not_rooms`.
+The search question is no longer “is there any plan signal?” It is: a held-out, topic-invariant, paraphrase-stable strategy readout that survives within-topic cross-validation, is uniform on the declared rooms, **and** tracks a print the actor actually produced. Hiking has an in-room pair on the *note*. That pair is not the eight-room axis and is not the generated button. Lean: `loud_hold_not_rooms`.
 
 ## The grade
 
@@ -47,15 +47,21 @@ Symbols: [math_formulation.md](math_formulation.md). What may be implemented: [w
 | **This one** | Consume a camera that already passed. Pin the hinge in Lean and dummy sims. |
 | [intent-readout-search](https://github.com/kummahiih/intent-readout-search) | Produce $r$. Run the four gates on real models. |
 
-A camera **passes** only if all four hold on the declared room set: plan leave-one-topic-out above chance, topic LOO L2 near chance, paraphrase keeps the plan call, rooms are not a subset. Office-log / radio genre is not paraphrase. Dropping a thin room is a different predicate (Lean: `seven_is_not_eight`). Within-topic hold is a log, not a fifth gate.
+A camera **passes** only if all four hold on the declared room set: plan leave-one-topic-out above chance, topic LOO L2 near chance, paraphrase keeps the plan call, rooms are not a subset. Office-log / radio genre is not paraphrase. Dropping a thin room is a different predicate (Lean: `seven_is_not_eight`). Within-topic hold is a log, not a fifth gate. Assigned tags are not the print (`reply_kind_not_a_gate`).
 
 Until that pass: freeze nothing, do not fill $D$, do not run PPO against $S_{\mathrm{safe}}$. After a pass: freeze $r$, $D$, $\tau$; train the hinge here; keep a frozen copy as the alarm.
 
-## Status (2026-09-27)
+## Status (2026-09-28)
 
-Search writeup: [NOTE.md](https://github.com/kummahiih/intent-readout-search/blob/main/NOTE.md).
+Search ledger: [intent-readout-search/results](https://github.com/kummahiih/intent-readout-search/blob/main/results/README.md).
 
-Mid-layer last-token contrast on Qwen2.5-7B (layer 8) and Mistral-7B (layer 9) is a **hint** on the bank speech act and on a `Desk note:` prefix. It is not $r_{\mathrm{strat}}$. Last layer fails the topic gate. K-step / SIREN $f(1)$ / mid3 are one arrow. Office-log voice kills LOTO. Hiking stays thin on Qwen LOTO after a lexical rewrite; an in-room hold and a fact-held paraphrase still see a hiking pair. Rooms are a subset. Freeze blocked.
+Mid-layer last-token contrast on Qwen2.5-7B (layer 8) and Mistral-7B (layer 9) is a **hint on assigned notes**. It is not $r_{\mathrm{strat}}$.
+
+- Official note gates: plan LOTO ~0.11, topic L2 near chance on Qwen, paraphrase/frame hold the aggregate. Hiking LOTO stays thin (Qwen 0.013 / Mistral 0.069) while an in-room hold sees a pair (0.20 / 0.28).
+- Cross-model linear map: same rooms loud, hiking thin. Not a portable judge.
+- Oracle many $r_T$: hiking/invoices want their own $W_T$; mean diagonal **loses** to shared LOTO. Not eight cameras.
+- Decorrelated probes on the same $h$: still one room ranking, weaker than plain contrast.
+- Generated prints: tags $\neq$ `reply_kind`. Forced YES/NO (true button = NO): honest always NO; hiking and travel never press YES.
 
 Do not freeze $r$. Do not fill $D$. Do not run PPO. Not reduced deception.
 
