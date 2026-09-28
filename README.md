@@ -6,7 +6,15 @@ This repository names a **training-time hinge**, not a lie detector and not a fi
 
 If you only read this file you should leave with: the formula, what may not sit in the sum, how the two repos split, and that mid-layer contrast is a candidate signal on assigned notes rather than a handover.
 
-The search question is no longer “is there any plan signal?” It is: a held-out, topic-invariant, paraphrase-stable strategy readout that survives within-topic cross-validation, is uniform on the declared rooms, **and** tracks a print the actor actually produced. Lean: `loud_hold_not_rooms`.
+## How the question narrowed
+
+The hinge needs a readout *r* of the walk that slaps a *plan* without slapping the *job*. Early work asked the weakest version of that: is there any contrast at all between notes tagged honest and notes tagged deceptive?
+
+Last-token identity at the final layer said yes — and also said the subject. That is wallpaper: a probe that sees “hotel / trail / invoice” is not a strategy camera. So the question became: can a mid-layer direction separate the two tags **after leaving the topic out**, without a topic classifier beating chance?
+
+That aggregate came back positive on two 7B instruct models (plan LOTO ~0.11; paraphrase and prefix kept the mean). The same numbers then split the question again. Hiking is thin on the *shared* direction and loud if you fit *v* only inside hiking. Extra pools and extra heads copied that map. Generated prints often ignored the private note. So “is there a signal?” is answered; it is not the handover question.
+
+The live question is therefore: a held-out, topic-invariant, paraphrase-stable readout that is uniform on the declared rooms **and** tracks a print the actor actually produced. Lean: `loud_hold_not_rooms`. Status below is the current score on that question, not a banner.
 
 ## The grade
 
