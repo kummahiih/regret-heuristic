@@ -4,9 +4,9 @@ Keep the skill. Slap the plan that hides the fact.
 
 This repository names a **training-time hinge**, not a lie detector and not a finished trainer. It assumes a strategy camera *r* that someone else has already frozen. That camera does not exist yet. Search for it lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
-If you only read this file you should leave with: the formula, what may not sit in the sum, how the two repos split, and that mid-layer contrast is a hint rather than a handover.
+If you only read this file you should leave with: the formula, what may not sit in the sum, how the two repos split, and that mid-layer contrast is a candidate signal on assigned notes rather than a handover.
 
-The search question is no longer “is there any plan signal?” It is: a held-out, topic-invariant, paraphrase-stable strategy readout that survives within-topic cross-validation, is uniform on the declared rooms, **and** tracks a print the actor actually produced. Hiking has an in-room pair on the *note*. That pair is not the eight-room axis and is not the generated button. Lean: `loud_hold_not_rooms`.
+The search question is no longer “is there any plan signal?” It is: a held-out, topic-invariant, paraphrase-stable strategy readout that survives within-topic cross-validation, is uniform on the declared rooms, **and** tracks a print the actor actually produced. Lean: `loud_hold_not_rooms`.
 
 ## The grade
 
@@ -44,15 +44,11 @@ Until that pass: freeze nothing, do not fill *D*, do not run PPO against *S*<sub
 
 ## Status (2026-09-28)
 
-Search ledger: [intent-readout-search/results](https://github.com/kummahiih/intent-readout-search/blob/main/results/README.md).
+Numbers live in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). This repo does not own the camera.
 
-Mid-layer last-token contrast on Qwen2.5-7B (layer 8) and Mistral-7B (layer 9) is a **hint on assigned notes**. It is not *r*<sub>strat</sub>.
+**Observed.** Mid-layer last-token contrast on assigned notes (Qwen L8, Mistral L9) has a positive cross-topic plan gap (~0.105 / ~0.116). That *aggregate* holds on the tested paraphrase and prefix. Call it a **candidate plan-related signal**. A gap of 0.11 is not classification accuracy and not operative intent.
 
-- Official note gates: plan LOTO ~0.11, topic L2 near chance on Qwen, paraphrase/frame hold the aggregate. Hiking LOTO stays thin (Qwen 0.013 / Mistral 0.069) while an in-room hold sees a pair (0.20 / 0.28).
-- Cross-model linear map: same rooms loud, hiking thin. Not a portable judge.
-- Oracle many *r*<sub>T</sub>: hiking/invoices want their own *W*<sub>T</sub>; mean diagonal **loses** to shared LOTO. Not eight cameras.
-- Decorrelated probes on the same *h*: still one room ranking, weaker than plain contrast.
-- Generated prints: tags ≠ `reply_kind`. Forced YES/NO (true button = NO): honest always NO; hiking and travel never press YES.
+**Bounded.** Hiking stays thin on the shared direction (LOTO 0.013 / 0.069) while a within-topic hold still sees a pair (0.203 / 0.278). Genre transfer is fragile. Prints are not the tags: forced YES/NO does not give a shared behavior axis. Extra probes (k-step, SIREN, mid3, many *r*<sub>T</sub>, decorrelated heads) did not recover eight-room uniformity.
 
 Do not freeze *r*. Do not fill *D*. Do not run PPO. Not reduced deception.
 
