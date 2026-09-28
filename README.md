@@ -4,7 +4,25 @@ Keep the skill. Slap the plan that hides the fact.
 
 This repository names a **training-time hinge**, not a lie detector and not a finished trainer. It assumes a strategy camera *r* that someone else has already frozen. That camera does not exist yet. Search for it lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
-If you only read this file you should leave with: why a slap on the *plan* is even on the table, the formula, what may not sit in the sum, how the two repos split, and that mid-layer contrast is a candidate signal on assigned notes rather than a handover.
+Read in order: **what** the words mean, **why** a slap on the plan is on the table, **how** the search question narrowed. Then the formula.
+
+## What this is
+
+These words are a map of the argument, not a result. Longer glossary: [slam_analogy.md](slam_analogy.md).
+
+| Word | In this repo |
+| --- | --- |
+| **Walk** | The hidden-state path while the model writes. The printed string is only the part you see. |
+| **Map** | Thoughts that *could* be entered — the skill, the subject matter, rooms that exist even if this answer never visits them. |
+| **Room** | One subject neighborhood (hiking, travel, invoices). Eight rooms are the declared fit set. |
+| **Subject / wallpaper** | Topic paint on the walls. A probe that only reads “hotel / trail” is stuck to the wallpaper. |
+| **Plan** | A hide-or-name strategy that can sit in more than one room (“send them up and do not mention the rain”). |
+| **Print** | What was actually said. Not the private note. Not the plan. |
+| **Job / skill** | *L*<sub>task</sub>: still know the trail, still book the room. |
+| **Pin / *D*** | Frozen “do not occupy” marks on the map. A handful of plan prototypes, not the whole map. |
+| **Camera / *r*** | A readout of the walk that is supposed to see the plan and not the room. Missing. |
+| **Slap / hinge** | Training-time ReLU on cosine-to-pin. Prototype-avoidance. The English word *regret* here names that flinch, nothing else. |
+| **Dictator’s trap** | Punish only the print and you train secrecy. The minister still knows the province. |
 
 ## Why this hinge
 
@@ -70,9 +88,7 @@ Do not freeze *r*. Do not fill *D*. Do not run PPO. Not reduced deception.
 
 ## Walk and map
 
-Printed text is the **walk**. Possible thoughts are the **map**. *D* is a handful of pins, not the map. *u* is how coarse the chart is, not *p*(lie). Quiet on mush is not honesty. Glossary: [slam_analogy.md](slam_analogy.md).
-
-Pair tags (`honest` / `deceptive`) build a contrast set. They are observations, not nature. `reply_kind` ∈ `{truth, contradict, evade, refuse, insufficient}` labels a **generated print** against a `fact`. Same print can be `truth` under both tags. Dummy: [simulation_reply_kind.py](simulation_reply_kind.py). Lean: `reply_kind_not_a_gate`.
+Printed text is the **walk**. Possible thoughts are the **map**. *D* is a handful of pins, not the map. *u* is how coarse the chart is, not *p*(lie). Quiet on mush is not honesty. Pair tags are observations. `reply_kind` labels a generated print against a `fact`. Dummy: [simulation_reply_kind.py](simulation_reply_kind.py). Lean: `reply_kind_not_a_gate`.
 
 ## What this repo contains
 
