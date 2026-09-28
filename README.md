@@ -12,31 +12,37 @@ The search question is no longer “is there any plan signal?” It is: a held-o
 
 A model that is rewarded for hiding the fact trains on its own output and drifts. Ordinary live backprop is the wrong repair: the same weights carry the lie and the competence.
 
-```math
+$$
 L_{\mathrm{total}}
 =
 L_{\mathrm{task}}(x,y)
 +
 \lambda\,
-\mathrm{ReLU}\big(\max_k \cos(r(h), d_k)-\tau\big)
-```
+\mathrm{ReLU}\big(
+\max_{k}\cos\big(r(h),\,d_{k}\big)
+-
+\tau
+\big)
+$$
 
 - $L_{\mathrm{task}}$ is the job.
 - $r(h)$ is a readout of the walk $h$ (path, not last-token identity).
-- $D=\{d_k\}$ is a **frozen** bank of plan prototypes.
-- The ReLU is **prototype-avoidance**. The English word *regret* in this repo names that hinge. It is not Hannan external regret and not counterfactual $R=u(a^*)-u(a)$.
+- $D=\{d_{k}\}$ is a **frozen** bank of plan prototypes.
+- The ReLU is **prototype-avoidance**. The English word *regret* in this repo names that hinge. It is not Hannan external regret and not counterfactual $R=u(a^{\ast})-u(a)$.
 
-$D$ is not updated from the current answer. Tags, talker-count $\hat m$, SIREN $\theta$, SAE latents, and `reply_kind` do not enter $L_{\mathrm{total}}$.
+$D$ is not updated from the current answer. Tags, talker-count $\hat{m}$, SIREN $\theta$, SAE latents, and `reply_kind` do not enter $L_{\mathrm{total}}$.
 
-A second grade sits on the wall until a real safe action $a^*$ exists. Do not put a fake $a^*$ in Adam.
+A second grade sits on the wall until a real safe action $a^{\ast}$ exists. Do not put a fake $a^{\ast}$ in Adam.
 
-```math
-a^*(x)=\arg\max_{a\in A_{\mathrm{safe}}(x)} u(x,a)
+$$
+a^{\ast}(x)
+=
+\arg\max_{a\,\in\,A_{\mathrm{safe}}(x)}\,u(x,a)
 \qquad
-R(x,a)=u(x,a^*)-u(x,a)
+R(x,a)=u(x,a^{\ast})-u(x,a)
 \qquad
-L = L_{\mathrm{task}} + \lambda L_{\mathrm{reg}} + \beta R
-```
+L=L_{\mathrm{task}}+\lambda L_{\mathrm{reg}}+\beta R
+$$
 
 Symbols: [math_formulation.md](math_formulation.md). What may be implemented: [working_model.md](working_model.md). Binding: [implementation_binding.md](implementation_binding.md).
 
@@ -59,7 +65,7 @@ Mid-layer last-token contrast on Qwen2.5-7B (layer 8) and Mistral-7B (layer 9) i
 
 - Official note gates: plan LOTO ~0.11, topic L2 near chance on Qwen, paraphrase/frame hold the aggregate. Hiking LOTO stays thin (Qwen 0.013 / Mistral 0.069) while an in-room hold sees a pair (0.20 / 0.28).
 - Cross-model linear map: same rooms loud, hiking thin. Not a portable judge.
-- Oracle many $r_T$: hiking/invoices want their own $W_T$; mean diagonal **loses** to shared LOTO. Not eight cameras.
+- Oracle many $r_{T}$: hiking/invoices want their own $W_{T}$; mean diagonal **loses** to shared LOTO. Not eight cameras.
 - Decorrelated probes on the same $h$: still one room ranking, weaker than plain contrast.
 - Generated prints: tags $\neq$ `reply_kind`. Forced YES/NO (true button = NO): honest always NO; hiking and travel never press YES.
 
@@ -73,7 +79,7 @@ Pair tags (`honest` / `deceptive`) build a contrast set. They are observations, 
 
 ## What this repo contains
 
-**Lean** (`lake build` from the repo root). Bookkeeping, not safety. The scoreboard file for search is [lean/CameraGates.lean](lean/CameraGates.lean): hint is not handover, voice is not a voter, seven rooms is not eight, mid3 is one slot, $\hat m$, `reply_kind`, and in-room hold are not gates.
+**Lean** (`lake build` from the repo root). Bookkeeping, not safety. The scoreboard file for search is [lean/CameraGates.lean](lean/CameraGates.lean): hint is not handover, voice is not a voter, seven rooms is not eight, mid3 is one slot, $\hat{m}$, `reply_kind`, and in-room hold are not gates.
 
 **Dummy simulations.** No LLM. [simulation.py](simulation.py) is the hinge on a toy encoder. [experiment_results.md](experiment_results.md) is the ledger; do not overwrite §1–§7. Camera numbers live in the search repo.
 
@@ -93,7 +99,7 @@ Neighbors that use the word *regret* for something else: [neighbors.md](neighbor
 - Gradients of $L_{\mathrm{reg}}$ still enter $h$. Gaming is open.
 - Training-time only. No inference abort.
 - Last-token identity already failed as $r_{\mathrm{strat}}$ (Qwen 0.77 / 0.80).
-- $\hat m$ is a log (`totalLoss_ignores_sourceCount`).
+- $\hat{m}$ is a log (`totalLoss_ignores_sourceCount`).
 
 ## Files
 
