@@ -4,7 +4,6 @@ Keep the skill. Slap the plan that hides the fact.
 
 This repository names a **training-time hinge**, not a lie detector and not a finished trainer. It assumes a strategy camera *r* that someone else has already frozen. That camera does not exist yet. Search for it lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
-Read **walk and map**, then **why**, then **how** the question narrowed, then the formula. The word table and the camera status sit later.
 
 ## Walk and map
 
