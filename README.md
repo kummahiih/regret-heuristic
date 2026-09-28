@@ -4,7 +4,15 @@ Keep the skill. Slap the plan that hides the fact.
 
 This repository names a **training-time hinge**, not a lie detector and not a finished trainer. It assumes a strategy camera *r* that someone else has already frozen. That camera does not exist yet. Search for it lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
-If you only read this file you should leave with: the formula, what may not sit in the sum, how the two repos split, and that mid-layer contrast is a candidate signal on assigned notes rather than a handover.
+If you only read this file you should leave with: why a slap on the *plan* is even on the table, the formula, what may not sit in the sum, how the two repos split, and that mid-layer contrast is a candidate signal on assigned notes rather than a handover.
+
+## Why this hinge
+
+A person who almost hides a fact and then does not is not using a textbook of every lie. They notice the *plan* (“send them up the ridge and do not mention the rain”) and flinch. The competence stays: they still know the trail. What gets punished is the hide, not the map. That flinch is the analog this repo steals the English word *regret* for. It is not Hannan external regret and not “I wish I had said the other sentence.”
+
+Teaching material for that flinch is scarce. You can collect answers. You rarely collect the private note that produced them, labeled, at the moment of generation, across rooms. Preference data grades the print. A compiler grades the program. Neither grades “was a hide-plan lit in *h*?” So you cannot fine-tune honesty by piling up enough honest essays. You would need a sensor of the plan *during* the walk, and a penalty that does not also erase the skill.
+
+That is the **dictator’s trap**. A ruler who only punishes what was *said* trains better secrecy. The competent minister still knows the province; he stops writing the memo. An RLHF judge that only sees the assistant message is that ruler. If the same weights carry the lie and the job, backprop on the print either leaves the plan intact or damages the map. The hinge is an attempt to slap the plan pin and leave *L*<sub>task</sub> on the job. It only works if someone has already frozen a camera that sees the plan and not the subject. That camera is the missing piece. This file specifies the slap. The search repo looks for the camera.
 
 ## How the question narrowed
 
