@@ -30,19 +30,19 @@ lake build
 - `implicit_miss_is_some`, `lexical_bleed`
 - `static_linear_evasion_exists` if `ker W` is nontrivial. Identity is a counterexample.
 - `dynamic_trajectory_convergence` **if** `step` is a basin. Residual+noise is not that hypothesis.
-- `counterfactualR_of_star`: `R(a*,a*)=0`. `counterfactualR_nonneg_of_best` if `u(a)\le u(a*)`.
-- `quiet_hinge_not_counterfactualR`: hinge `0` and `R=1` can sit together. Different scoreboard.
+- `counterfactualR_of_star`: $R(a^{\ast},a^{\ast})=0$. `counterfactualR_nonneg_of_best` if $u(a)\le u(a^{\ast})$.
+- `quiet_hinge_not_counterfactualR`: hinge $0$ and $R=1$ can sit together. Different scoreboard.
 
 ## Not proved (existence)
 
-- `r_strat` exists on a real model
-- `D` generalizes to a new behavior
-- `a*` can be computed (`A_safe` needs that camera)
-- residual `h+F(h)+\sigma\varepsilon` is a basin
+- $r_{\mathrm{strat}}$ exists on a real model
+- $D$ generalizes to a new behavior
+- $a^{\ast}$ can be computed ($A_{\mathrm{safe}}$ needs that camera)
+- residual $h+F(h)+\sigma\varepsilon$ is a basin
 - representation gaming is dead
 - deception fell
 - Hannan of the hinge, PPO trust, Blackwell steering
-- anyone understands `z` / Amp
-- `m_hat` names the plan
+- anyone understands $z$ / Amp
+- $\hat{m}$ names the plan
 - wanted split: plan kept and evasion visible under one $T$
 - SIREN $\theta$ is a strategy camera
