@@ -100,11 +100,13 @@ Until that pass: freeze nothing, do not fill *D*, do not run PPO against *S*<sub
 
 ## Status (2026-09-30)
 
+The hinge is not the research hypothesis. **H1** (search repo): a portable *r*<sub>strat</sub> exists. **H2** (this repo): after a freeze, the slap reduces the hide-plan without wrecking the job. H1 is open (current answer: no). H2 is blocked. A dummy can ignore a topic *coordinate*; that does not mean a transformer exposes (*r*<sub>topic</sub>, *r*<sub>strat</sub>, *u*). Approachability / *S*<sub>safe</sub> is a later layer, not current evidence.
+
 Numbers live in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). This repo does not own the camera.
 
 **Observed.** Mid-layer last-token contrast on assigned notes (Qwen L8, Mistral L9) has a positive cross-topic plan gap (~0.105 / ~0.116). Falcon3-7B L8 copies that *shape* (note LOTO 0.082, topic L2 0.12, hiking hold 0.247). Call the 7B-class pattern a **candidate plan-related signal**. A gap of 0.11 is not classification accuracy and not operative intent.
 
-**Bounded.** Hiking stays thin on the shared direction (Qwen 0.013 / Mistral 0.069 / Falcon 0.023) while a within-topic hold still sees a pair on the *note* where that pattern exists. Gemma-3-4B-it L10 does **not** copy it: note LOTO 0.009, topic L2 **0.65**, hiking hold 0.017. Pre-button *h* and *r*(*h*<sub>pre</sub>)→button stay near chance on every walk that ran (7B pre-act 0.038 / 0.016; Falcon −0.006; Gemma −0.077). Prints are not the tags.
+**Bounded.** Hiking stays thin on the shared direction (Qwen 0.013 / Mistral 0.069 / Falcon 0.023) while a within-topic hold still sees a pair on the *note* where that pattern exists. Gemma-3-4B-it L10 does **not** copy it: note LOTO 0.009, topic L2 **0.65**, hiking hold 0.017. Pre-button *h* and *r*(*h*<sub>pre</sub>)→button stay near chance on every walk that ran. Prints are not the tags.
 
 **Not a pass.** Aya-8B is a tokenizer/Hub gate. Phi-4 is `LossKwargs`. 27B/70B probe tensors are not *h*. Do not freeze *r*. Do not fill *D*. Do not run PPO. Not reduced deception.
 
