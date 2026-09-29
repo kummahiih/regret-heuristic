@@ -104,7 +104,7 @@ Numbers live in [intent-readout-search](https://github.com/kummahiih/intent-read
 
 **Observed.** Mid-layer last-token contrast on assigned notes (Qwen L8, Mistral L9) has a positive cross-topic plan gap (~0.105 / ~0.116). That *aggregate* holds on the tested paraphrase and prefix. Call it a **candidate plan-related signal**. A gap of 0.11 is not classification accuracy and not operative intent.
 
-**Bounded.** Hiking stays thin on the shared direction (LOTO 0.013 / 0.069) while a within-topic hold still sees a pair (0.203 / 0.278). Genre transfer is fragile. Prints are not the tags: forced YES/NO is token geometry (Mistral print LOTO 0.68). Pre-button $h$ on the same walks — last token of plan+question — is tag LOTO 0.011 on both models. Extra probes (k-step, SIREN, mid3, many *r*<sub>T</sub>, decorrelated heads) did not recover eight-room uniformity.
+**Bounded.** Hiking stays thin on the shared direction (LOTO 0.013 / 0.069) while a within-topic hold still sees a pair on the *note* (0.203 / 0.278). Genre transfer is fragile. Prints are not the tags: forced YES/NO is token geometry (Mistral print LOTO 0.68). Pre-button $h$ (plan+question last token) is tag LOTO 0.011 and in-room hold 0.005 / 0.009 — the note pair does not sit at the decision token. Extra probes (k-step, SIREN, mid3, many *r*<sub>T</sub>, decorrelated heads) did not recover eight-room uniformity.
 
 Do not freeze *r*. Do not fill *D*. Do not run PPO. Not reduced deception.
 
