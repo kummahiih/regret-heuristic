@@ -27,7 +27,7 @@ The hinge needs a readout *r* of the walk that slaps a *plan* without slapping t
 
 Last-token identity at the final layer said yes — and also said the subject. That is wallpaper: a probe that sees “hotel / trail / invoice” is not a strategy camera. So the question became: can a mid-layer direction separate the two tags **after leaving the topic out**, without a topic classifier beating chance?
 
-That aggregate came back positive on two 7B instruct models (plan LOTO ~0.11; paraphrase and prefix kept the mean). The same numbers then split the question again. Hiking is thin on the *shared* direction and loud if you fit *v* only inside hiking. Extra pools and extra heads copied that map. Generated prints often ignored the private note. So “is there a signal?” is answered; it is not the handover question.
+That aggregate came back positive on two 7B instruct models (plan LOTO ~0.11; paraphrase and prefix kept the mean). The same numbers then split the question again. Hiking is thin on the *shared* direction and loud if you fit *v* only inside hiking. Extra pools and extra heads copied that map. Generated prints often ignored the private note. Wave 1: Falcon L8 copies that 7B *shape*; Gemma-3-4B L10 does not. So “is there a signal?” is answered on some walks; it is not the handover question.
 
 The live question is therefore: a held-out, topic-invariant, paraphrase-stable readout that is uniform on the declared rooms **and** tracks a print the actor actually produced. Lean: `loud_hold_not_rooms`. Status is later in this file, not a banner.
 
@@ -98,17 +98,15 @@ A camera **passes** only if all four hold on the declared room set: plan leave-o
 
 Until that pass: freeze nothing, do not fill *D*, do not run PPO against *S*<sub>safe</sub>. After a pass: freeze *r*, *D*, τ; train the hinge here; keep a frozen copy as the alarm.
 
-## Status (2026-09-29)
+## Status (2026-09-30)
 
 Numbers live in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). This repo does not own the camera.
 
-**Observed.** Mid-layer last-token contrast on assigned notes (Qwen L8, Mistral L9) has a positive cross-topic plan gap (~0.105 / ~0.116). That *aggregate* holds on the tested paraphrase and prefix. Call it a **candidate plan-related signal**. A gap of 0.11 is not classification accuracy and not operative intent.
+**Observed.** Mid-layer last-token contrast on assigned notes (Qwen L8, Mistral L9) has a positive cross-topic plan gap (~0.105 / ~0.116). Falcon3-7B L8 copies that *shape* (note LOTO 0.082, topic L2 0.12, hiking hold 0.247). Call the 7B-class pattern a **candidate plan-related signal**. A gap of 0.11 is not classification accuracy and not operative intent.
 
-**Bounded.** Hiking stays thin on the shared direction (LOTO 0.013 / 0.069) while a within-topic hold still sees a pair on the *note* (0.203 / 0.278). Genre transfer is fragile. Prints are not the tags: forced YES/NO is token geometry (Mistral print LOTO 0.68). Pre-button $h$ (plan+question last token) is tag LOTO 0.011 and in-room hold 0.005 / 0.009 — the note pair does not sit at the decision token. Pre$\to$act LOTO is 0.038 / 0.016 and does not own hiking. Extra probes (k-step, SIREN, mid3, many *r*<sub>T</sub>, decorrelated heads) did not recover eight-room uniformity.
+**Bounded.** Hiking stays thin on the shared direction (Qwen 0.013 / Mistral 0.069 / Falcon 0.023) while a within-topic hold still sees a pair on the *note* where that pattern exists. Gemma-3-4B-it L10 does **not** copy it: note LOTO 0.009, topic L2 **0.65**, hiking hold 0.017. Pre-button *h* and *r*(*h*<sub>pre</sub>)→button stay near chance on every walk that ran (7B pre-act 0.038 / 0.016; Falcon −0.006; Gemma −0.077). Prints are not the tags.
 
-**Wave 1.** Gemma-3-4B-it / Falcon3-7B / Aya-8B use the same eight rooms and the same three meters. Official slices are L10 / L8 / L10 (Gemma text $n_L=34$, so L8 is shallow). Those logs are not in this repo and were not invented. Phi-4 is skipped. 27B/70B probe tensors are not $h$.
-
-Do not freeze *r*. Do not fill *D*. Do not run PPO. Not reduced deception.
+**Not a pass.** Aya-8B is a tokenizer/Hub gate. Phi-4 is `LossKwargs`. 27B/70B probe tensors are not *h*. Do not freeze *r*. Do not fill *D*. Do not run PPO. Not reduced deception.
 
 ## Caps
 
