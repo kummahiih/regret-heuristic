@@ -46,7 +46,7 @@ That is a *shape*. Implementation still needs six objects the toys assume:
 1. A path $h_{1:T}$, not one last vector.
 2. Hidden cells $z_t$ distinct from printed tokens, and kept out of the loss.
 3. A sensor $r$ that is not one packed unit vector.
-4. An action-indexed $A_{\mathrm{safe}}(t)$.
+4. An action-indexed quiet set, distinct from a behavioral safe set.
 5. A measurement time (when the hinge is allowed to fire on $r$, never on $z$).
 6. A second channel that is *not* in the training sum.
 
@@ -110,7 +110,7 @@ Sister-repo work already pointed here. Construction of $r_{\mathrm{strat}}$ stay
 
 Keep at least one frozen lineage while $r_{\mathrm{strat}}$ is trained. Say what is frozen: readout weights, backbone, or cached $h$. Same-model chat grades are not that lineage.
 
-## 4. Two factors, one target
+## 4. Two factors, two sets
 
 Utility and attraction stay separate because one is the job and one is a sensor penalty. Mixing them is another way to pretend the measurement *is* the hidden route.
 
@@ -122,15 +122,21 @@ Utility and attraction stay separate because one is the job and one is a sensor 
 
 Sign for PPO: subtract the hinge from a maximand ([ppo_integration.md](ppo_integration.md)). A critic of $L_{\mathrm{reg}}$ on the same backbone is not a second channel.
 
-The only approachable box this essay may aim at remains $S_{\mathrm{safe}}$, not $S_{\mathrm{joint}}$ ([approachability.md](approachability.md)). That forces $r$ to see the *candidate action*:
+The only approachable box this essay may aim at remains $S_{\mathrm{safe}}$, not $S_{\mathrm{joint}}$ ([approachability.md](approachability.md)). That forces $r$ to see the *candidate action*. Silence of the hinge is **not** that box.
 
 ```math
-A_{\mathrm{safe}}(t)=\{a\in A:\ \mathcal{L}_{\mathrm{reg}}(r_{\mathrm{strat}}(h_t(a)),\mathcal{D})=0\}.
+A_{\mathrm{quiet}}(t)=\{a\in A:\ \mathcal{L}_{\mathrm{reg}}(r_{\mathrm{strat}}(h_t(a)),\mathcal{D})=0\}.
 ```
 
-If $r$ only sees a pre-action $h_t$, $A_{\mathrm{safe}}$ does not depend on $a$ and is not a comparator class. If $A_{\mathrm{safe}}$ empties, the sensor did not determine the hidden cell. That is allowed. It is not a bug to "fix" by putting $z$ into the loss.
+$A_{\mathrm{quiet}}$ is sensor-quiet: the walk is not near the pins we have. An unseen deceptive strategy looks exactly like a safe one on this meter.
 
-**Quiet $\neq$ known-safe.** $\max_k\cos(r,d_k)<\tau$ means the walk is **not near the pins we have**. That is *unknown / abstain*, not "this action is safe." An unseen deceptive strategy looks exactly like a safe one on this meter. Do not put $a$ in $A_{\mathrm{safe}}$ from silence alone. Log unknown. The second channel is the alarm. Do not add a third loss.
+```math
+A_{\mathrm{safe}}(t)\subseteq A_{\mathrm{quiet}}(t)
+```
+
+and membership in $A_{\mathrm{safe}}$ needs an **independent behavioral criterion** (checkable fact, held-out judge, incentive outcome). That criterion does not exist in this repo yet. Do not treat $A_{\mathrm{quiet}}=A_{\mathrm{safe}}$. Do not put $a$ in $A_{\mathrm{safe}}$ from silence alone. Log unknown. The second channel is the alarm. Do not add a third loss.
+
+If $r$ only sees a pre-action $h_t$, $A_{\mathrm{quiet}}$ does not depend on $a$ and is not a comparator class. If $A_{\mathrm{quiet}}$ empties, the sensor did not determine the hidden cell. That is allowed. It is not a bug to "fix" by putting $z$ into the loss.
 
 A Lagrangian weight $\lambda$ is one halfspace, not Blackwell steering.
 
@@ -156,7 +162,7 @@ Do not add a third training loss. Log, and refuse to pin $\mathcal{D}$ from, the
 - Frozen lineage hinge (readout / backbone / cached $h$ — say which).
 - Cosine to a held-out cell.
 - NLL vs entropy disagreement (§4).
-- Whether $A_{\mathrm{safe}}(t)$ emptied.
+- Whether $A_{\mathrm{quiet}}(t)$ emptied.
 - Whether the walk was marked unknown ($\max\cos<\tau$).
 
 Disagreement **requires investigation**. It is not by itself a diagnosis of gaming. A better strategy sensor can go quiet while an identity map still hugs topic. A moving backbone can change a "frozen" output. A same-model judge can go quiet because it likes its own chat.
@@ -171,7 +177,7 @@ Do these in order. Stop if the topic probe still passes on $r_{\mathrm{strat}}$.
 | --- | --- | --- |
 | B0 | [intent-readout-search](https://github.com/kummahiih/intent-readout-search) | $r_{\mathrm{strat}}$ gap survives topic and paraphrase; identity control stays near zero. Official topic gate is LOO / hold on vectors, L2 on scalars. $z$ is a labeler tag, not a feature. |
 | B1 | this repo, new path object | $h_{1:T}$ + stay/fork/return prior; no hinge on $h_T$ alone; signature *and* dataflow: $z$/`Amp` not upstream of `LegalLoss`. |
-| B2 | this repo | $r$ consumes candidate $a$; $A_{\mathrm{safe}}(t)$ is action-indexed and sometimes empty. Silence is unknown, not safe. |
+| B2 | this repo | $r$ consumes candidate $a$; $A_{\mathrm{quiet}}(t)$ is action-indexed and sometimes empty. Silence is unknown, not $A_{\mathrm{safe}}$. |
 | B3 | this repo | $\tau(u)$ bins; $u$ detached; $\tau$ capped; no pin when $u>u_0$. |
 | B4 | this repo | Frozen lineage + held-out cell logged every run. Disagreement is an alarm. Do not overwrite [experiment_results.md](experiment_results.md) §1–§7. |
 | B5 | optional | Smoother $P(z_{1:T}\mid h_{1:T})$ labels pins only. Still not a loss input. |
@@ -186,7 +192,7 @@ Existing wiring stays: [simulation.py](simulation.py), [ppo_toy.py](ppo_toy.py),
 - No claim that anyone understands $z$. The definition says they do not.
 - No inference abort. Measurement delay is about *when the hinge may fire on $r$*, not about blocking decode.
 - No $D$ miner. Offline pins only. Coverage of the map stays open.
-- Quiet cosine is unknown, not a safe certificate.
+- Quiet cosine is $A_{\mathrm{quiet}}$, not a safe certificate.
 - Dummy `label_unchanged` is not deceptive behavior.
 
-Version 0.1.4.
+Version 0.1.5.
