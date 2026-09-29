@@ -104,11 +104,11 @@ The hinge is not the research hypothesis. **H1** (search repo): a portable *r*<s
 
 Numbers live in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). This repo does not own the camera.
 
-**Observed.** Mid-layer last-token contrast on assigned notes (Qwen L8, Mistral L9) has a positive cross-topic plan gap (~0.105 / ~0.116). Falcon3-7B L8 copies that *shape* (note LOTO 0.082, topic L2 0.12, hiking hold 0.247). Call the 7B-class pattern a **candidate plan-related signal**. A gap of 0.11 is not classification accuracy and not operative intent.
+**Observed.** Mid-layer last-token contrast on assigned notes still starts with **Qwen L8 0.105** and Mistral L9 0.116. Falcon L8 copies that *shape* (0.082 / topic L2 0.12 / hiking hold 0.247). Call the 7B-class pattern a **candidate plan-related signal**. Not accuracy. Not operative intent.
 
-**Bounded.** Hiking stays thin on the shared direction (Qwen 0.013 / Mistral 0.069 / Falcon 0.023) while a within-topic hold still sees a pair on the *note* where that pattern exists. Gemma-3-4B-it L10 does **not** copy it: note LOTO 0.009, topic L2 **0.65**, hiking hold 0.017. Pre-button *h* and *r*(*h*<sub>pre</sub>)→button stay near chance on every walk that ran. Prints are not the tags.
+**Bounded.** Hiking stays thin on the shared direction (Qwen 0.013 / Mistral 0.069 / Falcon 0.023) while a within-topic hold still sees a pair on the *note* (Qwen 0.203 / Mistral 0.278). Gemma-3-4B L10 does **not** copy it (note LOTO 0.009, topic L2 **0.65**). Hide-bank HIDE-arm cover rates, not honesty: **Qwen 0.51**, Mistral 0.57, Aya 0.71, Gemma 0.95. Note *h* does not call that button (Qwen hiking −0.049). Pre-button *h* stays near chance. Prints are not the tags.
 
-**Not a pass.** Aya-8B is a tokenizer/Hub gate. Phi-4 is `LossKwargs`. 27B/70B probe tensors are not *h*. Do not freeze *r*. Do not fill *D*. Do not run PPO. Not reduced deception.
+**Not a pass.** Aya is a fourth *print* bar, not a fourth note-LOTO. Phi-4 is `LossKwargs`. 27B/70B probe tensors are not *h*. Do not freeze *r*. Do not fill *D*. Do not run PPO. Not reduced deception.
 
 ## Caps
 
