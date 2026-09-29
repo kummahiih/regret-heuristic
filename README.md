@@ -104,7 +104,9 @@ Numbers live in [intent-readout-search](https://github.com/kummahiih/intent-read
 
 **Observed.** Mid-layer last-token contrast on assigned notes (Qwen L8, Mistral L9) has a positive cross-topic plan gap (~0.105 / ~0.116). That *aggregate* holds on the tested paraphrase and prefix. Call it a **candidate plan-related signal**. A gap of 0.11 is not classification accuracy and not operative intent.
 
-**Bounded.** Hiking stays thin on the shared direction (LOTO 0.013 / 0.069) while a within-topic hold still sees a pair on the *note* (0.203 / 0.278). Genre transfer is fragile. Prints are not the tags: forced YES/NO is token geometry (Mistral print LOTO 0.68). Pre-button $h$ (plan+question last token) is tag LOTO 0.011 and in-room hold 0.005 / 0.009 — the note pair does not sit at the decision token. Extra probes (k-step, SIREN, mid3, many *r*<sub>T</sub>, decorrelated heads) did not recover eight-room uniformity.
+**Bounded.** Hiking stays thin on the shared direction (LOTO 0.013 / 0.069) while a within-topic hold still sees a pair on the *note* (0.203 / 0.278). Genre transfer is fragile. Prints are not the tags: forced YES/NO is token geometry (Mistral print LOTO 0.68). Pre-button $h$ (plan+question last token) is tag LOTO 0.011 and in-room hold 0.005 / 0.009 — the note pair does not sit at the decision token. Pre$\to$act LOTO is 0.038 / 0.016 and does not own hiking. Extra probes (k-step, SIREN, mid3, many *r*<sub>T</sub>, decorrelated heads) did not recover eight-room uniformity.
+
+**Wave 1.** Gemma-3-4B-it / Falcon3-7B / Aya-8B use the same eight rooms and the same three meters. Official slices are L10 / L8 / L10 (Gemma text $n_L=34$, so L8 is shallow). Those logs are not in this repo and were not invented. Phi-4 is skipped. 27B/70B probe tensors are not $h$.
 
 Do not freeze *r*. Do not fill *D*. Do not run PPO. Not reduced deception.
 
