@@ -148,29 +148,31 @@ theorem cover_ignores_retag (xs : List Trial) :
 theorem split_ignores_retag (xs : List Trial) :
     beliefAccuracy (xs.map retagHonest) = beliefAccuracy xs ∧
       lieGivenKnown (xs.map retagHonest) = lieGivenKnown xs := by
-  unfold beliefAccuracy lieGivenKnown condProb
-  have hAccE : countWhere (xs.map retagHonest) (fun t => hadFact t && true) =
-      countWhere xs (fun t => hadFact t && true) := by
-    apply count_retag
-    intro t
-    simp [retagHonest, hadFact]
-  have hAccC : countWhere (xs.map retagHonest) (fun _ => true) =
-      countWhere xs (fun _ => true) := by
-    apply count_retag
-    intro t
-    simp [retagHonest]
-  have hLieE : countWhere (xs.map retagHonest)
-      (fun t => t.hideStmtDiffers && (hadFact t && isHide t)) =
-      countWhere xs (fun t => t.hideStmtDiffers && (hadFact t && isHide t)) := by
-    apply count_retag
-    intro t
-    simp [retagHonest, hadFact, isHide]
-  have hLieC : countWhere (xs.map retagHonest) (fun t => hadFact t && isHide t) =
-      countWhere xs (fun t => hadFact t && isHide t) := by
-    apply count_retag
-    intro t
-    simp [retagHonest, hadFact, isHide]
-  simp [hAccE, hAccC, hLieE, hLieC]
+  constructor
+  · unfold beliefAccuracy condProb
+    have hE : countWhere (xs.map retagHonest) hadFact = countWhere xs hadFact := by
+      apply count_retag
+      intro t
+      simp [retagHonest, hadFact]
+    have hC : countWhere (xs.map retagHonest) (fun _ => true) =
+        countWhere xs (fun _ => true) := by
+      apply count_retag
+      intro t
+      rfl
+    simp only [Bool.and_true, hE, hC]
+  · unfold lieGivenKnown condProb
+    have hE : countWhere (xs.map retagHonest)
+        (fun t => t.hideStmtDiffers && (hadFact t && isHide t)) =
+        countWhere xs (fun t => t.hideStmtDiffers && (hadFact t && isHide t)) := by
+      apply count_retag
+      intro t
+      simp [retagHonest, hadFact, isHide]
+    have hC : countWhere (xs.map retagHonest) (fun t => hadFact t && isHide t) =
+        countWhere xs (fun t => hadFact t && isHide t) := by
+      apply count_retag
+      intro t
+      simp [retagHonest, hadFact, isHide]
+    simp only [hE, hC]
 
 /-- Bayes on the list: P(E|C) * (#C / N) = #(E ∧ C) / N, when C is nonempty. -/
 theorem cond_mul_marginal (xs : List Trial) (event cond : Trial → Bool)
