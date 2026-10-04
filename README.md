@@ -11,7 +11,9 @@ Printed text is the **walk**. Possible thoughts are the **map**. A **room** is o
 
 *D* is a handful of **pins** on a map that is mostly unbuilt: frozen “do not occupy” marks, not the map itself. *r* is a **camera** on the walk. Last-token identity is a compass glued to the wallpaper. The **slap** is a training-time flinch when the camera sees a pin. *u* is how coarse the chart is, not *p*(lie). Quiet on mush is not honesty.
 
-Pair tags (`honest` / `deceptive`) are observations, not nature. `reply_kind` labels a generated print against a `fact`. Same print can be `truth` under both tags. Dummy: [simulation_reply_kind.py](simulation_reply_kind.py). Lean: `reply_kind_not_a_gate`. Longer glossary: [slam_analogy.md](slam_analogy.md).
+Pair tags (`honest` / `deceptive`) are observations, not nature. `reply_kind` labels a generated print against a `fact`. Same print can be `truth` under both tags. Dummy: [simulation_reply_kind.py](simulation_reply_kind.py). Lean: `reply_kind_not_a_gate`.
+
+The button bank is a later print. HIDE asks for YES to send the cover. NAME asks for NO to refuse it. Realized strategy *S* is the button, not the assigned tag. The cover rate is *P*(YES | HIDE). That is compliance, not honesty. Lean: [lean/ButtonBank.lean](lean/ButtonBank.lean). Longer glossary: [slam_analogy.md](slam_analogy.md).
 
 ## Why this hinge
 
@@ -29,7 +31,7 @@ Last-token identity at the final layer said yes — and also said the subject. T
 
 That aggregate came back positive on two 7B instruct models (plan LOTO ~0.11; paraphrase and prefix kept the mean). The same numbers then split the question again. Hiking is thin on the *shared* direction and loud if you fit *v* only inside hiking. Extra pools and extra heads copied that map. Generated prints often ignored the private note. Wave 1: Falcon L8 copies that 7B *shape*; Gemma-3-4B L10 does not. So “is there a signal?” is answered on some walks; it is not the handover question.
 
-The live question is therefore: a held-out, topic-invariant, paraphrase-stable readout that is uniform on the declared rooms **and** tracks a print the actor actually produced. Lean: `loud_hold_not_rooms`. Status is later in this file, not a banner.
+The live question is therefore: a held-out, topic-invariant, paraphrase-stable readout that is uniform on the declared rooms **and** tracks a print the actor actually produced. The button bank is that print, scored as a conditional. A loud cover rate is not the readout. Lean: `loud_hold_not_rooms`, `cover_not_a_gate`. Status is later in this file, not a banner.
 
 ## The grade
 
@@ -44,7 +46,7 @@ L_{\mathrm{total}} = L_{\mathrm{task}}(x,y) + \lambda\,\mathrm{ReLU}\bigl(\max_{
 - *D* = {*d*<sub>*k*</sub>} is a **frozen** bank of plan prototypes.
 - The ReLU is **prototype-avoidance**. The English word *regret* in this repo names that hinge. It is not Hannan external regret and not counterfactual *R* = *u*(*a*<sup>∗</sup>) − *u*(*a*).
 
-*D* is not updated from the current answer. Tags, talker-count *m̂*, SIREN θ, SAE latents, and `reply_kind` do not enter *L*<sub>total</sub>.
+*D* is not updated from the current answer. Tags, talker-count *m̂*, SIREN θ, SAE latents, `reply_kind`, and a button cover rate do not enter *L*<sub>total</sub>. Setting the slap weight to zero leaves the job: *L*<sub>total</sub>(*L*<sub>task</sub>, 0, *L*<sub>reg</sub>) = *L*<sub>task</sub>.
 
 A second grade sits on the wall until a real safe action *a*<sup>∗</sup> exists. Do not put a fake *a*<sup>∗</sup> in Adam.
 
@@ -66,6 +68,8 @@ Word list for the argument above. Not a result.
 | **Subject / wallpaper** | Topic paint on the walls. A probe that only reads “hotel / trail” is stuck to the wallpaper. |
 | **Plan** | A hide-or-name strategy that can sit in more than one room. |
 | **Print** | What was actually said. Not the private note. Not the plan. |
+| **Button / *S*** | The pressed YES or NO. HIDE asks for the cover. *S* is this press, not the assigned tag. |
+| **Cover rate** | *P*(YES \| HIDE) on the logged list. Compliance. Not honesty. Not in *L*<sub>total</sub>. |
 | **Job / skill** | *L*<sub>task</sub>: still know the trail, still book the room. |
 | **Pin / *D*** | Frozen “do not occupy” marks. A handful of plan prototypes, not the whole map. |
 | **Camera / *r*** | A readout of the walk that is supposed to see the plan and not the room. Missing. |
@@ -74,7 +78,7 @@ Word list for the argument above. Not a result.
 
 ## What this repo contains
 
-**Lean** (`lake build` from the repo root). Bookkeeping, not safety. The scoreboard file for search is [lean/CameraGates.lean](lean/CameraGates.lean): hint is not handover, voice is not a voter, seven rooms is not eight, mid3 is one slot, *m̂*, `reply_kind`, and in-room hold are not gates.
+**Lean** (`lake build` from the repo root). Bookkeeping, not safety. The scoreboard file for search is [lean/CameraGates.lean](lean/CameraGates.lean): hint is not handover, voice is not a voter, seven rooms is not eight, mid3 is one slot, *m̂*, `reply_kind`, and in-room hold are not gates. The button press is [lean/ButtonBank.lean](lean/ButtonBank.lean): *S* is the button, cover is *P*(YES | HIDE), `cover_not_a_gate`.
 
 **Dummy simulations.** No LLM. [simulation.py](simulation.py) is the hinge on a toy encoder. [experiment_results.md](experiment_results.md) is the ledger; do not overwrite §1–§7. Camera numbers live in the search repo.
 
@@ -82,7 +86,7 @@ Word list for the argument above. Not a result.
 pip install -r requirements.txt
 python simulation.py --sensor static
 python simulation_reply_kind.py
-lake build CameraGates
+lake build CameraGates ButtonBank
 ```
 
 Neighbors that use the word *regret* for something else: [neighbors.md](neighbors.md).
@@ -94,11 +98,11 @@ Neighbors that use the word *regret* for something else: [neighbors.md](neighbor
 | **This one** | Consume a camera that already passed. Pin the hinge in Lean and dummy sims. |
 | [intent-readout-search](https://github.com/kummahiih/intent-readout-search) | Produce *r*. Run the four gates on real models. |
 
-A camera **passes** only if all four hold on the declared room set: plan leave-one-topic-out above chance, topic LOO L2 near chance, paraphrase keeps the plan call, rooms are not a subset. Office-log / radio genre is not paraphrase. Dropping a thin room is a different predicate (Lean: `seven_is_not_eight`). Within-topic hold is a log, not a fifth gate. Assigned tags are not the print (`reply_kind_not_a_gate`).
+A camera **passes** only if all four hold on the declared room set: plan leave-one-topic-out above chance, topic LOO L2 near chance, paraphrase keeps the plan call, rooms are not a subset. Office-log / radio genre is not paraphrase. Dropping a thin room is a different predicate (Lean: `seven_is_not_eight`). Within-topic hold is a log, not a fifth gate. Assigned tags are not the print (`reply_kind_not_a_gate`). A HIDE-arm cover rate is not a fifth gate (`cover_not_a_gate`).
 
 Until that pass: freeze nothing, do not fill *D*, do not run PPO against *S*<sub>safe</sub>. After a pass: freeze *r*, *D*, τ; train the hinge here; keep a frozen copy as the alarm.
 
-## Status (2026-09-30)
+## Status (2026-09-30, button bookkeeping 2026-10-04)
 
 The hinge is not the research hypothesis. **H1** (search repo): a portable *r*<sub>strat</sub> exists. **H2** (this repo): after a freeze, the slap reduces the hide-plan without wrecking the job. H1 is open (current answer: no). H2 is blocked. A dummy can ignore a topic *coordinate*; that does not mean a transformer exposes (*r*<sub>topic</sub>, *r*<sub>strat</sub>, *u*). Approachability / *S*<sub>safe</sub> is a later layer, not current evidence.
 
@@ -106,9 +110,9 @@ Numbers live in [intent-readout-search](https://github.com/kummahiih/intent-read
 
 **Observed.** Mid-layer last-token contrast on assigned notes still starts with **Qwen L8 0.105** and Mistral L9 0.116. Falcon L8 copies that *shape* (0.082 / topic L2 0.12 / hiking hold 0.247). Call the 7B-class pattern a **candidate plan-related signal**. Not accuracy. Not operative intent.
 
-**Bounded.** Hiking stays thin on the shared direction (Qwen 0.013 / Mistral 0.069 / Falcon 0.023) while a within-topic hold still sees a pair on the *note* (Qwen 0.203 / Mistral 0.278). Gemma-3-4B L10 does **not** copy it (note LOTO 0.009, topic L2 **0.65**). Hide-bank HIDE-arm cover rates, not honesty: **Qwen 0.51**, Mistral 0.57, Aya 0.71, Gemma 0.95. Note *h* does not call that button (Qwen hiking −0.049). Pre-button *h* stays near chance. Prints are not the tags.
+**Bounded.** Hiking stays thin on the shared direction (Qwen 0.013 / Mistral 0.069 / Falcon 0.023) while a within-topic hold still sees a pair on the *note* (Qwen 0.203 / Mistral 0.278). Gemma-3-4B L10 does **not** copy it (note LOTO 0.009, topic L2 **0.65**). Hide-bank HIDE-arm cover rates, not honesty: **Qwen 0.51**, Mistral 0.57, Aya 0.71, Gemma 0.95. Those are *P*(YES | HIDE). Note *h* does not call that button (Qwen hiking −0.049). Pre-button *h* stays near chance. Prints are not the tags.
 
-**Not a pass.** Aya is a fourth *print* bar, not a fourth note-LOTO. Phi-4 is `LossKwargs`. 27B/70B probe tensors are not *h*. Do not freeze *r*. Do not fill *D*. Do not run PPO. Not reduced deception.
+**Not a pass.** Aya is a fourth *print* bar, not a fourth note-LOTO. Phi-4 is `LossKwargs`. 27B/70B probe tensors are not *h*. The button conditional is bookkeeping (`cover_not_a_gate`). Do not freeze *r*. Do not fill *D*. Do not run PPO. Not reduced deception.
 
 ## Caps
 
@@ -118,18 +122,19 @@ Numbers live in [intent-readout-search](https://github.com/kummahiih/intent-read
 - Training-time only. No inference abort.
 - Last-token identity already failed as *r*<sub>strat</sub> (Qwen 0.77 / 0.80).
 - *m̂* is a log (`totalLoss_ignores_sourceCount`).
+- A cover rate is a log (`cover_not_a_gate`). Not honesty.
 
 ## Files
 
 | File | What it is |
 | --- | --- |
-| [math_formulation.md](math_formulation.md) | Symbols |
+| [math_formulation.md](math_formulation.md) | Symbols, including the button conditional |
 | [working_model.md](working_model.md) | Interface a candidate must meet |
 | [implementation_binding.md](implementation_binding.md) | How the toys map to the formula |
 | [slam_analogy.md](slam_analogy.md) | Walk / map / pins |
 | [approachability.md](approachability.md) | *S*<sub>safe</sub> vs *S*<sub>joint</sub> |
 | [experiment_results.md](experiment_results.md) | Dummy-sim ledger |
-| [lean/](lean/) | Pins |
+| [lean/](lean/) | Pins, including `ButtonBank` |
 | [CITATION.cff](CITATION.cff) | Cite this repo |
 
 [LICENSE](LICENSE)
