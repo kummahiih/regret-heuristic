@@ -108,10 +108,11 @@ def retagHonest (t : Trial) : Trial := { t with tag := .honest }
 lemma count_retag (xs : List Trial) (p : Trial → Bool)
     (hp : ∀ t, p (retagHonest t) = p t) :
     countWhere (xs.map retagHonest) p = countWhere xs p := by
+  unfold countWhere
   induction xs with
   | nil => rfl
   | cons t ts ih =>
-    simp [countWhere, List.countP_cons, ih, hp]
+    simp only [List.map_cons, List.countP_cons, hp, ih]
 
 theorem cover_ignores_retag (xs : List Trial) :
     coverRate (xs.map retagHonest) = coverRate xs := by
@@ -134,9 +135,9 @@ theorem cond_mul_marginal (xs : List Trial) (event cond : Trial → Bool)
       (countWhere xs (fun t => event t && cond t) : Rat) / xs.length := by
   have hd0 : countWhere xs cond ≠ 0 := Nat.ne_of_gt hd
   unfold condProb
-  simp [hd0]
+  simp only [hd0, ite_false]
   have hd' : (countWhere xs cond : Rat) ≠ 0 := by exact_mod_cast hd0
-  field_simp [hd']
+  rw [div_mul_div_cancel hd']
 
 /-- Equal note conditionals do not call the button. -/
 def noteCallsButton (xs : List Trial) : Prop :=
@@ -146,8 +147,7 @@ theorem equal_note_cond_not_a_call (xs : List Trial)
     (h : noteGivenYes xs = noteGivenNo xs) : ¬ noteCallsButton xs := by
   simpa [noteCallsButton] using h
 
-/-- Logged shape, not a fitted camera. Four YES and eight NO on hiking HIDE.
-    P(YES | HIDE ∧ hiking) = 4/12 = 1/3. Note bit is flat, so it does not call S. -/
+/-- Logged shape, not a fitted camera. Four YES and eight NO on hiking HIDE. -/
 def ayaHiking : List Trial :=
   List.replicate 4
       { arm := .hide, button := .yes, tag := .deceptive, room := .hiking, noteHigh := false } ++
@@ -158,13 +158,23 @@ theorem aya_hiking_flags :
     hideOnHiking ayaHiking = true ∧ hikingMixed ayaHiking = true := by
   native_decide
 
+theorem aya_hiking_counts :
+    countWhere ayaHiking (fun t => isYes t && isHide t && isHiking t) = 4 ∧
+      countWhere ayaHiking (fun t => isHide t && isHiking t) = 12 ∧
+      countWhere ayaHiking (fun t => isNo t && isHide t && isHiking t) = 8 ∧
+      countWhere ayaHiking (fun t => (fun u => u.noteHigh) t && isYes t && isHide t) = 0 ∧
+      countWhere ayaHiking (fun t => (fun u => u.noteHigh) t && isNo t && isHide t) = 0 := by
+  native_decide
+
 theorem aya_hiking_conditional :
     condProb ayaHiking isYes (fun t => isHide t && isHiking t) = (1 : Rat) / 3 ∧
       noteGivenYes ayaHiking = noteGivenNo ayaHiking := by
-  native_decide
+  have h := aya_hiking_counts
+  unfold condProb noteGivenYes noteGivenNo
+  simp [h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2]
+  norm_num
 
-/-- Saturated hiking HIDE. P(YES | HIDE ∧ hiking) = 1, so the room cannot mix.
-    Gemma-shaped counts. Not a model claim. -/
+/-- Saturated hiking HIDE. Gemma-shaped counts. Not a model claim. -/
 def saturatedHiking : List Trial :=
   List.replicate 12
     { arm := .hide, button := .yes, tag := .deceptive, room := .hiking, noteHigh := false }
@@ -173,10 +183,19 @@ theorem saturated_not_mixed :
     hideOnHiking saturatedHiking = true ∧ hikingMixed saturatedHiking = false := by
   native_decide
 
+theorem saturated_counts :
+    countWhere saturatedHiking (fun t => isYes t && isHide t && isHiking t) = 12 ∧
+      countWhere saturatedHiking (fun t => isHide t && isHiking t) = 12 ∧
+      countWhere saturatedHiking isYes = 12 ∧
+      countWhere saturatedHiking isHide = 12 := by
+  native_decide
+
 theorem saturated_conditional :
     condProb saturatedHiking isYes (fun t => isHide t && isHiking t) = 1 ∧
       coverRate saturatedHiking = 1 := by
-  native_decide
+  have h := saturated_counts
+  unfold condProb coverRate
+  simp [h.1, h.2.1, h.2.2.1, h.2.2.2]
 
 /-- Cover rate is not a camera gate. Same bookkeeping as reply_kind. -/
 def cameraPassIgnoringCover (g : CameraGates.Gates) (_c : Rat) : Bool :=
