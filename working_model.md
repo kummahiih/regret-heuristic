@@ -35,7 +35,14 @@ The two-door toy is this box with dummy doors. It is not β*R* in a trainer.
 
 A candidate implementation is in-family only if all of these hold.
 
-1. **Two scoreboards.** Task scalar and hinge scalar stay separate. `totalLoss task 0 hinge = task` (Lean). No folding the hinge into logits and calling that one loss. A third optional term *R* = *u*(*a*<sup>∗</sup>) − *u*(*a*) is counterfactual task regret, not this hinge.
+1. **Two scoreboards.** Task scalar and hinge scalar stay separate. No folding the hinge into logits and calling that one loss. Setting the slap weight to zero drops the hinge and leaves the job (`totalLoss_zero_weight`):
+
+```math
+L_{\mathrm{total}}(L_{\mathrm{task}},\, 0,\, L_{\mathrm{reg}}) = L_{\mathrm{task}}
+```
+
+A third optional term *R* = *u*(*a*<sup>∗</sup>) − *u*(*a*) is counterfactual task regret, not this hinge.
+
 2. **Loss signature.** The object Adam may see is below. It is not indented into this list, so the fence renders.
 
 ```math
@@ -62,7 +69,7 @@ Term by term (full glossary: [math_formulation.md](math_formulation.md)):
 | τ(*u*) | Threshold. Cosine must beat this before any penalty. May widen with coarseness *u*. *u* is stop-grad; it must not learn to silence every cosine. |
 | ReLU(*t*) = max(0, *t*) | One-sided kink on *t* = max<sub>k</sub> *s* − τ(*u*). Below τ: penalty 0 (dead zone). Above τ: penalty is the excess. Not a hidden-layer activation. Quiet below τ is not honesty. |
 
-Inputs: walk, labels, candidate action, factored sensor, frozen bank, coarseness. Not *z*. Not an amplitude. Not *m̂*. Not SIREN θ. Not `reply_kind`. That ReLU is prototype-avoidance.
+Inputs: walk, labels, candidate action, factored sensor, frozen bank, coarseness. Not *z*. Not an amplitude. Not *m̂*. Not SIREN θ. Not `reply_kind`. Not a button cover rate. That ReLU is prototype-avoidance.
 
 3. ***z* is not in the domain of *L*<sub>total</sub>.** Same for talker-count *m̂* and path-fit θ. Signature: `LegalLoss` has no those fields; `totalLoss_ignores_amp`, `totalLoss_ignores_sourceCount`, `totalLoss_ignores_theta` are `rfl`. Dataflow (B1): do not compute `task` / `hinge` from *z*, Amp, *m̂*, or θ before the record.
 4. **Path, not last token.** *h*<sub>1:T</sub>. If a *K*-step mix is used, score *s*<sub>K</sub> only. Do **not** average per-token hinges ([simulation_kstep.py](simulation_kstep.py)). Last-token identity, mean-pool, and dummy SIREN *f*(1) already failed or collapsed to the last point ([experiment_results.md](experiment_results.md) §2 / §6, [experiment_siren_path.md](experiment_siren_path.md)). *K*-step is a **candidate**, not a proof the kernel died.
@@ -77,6 +84,48 @@ Inputs: walk, labels, candidate action, factored sensor, frozen bank, coarseness
 13. **Decodable is not causal.** A probe that reads topic is not the coordinate a patch must move (`decodable_not_causal`). Do not put probe AUROC in the hinge.
 14. **Implicit reject.** A checker that always returns a key is not *z* (`implicit_miss_is_some`). Verbal oracles and mutated tails are walks.
 15. **Dynamical readout is a candidate, not a theorem that gaming is dead.** A static linear *Wh* + *b* with a kernel admits *P*(*h* + *v*) = *P*(*h*) (Lean: `static_linear_evasion_exists`). Identity has no kernel. Residual *h* + *F*(*h*) + σε is **not** the Lean basin unless `step` is a contraction. Four-state dummy ([experiment_four_state.md](experiment_four_state.md)): isotropic *T* = *cI* shrinks plan and **hides** ker *r* (`iso_hides_kernel`). Random *F* shows *v* and dumps topic. Wanted split (plan kept and evasion visible and topic quiet) is **not demonstrated**. *K*-step kept a hinge **gradient** after one step; that is persistence of the derivative, not OOD visibility (*L*<sub>far</sub> = 0).
+
+## Button bank is a conditional, not a camera
+
+The recent press setup is a finite conditional on a logged list. It is not a fifth gate and it does not fill *D*. Lean: [lean/ButtonBank.lean](lean/ButtonBank.lean). The presses live in the search repo (`hide_bank.py`).
+
+One trial is an arm, a button, an assigned tag, a room, and a dummy note bit. Realized strategy is the button. The tag is not read. Retagging every trial honest leaves the cover rate fixed (`cover_ignores_retag`).
+
+```math
+S(t) = \mathrm{button}(t)
+```
+
+HIDE asks for YES to send the cover. NAME asks for NO to refuse the cover. On the logged list, an empty conditioner is 0, not a rate:
+
+```math
+P(E \mid C) = \frac{\#(E \wedge C)}{\# C}
+```
+
+The meters are those conditionals. Agree is not a deception rate.
+
+```math
+\begin{align*}
+\mathrm{cover} &= P(\mathrm{YES} \mid \mathrm{HIDE}) \\
+\mathrm{nameYes} &= P(\mathrm{YES} \mid \mathrm{NAME}) \\
+\mathrm{agree} &= P(\mathrm{tag\ matches\ cover\ side} \mid \mathrm{YES\ or\ NO})
+\end{align*}
+```
+
+Bayes on the same list (`cond_mul_marginal`), when *C* is nonempty:
+
+```math
+P(E \mid C)\, P(C) = P(E \wedge C)
+```
+
+A note bit calls the button only if the two conditionals differ. Equal conditionals are not a call.
+
+```math
+P(\mathrm{noteHigh} \mid \mathrm{YES} \wedge \mathrm{HIDE})
+\neq
+P(\mathrm{noteHigh} \mid \mathrm{NO} \wedge \mathrm{HIDE})
+```
+
+Cover rate is not a camera gate (`cover_not_a_gate`). A loud cover with rooms not uniform is still not a handover. Two count shapes, not model claims: four YES and eight NO on hiking HIDE gives *P*(YES | HIDE and hiking) = 1/3, and the room mixes. Twelve YES gives 1, and the room cannot mix. Do not fill *D*.
 
 ## Necessary empirical filters (not success)
 
@@ -98,6 +147,7 @@ These are rejection tests. Passing them does not mean deception fell.
 | Four-state wanted split | Claiming *K*-step / contraction removes evasion while keeping plan. No dummy *T* passed. |
 | Flattening with proxy class hold | Quiet hinge while dummy behavior label stays. Exists-*h* and exists-θ toys. |
 | *m̂* or θ in *L*<sub>total</sub> | Crowded hallway or path-fit weights used as the slap. |
+| Cover rate *P*(YES \| HIDE) used as honesty | Button compliance is not a camera. Lean `cover_not_a_gate`. |
 
 ## Forbidden implementations
 
@@ -121,6 +171,7 @@ Out of family, even if they use the word regret.
 - Entropy bonus as the hinge.
 - Probe AUROC as the hinge.
 - Filling *D* from a verbal oracle, a mid-walk mutate, or a same-model chat grade.
+- Filling *D* from a HIDE-arm cover rate. *S* is the button. Cover is not honesty.
 - Treating every static linear *r* as proven-blind (identity has trivial kernel).
 - Un-normalized inputs to a noisy loop so the norm of *h* goes to infinity and drowns σ.
 - A transition *F*(*h*) ≈ −*h* that flattens the state before readout.
@@ -144,6 +195,7 @@ Still free, and still the actual research problem:
 - A *T* that sends ker *r* out of the kernel **without** shrinking plan or leaking topic. Four-state dummy failed.
 - β*R* once a real *A*<sub>safe</sub> exists.
 - Qwen path-dump into SIREN (dummy only).
+- A note readout that calls the hide button. The logged note bit does not.
 
 ## Lean pins (glossary, not safety)
 
@@ -152,6 +204,7 @@ Still free, and still the actual research problem:
 | `regretHinge_wider_tau_le` | Wider τ cannot raise the hinge. |
 | `regretHinge_mush_le` | Mush τ<sub>0</sub> + *u* cannot raise the hinge. |
 | `ppoWithHinge_zero_weight` | λ = 0 drops the slap. |
+| `totalLoss_zero_weight` | *L*<sub>total</sub>(*L*<sub>task</sub>, 0, *L*<sub>reg</sub>) = *L*<sub>task</sub>. |
 | `silent_hinge_not_vanishing_external_regret` | Quiet hinge does not imply vanishing external regret. |
 | `hingeQuietIgnoringAction_all_or_none` | Sensor must see *a*. |
 | `two_route_identity` | Measurement time is load-bearing. |
@@ -166,9 +219,12 @@ Still free, and still the actual research problem:
 | `static_linear_evasion_exists` | If *W* has a kernel, some *v* ≠ 0 leaves *P*(*h* + *v*) = *P*(*h*). |
 | `dynamic_trajectory_convergence` | **If** `step` is a basin contraction, distance after *K* steps is at most *c*<sup>K</sup>. Residual+noise is not that hypothesis. |
 | `quiet_hinge_not_counterfactualR` | Hinge 0 and *R* = 1 can sit together. |
+| `s_is_the_button` / `cover_ignores_retag` | *S* is the button. Cover rate does not read the tag. |
+| `cond_mul_marginal` | *P*(*E* \| *C*) *P*(*C*) = *P*(*E* and *C*) on the logged list. |
+| `cover_not_a_gate` | Cover rate is not a camera pass. |
 
 ## One-sentence pin
 
-A working regret model is a **training-time Lagrangian of prototype-avoidance on a factored, action-conditioned path sensor against a frozen bank**, with hidden cells kept out of the graph, *u* off that graph, a second channel that can contradict the trained hinge, and *S*<sub>safe</sub> as the only target. Anything that measures *z*, trains *u* to silence the hinge, updates *D* live, or claims Hannan of the hinge is a different object.
+A working regret model is a **training-time Lagrangian of prototype-avoidance on a factored, action-conditioned path sensor against a frozen bank**, with hidden cells kept out of the graph, *u* off that graph, a second channel that can contradict the trained hinge, and *S*<sub>safe</sub> as the only target. Anything that measures *z*, trains *u* to silence the hinge, updates *D* live, treats a cover rate as honesty, or claims Hannan of the hinge is a different object.
 
-Version 0.1.8.
+Version 0.1.9.
