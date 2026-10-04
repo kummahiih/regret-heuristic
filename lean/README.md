@@ -32,6 +32,7 @@ lake build
 - `dynamic_trajectory_convergence` **if** `step` is a basin. Residual+noise is not that hypothesis.
 - `counterfactualR_of_star`: $R(a^{\ast},a^{\ast})=0$. `counterfactualR_nonneg_of_best` if $u(a)\le u(a^{\ast})$.
 - `quiet_hinge_not_counterfactualR`: hinge $0$ and $R=1$ can sit together. Different scoreboard.
+- Button bank: $S$ is the button. Cover rate is $P(\mathrm{YES}\mid\mathrm{HIDE})$. `cover_ignores_retag`, `cond_mul_marginal`, `cover_not_a_gate`. Not honesty.
 
 ## Not proved (existence)
 
@@ -46,3 +47,4 @@ lake build
 - $\hat{m}$ names the plan
 - wanted split: plan kept and evasion visible under one $T$
 - SIREN $\theta$ is a strategy camera
+- a note readout calls the hide button
