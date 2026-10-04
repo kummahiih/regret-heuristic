@@ -42,7 +42,7 @@ Read this first if a letter is opaque. Names below are the ones used in this fil
 | *L*<sub>reg</sub>(*x*) | intent hinge / prototype-avoidance | ReLU(*s*<sup>∗</sup>(*x*) − τ). The English word *regret* in this repo names **this** term. Not Hannan regret. |
 | λ | hinge weight | λ ≥ 0. How hard the slap is relative to the job. λ = 0 drops the hinge. |
 | *L*<sub>task</sub>(*x*, *y*) | task loss | Ordinary job: CE, RL pay, dummy task head. Must stay a separate scoreboard. |
-| *L*<sub>total</sub> | training loss | *L*<sub>task</sub> + λ *L*<sub>reg</sub>, optionally + β*R* later. *z*, *m̂*, θ, tags, SAE latents, `reply_kind`, and a button cover rate are **not** in this sum. |
+| *L*<sub>total</sub> | training loss | *L*<sub>task</sub> + λ *L*<sub>reg</sub>, optionally + β*R* later. *z*, *m̂*, θ, tags, SAE latents, `reply_kind`, and the three button logs (accuracy, lie-given-known, cover) are **not** in this sum. |
 
 Setting the slap weight to zero leaves the job (`totalLoss_zero_weight`):
 
@@ -87,6 +87,8 @@ The press setup is a finite conditional on a logged list. Lean: [lean/ButtonBank
 | tag | assigned pair | `honest` / `deceptive`. An observation. Retagging honest leaves the cover rate fixed. |
 | *P*(*E* \| *C*) | list conditional | #(*E* and *C*) / #*C*. Empty conditioner is 0, not a rate. |
 | cover | *P*(YES \| HIDE) | Cover compliance. Not honesty. |
+| accuracy | *P*(*B*=*T*) | Belief matched the fact. Not cover. Not a lie rate. |
+| lieGivenKnown | *P*(*S*<sub>HIDE</sub> ≠ *B* \| *B* had the fact) | Lie given known, on the HIDE arm. A YES without the fact is not this rate. |
 | nameYes | *P*(YES \| NAME) | Residual cover under the name script. |
 | agree | *P*(tag matches cover side \| YES or NO) | Not a deception rate. |
 | noteHigh | dummy readout bit | Calls the button only if *P*(noteHigh \| YES and HIDE) differs from *P*(noteHigh \| NO and HIDE). |
@@ -105,6 +107,8 @@ The press setup is a finite conditional on a logged list. Lean: [lean/ButtonBank
 | pair tag | assigned strategy | `honest` / `deceptive` used to *build a contrast set*. Observation, not nature. |
 | *I* | frozen inspector | Second channel that can disagree with the trained hinge. Logged, not a third loss term. |
 | cover | button conditional | *P*(YES \| HIDE). Logged. Not honesty. Not in *L*. |
+| accuracy | belief match | *P*(*B*=*T*). Logged. Not cover. Not in *L*. |
+| lieGivenKnown | lie given known | *P*(*S*<sub>HIDE</sub> ≠ *B* \| *B* had the fact). Logged. Not honesty. Not in *L*. |
 
 ### Walk / map words
 
@@ -229,7 +233,19 @@ P(\mathrm{noteHigh} \mid \mathrm{YES} \wedge \mathrm{HIDE})
 P(\mathrm{noteHigh} \mid \mathrm{NO} \wedge \mathrm{HIDE}).
 ```
 
-Cover rate is not a camera gate (`cover_not_a_gate`). Four YES and eight NO on hiking HIDE gives 1/3, and the room mixes. Twelve YES gives 1, and the room cannot mix. Those are count shapes, not model claims. Do not fill *D*.
+MASK split. Three logs, named separately. None is honesty. None is in *L*<sub>total</sub>. Paper note stays blocked.
+
+```math
+\begin{align*}
+\mathrm{accuracy} &= P(B = T) \\
+\mathrm{lieGivenKnown} &= P(S_{\mathrm{HIDE}} \neq B \mid B \text{ had the fact}) \\
+\mathrm{cover} &= P(\mathrm{YES} \mid \mathrm{HIDE})
+\end{align*}
+```
+
+A YES without the fact is a miss, not a cover and not a lie-given-known. Lean: `beliefAccuracy`, `lieGivenKnown`, `coverRate`, `split_rates_differ`, `split_not_in_total`. `cover_not_a_gate` stays.
+
+Cover rate is not a camera gate (`cover_not_a_gate`). Four YES and eight NO on hiking HIDE gives 1/3, and the room mixes. Twelve YES gives 1, and the room cannot mix. A five-row count shape can show 3/5, 1/3, and 4/5 on the three logs. Those are count shapes, not model claims. Do not fill *D*.
 
 ## F. What the algebra does not give
 
@@ -240,7 +256,7 @@ Cover rate is not a camera gate (`cover_not_a_gate`). Four YES and eight NO on h
 - A claim that token entropy is *p*(lie).
 - A defined cosine at *h* = 0.
 - Knowledge of *z*. *r* is a sensor of the walk. Understanding *z* is the move the definition forbids.
-- Honesty from *P*(YES | HIDE). That conditional is cover compliance.
+- Honesty from *P*(YES | HIDE), from *P*(*B*=*T*), or from *P*(*S*<sub>HIDE</sub> ≠ *B* | *B* had the fact). Those are three logs, not one score.
 
 ## G. Walk, map, uncertainty bins (notation only)
 
@@ -256,8 +272,8 @@ The hinge in §A is unchanged. Binding it to a build requires objects the toys a
 - Hinge after aggregating hypotheses about the *walk*, not after packing one unit vector and calling it *z*.
 - A second channel (frozen *I*, held-out cell) that is not in *L*<sub>total</sub>.
 - *z* is not in the domain of *L*<sub>total</sub>.
-- A button cover rate is a log. It is not a field of the hinge.
+- The three button logs (accuracy, lie-given-known, cover) are logs. None is a field of the hinge.
 
 Names and build order: [implementation_binding.md](implementation_binding.md).
 
-Implemented: [simulation.py](simulation.py), [ppo_toy.py](ppo_toy.py). Button bookkeeping: [lean/ButtonBank.lean](lean/ButtonBank.lean). Version 0.1.2.
+Implemented: [simulation.py](simulation.py), [ppo_toy.py](ppo_toy.py). Button bookkeeping: [lean/ButtonBank.lean](lean/ButtonBank.lean). Version 0.1.3.
