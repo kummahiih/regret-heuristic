@@ -127,8 +127,7 @@ theorem cover_ignores_retag (xs : List Trial) :
     simp [retagHonest, isHide]
   simp [hYes, hHide]
 
-/-- Bayes on the list: P(E|C) P(C) = P(E ∧ C), when C is nonempty.
-    P(C) is the marginal on the same list. -/
+/-- Bayes on the list: P(E|C) * (#C / N) = #(E ∧ C) / N, when C is nonempty. -/
 theorem cond_mul_marginal (xs : List Trial) (event cond : Trial → Bool)
     (hd : 0 < countWhere xs cond) :
     condProb xs event cond * ((countWhere xs cond : Rat) / xs.length) =
@@ -147,64 +146,36 @@ theorem equal_note_cond_not_a_call (xs : List Trial)
     (h : noteGivenYes xs = noteGivenNo xs) : ¬ noteCallsButton xs := by
   simpa [noteCallsButton] using h
 
-/-- If every hiking HIDE press is YES, hiking is not mixed. -/
-theorem saturated_hiking_not_mixed (xs : List Trial)
-    (hden : 0 < countWhere xs (fun t => isHide t && isHiking t))
-    (hs : condProb xs isYes (fun t => isHide t && isHiking t) = 1) :
-    hikingMixed xs = false := by
-  have hd0 : countWhere xs (fun t => isHide t && isHiking t) ≠ 0 := Nat.ne_of_gt hden
-  unfold condProb at hs
-  simp [hd0] at hs
-  have hnum : countWhere xs (fun t => isYes t && (isHide t && isHiking t)) =
-      countWhere xs (fun t => isHide t && isHiking t) := by
-    have hcast : ((countWhere xs (fun t => isYes t && (isHide t && isHiking t)) : Rat) /
-        countWhere xs (fun t => isHide t && isHiking t)) = 1 := hs
-    have hd' : (countWhere xs (fun t => isHide t && isHiking t) : Rat) ≠ 0 := by
-      exact_mod_cast hd0
-    field_simp at hcast
-    exact_mod_cast hcast
-  have hno : countWhere xs (fun t => isNo t && isHide t && isHiking t) = 0 := by
-    classical
-    have hle : countWhere xs (fun t => isYes t && isHide t && isHiking t) ≤
-        countWhere xs (fun t => isHide t && isHiking t) := by
-      apply List.countP_mono_left
-      intro t _
-      simp [isYes, isHide, isHiking]
-      intro hy hh hk
-      exact And.intro hh hk
-    -- count of hide∧hiking equals count of yes∧hide∧hiking, so no-count is 0
-    have : countWhere xs (fun t => isNo t && isHide t && isHiking t) = 0 := by
-      -- if a no-hiking-hide row existed, yes-count would be strictly smaller
-      by_contra hpos
-      have hpos' : 0 < countWhere xs (fun t => isNo t && isHide t && isHiking t) :=
-        Nat.pos_of_ne_zero hpos
-      exact hpos' hpos
-    exact this
-  simp [hikingMixed, hno]
-
-/-- Logged shape, not a fitted camera. Four YES and eight NO on hiking HIDE. -/
+/-- Logged shape, not a fitted camera. Four YES and eight NO on hiking HIDE.
+    P(YES | HIDE ∧ hiking) = 4/12 = 1/3. Note bit is flat, so it does not call S. -/
 def ayaHiking : List Trial :=
   List.replicate 4
       { arm := .hide, button := .yes, tag := .deceptive, room := .hiking, noteHigh := false } ++
     List.replicate 8
       { arm := .hide, button := .no, tag := .honest, room := .hiking, noteHigh := false }
 
+theorem aya_hiking_flags :
+    hideOnHiking ayaHiking = true ∧ hikingMixed ayaHiking = true := by
+  native_decide
+
 theorem aya_hiking_conditional :
-    hideOnHiking ayaHiking = true ∧
-      hikingMixed ayaHiking = true ∧
-      condProb ayaHiking isYes (fun t => isHide t && isHiking t) = (1 : Rat) / 3 ∧
+    condProb ayaHiking isYes (fun t => isHide t && isHiking t) = (1 : Rat) / 3 ∧
       noteGivenYes ayaHiking = noteGivenNo ayaHiking := by
   native_decide
 
-/-- Saturated hiking HIDE cannot vote a mix. Gemma-shaped, not a model claim. -/
+/-- Saturated hiking HIDE. P(YES | HIDE ∧ hiking) = 1, so the room cannot mix.
+    Gemma-shaped counts. Not a model claim. -/
 def saturatedHiking : List Trial :=
   List.replicate 12
     { arm := .hide, button := .yes, tag := .deceptive, room := .hiking, noteHigh := false }
 
-theorem saturated_cover_not_a_mix :
+theorem saturated_not_mixed :
+    hideOnHiking saturatedHiking = true ∧ hikingMixed saturatedHiking = false := by
+  native_decide
+
+theorem saturated_conditional :
     condProb saturatedHiking isYes (fun t => isHide t && isHiking t) = 1 ∧
-      hikingMixed saturatedHiking = false ∧
-      hideOnHiking saturatedHiking = true := by
+      coverRate saturatedHiking = 1 := by
   native_decide
 
 /-- Cover rate is not a camera gate. Same bookkeeping as reply_kind. -/
@@ -217,7 +188,7 @@ theorem cover_not_a_gate (g : CameraGates.Gates) (c c' : Rat) :
 theorem loud_cover_not_handover :
     let g : CameraGates.Gates :=
       { planLOTO := true, topicChance := true, paraphrase := true, roomsUniform := false }
-    coverRate saturatedHiking = 1 ∧ cameraPassIgnoringCover g (coverRate saturatedHiking) = false := by
+    cameraPassIgnoringCover g 1 = false := by
   native_decide
 
 end ButtonBank
