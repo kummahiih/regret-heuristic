@@ -136,8 +136,11 @@ theorem cond_mul_marginal (xs : List Trial) (event cond : Trial → Bool)
   have hd0 : countWhere xs cond ≠ 0 := Nat.ne_of_gt hd
   unfold condProb
   simp only [hd0, ite_false]
-  have hd' : (countWhere xs cond : Rat) ≠ 0 := by exact_mod_cast hd0
-  rw [div_mul_div_cancel hd']
+  set n : Rat := countWhere xs (fun t => event t && cond t)
+  set d : Rat := countWhere xs cond
+  set N : Rat := xs.length
+  have hd' : d ≠ 0 := by exact_mod_cast hd0
+  field_simp [hd']
 
 /-- Equal note conditionals do not call the button. -/
 def noteCallsButton (xs : List Trial) : Prop :=
@@ -158,21 +161,28 @@ theorem aya_hiking_flags :
     hideOnHiking ayaHiking = true ∧ hikingMixed ayaHiking = true := by
   native_decide
 
-theorem aya_hiking_counts :
-    countWhere ayaHiking (fun t => isYes t && isHide t && isHiking t) = 4 ∧
-      countWhere ayaHiking (fun t => isHide t && isHiking t) = 12 ∧
-      countWhere ayaHiking (fun t => isNo t && isHide t && isHiking t) = 8 ∧
-      countWhere ayaHiking (fun t => (fun u => u.noteHigh) t && isYes t && isHide t) = 0 ∧
-      countWhere ayaHiking (fun t => (fun u => u.noteHigh) t && isNo t && isHide t) = 0 := by
-  native_decide
-
-theorem aya_hiking_conditional :
-    condProb ayaHiking isYes (fun t => isHide t && isHiking t) = (1 : Rat) / 3 ∧
-      noteGivenYes ayaHiking = noteGivenNo ayaHiking := by
-  have h := aya_hiking_counts
-  unfold condProb noteGivenYes noteGivenNo
-  simp [h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2]
+theorem aya_hide_hike_rate :
+    condProb ayaHiking isYes (fun t => isHide t && isHiking t) = (1 : Rat) / 3 := by
+  have hnum : countWhere ayaHiking (fun t => isYes t && (isHide t && isHiking t)) = 4 := by
+    native_decide
+  have hden : countWhere ayaHiking (fun t => isHide t && isHiking t) = 12 := by
+    native_decide
+  unfold condProb
+  simp [hnum, hden]
   norm_num
+
+theorem aya_note_flat :
+    noteGivenYes ayaHiking = 0 ∧ noteGivenNo ayaHiking = 0 := by
+  have hyes : countWhere ayaHiking (fun t => t.noteHigh && (isYes t && isHide t)) = 0 := by
+    native_decide
+  have hno : countWhere ayaHiking (fun t => t.noteHigh && (isNo t && isHide t)) = 0 := by
+    native_decide
+  have dyes : countWhere ayaHiking (fun t => isYes t && isHide t) = 4 := by
+    native_decide
+  have dno : countWhere ayaHiking (fun t => isNo t && isHide t) = 8 := by
+    native_decide
+  unfold noteGivenYes noteGivenNo condProb
+  simp [hyes, hno, dyes, dno]
 
 /-- Saturated hiking HIDE. Gemma-shaped counts. Not a model claim. -/
 def saturatedHiking : List Trial :=
@@ -183,19 +193,19 @@ theorem saturated_not_mixed :
     hideOnHiking saturatedHiking = true ∧ hikingMixed saturatedHiking = false := by
   native_decide
 
-theorem saturated_counts :
-    countWhere saturatedHiking (fun t => isYes t && isHide t && isHiking t) = 12 ∧
-      countWhere saturatedHiking (fun t => isHide t && isHiking t) = 12 ∧
-      countWhere saturatedHiking isYes = 12 ∧
-      countWhere saturatedHiking isHide = 12 := by
-  native_decide
-
 theorem saturated_conditional :
     condProb saturatedHiking isYes (fun t => isHide t && isHiking t) = 1 ∧
       coverRate saturatedHiking = 1 := by
-  have h := saturated_counts
+  have hnum : countWhere saturatedHiking (fun t => isYes t && (isHide t && isHiking t)) = 12 := by
+    native_decide
+  have hden : countWhere saturatedHiking (fun t => isHide t && isHiking t) = 12 := by
+    native_decide
+  have hyes : countWhere saturatedHiking (fun t => isYes t && isHide t) = 12 := by
+    native_decide
+  have hh : countWhere saturatedHiking isHide = 12 := by
+    native_decide
   unfold condProb coverRate
-  simp [h.1, h.2.1, h.2.2.1, h.2.2.2]
+  simp [hnum, hden, hyes, hh]
 
 /-- Cover rate is not a camera gate. Same bookkeeping as reply_kind. -/
 def cameraPassIgnoringCover (g : CameraGates.Gates) (_c : Rat) : Bool :=
