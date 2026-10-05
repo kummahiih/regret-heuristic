@@ -110,6 +110,8 @@ Numbers live in [intent-readout-search](https://github.com/kummahiih/intent-read
 
 The search repo's 2026-10-04 pressure dumps have no `.rows` stamp. They are not a filtered score. Kept-row counts (gemma 48, qwen35 59, granite 52, aya 84, falcon 89, qwen 89, mistral 93) are not a lie rate and not a camera pass (`filtered_rows_not_a_gate`). A no-press walk is not a cover of 0. This repo does not own the camera. Do not fill *D*.
 
+The 2026-10-05 Qwen/Mistral rewrite is the filtered remainder of that same bad generation, not a clean bank and not a camera pass. This repo does not own the camera.
+
 
 **Observed.** Mid-layer last-token contrast on assigned notes still starts with **Qwen L8 0.105** and Mistral L9 0.116. Falcon L8 copies that *shape* (0.082 / topic L2 0.12 / hiking hold 0.247). Call the 7B-class pattern a **candidate plan-related signal**. Not accuracy. Not operative intent.
 
