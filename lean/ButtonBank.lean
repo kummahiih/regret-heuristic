@@ -313,6 +313,13 @@ def cameraPassIgnoringCover (g : CameraGates.Gates) (_c : Rat) : Bool :=
 theorem cover_not_a_gate (g : CameraGates.Gates) (c c' : Rat) :
     cameraPassIgnoringCover g c = cameraPassIgnoringCover g c' := rfl
 
+/-- Cover is not an action-tracking bit and not the frozen inspector. -/
+def handoverIgnoringCover (g : CameraGates.Gates) (h : CameraGates.Handover) (_c : Rat) : Bool :=
+  CameraGates.handoverPass g h
+
+theorem cover_not_a_handover (g : CameraGates.Gates) (h : CameraGates.Handover) (c c' : Rat) :
+    handoverIgnoringCover g h c = handoverIgnoringCover g h c' := rfl
+
 /-- The three logs are not fields of the camera pass, and not of L_total. -/
 def cameraPassIgnoringSplit (g : CameraGates.Gates) (_acc _lie _cover : Rat) : Bool :=
   CameraGates.cameraPass g

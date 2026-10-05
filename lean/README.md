@@ -32,6 +32,8 @@ lake build
 - `dynamic_trajectory_convergence` **if** `step` is a basin. Residual+noise is not that hypothesis.
 - `counterfactualR_of_star`: $R(a^{\ast},a^{\ast})=0$. `counterfactualR_nonneg_of_best` if $u(a)\le u(a^{\ast})$.
 - `quiet_hinge_not_counterfactualR`: hinge $0$ and $R=1$ can sit together. Different scoreboard.
+- `cameraPass` is four statistical gates. `handoverPass` also needs `actionTracks` and `frozenInspector`. `camera_pass_not_handover`. A four-gate pass is not a freeze.
+- Room is an illustrative type. The empirical voter set is eight topics. `other` is not that list.
 - Button bank: $S$ is the button. Cover rate is $P(\mathrm{YES}\mid\mathrm{HIDE})$. `cover_ignores_retag`, `cond_mul_marginal`, `cover_not_a_gate`, `filtered_rows_not_a_gate`. A kept file is not a gate. Not honesty.
 
 ## Not proved (existence)

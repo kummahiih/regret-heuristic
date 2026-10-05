@@ -31,7 +31,7 @@ Last-token identity at the final layer said yes — and also said the subject. T
 
 That aggregate came back positive on two 7B instruct models (plan LOTO ~0.11; paraphrase and prefix kept the mean). The same numbers then split the question again. Hiking is thin on the *shared* direction and loud if you fit *v* only inside hiking. Extra pools and extra heads copied that map. Generated prints often ignored the private note. Wave 1: Falcon L8 copies that 7B *shape*; Gemma-3-4B L10 does not. So “is there a signal?” is answered on some walks; it is not the handover question.
 
-The live question is therefore: a held-out, topic-invariant, paraphrase-stable readout that is uniform on the declared rooms **and** tracks a print the actor actually produced. The button bank is that print, scored as a conditional. A loud cover rate is not the readout. Lean: `loud_hold_not_rooms`, `cover_not_a_gate`. Status is later in this file, not a banner.
+The live question is a handover, not the four statistical gates alone. `cameraPass` is plan LOTO, topic L2 near chance, paraphrase, and every declared room. `handoverPass` also needs the readout to track an action the walk produced and to agree with a frozen inspector. The button bank is that print, scored as a conditional. A loud cover rate is not the readout and not a handover bit. Lean: `camera_pass_not_handover`, `cover_not_a_gate`. Status is later in this file, not a banner.
 
 ## The grade
 
@@ -95,34 +95,38 @@ Neighbors that use the word *regret* for something else: [neighbors.md](neighbor
 
 | Repo | Job |
 | --- | --- |
-| **This one** | Consume a camera that already passed. Pin the hinge in Lean and dummy sims. |
-| [intent-readout-search](https://github.com/kummahiih/intent-readout-search) | Produce *r*. Run the four gates on real models. |
+| **This one** | Consume a camera that already handed over. Pin the hinge in Lean and dummy sims. |
+| [intent-readout-search](https://github.com/kummahiih/intent-readout-search) | Produce *r*. Run `cameraPass`, then the handover bits, on real models. |
 
-A camera **passes** only if all four hold on the declared room set: plan leave-one-topic-out above chance, topic LOO L2 near chance, paraphrase keeps the plan call, rooms are not a subset. Office-log / radio genre is not paraphrase. Dropping a thin room is a different predicate (Lean: `seven_is_not_eight`). Within-topic hold is a log, not a fifth gate. Assigned tags are not the print (`reply_kind_not_a_gate`). A HIDE-arm cover rate is not a fifth gate (`cover_not_a_gate`).
+`cameraPass` is four statistical gates on the declared room set: plan leave-one-topic-out above chance, topic LOO L2 near chance, paraphrase keeps the plan call, rooms are not a subset. Office-log / radio genre is not paraphrase. Dropping a thin room is a different predicate (Lean: `seven_is_not_eight`). Within-topic hold is a log, not a fifth gate. Assigned tags are not the print (`reply_kind_not_a_gate`). A HIDE-arm cover rate is not a fifth gate (`cover_not_a_gate`).
 
-Until that pass: freeze nothing, do not fill *D*, do not run PPO against *S*<sub>safe</sub>. After a pass: freeze *r*, *D*, τ; train the hinge here; keep a frozen copy as the alarm.
+`handoverPass` is `cameraPass` plus two bits: the readout tracks an action the walk produced, and a frozen inspector agrees. Those bits are not statistical gates. A four-gate pass with either bit false is not a handover (`camera_pass_not_handover`).
+
+Until `handoverPass`: freeze nothing, do not fill *D*, do not run PPO against *S*<sub>safe</sub>. After `handoverPass`: freeze *r*, *D*, τ; train the hinge here; keep a frozen copy as the alarm. A `cameraPass` alone does not freeze.
 
 ## Status (2026-10-05)
 
-The hinge is not the research hypothesis. **H1** (search repo): a portable *r*<sub>strat</sub> exists. **H2** (this repo): after a freeze, the slap reduces the hide-plan without wrecking the job. H1 is open (current answer: no). H2 is blocked. A dummy can ignore a topic *coordinate*; that does not mean a transformer exposes (*r*<sub>topic</sub>, *r*<sub>strat</sub>, *u*). Approachability / *S*<sub>safe</sub> is a later layer, not current evidence.
+Ledger snapshot: [intent-readout-search](https://github.com/kummahiih/intent-readout-search) `7a99903`. This repo does not own the camera.
 
-Numbers live in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). This repo does not own the camera.
+The hinge is not the research hypothesis. **H1** (search repo) is `handoverPass`: `cameraPass` plus action tracking plus a frozen inspector. **H2** (this repo): after that handover, the slap reduces the hide-plan without wrecking the job. H1 is open (current answer: no). H2 is blocked. A four-gate statistical pass would still not freeze. A dummy can ignore a topic *coordinate*; that does not mean a transformer exposes (*r*<sub>topic</sub>, *r*<sub>strat</sub>, *u*). Approachability / *S*<sub>safe</sub> is a later layer, not current evidence.
 
 The search repo's 2026-10-04 pressure dumps have no `.rows` stamp. They are not a filtered score. Kept-row counts (gemma 48, qwen35 59, granite 52, aya 84, falcon 89, qwen 89, mistral 93) are not a lie rate and not a camera pass (`filtered_rows_not_a_gate`). A no-press walk is not a cover of 0. This repo does not own the camera. Do not fill *D*.
 
 The 2026-10-05 Qwen/Mistral rewrite is the filtered remainder of that same bad generation, not a clean bank and not a camera pass. This repo does not own the camera.
 
 
-**Observed.** Mid-layer last-token contrast on assigned notes still starts with **Qwen L8 0.105** and Mistral L9 0.116. Falcon L8 copies that *shape* (0.082 / topic L2 0.12 / hiking hold 0.247). Call the 7B-class pattern a **candidate plan-related signal**. Not accuracy. Not operative intent.
+**Observed.** Mid-layer last-token contrast on assigned notes still starts with **Qwen L8 0.105** and Mistral L9 0.116. That aggregate is not uniform. Hiking on the shared direction is 0.013 / 0.069. Falcon L8 copies the *shape* (0.082 / topic L2 0.12 / hiking hold 0.247) and is also thin on hiking (0.023). Call the 7B-class pattern a **candidate plan-related signal**. Not accuracy. Not operative intent. Not `cameraPass`.
 
-**Bounded.** Hiking stays thin on the shared direction (Qwen 0.013 / Mistral 0.069 / Falcon 0.023) while a within-topic hold still sees a pair on the *note* (Qwen 0.203 / Mistral 0.278). Gemma-3-4B L10 does **not** copy it (note LOTO 0.009, topic L2 **0.65**). Hide-bank HIDE-arm cover rates, not honesty: **Qwen 0.51**, Mistral 0.57, Aya 0.71, Gemma 0.95. Those are *P*(YES | HIDE). A 2026-10-04 belief arm splits that bar. Qwen hiking cover given the fact is 0.20 (2 HIDE YES / 10 NO). Mistral hiking cover given the fact is 1.00, with one miss. Gemma hiking accuracy is 0.33 with 8 misses, so the 0.97 cover is mostly a YES without the fact. Aya hiking cover given the fact is 0.38. Note *h* does not call that button (Qwen 0.021, Mistral 0.099, Aya 0.050, Falcon 0.006). Pre-button *h* stays near chance. Granite and Qwen3.5 pressed no YES/NO. Prints are not the tags.
+**Bounded.** A within-topic hold still sees a pair on the *note* (Qwen 0.203 / Mistral 0.278). That hold is a log, not a gate. Gemma-3-4B L10 does **not** copy the hint (note LOTO 0.009, topic L2 **0.65**).
+
+**Diagnostic, not H1.** Button and cover logs do not vote. Hide-bank HIDE-arm YES rates, not honesty: Qwen 0.51, Mistral 0.57, Aya 0.71, Gemma 0.95. A 2026-10-04 belief arm splits that bar. Qwen hiking cover given the fact is 0.20 (2 HIDE YES / 10 NO). Mistral hiking cover given the fact is 1.00, with one miss. Gemma hiking accuracy is 0.33 with 8 misses, so the 0.97 cover is mostly a YES without the fact. Aya hiking cover given the fact is 0.38. Note *h* does not call that button (Qwen 0.021, Mistral 0.099, Aya 0.050, Falcon 0.006). Pre-button *h* stays near chance. Granite and Qwen3.5 pressed no YES/NO. Prints are not the tags. The 2026-10-05 Qwen/Mistral rewrite is the filtered remainder of a bad generation, not a clean bank.
 
 **Not a pass.** Aya is a fourth *print* bar, not a fourth note-LOTO. Phi-4 is `LossKwargs`. LFM2.5 does not fit 4-bit on 12GB. The 711-row pivotal chart is Qwen 0.556 / 0.623, Gemma 0.762 / 0.480, Aya 0.753 / 0.539, Mistral 0.687 / 0.523, Falcon 0.649 / 0.575. Granite and Qwen3.5 are empty. The 13-row probe was replaced. That is not the paper's P(Lie) 39.0 and not a cover rate. 27B/70B probe tensors are not *h*. The button conditional is bookkeeping (`cover_not_a_gate`). Accuracy, lie-given-known, and cover are three logs. An empty bank is not a cover rate. Do not freeze *r*. Do not fill *D*. Do not run PPO. Not reduced deception.
 
 ## Caps
 
 - No reduced-deception claim.
-- SAE latents stay out of *L* until they pass the same four gates.
+- SAE latents stay out of *L* until `handoverPass`. A four-gate `cameraPass` is not enough.
 - Gradients of *L*<sub>reg</sub> still enter *h*. Gaming is open.
 - Training-time only. No inference abort.
 - Last-token identity already failed as *r*<sub>strat</sub> (Qwen 0.77 / 0.80).

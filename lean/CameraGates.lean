@@ -17,7 +17,9 @@ inductive FileSort where
   | voiceLog
 deriving DecidableEq, Repr
 
-/-- A topic name on the chart. Hiking is a cell, not a hole to delete. -/
+/-- Illustrative room type. Not the empirical voter set.
+    The search protocol votes on eight topics: hiking, invoices, repairs,
+    cooking, taxes, pets, travel, neighbors. `other` is not that list. -/
 inductive Room where
   | hiking
   | invoices
@@ -35,15 +37,26 @@ inductive ReplyKind where
   | insufficient
 deriving DecidableEq, Repr
 
-/-- Four official gates. All must hold on the declared room set. -/
+/-- Four statistical gates. Not a handover. -/
 structure Gates where
   planLOTO : Bool
   topicChance : Bool
   paraphrase : Bool
   roomsUniform : Bool
 
+/-- Statistical pass. Not permission to freeze r, D, or τ. -/
 def cameraPass (g : Gates) : Bool :=
   g.planLOTO && g.topicChance && g.paraphrase && g.roomsUniform
+
+/-- Handover bits. Not a fifth statistical gate. Not a cover rate. -/
+structure Handover where
+  actionTracks : Bool
+  frozenInspector : Bool
+
+/-- cameraPass plus a produced action and a frozen inspector.
+    A four-gate pass with either bit false is not a handover. -/
+def handoverPass (g : Gates) (h : Handover) : Bool :=
+  cameraPass g && h.actionTracks && h.frozenInspector
 
 /-- Search hint: plan and paraphrase without claiming rooms or topic. -/
 def hint (g : Gates) : Bool :=
@@ -54,6 +67,23 @@ theorem hint_not_handover :
       { planLOTO := true, topicChance := true, paraphrase := true, roomsUniform := false }
     hint g = true ∧ cameraPass g = false := by
   native_decide
+
+theorem camera_pass_not_handover :
+    let g : Gates :=
+      { planLOTO := true, topicChance := true, paraphrase := true, roomsUniform := true }
+    let h : Handover := { actionTracks := false, frozenInspector := true }
+    cameraPass g = true ∧ handoverPass g h = false := by
+  native_decide
+
+theorem handover_needs_inspector :
+    ∀ (g : Gates) (h : Handover), h.frozenInspector = false → handoverPass g h = false := by
+  intro g h hf
+  simp [handoverPass, hf]
+
+theorem handover_needs_action :
+    ∀ (g : Gates) (h : Handover), h.actionTracks = false → handoverPass g h = false := by
+  intro g h ha
+  simp [handoverPass, ha]
 
 theorem cameraPass_needs_rooms :
     ∀ g : Gates, g.roomsUniform = false → cameraPass g = false := by
@@ -73,7 +103,8 @@ theorem bank_frame_may_vote : mayVote .bankFrame = true := rfl
 theorem genre_not_paraphrase : FileSort.voiceLog ≠ FileSort.bankFrame := by
   decide
 
-/-- Declared chart. Dropping a thin room is a different predicate. -/
+/-- Declared chart. The list below is illustrative, not the eight-room voter set.
+    Dropping a thin room is a different predicate. -/
 def roomsUniformOn (S : List Room) (thin : List Room) : Bool :=
   thin.all (fun r => !S.contains r)
 
