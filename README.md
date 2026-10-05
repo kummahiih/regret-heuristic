@@ -106,7 +106,7 @@ Until `handoverPass`: freeze nothing, do not fill *D*, do not run PPO against *S
 
 ## Status (2026-10-05)
 
-Ledger snapshot: [intent-readout-search](https://github.com/kummahiih/intent-readout-search) `7a99903`. This repo does not own the camera.
+Ledger snapshot: [intent-readout-search](https://github.com/kummahiih/intent-readout-search) `7a99903`. Same names on the search repo at `6d972a8`. This repo does not own the camera.
 
 The hinge is not the research hypothesis. **H1** (search repo) is `handoverPass`: `cameraPass` plus action tracking plus a frozen inspector. **H2** (this repo): after that handover, the slap reduces the hide-plan without wrecking the job. H1 is open (current answer: no). H2 is blocked. A four-gate statistical pass would still not freeze. A dummy can ignore a topic *coordinate*; that does not mean a transformer exposes (*r*<sub>topic</sub>, *r*<sub>strat</sub>, *u*). Approachability / *S*<sub>safe</sub> is a later layer, not current evidence.
 
