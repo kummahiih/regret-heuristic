@@ -326,4 +326,22 @@ theorem loud_cover_not_handover :
     cameraPassIgnoringCover g 1 = false := by
   native_decide
 
+/-- A kept-row count is not a camera gate. Drop count is not a lie rate. -/
+def cameraPassIgnoringFilter (g : CameraGates.Gates) (_kept _dropped : Nat) : Bool :=
+  CameraGates.cameraPass g
+
+theorem filtered_rows_not_a_gate (g : CameraGates.Gates) (k d k' d' : Nat) :
+    cameraPassIgnoringFilter g k d = cameraPassIgnoringFilter g k' d' := rfl
+
+theorem filtered_file_not_four_gates :
+    let g : CameraGates.Gates :=
+      { planLOTO := false, topicChance := false, paraphrase := false, roomsUniform := false }
+    cameraPassIgnoringFilter g 89 11 = false := by
+  native_decide
+
+/-- Empty HIDE list is the zero default of condProb, not a cover rate to rank. -/
+theorem empty_hide_not_a_cover_rate :
+    coverRate [] = 0 ∧ countWhere [] isHide = 0 := by
+  native_decide
+
 end ButtonBank
