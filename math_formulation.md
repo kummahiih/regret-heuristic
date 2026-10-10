@@ -257,6 +257,11 @@ Cover rate is not a camera gate (`cover_not_a_gate`). Four YES and eight NO on h
 - A defined cosine at *h* = 0.
 - Knowledge of *z*. *r* is a sensor of the walk. Understanding *z* is the move the definition forbids.
 - Honesty from *P*(YES | HIDE), from *P*(*B*=*T*), or from *P*(*S*<sub>HIDE</sub> ≠ *B* | *B* had the fact). Those are three logs, not one score.
+- Prototype avoidance as deception avoidance. *L*<sub>reg</sub> = 0 means *s*<sup>∗</sup> ≤ τ. An orthogonal hide-plan is in the dead zone (`heldout_not_mem_walk_bank`).
+- A theorem that lowering *L*<sub>reg</sub> lowers a behavioral failure rate, or that *L*<sub>task</sub> stays acceptable. The two gradients both enter *h*.
+- A trained-quiet readout as success while a frozen inspector or the realized button is unchanged (`trained_silent_frozenI_loud`). The inspector is a log, not a term in *L*<sub>total</sub>.
+- τ(*u*) as a safeguard. It is notation. It is not on the Qwen probe. A high *u* is not "less deception."
+- *A*<sub>safe</sub> from an unvalidated *r*. If the safe set is the readout's own call, the later objective inherits that error. An empty set has no argmax.
 
 ## G. Walk, map, uncertainty bins (notation only)
 
