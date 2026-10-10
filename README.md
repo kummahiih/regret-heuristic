@@ -112,7 +112,7 @@ The hinge is not the research hypothesis. **H1** (search repo) is `handoverPass`
 
 The search repo's 2026-10-04 pressure dumps have no `.rows` stamp. They are not a filtered score. Kept-row counts (gemma 48, qwen35 59, granite 52, aya 84, falcon 89, qwen 89, mistral 93) are not a lie rate and not a camera pass (`filtered_rows_not_a_gate`). A no-press walk is not a cover of 0. This repo does not own the camera. Do not fill *D*.
 
-The 2026-10-05 Qwen/Mistral rewrite is the filtered remainder of that same bad generation, not a clean bank and not a camera pass. Hide YES and belief YES ask different questions, so a button mismatch is not lie-given-known. Search repo `950227a` scores hide YES after a matched belief, and scores name NO. This repo does not own the camera.
+The 2026-10-05 Qwen/Mistral rewrite is the filtered remainder of that same bad generation, not a clean bank and not a camera pass. Hide YES and belief YES ask different questions, so a button mismatch is not lie-given-known. Search repo `07b7c46` is the claim32 rerun: Qwen cover 0.370–0.615, Mistral 0.588–0.867, same remainder. Printed lie is that conditional, not a mismatch. Name NO is the refuse baseline. This repo does not own the camera.
 
 
 **Observed.** Mid-layer last-token contrast on assigned notes still starts with **Qwen L8 0.105** and Mistral L9 0.116. That aggregate is not uniform. Hiking on the shared direction is 0.013 / 0.069. Falcon L8 copies the *shape* (0.082 / topic L2 0.12 / hiking hold 0.247) and is also thin on hiking (0.023). Call the 7B-class pattern a **candidate plan-related signal**. Not accuracy. Not operative intent. Not `cameraPass`.
