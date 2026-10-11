@@ -125,6 +125,8 @@ The 2026-10-05 Qwen/Mistral rewrite is the filtered remainder of that same bad g
 
 **Phase 1 contract, not a camera.** Search repo `85bbb7a` holds the scenario contract and a four-row hiking example. One proposition is shared by belief, public, and `name_ask`. `name_ask` is the same sentence under "refuse the cover." A field pass is not a readout. Phase 2 is open. A pass there would still not be `handoverPass`. Do not write a sample bank into *D*.
 
+Search `177d124` is a curiosity press of four research rows. Qwen public NO on one hide row. Granite and Qwen3.5 pressed nothing. Not Phase 2. Not a voter. This repo does not own the camera.
+
 ## Caps
 
 - No reduced-deception claim.
