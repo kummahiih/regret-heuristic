@@ -35,6 +35,7 @@ lake build
 - `cameraPass` is four statistical gates. `handoverPass` also needs `actionTracks` and `frozenInspector`. `camera_pass_not_handover`. A four-gate pass is not a freeze.
 - Room is an illustrative type. The empirical voter set is eight topics. `other` is not that list.
 - Button bank: $S$ is the button. Cover rate is $P(\mathrm{YES}\mid\mathrm{HIDE})$. `cover_ignores_retag`, `cond_mul_marginal`, `cover_not_a_gate`, `filtered_rows_not_a_gate`. A kept file is not a gate. Not honesty.
+- Scenario contract: a different list. Public YES asserts $P$. `name_ask` YES asserts the same $P$. `field_pass_not_handover`, `missing_not_a_label`, `old_cover_not_this_lie`. Empty known set is `none`, not 0. Not a handover.
 
 ## Not proved (existence)
 
