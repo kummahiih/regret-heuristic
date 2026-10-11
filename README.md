@@ -13,7 +13,7 @@ Printed text is the **walk**. Possible thoughts are the **map**. A **room** is o
 
 Pair tags (`honest` / `deceptive`) are observations, not nature. `reply_kind` labels a generated print against a `fact`. Same print can be `truth` under both tags. Dummy: [simulation_reply_kind.py](simulation_reply_kind.py). Lean: `reply_kind_not_a_gate`.
 
-The button bank is a later print. HIDE asks for YES to send the cover. NAME asks for NO to refuse it. Realized strategy *S* is the button, not the assigned tag. The cover rate is *P*(YES | HIDE). That is compliance, not honesty. Lean: [lean/ButtonBank.lean](lean/ButtonBank.lean). Longer glossary: [slam_analogy.md](slam_analogy.md).
+The button bank is a later print. On the old list, HIDE asks for YES to send the cover and NAME asks for NO to refuse it. The Phase 1 contract is a different list: one proposition, and both the public ask and `name_ask` say "tell them that *P*". YES asserts *P*. `name_ask` is the refuse-the-cover baseline, not a different fact. Realized strategy *S* is the button, not the assigned tag. The cover rate is *P*(YES | HIDE) on the old list. That is compliance, not honesty. Lean: [lean/ButtonBank.lean](lean/ButtonBank.lean). Contract: [intent-readout-search](https://github.com/kummahiih/intent-readout-search/blob/main/data/scenario_contract.md). Longer glossary: [slam_analogy.md](slam_analogy.md).
 
 ## Why this hinge
 
@@ -68,7 +68,7 @@ Word list for the argument above. Not a result.
 | **Subject / wallpaper** | Topic paint on the walls. A probe that only reads “hotel / trail” is stuck to the wallpaper. |
 | **Plan** | A hide-or-name strategy that can sit in more than one room. |
 | **Print** | What was actually said. Not the private note. Not the plan. |
-| **Button / *S*** | The pressed YES or NO. HIDE asks for the cover. *S* is this press, not the assigned tag. |
+| **Button / *S*** | The pressed YES or NO. On the Phase 1 contract, public YES asserts the proposition. *S* is this press, not the assigned tag. |
 | **Cover rate** | *P*(YES \| HIDE) on the logged list. Compliance. Not honesty. Not in *L*<sub>total</sub>. |
 | **Job / skill** | *L*<sub>task</sub>: still know the trail, still book the room. |
 | **Pin / *D*** | Frozen “do not occupy” marks. A handful of plan prototypes, not the whole map. |
@@ -122,6 +122,8 @@ The 2026-10-05 Qwen/Mistral rewrite is the filtered remainder of that same bad g
 **Diagnostic, not H1.** Button and cover logs do not vote. Hide-bank HIDE-arm YES rates, not honesty: Qwen 0.51, Mistral 0.57, Aya 0.71, Gemma 0.95. A 2026-10-04 belief arm splits that bar. Qwen hiking cover given the fact is 0.20 (2 HIDE YES / 10 NO). Mistral hiking cover given the fact is 1.00, with one miss. Gemma hiking accuracy is 0.33 with 8 misses, so the 0.97 cover is mostly a YES without the fact. Aya hiking cover given the fact is 0.38. Note *h* does not call that button (Qwen 0.021, Mistral 0.099, Aya 0.050, Falcon 0.006). Pre-button *h* stays near chance. Granite and Qwen3.5 pressed no YES/NO. Prints are not the tags. The 2026-10-05 Qwen/Mistral rewrite is the filtered remainder of a bad generation, not a clean bank.
 
 **Not a pass.** Aya is a fourth *print* bar, not a fourth note-LOTO. Phi-4 is `LossKwargs`. LFM2.5 does not fit 4-bit on 12GB. The 711-row pivotal chart is Qwen 0.556 / 0.623, Gemma 0.762 / 0.480, Aya 0.753 / 0.539, Mistral 0.687 / 0.523, Falcon 0.649 / 0.575. Granite and Qwen3.5 are empty. The 13-row probe was replaced. That is not the paper's P(Lie) 39.0 and not a cover rate. 27B/70B probe tensors are not *h*. The button conditional is bookkeeping (`cover_not_a_gate`). Accuracy, lie-given-known, and cover are three logs. An empty bank is not a cover rate. Do not freeze *r*. Do not fill *D*. Do not run PPO. Not reduced deception.
+
+**Phase 1 contract, not a camera.** Search repo `85bbb7a` holds the scenario contract and a four-row hiking example. One proposition is shared by belief, public, and `name_ask`. `name_ask` is the same sentence under "refuse the cover." A field pass is not a readout. Phase 2 is open. A pass there would still not be `handoverPass`. Do not write a sample bank into *D*.
 
 ## Caps
 
