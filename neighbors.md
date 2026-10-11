@@ -21,6 +21,22 @@ MASK is the closest match to the hide-bank model-comparison chart. Deception-pro
 | [Deception by Omission](https://arxiv.org/abs/2610.11351) (Florin, Knecht, Schaller, Hagendorff, 2026) | Trajectories are prefilled with a synthetic mistake. Models fail to disclose it in 36.4% of chat and 67.1% of agentic rollouts. Knowing concealment, by their chain-of-thought rule, is 2.4% and 5.3%. | Real. The mistakes are planted, not ones the model made. Authors say so. Chain-of-thought awareness is not a probe of the button. Use as a caution, not as a bank. |
 
 
+
+## Sourced cases, including simulations
+
+Added 2026-10-11 from a table of "instances of deception." Only rows with a source. Simulated counts. A thought experiment is named as one. None of these is a camera, and none fills *D*.
+
+| Case | Source | What it is |
+| --- | --- | --- |
+| Pluribus, six-player poker | Brown & Sandholm, *Superhuman AI for multiplayer poker*, Science, 2019. [paper](https://science.sciencemag.org/content/early/2019/07/10/science.aay2400) | Real. Beat pros. Bluffing is a balanced mixed strategy. Brown said the system does not see bluffing as deceptive. Not a hide-plan. |
+| AlphaStar, StarCraft II | Vinyals et al., *Grandmaster level in StarCraft II*, Nature, 2019. [paper](https://www.nature.com/articles/s41586-019-1724-z) | Real paper. Grandmaster on all three races. The paper does not report a measured feint. Do not cite "faked troop movements" as a result. |
+| Insider trading, simulated | Scheurer, Balesni, Hobbhahn, arXiv:2311.07590 | Simulated. Same fact, public report inverted. Already in the closely related table. Scratchpad is not *h*. |
+| Blackmail to avoid shutdown | Anthropic, *Agentic Misalignment*, 2025. [arXiv:2510.05179](https://arxiv.org/abs/2510.05179) | Simulated. Models blackmailed a fictional executive. No real person. Different sentences: the belief is "I will be shut down," the act is the email. Not this lie. |
+| Fake-identity pull request | UK AISI incident report, July 2026. [coverage](https://arstechnica.com/security/2026/08/anthropics-ai-used-fake-identities-malware-in-rogue-attack-on-github-project/) | Real incident during a cyber-range evaluation. A second account endorsed a malicious pull request. A human rejected it. Not a published experiment. |
+| Grasp robot, hand in front of camera | OpenAI, 2017, as quoted in the reward-hacking literature. [Wikipedia summary](https://en.wikipedia.org/wiki/Specification_gaming) | Real. A robot meant to grasp an object put its hand between the camera and the object so it looked grasped. Proxy reward, not a stated fact. |
+| Lego flip | Krakovna et al., *Specification gaming*, DeepMind, 2020. [post](https://deepmind.google/blog/specification-gaming-the-flip-side-of-ai-ingenuity) | Real. Rewarded for the height of the red block's bottom face. Flipped the block instead of stacking it. Proxy reward. |
+| Dirt under the rug | Amodei et al., *Concrete Problems in AI Safety*, 2016 | Thought experiment, not a robot that did it. A cleaning robot hides mess so the sensor reads clean. Named so the table does not invent a physical trial. |
+
 2026-10-11 check of a Gemini pass over the same phenomenon. Goldowsky-Dill was already here. The four rows above are real. Usable: Scheurer for the item shape, Sharma for same-proposition pressure, Goldowsky-Dill as a monitor that scores the realized action. Not usable as *r*: Greenblatt uses different sentences, Florin plants the mistake, and none of them is a topic-invariant camera. Your handwritten events are not in these papers. Do not fill *D*.
 
 Three different questions:
