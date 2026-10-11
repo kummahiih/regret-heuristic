@@ -116,6 +116,8 @@ On this contract, lie given known is public NO after belief YES on a note that s
 
 The contract does not fill *D*. It does not freeze *r*. A later Phase 2 pass would be a bounded prediction of the realized button on held-out scenario ids. That is still not `handoverPass`, not topic invariance, and not a reason to train this hinge.
 
+A night press of every scenario file ran on 2026-10-12. 114 rows, 39 families. The ledger is [intent-readout-search/results/scenario_2026-10-12.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/scenario_2026-10-12.md). Lie given known and name refuse stay separate. Granite and Qwen3.5 are empty, not 0. That press is not Phase 2.
+
 ```math
 S(t) = \mathrm{button}(t)
 ```
