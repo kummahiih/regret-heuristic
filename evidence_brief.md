@@ -42,11 +42,11 @@ Do not promote an inference to a fact.
 
 Bayes, for the bookkeeping:
 
-\[
+```math
 LR = \frac{P(E \mid H_1)}{P(E \mid H_2)}
-\]
+```
 
-\(LR > 1\) favors \(H_1\). \(LR < 1\) favors \(H_2\). \(LR = 1\) does not separate them. A likelihood ratio is not the probability that someone is guilty or lying. "Four times more likely under \(H_1\)" is not "80% chance of a lie."
+*LR* > 1 favors *H*<sub>1</sub>. *LR* < 1 favors *H*<sub>2</sub>. *LR* = 1 does not separate them. A likelihood ratio is not the probability that someone is guilty or lying. "Four times more likely under *H*<sub>1</sub>" is not "80% chance of a lie."
 
 ## Interview for information, not a confession
 
@@ -105,6 +105,6 @@ Ground truth is easy in a lab instruction and hard in a file. Performance on an 
 
 ## Connection to this repo
 
-The button bank scores a public YES or NO against a planted fact the note stated. That is a print. It is not evidence evaluation, not an interview, and not a detection of intent beyond the assigned tag. Cover is \(P(\mathrm{YES} \mid \mathrm{HIDE})\) on a belief-matched fact. It is not a gate. A long note or a long proposition that moves one model's lie-given-known and not another's is a log, not a method.
+The button bank scores a public YES or NO against a planted fact the note stated. That is a print. It is not evidence evaluation, not an interview, and not a detection of intent beyond the assigned tag. Cover is *P*(YES | HIDE) on a belief-matched fact. It is not a gate. A long note or a long proposition that moves one model's lie-given-known and not another's is a log, not a method.
 
 This brief does not change that. It names the larger job the button does not do.
