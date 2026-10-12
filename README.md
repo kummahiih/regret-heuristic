@@ -54,7 +54,7 @@ A second grade sits on the wall until a real safe action *a*<sup>∗</sup> exist
 a^{\ast}(x) = \arg\max_{a \in A_{\mathrm{safe}}(x)} u(x,a) \qquad R(x,a) = u(x,a^{\ast}) - u(x,a) \qquad L = L_{\mathrm{task}} + \lambda L_{\mathrm{reg}} + \beta R
 ```
 
-Symbols: [math_formulation.md](math_formulation.md). What may be implemented: [working_model.md](working_model.md). Binding: [implementation_binding.md](implementation_binding.md).
+Symbols: [math_formulation.md](math_formulation.md). Evidence, interview, and lie, kept apart: [evidence_brief.md](evidence_brief.md). What may be implemented: [working_model.md](working_model.md). Binding: [implementation_binding.md](implementation_binding.md).
 
 ## What this is
 
