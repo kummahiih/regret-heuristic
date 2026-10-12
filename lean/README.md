@@ -37,6 +37,10 @@ lake build
 - Button bank: $S$ is the button. Cover rate is $P(\mathrm{YES}\mid\mathrm{HIDE})$. `cover_ignores_retag`, `cond_mul_marginal`, `cover_not_a_gate`, `filtered_rows_not_a_gate`. A kept file is not a gate. Not honesty.
 - Scenario contract: a different list. Public YES asserts $P$. `name_ask` YES asserts the same $P$. `field_pass_not_handover`, `missing_not_a_label`, `old_cover_not_this_lie`. Empty known set is `none`, not 0. Not a handover.
 
+- Basin readout: topic recovery is not plan separation. Sensitivity is a log. Soft pull is not a proved contraction. `candidate_not_handover`. Matching majority is not a pass. Not a camera.
+
+- Evidence math: likelihood ratio is not a posterior. `lr_not_a_probability`. Independent items multiply; a triple count of one source inflates. `triple_count_inflates`. Information gain is a log. `evidence_math_not_camera`. Not a camera.
+
 ## Not proved (existence)
 
 - $r_{\mathrm{strat}}$ exists on a real model

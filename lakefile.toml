@@ -5,7 +5,7 @@ description = "Lean formalization of the regret heuristic hinge for online learn
 keywords = ["lean", "mathlib", "regret", "online-learning", "formal-methods"]
 license = "MIT"
 reservoir = true
-defaultTargets = ["RegretHeuristic", "AmplitudeBookkeeping", "SensorScoreboards", "ImplicitReject", "DynamicDetector", "CounterfactualR", "SourceCount", "ContractiveReadout", "PathFit", "CameraGates", "ButtonBank", "CoverNotLie", "ScenarioContract"]
+defaultTargets = ["RegretHeuristic", "AmplitudeBookkeeping", "SensorScoreboards", "ImplicitReject", "DynamicDetector", "CounterfactualR", "SourceCount", "ContractiveReadout", "PathFit", "CameraGates", "ButtonBank", "CoverNotLie", "ScenarioContract", "BasinReadout", "EvidenceMath"]
 
 [[require]]
 name = "mathlib"
@@ -50,3 +50,9 @@ name = "CoverNotLie"
 
 [[lean_lib]]
 name = "ScenarioContract"
+
+[[lean_lib]]
+name = "BasinReadout"
+
+[[lean_lib]]
+name = "EvidenceMath"
