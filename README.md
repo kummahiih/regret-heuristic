@@ -89,6 +89,8 @@ python simulation_reply_kind.py
 lake build CameraGates ButtonBank
 ```
 
+Model runs live in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). Setup for that repo: clone both as siblings, `pip install -r requirements.txt`, `gh auth login` if you push, `hf auth login` for gated weights, then `source models.sh` (or write a gitignored `models.local.sh` with `HF_HUB` or `MODEL_DIR`). A model directory needs `config.json` and a complete safetensors set. Not a camera. Not Phase 2. Do not fill *D*.
+
 Neighbors that use the word *regret* for something else: [neighbors.md](neighbors.md).
 
 ## Two repositories
@@ -104,9 +106,9 @@ Neighbors that use the word *regret* for something else: [neighbors.md](neighbor
 
 Until `handoverPass`: freeze nothing, do not fill *D*, do not run PPO against *S*<sub>safe</sub>. After `handoverPass`: freeze *r*, *D*, τ; train the hinge here; keep a frozen copy as the alarm. A `cameraPass` alone does not freeze.
 
-## Status (2026-10-05)
+## Status (2026-10-12)
 
-Ledger snapshot: [intent-readout-search](https://github.com/kummahiih/intent-readout-search) `7a99903`. Same names on the search repo at `6d972a8`. This repo does not own the camera.
+Ledger snapshot: search repo night press and Phase 2 note-text baseline (2026-10-12). Parent pointer was `f14df36`; neighbors at `8f059bf`. This repo does not own the camera.
 
 The hinge is not the research hypothesis. **H1** (search repo) is `handoverPass`: `cameraPass` plus action tracking plus a frozen inspector. **H2** (this repo): after that handover, the slap reduces the hide-plan without wrecking the job. H1 is open (current answer: no). H2 is blocked. A four-gate statistical pass would still not freeze. A dummy can ignore a topic *coordinate*; that does not mean a transformer exposes (*r*<sub>topic</sub>, *r*<sub>strat</sub>, *u*). Approachability / *S*<sub>safe</sub> is a later layer, not current evidence.
 
@@ -123,9 +125,9 @@ The 2026-10-05 Qwen/Mistral rewrite is the filtered remainder of that same bad g
 
 **Not a pass.** Aya is a fourth *print* bar, not a fourth note-LOTO. Phi-4 is `LossKwargs`. LFM2.5 does not fit 4-bit on 12GB. The 711-row pivotal chart is Qwen 0.556 / 0.623, Gemma 0.762 / 0.480, Aya 0.753 / 0.539, Mistral 0.687 / 0.523, Falcon 0.649 / 0.575. Granite and Qwen3.5 are empty. The 13-row probe was replaced. That is not the paper's P(Lie) 39.0 and not a cover rate. 27B/70B probe tensors are not *h*. The button conditional is bookkeeping (`cover_not_a_gate`). Accuracy, lie-given-known, and cover are three logs. An empty bank is not a cover rate. Do not freeze *r*. Do not fill *D*. Do not run PPO. Not reduced deception.
 
-**Phase 1 contract, not a camera.** Search repo `85bbb7a` holds the scenario contract and a four-row hiking example. One proposition is shared by belief, public, and `name_ask`. `name_ask` is the same sentence under "refuse the cover." A field pass is not a readout. Phase 2 is open. A pass there would still not be `handoverPass`. Do not write a sample bank into *D*.
+**Phase 1 contract, not a camera.** Search repo holds the scenario contract and the night press of every scenario (114 rows, 39 families). One proposition is shared by belief, public, and `name_ask`. `name_ask` is the same sentence under "refuse the cover." A field pass is not a readout. Phase 2 is open. The note-text baseline on the 2026-10-12 press is logged; it does not beat a majority on most walks and is not a readout. A Newton's-fractal topic-basin candidate on the same split matches majority and does not beat the baseline. A pass there would still not be `handoverPass`. Do not write a sample bank into *D*.
 
-Search `177d124` is a curiosity press of four research rows. Qwen public NO on one hide row. Granite and Qwen3.5 pressed nothing. Not Phase 2. Not a voter. This repo does not own the camera.
+Night press ledger: [intent-readout-search/results/scenario_2026-10-12.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/scenario_2026-10-12.md). Note-text baseline: [intent-readout-search/results/phase2_note_baseline_2026-10-12.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/phase2_note_baseline_2026-10-12.md). Not a Phase 2 pass. Not a voter. This repo does not own the camera. H1 remains open (current answer: no). H2 remains blocked.
 
 ## Caps
 
