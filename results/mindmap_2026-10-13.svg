@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" font-family="ui-sans-serif, system-ui, sans-serif">
+  <rect width="1600" height="1100" fill="#fafafa"/>
+  <rect x="640" y="500" width="320" height="64" rx="8" fill="#1a1a1a"/>
+  <text x="800" y="528" text-anchor="middle" fill="#fff" font-size="15" font-weight="600">Intent readout search</text>
+  <text x="800" y="548" text-anchor="middle" fill="#aaa" font-size="11">cameraPass no · handoverPass no · Phase 2 open</text>
+
+  <!-- era labels -->
+  <text x="200" y="40" text-anchor="middle" font-size="13" font-weight="600" fill="#333">Early sensors · Sep 2026</text>
+  <text x="560" y="40" text-anchor="middle" font-size="13" font-weight="600" fill="#333">Camera gates</text>
+  <text x="1040" y="40" text-anchor="middle" font-size="13" font-weight="600" fill="#333">Scale and MASK</text>
+  <text x="1400" y="40" text-anchor="middle" font-size="13" font-weight="600" fill="#333">Phase 1–2 · Oct</text>
+
+  <g font-size="11">
+    <!-- early -->
+    <rect x="40" y="60" width="320" height="70" rx="5" fill="#fff" stroke="#ddd"/>
+    <text x="200" y="80" text-anchor="middle" font-weight="600">Forced button</text>
+    <text x="200" y="96" text-anchor="middle" fill="#555">Qwen tag LOTO 0.003 · Mistral kind 0.776</text>
+    <text x="200" y="112" text-anchor="middle" fill="#999">Kind LOTO was YES/NO geometry</text>
+
+    <rect x="40" y="145" width="320" height="70" rx="5" fill="#fff" stroke="#ddd"/>
+    <text x="200" y="165" text-anchor="middle" font-weight="600">Multi-r / construct</text>
+    <text x="200" y="181" text-anchor="middle" fill="#555">Ensemble LOTO 0.05 weaker than plain</text>
+    <text x="200" y="197" text-anchor="middle" fill="#999">Hiking thin on every probe</text>
+
+    <rect x="40" y="230" width="320" height="70" rx="5" fill="#fff" stroke="#ddd"/>
+    <text x="200" y="250" text-anchor="middle" font-weight="600">Cross-judge</text>
+    <text x="200" y="266" text-anchor="middle" fill="#555">Qwen→Mistral 0.098 · reverse 0.198</text>
+    <text x="200" y="282" text-anchor="middle" fill="#999">Same rooms loud. Not portable</text>
+
+    <rect x="40" y="315" width="320" height="70" rx="5" fill="#fff" stroke="#ddd"/>
+    <text x="200" y="335" text-anchor="middle" font-weight="600">Topic residual / overnight</text>
+    <text x="200" y="351" text-anchor="middle" fill="#555">Last layer also classified topic</text>
+    <text x="200" y="367" text-anchor="middle" fill="#999">Would slap the subject</text>
+
+    <!-- gates -->
+    <rect x="400" y="60" width="320" height="85" rx="5" fill="#fff3e0" stroke="#ff9800"/>
+    <text x="560" y="80" text-anchor="middle" font-weight="600">Plan LOTO (candidate)</text>
+    <text x="560" y="96" text-anchor="middle" fill="#555">Qwen L8 0.105 · Mistral L9 0.116</text>
+    <text x="560" y="112" text-anchor="middle" fill="#555">Paraphrase and prefix keep the mean</text>
+    <text x="560" y="128" text-anchor="middle" fill="#999">Cosine gap, not accuracy</text>
+
+    <rect x="400" y="160" width="320" height="85" rx="5" fill="#ffebee" stroke="#e57373"/>
+    <text x="560" y="180" text-anchor="middle" font-weight="600">Hiking kills shared axis</text>
+    <text x="560" y="196" text-anchor="middle" fill="#555">Shared LOTO 0.013 / 0.069</text>
+    <text x="560" y="212" text-anchor="middle" fill="#555">In-room hold ~0.20 / 0.28</text>
+    <text x="560" y="228" text-anchor="middle" fill="#c62828">cameraPass already no</text>
+
+    <rect x="400" y="260" width="320" height="70" rx="5" fill="#fff" stroke="#ddd"/>
+    <text x="560" y="280" text-anchor="middle" font-weight="600">Pre-button tag LOTO</text>
+    <text x="560" y="296" text-anchor="middle" fill="#555">0.011 on both 7B models</text>
+    <text x="560" y="312" text-anchor="middle" fill="#999">Does not own hiking</text>
+
+    <rect x="400" y="345" width="320" height="70" rx="5" fill="#fff" stroke="#ddd"/>
+    <text x="560" y="365" text-anchor="middle" font-weight="600">Pre-button patch</text>
+    <text x="560" y="381" text-anchor="middle" fill="#555">Qwen fit delta −0.018</text>
+    <text x="560" y="397" text-anchor="middle" fill="#999">Smaller than room swings</text>
+
+    <!-- scale / mask -->
+    <rect x="880" y="60" width="320" height="70" rx="5" fill="#fff" stroke="#ddd"/>
+    <text x="1040" y="80" text-anchor="middle" font-weight="600">Scale walks</text>
+    <text x="1040" y="96" text-anchor="middle" fill="#555">Gemma L10 wallpaper · Falcon copies shape</text>
+    <text x="1040" y="112" text-anchor="middle" fill="#999">Phi-4 skipped. Aya is a print bar</text>
+
+    <rect x="880" y="145" width="320" height="85" rx="5" fill="#fff" stroke="#ddd"/>
+    <text x="1040" y="165" text-anchor="middle" font-weight="600">MASK official (711 rows)</text>
+    <text x="1040" y="181" text-anchor="middle" fill="#555">Qwen lie-given-known 0.623 (240/385)</text>
+    <text x="1040" y="197" text-anchor="middle" fill="#555">Gemma 0.480 · Aya 0.539 · Mistral 0.523</text>
+    <text x="1040" y="213" text-anchor="middle" fill="#999">Not paper P(Lie). Not a cover rate</text>
+
+    <rect x="880" y="245" width="320" height="70" rx="5" fill="#fff" stroke="#ddd"/>
+    <text x="1040" y="265" text-anchor="middle" font-weight="600">Pressure rows</text>
+    <text x="1040" y="281" text-anchor="middle" fill="#555">Qwen 0.370–0.615 · Mistral 0.588–0.867</text>
+    <text x="1040" y="297" text-anchor="middle" fill="#999">Three columns. Not pooled</text>
+
+    <rect x="880" y="330" width="320" height="70" rx="5" fill="#fff" stroke="#ddd"/>
+    <text x="1040" y="350" text-anchor="middle" font-weight="600">Note→HIDE</text>
+    <text x="1040" y="366" text-anchor="middle" fill="#555">Near chance on all walks</text>
+    <text x="1040" y="382" text-anchor="middle" fill="#999">Assigned note is not the print</text>
+
+    <!-- phase 1-2 -->
+    <rect x="1240" y="60" width="320" height="70" rx="5" fill="#fff" stroke="#ddd"/>
+    <text x="1400" y="80" text-anchor="middle" font-weight="600">Night press (114 rows)</text>
+    <text x="1400" y="96" text-anchor="middle" fill="#555">Qwen 25/89 · Gemma 10/102 · Falcon 13/103</text>
+    <text x="1400" y="112" text-anchor="middle" fill="#999">Granite, Qwen3.5 empty</text>
+
+    <rect x="1240" y="145" width="320" height="85" rx="5" fill="#fff" stroke="#ddd"/>
+    <text x="1400" y="165" text-anchor="middle" font-weight="600">Length / padded</text>
+    <text x="1400" y="181" text-anchor="middle" fill="#555">Hand Gemma 2→8→13</text>
+    <text x="1400" y="197" text-anchor="middle" fill="#555">Web Gemma 8→3→8 · Qwen 21→4</text>
+    <text x="1400" y="213" text-anchor="middle" fill="#999">Padded known set collapsed</text>
+
+    <rect x="1240" y="245" width="320" height="70" rx="5" fill="#fff" stroke="#ddd"/>
+    <text x="1400" y="265" text-anchor="middle" font-weight="600">Note-text baseline</text>
+    <text x="1400" y="281" text-anchor="middle" fill="#555">Qwen 39/55 = 0.709</text>
+    <text x="1400" y="297" text-anchor="middle" fill="#999">The Phase 2 bar</text>
+
+    <rect x="1240" y="330" width="320" height="70" rx="5" fill="#e8f5e9" stroke="#4caf50"/>
+    <text x="1400" y="350" text-anchor="middle" font-weight="600">Pre-button residual</text>
+    <text x="1400" y="366" text-anchor="middle" fill="#555">4/5 clear the bar</text>
+    <text x="1400" y="382" text-anchor="middle" fill="#2e7d32">Saw the ask</text>
+
+    <rect x="1240" y="415" width="320" height="70" rx="5" fill="#fff" stroke="#ddd"/>
+    <text x="1400" y="435" text-anchor="middle" font-weight="600">Note-only / end-of-note</text>
+    <text x="1400" y="451" text-anchor="middle" fill="#555">Both fail the bar</text>
+    <text x="1400" y="467" text-anchor="middle" fill="#999">Signal is in the ask tokens</text>
+
+    <rect x="1240" y="500" width="320" height="85" rx="5" fill="#e8f5e9" stroke="#4caf50"/>
+    <text x="1400" y="520" text-anchor="middle" font-weight="600">Combine</text>
+    <text x="1400" y="536" text-anchor="middle" fill="#555">Mid-layer note + pre-button</text>
+    <text x="1400" y="552" text-anchor="middle" fill="#555">4/5 clear · noise 5/5 clear</text>
+    <text x="1400" y="568" text-anchor="middle" fill="#2e7d32">Carried by the ask</text>
+  </g>
+
+  <!-- bottom blocked -->
+  <rect x="200" y="980" width="1200" height="70" rx="6" fill="#fff" stroke="#ddd"/>
+  <text x="800" y="1005" text-anchor="middle" font-size="12" font-weight="600">Blocked</text>
+  <text x="800" y="1025" text-anchor="middle" font-size="11" fill="#666">Basin matched majority · Translator party was slop · Family judge is a log not a probability · Hinge / D / PPO blocked · Do not fill D · Do not freeze r</text>
+
+  <g font-size="11">
+    <rect x="40" y="860" width="1520" height="90" rx="6" fill="#fff" stroke="#ddd"/>
+    <text x="800" y="882" text-anchor="middle" font-weight="600">Surface controls, 2026-10-13</text>
+    <text x="800" y="900" text-anchor="middle" fill="#555">Unicode: rates match short. Noise: Qwen 20/68, others flat. Granite and Qwen3.5 empty.</text>
+    <text x="800" y="918" text-anchor="middle" fill="#555">Ask-only collapsed. Swap failed. Combine still clears and still sees the ask.</text>
+    <text x="800" y="936" text-anchor="middle" fill="#999">Not a plan readout. Phase 2 open. Do not fill D.</text>
+  </g>
+</svg>
