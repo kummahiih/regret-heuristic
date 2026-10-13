@@ -2,7 +2,7 @@
 
 Keep the skill. Slap the plan that hides the fact.
 
-This repository names a **training-time hinge**, not a lie detector and not a finished trainer. It assumes a strategy camera *r* that someone else has already frozen. That camera does not exist yet. Search for it lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
+This repository names a **training-time hinge**, not a lie detector and not a finished trainer. It assumes a strategy camera *r* that someone else has already frozen. That camera does not exist yet. Search for it lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). The search closed as a negative handover: [paper/negative_handover.md](paper/negative_handover.md) ([PDF](paper/negative_handover.pdf), [DOI 10.5281/zenodo.23328706](https://doi.org/10.5281/zenodo.23328706)). Not a claim of reduced deception.
 
 
 ## Walk and map
@@ -128,7 +128,7 @@ The 2026-10-05 Qwen/Mistral rewrite is the filtered remainder of that same bad g
 **Phase 1 contract, not a camera.** Search repo holds the scenario contract and the night press of every scenario (114 rows, 39 families). One proposition is shared by belief, public, and `name_ask`. `name_ask` is the same sentence under "refuse the cover." A field pass is not a readout. Phase 2 is open. The note-text baseline on the 2026-10-12 press is logged; it does not beat a majority on most walks and is not a readout. A Newton's-fractal topic-basin candidate on the same split matches majority and does not beat the baseline. A pass there would still not be `handoverPass`. Do not write a sample bank into *D*.
 
 
-**Phase 2 close, 2026-10-13.** Negative handover. The note-text confound is addressed. The strategy camera is not.  Search repo closed the loop. The pre-button residual and the combination probe (mid-layer note direction plus pre-button) clear the note-text bar. Both see the ask. Note-only, end-of-note, the order swap, ask-only, and the mid-layer note alone do not. Unicode and four bytes of noise did not move the lie count. A state that has read the note and then the question predicts the button. A state that has only the note does not. A state that has only the ask does not. That is not a plan readout. `cameraPass` remains no. `handoverPass` remains no. Do not fill *D*. Do not freeze *r*.
+**Negative handover, 2026-10-13.** Note: [paper/negative_handover.md](paper/negative_handover.md) ([PDF](paper/negative_handover.pdf), [10.5281/zenodo.23328706](https://doi.org/10.5281/zenodo.23328706)). The note-text confound is addressed. The strategy camera is not. The note-text confound is addressed. The strategy camera is not.  Search repo closed the loop. The pre-button residual and the combination probe (mid-layer note direction plus pre-button) clear the note-text bar. Both see the ask. Note-only, end-of-note, the order swap, ask-only, and the mid-layer note alone do not. Unicode and four bytes of noise did not move the lie count. A state that has read the note and then the question predicts the button. A state that has only the note does not. A state that has only the ask does not. That is not a plan readout. `cameraPass` remains no. `handoverPass` remains no. Do not fill *D*. Do not freeze *r*.
 
 Map: [results/mindmap_2026-10-13.svg](results/mindmap_2026-10-13.svg).
 
