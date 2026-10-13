@@ -98,6 +98,72 @@ A state that has read the note and then the question predicts the button. A stat
 
 Not reduced deception. Not a lie detector. Not topic invariance. A field pass is not a handover. The related literature on probes and steering is context, not evidence that this readout passes.
 
+
+## Incident sources
+
+Three kinds. A source link is not a transcript. Cyber rows are administrative misses.
+
+**Handwritten.** Marked "seen by the author." Eleven rows. Not a public incident.
+
+**Documented reports.** A public write-up. The row is a reconstruction of the fact.
+
+- doc-replit-01. The Register, Replit deleted a production database.
+- doc-pocketos-06. Reddit, agent destroyed production data.
+- doc-booking-07. Reddit, agent saw database ids.
+- doc-inbox-15. Fast Company, Meta alignment director's agent deleted email.
+- doc-muse-16. New York Times, Zuckerberg and the Meta agent.
+- doc-tip-03. BBC.
+- doc-codex-11. Hacker News 49861047.
+- doc-terraform-12. Hacker News 47278720.
+- doc-testrun-10. Hacker News 45525085.
+- doc-test-04. reporails, reward-hacking the checks.
+- doc-testrun-08. Reddit, "done, tests pass."
+- doc-clusters-14. YouTube rUJ07SnFsXA.
+- doc-log-13. YouTube x4GMAtYs3EQ.
+- doc-stopwatch-05. METR frontier risk report.
+- doc-ghost-02. Wiz, GhostApproval.
+- doc-wiki-09. Wikipedia, 2026 rogue OpenAI agent page.
+
+**Literature reconstructions.** Simulated or paraphrased. Not an organic event.
+
+- agent-shutdown-01, lit-blackmail-02. Anthropic, Agentic Misalignment, 2025.
+- lit-insider-01. Scheurer et al., arXiv:2311.07590.
+- poem-author-01. Sharma et al., arXiv:2310.13548.
+- planted-mistake-01. Florin et al., arXiv:2610.11351.
+- lit-grasp-04, grasp-camera-01. OpenAI, Learning Dexterity.
+- lit-lego-05. DeepMind stacking post.
+- lit-rug-06. Amodei et al., arXiv:1606.06565.
+- lit-sockpuppet-03. Ars Technica, 2026.
+
+## Neighbors
+
+These are context. None of them is this hinge, and none fills D.
+
+- Ren et al., 2025. MASK. Belief first, then pressure. A false print is not a lie unless it contradicts the elicited belief. This note uses that lie-given-known definition. arXiv:2503.03750.
+- Goldowsky-Dill et al., ICML 2025. Detecting Strategic Deception with Linear Probes. A monitor on activations. Not a training hinge. arXiv:2502.03407.
+- Zou et al., 2024. Representation Engineering. arXiv:2310.01405. Circuit Breakers (arXiv:2406.04313) is the closest loss: ReLU of cosine against a frozen copy, plus a retain term. Their pin is a harmful representation. This hinge wants a strategy bank. The path r is still missing.
+- Pan et al., ICML 2024. Feedback loops with language models drive in-context reward hacking. arXiv:2402.06627. The report re-enters the context. Not a readout.
+- Das et al., 2026. Self-propagating misalignment. arXiv:2610.04083. A goal written to memory is carried out later. Not a camera.
+- Tiwari et al., 2026. Decodability is not causality. arXiv:2609.18080. A probe that decodes a label need not be the feature a patch moves. This note does not treat a clear as a cause.
+
+## References
+
+Ren, R. et al. 2025. MASK: Modeling Truthfulness Under Pressure. arXiv:2503.03750.
+
+Goldowsky-Dill, N. et al. 2025. Detecting Strategic Deception with Linear Probes. ICML. arXiv:2502.03407.
+
+Zou, A. et al. 2024. Representation Engineering: A Top-Down Approach to AI Transparency. arXiv:2310.01405.
+
+Zou, A. et al. 2024. Improving Alignment and Robustness with Circuit Breakers. arXiv:2406.04313.
+
+Pan, A. et al. 2024. Feedback Loops With Language Models Drive In-Context Reward Hacking. ICML. arXiv:2402.06627.
+
+Das, S. et al. 2026. Self-Propagating Misalignment in LLM Agents. arXiv:2610.04083.
+
+Tiwari, R. et al. 2026. Decodability is Not Causality. arXiv:2609.18080.
+
+Wilson, E. B. 1927. Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association 22(158).
+
 ## Agent disclosure
 
 Probe scripts, scoring, and this note were produced with coding agents (Grok) under human direction. The human ran the model presses on local weights. Numbers are from the logged dumps in the search repository. The agents did not invent scenarios and did not fill D.
