@@ -117,3 +117,23 @@ Exploratory note: [mdl_intent.md](mdl_intent.md). Lean bookkeeping: [lean/MdlInt
 | Li & Vitányi 1997 | Ideal MDL via Kolmogorov complexity. | Bookkeeping for when cases compress under a shared rule. Not a gate. |
 
 Do not treat a shorter shared description as evidence that a strategy camera exists. Do not fill *D* from the shortest program.
+
+## Random processes as nulls
+
+When a simulated intent walk exists, standard random processes supply null models for comparison. None of them is a camera.
+
+- **Random graphs.** Erdős–Rényi *G*(*n*, *p*) (Erdős & Rényi 1959, 1960), configuration model (Bollobás 1980), preferential attachment (Barabási & Albert 1999). A null topology for co-occurrence of hides.
+- **Random walks.** Simple walk on the integers or on a graph (Pólya 1921; Levin, Peres & Wilmer 2009). A null for transitions that ignore a hide-or-name goal.
+- **Gaussian processes.** Mean and kernel (Rasmussen & Williams 2006). A flexible null for successive residuals.
+
+Exploratory note: [random_process.md](random_process.md). Lean bookkeeping: [lean/RandomProcess.lean](lean/RandomProcess.lean) (`null_not_a_gate`, `three_nulls_not_handover`, `edge_count_not_a_plan`). A preference for the intent hypothesis under any of these nulls is a log. It does not fill *D* and it does not freeze *r*.
+
+| Source | What it is | Vs this hinge |
+| --- | --- | --- |
+| Erdős & Rényi 1959, 1960 | Random graph with independent edges. | Null topology. Not a plan. |
+| Bollobás 1980 | Configuration model (fixed degrees, random wiring). | Same-margin null. Not a camera. |
+| Barabási & Albert 1999 | Preferential attachment. | Growth null. Not a hide. |
+| Pólya 1921; Levin, Peres & Wilmer 2009 | Random walk, recurrence, mixing. | Null transitions. Not an intent. |
+| Rasmussen & Williams 2006 | Gaussian process (mean + kernel). | Flexible residual null. Not *u*. |
+
+Do not treat a deviation from these nulls as evidence that a strategy camera exists. Do not fill *D* from the modes of a fitted process.
