@@ -33,30 +33,7 @@ theorem shared_shorter_past_threshold
     linarith
   linarith
 
-/-- A single case never forces the shared hypothesis by length alone.
-    (The threshold is positive when b > 0 and a > c.) -/
-theorem one_case_not_enough
-    (a b c : ℝ)
-    (ha : 0 < a)
-    (hb : 0 < b)
-    (hc : c < a) :
-    ¬ (lengthShared b c 1 < lengthIndependent a 1) := by
-  simp only [lengthShared, lengthIndependent]
-  intro h
-  have : b + c < a := by linarith
-  have : b < a - c := by linarith
-  have hpos : 0 < a - c := sub_pos.mpr hc
-  have : b / (a - c) < 1 := by
-    rw [div_lt_iff hpos]
-    linarith
-  -- not a contradiction by itself; the claim is only that n=1 is not forced
-  -- by the inequality without further assumptions on magnitudes.
-  -- We restate the useful pin: the crossover is not automatic at n=1.
-  exact False.elim (by
-    -- leave the concrete pin as the next theorem
-    exact False.intro)
-
-/-- Explicit pin: with positive overhead, n = 1 does not cross when b ≥ a - c. -/
+/-- With positive overhead, a single case does not cross when b ≥ a - c. -/
 theorem one_case_stays_independent
     (a b c : ℝ)
     (ha : 0 < a)
@@ -66,15 +43,13 @@ theorem one_case_stays_independent
   simp only [lengthIndependent, lengthShared]
   linarith
 
-/-- MDL preference is not a camera gate.
-    A shorter shared description does not freeze r or fill D. -/
-def mdlPrefersShared (a b c n : ℝ) : Bool :=
-  decide (lengthShared b c n < lengthIndependent a n)
+/-- MDL preference is a log. It is not a camera gate and does not freeze r. -/
+def mdlPrefersShared (a b c n : ℝ) : Prop :=
+  lengthShared b c n < lengthIndependent a n
 
 theorem mdl_not_a_gate
     (a b c n : ℝ)
-    (_pref : mdlPrefersShared a b c n = true) :
-    -- the preference is a log; it does not imply a handover bit
+    (_pref : mdlPrefersShared a b c n) :
     True := trivial
 
 end MdlIntent
