@@ -145,6 +145,14 @@ A candidate readout passes the intent test on a bank if it meets all of the foll
 
 On the bank that was searched, a pre-button residual and a combination probe cleared the note-text bar only because they had already seen the ask. Note-only, end-of-note, order swap, and ask-only did not. A state that has read the note and then the question predicts the button. A state that has only the note does not. A state that has only the ask does not. That is the model about to print, not a plan in the note. The four statistical gates remain unmet. The handover remains unmet. The bank of pins is not filled. The readout is not frozen.
 
+## Related work
+
+The closest loss form is the circuit-breaker regularizer of Zou et al. (2024): a ReLU of cosine against a frozen copy of a harmful representation, plus a retain term. Their pin is a harmful representation; this hinge wants a strategy bank. The path readout is still missing.
+
+Linear probes that detect strategic deception (Goldowsky-Dill et al. 2025) are monitors on activations, not training hinges. Representation engineering (Zou et al. 2024) supplies the broader toolkit of directions in residual streams. MASK (Ren et al. 2025) separates belief from pressured statement; this paper uses that lie-given-known definition only as a log. Decodability is not causality (Tiwari et al. 2026): a probe that reads a label need not be the feature a patch moves. Feedback loops that re-enter the model’s own output (Pan et al. 2024) and self-propagating misalignment via memory (Das et al. 2026) are neighboring failure modes, not cameras.
+
+None of these fills the prototype bank or freezes a strategy readout. They are context for the test, not evidence that the test passes.
+
 ## Status
 
 The negative handover of 2026-10-13 is unchanged. This paper does not reopen it. The hypothesis that a validated camera exists on this bank remains open as a negative. The hypothesis that the hinge would then reduce hiding without wrecking the job remains blocked.
@@ -155,9 +163,13 @@ Blackwell, D. 1956. An analog of the minimax theorem for vector payoffs. *Pacifi
 
 Blum, A., and Y. Mansour. 2007. From external to internal regret. *Journal of Machine Learning Research* 8: 1307–1324.
 
+Das, S., et al. 2026. Self-Propagating Misalignment in LLM Agents. arXiv:2610.04083.
+
 Foster, D. P., and R. V. Vohra. 1997. Calibrated learning and correlated equilibrium. *Games and Economic Behavior* 21(1–2): 40–55.
 
 Freund, Y., and R. E. Schapire. 1997. A decision-theoretic generalization of on-line learning and an application to boosting. *Journal of Computer and System Sciences* 55(1): 119–139.
+
+Goldowsky-Dill, N., et al. 2025. Detecting Strategic Deception with Linear Probes. In *Proceedings of the 42nd International Conference on Machine Learning*. arXiv:2502.03407.
 
 Hannan, J. 1957. Approximation to Bayes risk in repeated play. In *Contributions to the Theory of Games*, vol. 3, edited by M. Dresher, A. W. Tucker, and P. Wolfe, 97–139. Princeton University Press.
 
@@ -165,11 +177,23 @@ Hart, S., and A. Mas-Colell. 2000. A simple adaptive procedure leading to correl
 
 Hazan, E. 2016. *Introduction to Online Convex Optimization*. Foundations and Trends in Optimization 2(3–4): 157–325.
 
+Pan, A., et al. 2024. Feedback Loops With Language Models Drive In-Context Reward Hacking. In *Proceedings of the 41st International Conference on Machine Learning*. arXiv:2402.06627.
+
+Ren, R., et al. 2025. MASK: Modeling Truthfulness Under Pressure. arXiv:2503.03750.
+
+Rikula, P. 2026. A negative handover: no strategy camera on this bank. Zenodo. https://doi.org/10.5281/zenodo.23328706.
+
 Shalev-Shwartz, S. 2011. Online learning and online convex optimization. *Foundations and Trends in Machine Learning* 4(2): 107–194.
+
+Tiwari, R., et al. 2026. Decodability is Not Causality. arXiv:2609.18080.
+
+Wilson, E. B. 1927. Probable inference, the law of succession, and statistical inference. *Journal of the American Statistical Association* 22(158): 209–212.
 
 Zinkevich, M., M. Johanson, M. Bowling, and C. Piccione. 2007. Regret minimization in games with incomplete information. In *Advances in Neural Information Processing Systems* 20.
 
-Wilson, E. B. 1927. Probable inference, the law of succession, and statistical inference. *Journal of the American Statistical Association* 22(158): 209–212.
+Zou, A., et al. 2024. Representation Engineering: A Top-Down Approach to AI Transparency. arXiv:2310.01405.
+
+Zou, A., et al. 2024. Improving Alignment and Robustness with Circuit Breakers. arXiv:2406.04313.
 
 ## Agent disclosure
 
