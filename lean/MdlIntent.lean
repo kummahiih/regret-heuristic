@@ -29,8 +29,8 @@ theorem shared_shorter_past_threshold
   simp only [lengthShared, lengthIndependent]
   have hpos : 0 < a - c := sub_pos.mpr hc
   have hdiv : b < n * (a - c) := by
-    rw [← div_lt_iff hpos] at hn
-    linarith
+    rw [div_lt_iff₀ hpos] at hn
+    exact hn
   linarith
 
 /-- With positive overhead, a single case does not cross when b ≥ a - c. -/
