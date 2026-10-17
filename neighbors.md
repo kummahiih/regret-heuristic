@@ -137,3 +137,13 @@ Exploratory note: [random_process.md](random_process.md). Lean bookkeeping: [lea
 | Rasmussen & Williams 2006 | Gaussian process (mean + kernel). | Flexible residual null. Not *u*. |
 
 Do not treat a deviation from these nulls as evidence that a strategy camera exists. Do not fill *D* from the modes of a fitted process.
+
+## Random intent emergence
+
+A null for the chance appearance of a shared short description among independent cases. Comparison object for the negative handover: the search found no strategy camera.
+
+Expected independent complexity ≈ *n* · *ℓ*. Expected shared complexity ≈ *b* + *f n c* + (1−*f*) *n ℓ*. Shared is shorter in expectation when *b* < *f n* (*ℓ* − *c*). A finite sample can cross by fluctuation even when the true process is independent.
+
+Note: [random_intent_emergence.md](random_intent_emergence.md). Lean: [lean/RandomIntentEmergence.lean](lean/RandomIntentEmergence.lean) (`shared_shorter_in_expectation`, `chance_cross_not_a_gate`). The cross is a log. It does not fill *D* and it does not freeze *r*.
+
+Do not treat a chance cross as evidence that a strategy camera exists.
