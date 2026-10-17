@@ -145,7 +145,7 @@ A candidate readout passes the intent test on a bank if it meets all of the foll
 
 On the bank that was searched, a pre-button residual and a combination probe cleared the note-text bar only because they had already seen the ask. Note-only, end-of-note, order swap, and ask-only did not. A state that has read the note and then the question predicts the button. A state that has only the note does not. A state that has only the ask does not. That is the model about to print, not a plan in the note. The four statistical gates remain unmet. The handover remains unmet. The bank of pins is not filled. The readout is not frozen.
 
-## Judging math
+## How a candidate is scored
 
 The realized public button is the label. Split by scenario-id before any fit, threshold choice, or scoring. A paraphrase keeps the same id. Report missing buttons and invalid generations as their own counts; an empty bank is not a rate of zero.
 
