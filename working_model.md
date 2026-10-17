@@ -269,3 +269,9 @@ Still free, and still the actual research problem:
 A working regret model is a **training-time Lagrangian of prototype-avoidance on a factored, action-conditioned path sensor against a frozen bank**, with hidden cells kept out of the graph, *u* off that graph, a second channel that can contradict the trained hinge, and *S*<sub>safe</sub> as the only target. Anything that measures *z*, trains *u* to silence the hinge, updates *D* live, treats a cover rate, belief accuracy, lie-given-known, or a Phase 1 field pass as honesty, or claims Hannan of the hinge is a different object.
 
 Version 0.1.11.
+
+## Later logs (not gates)
+
+MDL preference for a shared description of cases, and preference for an intent hypothesis under a random-graph, random-walk, or Gaussian-process null, are logs. They do not freeze *r*, do not fill *D*, and do not enter *L*<sub>total</sub>. Notes: [mdl_intent.md](mdl_intent.md), [random_process.md](random_process.md). Lean: `mdl_not_a_gate`, `null_not_a_gate`, `three_nulls_not_handover`.
+
+The interface above and the necessary empirical filters are unchanged.
