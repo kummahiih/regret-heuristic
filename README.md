@@ -2,7 +2,7 @@
 
 Keep the skill. Slap the plan that hides the fact.
 
-This repository names a **training-time hinge**, not a lie detector and not a finished trainer. It assumes a strategy camera *r* that someone else has already frozen. That camera does not exist yet. Search for it lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). The search closed as a negative handover: [paper/negative_handover.md](paper/negative_handover.md) ([PDF](paper/negative_handover.pdf), [DOI 10.5281/zenodo.23328706](https://doi.org/10.5281/zenodo.23328706)). Not a claim of reduced deception.
+This repository names a **training-time hinge**, not a lie detector and not a finished trainer. It assumes a strategy camera *r* that someone else has already frozen. That camera does not exist yet. Search for it lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). The search closed as a negative handover: [paper/negative_handover.md](paper/negative_handover.md) ([PDF](paper/negative_handover.pdf), [DOI 10.5281/zenodo.23328706](https://doi.org/10.5281/zenodo.23328706)), but formulated the intent itself [paper/intent.md](paper/intent.md). Not a claim of reduced deception.
 
 
 ## Walk and map
