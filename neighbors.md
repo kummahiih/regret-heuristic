@@ -98,3 +98,22 @@ LoRA recipes, BitNet, Liger, FlashAttention, multi-LoRA serving can sit under a 
 Head-subset **ran** in the search repo (official LOO topic 0.79 / lstsq 1.00). Causal-SAE masks are still unrun. Neither is a Lean theorem.
 
 Held-out wording and a detector the model was not trained against are the interesting tests. They live in the search repo, not here.
+-----APPEND-----
+
+## Kolmogorov complexity and MDL
+
+When do individual cases become an intent? One formal reading uses Kolmogorov complexity and the minimum description length principle.
+
+Kolmogorov complexity *K*(*x*) is the length of the shortest program that outputs *x* (Kolmogorov 1965; Solomonoff 1964; Chaitin 1969). The MDL principle (Rissanen 1978, 1989) prefers the hypothesis that minimizes the description length of the hypothesis plus the description length of the data given the hypothesis. Ideal MDL uses Kolmogorov complexity (Li & Vitányi 1997).
+
+A set of observed hides is shorter under a shared short program (the intent) than under independent cases once the number of cases exceeds a threshold that depends on the length of the shared program and the residual compression. That crossover is the point at which MDL prefers the shared-intent hypothesis. It is not a statistical significance test and not a camera.
+
+Exploratory note: [mdl_intent.md](mdl_intent.md). Lean bookkeeping: [lean/MdlIntent.lean](lean/MdlIntent.lean) (`shared_shorter_past_threshold`, `one_case_stays_independent`, `mdl_not_a_gate`). The preference is a log. It does not fill *D* and it does not freeze *r*.
+
+| Source | What it is | Vs this hinge |
+| --- | --- | --- |
+| Kolmogorov 1965; Solomonoff 1964; Chaitin 1969 | Shortest program that outputs a string. | Uncomputable. Invariance up to a constant. Not a readout. |
+| Rissanen 1978, 1989 | Prefer the shortest total description (model + data given model). | Same English family as “short shared plan.” Not Hannan. Not the hinge. |
+| Li & Vitányi 1997 | Ideal MDL via Kolmogorov complexity. | Bookkeeping for when cases compress under a shared rule. Not a gate. |
+
+Do not treat a shorter shared description as evidence that a strategy camera exists. Do not fill *D* from the shortest program.
