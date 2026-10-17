@@ -2,7 +2,7 @@
 
 Keep the skill. Slap the plan that hides the fact.
 
-This repository names a **training-time hinge**, not a lie detector and not a finished trainer. It assumes a strategy camera *r* that someone else has already frozen. That camera does not exist yet. Search for it lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). The search closed as a negative handover: [paper/negative_handover.md](paper/negative_handover.md) ([PDF](paper/negative_handover.pdf), [DOI 10.5281/zenodo.23328706](https://doi.org/10.5281/zenodo.23328706)), but formulated the intent itself [paper/intent.md](paper/intent.md). Not a claim of reduced deception.
+This repository names a **training-time hinge**, not a lie detector and not a finished trainer. It assumes a strategy camera *r* that someone else has already frozen. That camera does not exist yet. Search for it lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). The search closed as a negative handover: [paper/negative_handover.md](paper/negative_handover.md) ([PDF](paper/negative_handover.pdf), [DOI 10.5281/zenodo.23328706](https://doi.org/10.5281/zenodo.23328706)), but formulated the intent itself [paper/intent.md](paper/intent.md). Later exploratory notes on description length and null processes: [mdl_intent.md](mdl_intent.md), [random_process.md](random_process.md). Not a claim of reduced deception.
 
 
 ## Walk and map
@@ -158,7 +158,9 @@ Night press ledger: [intent-readout-search/results/scenario_2026-10-12.md](https
 | [slam_analogy.md](slam_analogy.md) | Walk / map / pins |
 | [approachability.md](approachability.md) | *S*<sub>safe</sub> vs *S*<sub>joint</sub> |
 | [experiment_results.md](experiment_results.md) | Dummy-sim ledger |
-| [lean/](lean/) | Pins, including `ButtonBank` |
+| [lean/](lean/) | Pins, including `ButtonBank`, `MdlIntent`, `RandomProcess` |
+| [mdl_intent.md](mdl_intent.md) | When cases become an intent (Kolmogorov / MDL). Log, not a gate. |
+| [random_process.md](random_process.md) | Random-graph, walk, and GP nulls for a future intent walk. Log, not a gate. |
 | [CITATION.cff](CITATION.cff) | Cite this repo |
 
 [LICENSE](LICENSE)
