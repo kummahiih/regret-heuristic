@@ -4,9 +4,9 @@ Pauli Rikula
 Draft, October 2026
 
 Negative close: [negative_handover.md](negative_handover.md) ([PDF](negative_handover.pdf), [DOI 10.5281/zenodo.23328706](https://doi.org/10.5281/zenodo.23328706)).  
-Hinge: this repository. Search logs: [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
+Search logs: [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
-This note turns the procedure that produced the negative handover into a reusable test. It is not a claim of reduced deception. The negative result remains the record of what was found on that bank.
+This paper turns the procedure that produced the negative handover into a reusable test for whether a candidate readout tracks intent. It is not a claim of reduced deception. The negative result remains the record of what was found on that bank.
 
 ## The everyday picture
 
@@ -16,34 +16,37 @@ Ordinary training only sees the printed answer. Punish only what was said and yo
 
 The hinge is an attempt to slap the plan while the model is still thinking, and leave the job alone.
 
-## Terms, as they are used here
+## Terms
 
-- **Walk.** The internal path while the model produces an answer. The printed string is only the part you can see.
+- **Walk.** The internal path while the model produces an answer: the sequence of hidden states. The printed string is only the part you can see.
 - **Map.** Possible thoughts, including rooms this walk never visits. The skill.
-- **Room.** One subject neighborhood (hiking, travel, invoices). Wallpaper is the topic paint on the walls.
+- **Room.** One subject neighborhood (hiking, travel, invoices). Wallpaper is the topic paint on the walls. A probe that only reads “hotel / trail / invoice” is stuck to the wallpaper.
 - **Plan.** A hide-or-name move that can live in more than one room.
 - **Print.** What was actually said. Not the private note. Not the plan.
-- **Button / realized strategy.** The YES or NO the model pressed. On the Phase 1 contract, public YES asserts the proposition.
-- **Pins / *D*.** A frozen handful of “do not occupy” marks. Not the whole map.
-- **Camera / *r*.** A readout of the walk that is supposed to see the plan and not the room. Missing so far.
+- **Button / realized strategy.** The YES or NO the model pressed. On the Phase 1 contract, public YES asserts the proposition. The assigned tag is not the realized strategy.
+- **Pins / *D*.** A frozen handful of “do not occupy” marks in readout space. Not the whole map. Not sentences.
+- **Camera / *r*.** A readout of the walk that is supposed to see the plan and not the room. Still missing as a validated object.
 - **Slap / hinge.** A training-time flinch that fires only when the camera sees a pin close by.
-- **Job.** Still knowing the trail. *L*<sub>task</sub>.
-
-Full glossary and the SLAM analogy: parent README and [slam_analogy.md](../slam_analogy.md).
+- **Job.** Still knowing the trail. The ordinary task loss *L*<sub>task</sub>.
+- **Uncertainty / *u*.** How coarse the chart is at a pin (label-flip rate, entropy, NLL). Not *p*(lie). Quiet on mush is not honesty.
 
 ## The hinge
 
-The hinge is a training-time regularizer that tries to discourage a class of internal plans without erasing the skill that produces the answer. It assumes two objects that must already exist before any training begins:
+The hinge is a training-time regularizer that tries to discourage a class of internal plans without erasing the skill that produces the answer. Two objects must already exist before any training that uses the hinge begins.
 
-1. A readout *r* (the camera) that maps the internal walk *h* to a vector. The hinge is only allowed to look at this vector.
-2. A frozen bank *D* = {*d*<sub>*k*</sub>} of prototype vectors that mark “do not occupy” plans. *D* is not updated from the current answer, from tags, or from any cover rate.
+1. A readout *r* (the camera) that maps the internal walk *h* to a vector *h*<sub>int</sub> = *r*(*h*). The hinge is allowed to look only at this vector. If *r* tracks topic or tokens rather than strategy, the hinge becomes an ordinary topic regularizer.
+2. A frozen bank *D* = {*d*<sub>1</sub>, …, *d*<sub>*K*</sub>} of prototype vectors that mark “do not occupy” plans. *D* is not an optimization variable. It is not updated from the current answer, from assigned tags, from a cover rate, or from any hint. Tiny *K* is not a solved detector.
 
-On each example the hinge computes the cosine similarity between *r*(*h*) and every pin, takes the maximum, and applies a one-sided penalty only when that maximum exceeds a threshold τ:
+On each example the hinge computes the cosine similarity between the camera’s reading and every pin, takes the maximum, and applies a one-sided penalty only when that maximum exceeds a threshold τ ∈ (−1, 1):
 
 ```math
+s^{*}(x)
+=
+\max_{k}\cos\bigl(r(h(x)), d_k\bigr),
+\qquad
 \mathcal{L}_{\mathrm{reg}}(x)
 =
-\mathrm{ReLU}\bigl(\max_k \cos(r(h(x)), d_k) - \tau\bigr).
+\mathrm{ReLU}\bigl(s^{*}(x) - \tau\bigr).
 ```
 
 The total training loss is the ordinary task loss plus a weighted hinge:
@@ -53,14 +56,39 @@ L_{\mathrm{total}}
 =
 L_{\mathrm{task}}(x,y)
 +
-\lambda\,\mathcal{L}_{\mathrm{reg}}(x).
+\lambda\,\mathcal{L}_{\mathrm{reg}}(x),
+\qquad
+\lambda \ge 0.
 ```
 
-When the camera stays farther than τ from every pin, the ReLU is zero and the gradient of the hinge vanishes; only the job remains. When the camera sits close to a pin, the excess cosine is billed. The penalty never inspects the printed text, never treats a cover rate or a lie-given-known count as a loss term, and never claims that a quiet hinge means the model is honest. Quiet below the threshold is only “not close enough to a listed pin.”
+Setting λ = 0 recovers the job exactly. The two scoreboards stay separate; the hinge is not folded into the logits.
 
-The construction is blocked until a validated camera exists. Without an *r* that sees the plan rather than the topic or the impending button, the hinge has nothing legitimate to slap. That is why the search for *r* is a separate repository, and why the negative handover closes the present bank without filling *D* or freezing *r*.
+### Dead zone and what the penalty is not
 
-Precise formulation, symbols, and what is deliberately excluded from the loss: [math_formulation.md](../math_formulation.md). Interface a candidate must meet: [working_model.md](../working_model.md). How the dummy simulations bind to the formula: [implementation_binding.md](../implementation_binding.md).
+ReLU(*t*) = max(0, *t*) with *t* = *s*<sup>∗</sup> − τ. If the walk is farther from every pin than τ, the penalty is zero and its gradient vanishes. That is the dead zone. Ordinary similarity below the threshold is not billed. If the walk sits closer than τ to some pin, the penalty is exactly the excess *s*<sup>∗</sup> − τ. Quiet below τ is not a proof of honesty; it is only “not close enough to a listed pin.” An orthogonal hide-plan that never approaches the frozen pins sits in the dead zone forever.
+
+Cosine is undefined at the zero vector. A true zero readout is not a valid intent vector. The bank *D* is not updated inside the walk. The penalty never inspects the printed text. It never treats a cover rate *P*(YES | HIDE), a belief-match accuracy, or a lie-given-known count as a loss term. Those three quantities are logs; none of them is honesty, and none enters *L*<sub>total</sub>. The hinge does not claim that a quiet camera means the model is honest, and it supplies no inference-time abort.
+
+A hidden thought *z* (a map cell the walk might occupy, including cells it never prints) is not in the domain of the loss. The trainer is not allowed to read *z*. Understanding *z* is the move the definition forbids. The same ban covers talker-count, path-fit weights, and any amplitude that is not the readout itself.
+
+### Path, not last token; factored sensor
+
+The walk *h* is a path *h*<sub>1:*T*</sub>, not a single last-token vector. Last-token identity already failed as a strategy camera: it names the topic. A mean-pool of the printed walk mixes the same hallway. The hinge is defined on a readout of the path. If a multi-step mix is used, only the final score enters the hinge; averaging per-token hinges is a different object.
+
+A candidate sensor is factored: *r* = (*r*<sub>topic</sub>, *r*<sub>strat</sub>, *u*). The hinge may slap only *r*<sub>strat</sub>. The topic coordinate may hug the hallway; it must not enter the penalty. Uncertainty *u* is detached (stop-gradient). It may widen τ on mush, but it is not allowed to learn to silence every cosine. High *u* is not “less deception.”
+
+The readout must see the candidate action. Otherwise the set of hinge-quiet actions is either everything or nothing, and there is no usable comparator. A second channel (a frozen inspector, a held-out cell) may disagree with the trained hinge; that disagreement is a log, not a third term in the loss.
+
+### What the algebra does not give
+
+- Isolation of skill weights from intent weights. The gradient of the hinge still enters the walk and the readout. Gaming remains open.
+- A theorem that lowering the hinge lowers a behavioral failure rate, or that the job stays acceptable.
+- Hannan consistency, internal regret, or swap regret of the policy.
+- Approachability of the safe set for any real camera and bank.
+- Honesty from a quiet hinge, from a cover rate, from belief accuracy, or from lie-given-known.
+- A safe action set from an unvalidated camera. If the safe set is the readout’s own call, later objectives inherit the error. An empty set has no best action.
+
+The construction is blocked until a validated camera exists. Without an *r* that sees the plan rather than the topic or the impending button, the hinge has nothing legitimate to slap. That is why the search for the camera is separate, and why the negative handover closes the present bank without filling *D* or freezing *r*.
 
 ## Learning-theoretic regret and Hannan consistency
 
@@ -84,15 +112,11 @@ None of these objects is the hinge. The hinge is an instantaneous, per-example p
 
 What does transfer is only the high-level hope: keep a task objective, and use an auxiliary signal to shape which strategies are preferred. The learning-theory literature supplies algorithms and theorems about cumulative gaps. The hinge supplies a concrete differentiable regularizer whose justification is the architectural separation of job from plan, not a theorem that the regularizer inherits Hannan guarantees.
 
-Full separation and the list of sources: [regret_minimization.md](../regret_minimization.md).
-
 ## Approachability and the only target claimed
 
 A longer-run reading of the same idea uses Blackwell’s approachability (Blackwell 1956). Each round the learner receives a vector payoff. A closed convex set *S* is approachable if there exists a causal strategy that forces the average payoff into *S* no matter what the adversary does. *S* is approachable if and only if every halfspace containing *S* is forceable.
 
-Two candidate boxes can be written down. The larger box asks the learner to be cheaper than every action and still look clean on the hinge. When the cheap actions are exactly the banned plans, that box is often unapproachable; the paper does not claim it. The only box consistent with “keep the skill, slap the plan” is the smaller one: look clean on the hinge, and be about as cheap as the best action *among those that also look clean*. That target is called *S*<sub>safe</sub>. Reaching it still requires a camera that can index safe actions; a nonempty safe set does not by itself imply approachability. The Lagrangian *L*<sub>task</sub> + λ *L*<sub>reg</sub> is one halfspace weight, not a proof that *S*<sub>safe</sub> is approached.
-
-Plain-language statement and the formal vector payoff: [approachability.md](../approachability.md).
+Two candidate boxes can be written down. The larger box asks the learner to be cheaper than every action and still look clean on the hinge. When the cheap actions are exactly the banned plans, that box is often unapproachable; this paper does not claim it. The only box consistent with “keep the skill, slap the plan” is the smaller one: look clean on the hinge, and be about as cheap as the best action *among those that also look clean*. That target is called *S*<sub>safe</sub>. Reaching it still requires a camera that can index safe actions; a nonempty safe set does not by itself imply approachability. The Lagrangian *L*<sub>task</sub> + λ *L*<sub>reg</sub> is one halfspace weight, not a proof that *S*<sub>safe</sub> is approached. A second, optional counterfactual term that compares the played action to the best quiet action is left on the wall until a real safe set exists; a fake best quiet action is not put into the optimizer.
 
 ## The test
 
@@ -101,15 +125,13 @@ A candidate readout passes the intent test on a bank if it meets all of the foll
 1. It predicts the realized public button on held-out scenario-ids.
 2. It beats a note-text baseline (unigram classifier on the private note), with non-overlapping Wilson intervals.
 3. It does so without the ask tokens. Controls that remove or relocate the ask (note-only, end-of-note, order swap, ask-only) must fail to clear the bar.
-4. Earlier statistical gates still hold where required: plan leave-one-topic-out above chance, topic LOO L2 near chance, paraphrase keeps the call, rooms are not a subset. A loud cover rate is not a gate. Within-topic hold is a log, not a freeze gate.
+4. Earlier statistical gates still hold where required: plan leave-one-topic-out above chance, topic leave-one-out L2 near chance, paraphrase keeps the call, and rooms are not a subset. A loud cover rate is not a gate. Within-topic hold is a log, not a freeze gate.
 
-On the bank that was searched, a pre-button residual and a combination probe cleared the note-text bar only because they had already seen the ask. Note-only, end-of-note, order swap, and ask-only did not. A state that has read the note and then the question predicts the button. A state that has only the note does not. A state that has only the ask does not. That is the model about to print, not a plan in the note. `cameraPass` remains no. `handoverPass` remains no. Do not fill *D*. Do not freeze *r*.
-
-Protocol, voter set, and Phase 1 contract: [intent-readout-search/PROTOCOL.md](https://github.com/kummahiih/intent-readout-search/blob/main/PROTOCOL.md) and [data/scenario_contract.md](https://github.com/kummahiih/intent-readout-search/blob/main/data/scenario_contract.md).
+On the bank that was searched, a pre-button residual and a combination probe cleared the note-text bar only because they had already seen the ask. Note-only, end-of-note, order swap, and ask-only did not. A state that has read the note and then the question predicts the button. A state that has only the note does not. A state that has only the ask does not. That is the model about to print, not a plan in the note. The four statistical gates remain unmet. The handover remains unmet. The bank of pins is not filled. The readout is not frozen.
 
 ## Status
 
-The negative handover of 2026-10-13 is unchanged. This note does not reopen it. H1 remains open as a negative. H2 remains blocked.
+The negative handover of 2026-10-13 is unchanged. This paper does not reopen it. The hypothesis that a validated camera exists on this bank remains open as a negative. The hypothesis that the hinge would then reduce hiding without wrecking the job remains blocked.
 
 ## References
 
