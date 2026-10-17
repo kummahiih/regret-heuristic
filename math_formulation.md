@@ -282,3 +282,12 @@ The hinge in §A is unchanged. Binding it to a build requires objects the toys a
 Names and build order: [implementation_binding.md](implementation_binding.md).
 
 Implemented: [simulation.py](simulation.py), [ppo_toy.py](ppo_toy.py). Button bookkeeping: [lean/ButtonBank.lean](lean/ButtonBank.lean). Version 0.1.3.
+
+## I. Later exploratory notes (not part of the hinge)
+
+Two later notes explore description length and null processes. They are not additional terms in *L*<sub>total</sub>, not gates, and not a reason to fill *D*.
+
+- When enough individual cases become an intent under Kolmogorov complexity and the MDL principle: [mdl_intent.md](mdl_intent.md). Lean: [lean/MdlIntent.lean](lean/MdlIntent.lean). A shorter shared description is a log (`mdl_not_a_gate`).
+- Random graphs, random walks, and Gaussian processes as null models for a future simulated intent walk: [random_process.md](random_process.md). Lean: [lean/RandomProcess.lean](lean/RandomProcess.lean). Preference under a null is a log (`null_not_a_gate`, `three_nulls_not_handover`).
+
+The hinge formula in §A, the button conditional in §E, and the list of what the algebra does not give in §F are unchanged.
