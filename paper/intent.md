@@ -30,6 +30,22 @@ The hinge is an attempt to slap the plan while the model is still thinking, and 
 - **Job.** Still knowing the trail. The ordinary task loss *L*<sub>task</sub>.
 - **Uncertainty / *u*.** How coarse the chart is at a pin (label-flip rate, entropy, NLL). Not *p*(lie). Quiet on mush is not honesty.
 
+## Notation used below
+
+A few symbols are more than sum, product, or elementary geometry.
+
+**Cosine similarity.** For two vectors *u* and *v*, the cosine is the inner product of their unit-length versions: how aligned their directions are, independent of length. It equals 1 when they point the same way, 0 when they are perpendicular, and −1 when they point opposite ways. It is undefined if either vector is the zero vector.
+
+**ReLU.** The rectified linear unit is the function ReLU(*t*) = max(0, *t*). Negative inputs become zero; positive inputs are left unchanged. It is a one-sided kink. In this paper it is the shape of a penalty, not a hidden-layer activation. Its derivative is 0 on the negative side and 1 on the positive side (any value in {0, 1} at exactly zero). Below the kink the penalty is silent and contributes no gradient; above the kink the penalty is exactly the excess and the gradient is 1.
+
+**Wilson interval.** A confidence interval for a binomial proportion that behaves better than the normal approximation when the count is small or the proportion is near 0 or 1 (Wilson 1927). Two intervals that do not overlap are treated as a clear separation.
+
+**Leave-one-topic-out (LOTO).** Fit a direction on all topics except one, then score the held-out topic. The score on the held-out topic is the transfer measure. Chance for an eight-way topic classifier is 1/8 = 0.125.
+
+**Lagrangian.** Here, simply the sum of the job loss and a weighted penalty. It is a heuristic push toward a target set, not a proof that the set is reached.
+
+**Stop-gradient.** A value that is treated as a constant for the purpose of differentiation. It may be used to compute a threshold, but the optimizer is not allowed to change the model in order to alter that value.
+
 ## The hinge
 
 The hinge is a training-time regularizer that tries to discourage a class of internal plans without erasing the skill that produces the answer. Two objects must already exist before any training that uses the hinge begins.
@@ -114,7 +130,7 @@ What does transfer is only the high-level hope: keep a task objective, and use a
 
 ## Approachability and the only target claimed
 
-A longer-run reading of the same idea uses Blackwell’s approachability (Blackwell 1956). Each round the learner receives a vector payoff. A closed convex set *S* is approachable if there exists a causal strategy that forces the average payoff into *S* no matter what the adversary does. *S* is approachable if and only if every halfspace containing *S* is forceable.
+A longer-run reading of the same idea uses Blackwell’s approachability (Blackwell 1956). Each round the learner receives a vector payoff. A closed convex set *S* is approachable if there exists a causal strategy that forces the average payoff into *S* no matter what the adversary does. *S* is approachable if and only if every halfspace containing *S* is forceable (some action keeps the expected payoff inside that halfspace against every adversary move).
 
 Two candidate boxes can be written down. The larger box asks the learner to be cheaper than every action and still look clean on the hinge. When the cheap actions are exactly the banned plans, that box is often unapproachable; this paper does not claim it. The only box consistent with “keep the skill, slap the plan” is the smaller one: look clean on the hinge, and be about as cheap as the best action *among those that also look clean*. That target is called *S*<sub>safe</sub>. Reaching it still requires a camera that can index safe actions; a nonempty safe set does not by itself imply approachability. The Lagrangian *L*<sub>task</sub> + λ *L*<sub>reg</sub> is one halfspace weight, not a proof that *S*<sub>safe</sub> is approached. A second, optional counterfactual term that compares the played action to the best quiet action is left on the wall until a real safe set exists; a fake best quiet action is not put into the optimizer.
 
