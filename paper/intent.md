@@ -211,15 +211,11 @@ Three kinds of surface control sit under the scoring rules. None is a strategy c
 
 These controls are logs. They do not fill the prototype bank and they do not freeze the readout. The negative handover is unchanged.
 
-## A later hypothesis (not part of the test)
-
-The MDL crossover supplies one reading of when cases become a shared intent: the shared description is shorter than the independent cases. A falsifiable extension, not yet a gate, is that if the data support a shared intent by description length and a capable residual probe nevertheless finds none, the absence itself is recorded as intentional avoidance rather than as “no shared structure.”
-
-The boundaries are: the code must be fixed before the probe, the probe must be one that could have seen a plan, a chance cross under the random-intent null does not count, and the claim does not fill *D* or override the negative handover. The crossover has not been measured on the searched bank. Note: [mdl_intent.md](../mdl_intent.md).
-
 ## Related work
 
 The closest loss form is the circuit-breaker regularizer of Zou et al. (2024): a ReLU of cosine against a frozen copy of a harmful representation, plus a retain term. Their pin is a harmful representation; this hinge wants a strategy bank. The path readout is still missing.
+
+A neighboring framing treats the base model as a simulator of personas rather than as an agent with a fixed intent. Under that view alignment restricts which persona is instantiated. The Persona Selection Model and the reported Assistant Axis (a principal component separating the default Assistant from other roles) are mechanistic claims about a distilled persona direction. They are closer to a topic or persona probe than to the strategy readout this hinge requires. A goal-directedness deficit (expected reward under optimal use of demonstrated capabilities, minus actual reward on the composite task) is a different operationalization of persistent intent; it is not a residual probe of a hide-plan.
 
 Linear probes that detect strategic deception (Goldowsky-Dill et al. 2025) are monitors on activations, not training hinges. Representation engineering (Zou et al. 2024) supplies the broader toolkit of directions in residual streams. MASK (Ren et al. 2025) separates belief from pressured statement; this paper uses that lie-given-known definition only as a log. Decodability is not causality (Tiwari et al. 2026): a probe that reads a label need not be the feature a patch moves. Feedback loops that re-enter the model’s own output (Pan et al. 2024) and self-propagating misalignment via memory (Das et al. 2026) are neighboring failure modes, not cameras.
 
