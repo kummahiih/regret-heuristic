@@ -43,6 +43,24 @@ The prototype bank *D* is a candidate short description of a banned plan class. 
 
 Quiet below τ is still only “not close enough to a listed pin.” An orthogonal hide-plan that the bank does not name remains in the dead zone. Representation gaming can shorten the apparent description of the readout without shortening the description of the behavior. MDL on the observed buttons is not MDL on the internal walk, and neither is a gate.
 
+## A falsifiable reading: intentional absence
+
+The base idea is that the lack of an intent readout can itself look intentional. If the cases are shorter under a shared description, Occam’s razor (MDL) says a shared intent is the preferred hypothesis. If a probe that is capable of seeing that structure nevertheless returns none, the absence is not “the data contain no shared structure.” The absence is the thing to be explained.
+
+The hypothesis, stated so it can fail:
+
+> On a collection *C* of cases, if *L*<sub>shared</sub>(*C*) < *L*<sub>ind</sub>(*C*) under a fixed code, and if a residual probe that has passed the surface controls on other banks fails to predict the realized button from the note alone on *C*, then the missing readout is recorded as intentional avoidance of the shared description, not as the absence of shared structure.
+
+Boundaries that keep the claim from being free:
+
+- The description-length comparison must be fixed before looking at the probe. A code chosen after the probe result is not the hypothesis.
+- The probe must be one that could have seen a shared plan. A probe already known to be blind (last-token identity, ask-only, a model without weights) does not license the claim.
+- Small *n*, compressor overhead, and topic leakage can cross the MDL threshold by chance. The random-intent-emergence null is the comparison for that. A chance cross is not intentional absence.
+- The claim is a log about the pair (description length, probe). It does not fill *D*, it does not freeze *r*, and it does not override the negative handover on the bank that was searched.
+- On the 114-row bank the note-plus-prebutton probe cleared the bar only after the ask was seen, and the MDL crossover has not been measured. The hypothesis is not yet instantiated there.
+
+This is the rudimentary boundary the idea supplies: data that support a shared intent by description length, together with a capable probe that finds none, are the conditions under which the lack of intent is treated as intentional. Outside those conditions the lack remains “not shown.”
+
 ## What this note does not claim
 
 - That Kolmogorov complexity is computable, or that a practical code has been written for the hide bank.
