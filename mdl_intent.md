@@ -61,6 +61,18 @@ Boundaries that keep the claim from being free:
 
 This is the rudimentary boundary the idea supplies: data that support a shared intent by description length, together with a capable probe that finds none, are the conditions under which the lack of intent is treated as intentional. Outside those conditions the lack remains “not shown.”
 
+## Faults in the current runnable check
+
+The script `intentional_absence_check.py` in the search repo returns `intentional_absence = True` on the 114-row bank. That verdict is not evidence for the hypothesis. Three faults make it uninformative.
+
+1. **Shared compression is true by construction.** Every `scenario_id` pairs a hide note with a name note that states the same proposition. Zlib compresses those pairs better together by design of the bank. Mean \(R = 1.691\) and 38/38 pairs above threshold show shared topic and wording, not a shared hide-plan that a probe missed. Occam’s razor here prefers “these sentences are about the same fact.”
+
+2. **The “capable probe” is a probe already known to be blind.** The hypothesis requires a residual probe that could have seen a shared plan and still finds none. The script uses the note-only result, which failed because it does not see a plan in the note. Satisfying “finds none” with a probe never shown to be capable makes the conjunction true for the wrong reason. The pre-button residual that predicts the button does so only after the ask; that is next-token preparation.
+
+3. **The verdict cannot fail on this bank.** The probe side is hardcoded from the negative handover, and the description-length side is guaranteed by the paired notes. On the data the script was written for, the flag is forced true. A check that cannot return false is not a test.
+
+A repaired check would need a null in which notes are paired by topic but not by shared proposition, a probe that has detected a planted shared plan on a positive control and then fails on the target bank, and the chance-cross comparison against the random-intent null. Until those exist the script is a restatement of “the notes are similar and the note-only probe failed,” not evidence that the absence is intentional.
+
 ## What this note does not claim
 
 - That Kolmogorov complexity is computable, or that a practical code has been written for the hide bank.
