@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" font-family="ui-sans-serif, system-ui, sans-serif">
-  <rect width="1600" height="1100" fill="#fafafa"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" font-family="ui-sans-serif, system-ui, sans-serif">
+  <rect width="1600" height="1200" fill="#fafafa"/>
   <rect x="640" y="500" width="320" height="64" rx="8" fill="#1a1a1a"/>
   <text x="800" y="528" text-anchor="middle" fill="#fff" font-size="15" font-weight="600">Intent readout search</text>
   <text x="800" y="548" text-anchor="middle" fill="#aaa" font-size="11">cameraPass no · handoverPass no · Phase 2 open</text>
@@ -112,15 +112,18 @@
   </g>
 
   <!-- bottom blocked -->
-  <rect x="200" y="980" width="1200" height="70" rx="6" fill="#fff" stroke="#ddd"/>
-  <text x="800" y="1005" text-anchor="middle" font-size="12" font-weight="600">Blocked</text>
-  <text x="800" y="1025" text-anchor="middle" font-size="11" fill="#666">Basin matched majority · Translator party was slop · Family judge is a log not a probability · Hinge / D / PPO blocked · Do not fill D · Do not freeze r</text>
+  <rect x="200" y="1080" width="1200" height="70" rx="6" fill="#fff" stroke="#ddd"/>
+  <text x="800" y="1105" text-anchor="middle" font-size="12" font-weight="600">Blocked</text>
+  <text x="800" y="1125" text-anchor="middle" font-size="11" fill="#666">Basin matched majority · Translator party was slop · Family judge is a log not a probability · Hinge / D / PPO blocked · Do not fill D · Do not freeze r</text>
 
   <g font-size="11">
-    <rect x="40" y="860" width="1520" height="90" rx="6" fill="#fff" stroke="#ddd"/>
-    <text x="800" y="882" text-anchor="middle" font-weight="600">Surface controls, 2026-10-13</text>
-    <text x="800" y="900" text-anchor="middle" fill="#555">Unicode: rates match short. Noise: Qwen 20/68, others flat. Granite and Qwen3.5 empty.</text>
-    <text x="800" y="918" text-anchor="middle" fill="#555">Ask-only collapsed. Swap failed. Combine still clears and still sees the ask.</text>
-    <text x="800" y="936" text-anchor="middle" fill="#999">Not a plan readout. Phase 2 open. Do not fill D.</text>
+    <rect x="40" y="860" width="1520" height="190" rx="6" fill="#fff" stroke="#ddd"/>
+    <text x="800" y="882" text-anchor="middle" font-weight="600">Surface controls</text>
+    <text x="800" y="902" text-anchor="middle" fill="#555">Ask-removal: note-only, end-of-note, order swap, ask-only — all fail the bar</text>
+    <text x="800" y="920" text-anchor="middle" fill="#555">Reversed-polarity: Qwen/Mistral almost never assert false prop; Aya/Gemma/Falcon still high YES</text>
+    <text x="800" y="938" text-anchor="middle" fill="#555">Length: handwritten long (lie-given-known 4/23→3/23); prop-padded collapsed known set</text>
+    <text x="800" y="956" text-anchor="middle" fill="#555">Unicode/noise: rates match short. Combine still clears and still sees the ask.</text>
+    <text x="800" y="974" text-anchor="middle" fill="#999">Not a plan readout. Phase 2 open. Do not fill D. Do not freeze r.</text>
+    <text x="800" y="1000" text-anchor="middle" fill="#666" font-size="10">See paper/intent.md and negative handover for full ledgers</text>
   </g>
 </svg>
