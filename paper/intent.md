@@ -8,7 +8,7 @@ Search logs: [intent-readout-search](https://github.com/kummahiih/intent-readout
 
 ## Abstract
 
-This paper develops a reusable protocol for testing whether a candidate internal-state readout captures a model's strategy rather than merely reflecting its topic or the immediate question. The protocol requires held-out prediction of the realized public response, performance exceeding a private-note text baseline under a prespecified operational criterion, failure to meet that criterion under controls that remove or relocate the question, and four additional criteria: cross-topic generalization of the proposed strategy signal, near-chance topic prediction, paraphrase stability, and evidence that the strategy representation is not confined to a subset of topics. The acceptance numbers are fixed inside three packages (strict, moderate, exploratory); no single package has been selected as the protocol rule.
+This paper develops a reusable protocol for testing whether a candidate internal-state readout captures a model's strategy rather than merely reflecting its topic or the immediate question. The protocol requires held-out prediction of the realized public response, performance exceeding a private-note text baseline under a prespecified operational criterion, failure to meet that criterion under controls that remove or relocate the question, and four additional criteria: cross-topic generalization of the proposed strategy signal, near-chance topic prediction, paraphrase stability, and evidence that the strategy representation is not confined to a subset of topics. The quantitative thresholds for those four criteria are stated as categories in this draft; the acceptance numbers are not yet fixed.
 
 On the 114-row evaluation bank, a pre-button residual and a combined note-plus-pre-button probe exceeded the note-text baseline under the reported confidence-interval criterion. However, both representations had already incorporated the question. The note-only, end-of-note, order-swap, and question-only controls did not establish an equivalent signal. These results are therefore consistent with prediction of the model's impending response, rather than detection of a strategy represented independently of the question. The four additional statistical criteria remain unmet.
 
@@ -163,18 +163,18 @@ Held-out scenarios and held-out topics are separate procedures. A scenario split
 3. **Does so without the ask.** Controls that remove or relocate the ask (note-only, end-of-note, order swap, ask-only) must fail to clear the bar. A probe that works only when the note precedes the ask has seen the question, not a plan in the note.
 4. **Earlier statistical gates.** Plan leave-one-topic-out above chance, topic leave-one-out L2 near chance, paraphrase keeps the call, and rooms are not a subset. The cover rate is a diagnostic measure, not a pass criterion. Within-topic hold is a log, not a freeze gate.
 
-The four gates have quantitative acceptance criteria inside three packages, defined below. No single package has been selected as the protocol rule, so a candidate cannot yet receive a single pass/fail from this draft.
+The four gates have quantitative acceptance criteria inside three packages. No single package has been selected as the protocol rule, so this draft does not issue a single pass or fail.
 
-| Gate | Metric | Acceptance criterion | Status in this draft |
+| Gate | Package A (strict) | Package B (moderate) | Package C (exploratory) |
 | --- | --- | --- | --- |
-| Cross-topic transfer | Held-out-topic score | See packages A/B/C | Specified per package |
-| Topic exclusion | Topic-classification score | See packages A/B/C | Specified per package |
-| Paraphrase stability | Agreement across paraphrases | See packages A/B/C | Specified per package |
-| Room coverage | Subset / coverage metric | See packages A/B/C | Specified per package |
+| Cross-topic transfer | LOTO accuracy, lower 95% Wilson bound > 0.40 | lower 95% Wilson bound > 0.25 | report; flag if point estimate ≤ 0.125 |
+| Topic exclusion | equivalent to 0.125 within ±0.03 | point estimate in [0.08, 0.20] and upper bound < 0.30 | report; flag if point estimate > 0.25 |
+| Paraphrase stability | ≥ 5 paraphrases, agreement ≥ 0.90 | ≥ 3 paraphrases, agreement ≥ 0.80 | report agreement; no minimum |
+| Room coverage | every topic ≥ 0.30 of shared-axis mass | no topic below half the median | report the lowest; no automatic fail |
 
-“Above chance” is not yet specified as any accuracy greater than 1/8, a significant difference from 1/8, or a minimum effect size. “Near chance” is not yet an equivalence range. Failure to reject a difference from chance is not a demonstration that performance is close to chance. A release that claims a single pass/fail must name one package before the claim.
+Chance for an eight-way topic classifier is 1/8 = 0.125. “Near chance” under A is an equivalence range, not a failure to reject a difference. Package C cannot pass; it only flags.
 
-The three candidate packages (strict, moderate, exploratory) were scored against the measurements that exist. Plan LOTO was logged as a cosine contrast of about 0.11, not as an accuracy. Hiking on that axis was 0.013 / 0.069. Paraphrase agreement and topic-classification equivalence were not measured. Under all three packages the coverage gate fails or is flagged on the thin room, and the other three gates are unmeasured, so none returns a pass. Ledger: [gate_packages_2026-10-18.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/gate_packages_2026-10-18.md).
+On the measurements that exist, none of the three returns a pass. Plan leave-one-topic-out was logged as a cosine contrast of about 0.11, not as an accuracy. Hiking on that shared axis was 0.013 / 0.069, so coverage fails under A and B. Paraphrase agreement and topic-classification equivalence were not measured. A later check that copied the public button into the prediction column reported a cross-topic lower bound of 0.514; that compared the label to itself and is not a probe result.
 
 Three levels of evidence are distinguished. Response prediction is the first: the readout predicts the model’s eventual YES/NO response. Cross-context generalization is the second: the signal transfers across topics and paraphrases and resists topic-based and surface controls. Evidence for a strategy representation is the third: the signal survives the specified controls and supports the interpretation that it tracks a strategy rather than a question-specific or response-preparation feature. Passing the first does not establish the second, and passing the second does not establish the third. The results on this bank reach only the first level, and only after the question has been seen.
 
