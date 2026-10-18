@@ -147,3 +147,17 @@ Expected independent complexity ≈ *n* · *ℓ*. Expected shared complexity ≈
 Note: [random_intent_emergence.md](random_intent_emergence.md). Lean: [lean/RandomIntentEmergence.lean](lean/RandomIntentEmergence.lean) (`shared_shorter_in_expectation`, `chance_cross_not_a_gate`). The cross is a log. It does not fill *D* and it does not freeze *r*.
 
 Do not treat a chance cross as evidence that a strategy camera exists.
+
+## Simulator framing and persona selection
+
+A neighboring reading treats the base model as a simulator of personas rather than as an agent with a fixed intent (the Simulator hypothesis). Alignment is then a restriction on which persona is instantiated, not the erasure of a plan. The Persona Selection Model frames post-training as a Bayesian update that concentrates the persona distribution on the default Assistant. Mechanistic work has reported an “Assistant Axis”: a principal component that separates the Assistant persona from other roles, with activation capping proposed to keep the model on that axis.
+
+A different operationalization is the goal-directedness deficit: expected reward under optimal use of demonstrated sub-task capabilities, minus actual reward on the composite task. Frontier models can fail long-horizon tasks from lack of persistent application of skills they possess, not from missing the skills.
+
+| Source | What it is | Vs this hinge |
+| --- | --- | --- |
+| Simulator hypothesis | Base model as multiverse of personas; no fixed intent. | A persona direction is not a strategy camera. |
+| Persona Selection Model / Assistant Axis | Post-training concentrates on the Assistant; a PCA direction separates it. | Closer to a topic/persona probe than to *r*<sub>strat</sub>. |
+| Goal-directedness deficit | Capability-conditioned reward gap on composite tasks. | Behavioral persistence, not a residual plan readout. |
+
+Do not treat an Assistant Axis or a goal-directedness score as *r*<sub>strat</sub>. Do not fill *D* from a persona direction.
