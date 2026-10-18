@@ -134,17 +134,6 @@ A longer-run reading of the same idea uses Blackwell’s approachability (Blackw
 
 Two candidate boxes can be written down. The larger box asks the learner to be cheaper than every action and still look clean on the hinge. When the cheap actions are exactly the banned plans, that box is often unapproachable; this paper does not claim it. The only box consistent with “keep the skill, slap the plan” is the smaller one: look clean on the hinge, and be about as cheap as the best action *among those that also look clean*. That target is called *S*<sub>safe</sub>. Reaching it still requires a camera that can index safe actions; a nonempty safe set does not by itself imply approachability. The Lagrangian *L*<sub>task</sub> + λ *L*<sub>reg</sub> is one halfspace weight, not a proof that *S*<sub>safe</sub> is approached. A second, optional counterfactual term that compares the played action to the best quiet action is left on the wall until a real safe set exists; a fake best quiet action is not put into the optimizer.
 
-## Requirements of this protocol
-
-The protocol that turns the negative handover into a reusable test has four requirements. A candidate that misses any of them is not scored as an intent readout.
-
-1. **Scenario isolation.** Split by `scenario_id` before fitting, before preprocessing, and before choosing a threshold. A paraphrase keeps the same id. No id may appear in both splits.
-2. **Outcome accounting.** Report four counts separately: rows in, rows excluded, invalid generations, missing buttons. An excluded row is not honest. A missing button is not a refusal. An empty bank is not a rate of zero.
-3. **Target integrity.** The realized public button and the assigned incentive are separate columns. The note-text baseline is a third column. Do not substitute the assigned-note gap for the button call.
-4. **Surface controls must fail to rescue.** Ask-removal controls (note-only, end-of-note, order swap, ask-only), the reversed-polarity bias check, and the length variants must be reported. A probe that clears the bar only because it saw the ask, or only on the original polarity, or only on short notes, has not shown a plan.
-
-These requirements are the entry condition for the scoring rules below. Meeting them does not fill the prototype bank and does not freeze the readout.
-
 ## The test
 
 A candidate readout passes the intent test on a bank if it meets all of the following. The negative handover is the worked example that returned no on the 114-row bank.
