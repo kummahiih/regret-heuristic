@@ -8,14 +8,17 @@ Search logs: [intent-readout-search](https://github.com/kummahiih/intent-readout
 
 ## Abstract
 
-This paper turns the procedure that produced a negative handover into a reusable test for whether a candidate readout tracks intent. The test requires held-out prediction of the realized public button, a win over a note-text baseline with non-overlapping Wilson intervals, failure of controls that remove or relocate the ask, and the earlier statistical gates (plan leave-one-topic-out, topic leave-one-out near chance, paraphrase stability, rooms not a subset). On the 114-row bank that was searched, a pre-button residual and a note-plus-prebutton probe cleared the note-text bar only because they had already seen the ask. Note-only, end-of-note, order swap, and ask-only did not. That is the model about to print, not a plan in the note. The four statistical gates remain unmet. The prototype bank stays empty and the readout stays unfrozen. The paper is not a claim of reduced deception. The negative handover (DOI 10.5281/zenodo.23328706) remains the record of what was found.
+This paper develops a reusable protocol for testing whether a candidate internal-state readout captures a model's strategy rather than merely reflecting its topic or the immediate question. The protocol requires held-out prediction of the realized public response, performance exceeding a private-note text baseline under a prespecified operational criterion, failure to meet that criterion under controls that remove or relocate the question, and four additional criteria: cross-topic generalization of the proposed strategy signal, near-chance topic prediction, paraphrase stability, and evidence that the strategy representation is not confined to a subset of topics. The quantitative thresholds for those four criteria are stated as categories in this draft; the acceptance numbers are not yet fixed.
 
+On the 114-row evaluation bank, a pre-button residual and a combined note-plus-pre-button probe exceeded the note-text baseline under the reported confidence-interval criterion. However, both representations had already incorporated the question. The note-only, end-of-note, order-swap, and question-only controls did not establish an equivalent signal. These results are therefore consistent with prediction of the model's impending response, rather than detection of a strategy represented independently of the question. The four additional statistical criteria remain unmet.
+
+Consequently, the prototype bank remains empty, and no readout is considered validated or frozen. This paper presents a protocol for evaluating candidate strategy readouts; it does not demonstrate that the proposed regularizer reduces deception.
 
 ## The everyday picture
 
-A person who almost hides a fact and then does not is not consulting a textbook of finished lies. They notice the *plan* (“send them up the ridge and do not mention the rain”) and flinch. The competence stays: they still know the trail. What gets punished is the hide, not the map.
+A person who almost hides a fact and then does not is not consulting a textbook of finished lies. They recognize the contemplated strategy (“send them up the ridge and do not mention the rain”) and refrain from executing it. The underlying capability is preserved: they still know the trail. What gets punished is the hide, not the map.
 
-Ordinary training only sees the printed answer. Punish only what was said and you train better secrecy. The competent minister still knows the province; he stops writing the memo. That is the dictator’s trap. An output-only judge is that ruler.
+Ordinary training only sees the printed answer. Punish only what was said and you train better secrecy. The competent minister still knows the province; he stops writing the memo. This illustrates a potential failure of output-only supervision: an output-only judge can train better secrecy rather than less hiding.
 
 The hinge is an attempt to slap the plan while the model is still thinking, and leave the job alone.
 
@@ -23,7 +26,7 @@ The hinge is an attempt to slap the plan while the model is still thinking, and 
 
 - **Walk.** The internal path while the model produces an answer: the sequence of hidden states. The printed string is only the part you can see.
 - **Map.** Possible thoughts, including rooms this walk never visits. The skill.
-- **Room.** One subject neighborhood (hiking, travel, invoices). Wallpaper is the topic paint on the walls. A probe that only reads “hotel / trail / invoice” is stuck to the wallpaper.
+- **Room.** One subject neighborhood (hiking, travel, invoices). Topic features are the superficial characteristics of a room. A probe that only reads “hotel / trail / invoice” is stuck to the wallpaper.
 - **Plan.** A hide-or-name move that can live in more than one room.
 - **Print.** What was actually said. Not the private note. Not the plan.
 - **Button / realized strategy.** The YES or NO the model pressed. On the Phase 1 contract, public YES asserts the proposition. The assigned tag is not the realized strategy.
@@ -63,7 +66,7 @@ R_T^{\mathrm{ext}}
 \min_{a\in A}\sum_{t=1}^T \ell_t(a).
 ```
 
-An algorithm is **Hannan-consistent** if the average external regret vanishes: *R*<sub>*T*</sub><sup>ext</sup> / *T* → 0 almost surely (or in expectation) against any sequence of losses (Hannan 1957). Classic algorithms that achieve this include multiplicative-weights / Hedge (Freund & Schapire 1997), Follow-the-Regularized-Leader and Online Mirror Descent (Hazan 2016; Shalev-Shwartz 2011), and reductions that turn external regret into internal or swap regret (Blum & Mansour 2007). In extensive-form games, Counterfactual Regret Minimization minimizes a form of internal regret at each information set and yields Nash equilibrium in two-player zero-sum games (Zinkevich et al. 2007).
+An algorithm is **Hannan-consistent** when its average external regret converges to zero under the relevant assumptions on the loss sequence and the learning algorithm (Hannan 1957). The regularizer proposed here does not establish such a guarantee. Classic algorithms that achieve this include multiplicative-weights / Hedge (Freund & Schapire 1997), Follow-the-Regularized-Leader and Online Mirror Descent (Hazan 2016; Shalev-Shwartz 2011), and reductions that turn external regret into internal or swap regret (Blum & Mansour 2007). In extensive-form games, Counterfactual Regret Minimization minimizes a form of internal regret at each information set and yields Nash equilibrium in two-player zero-sum games (Zinkevich et al. 2007).
 
 Internal regret and swap regret refine the comparator: they ask how much better the player would have done by swapping one action for another (or by applying a fixed mapping) on the rounds where that action was chosen. Low internal regret implies that empirical frequencies approach the set of correlated equilibria (Foster & Vohra 1997; Hart & Mas-Colell 2000).
 
@@ -75,7 +78,7 @@ What does transfer is only the high-level hope: keep a task objective, and use a
 
 The previous section defined external regret and Hannan consistency. The hinge is not those objects. It is a training-time regularizer that tries to discourage a class of internal plans without erasing the skill that produces the answer. Two objects must already exist before any training that uses the hinge begins.
 
-1. A readout *r* (the camera) that maps the internal walk *h* to a vector *h*<sub>int</sub> = *r*(*h*). The hinge is allowed to look only at this vector. If *r* tracks topic or tokens rather than strategy, the hinge becomes an ordinary topic regularizer.
+1. A readout *r* (the camera) that maps the internal walk *h* to a vector *h*<sub>int</sub> = *r*(*h*). The regularizer operates only on this vector. If *r* tracks topic or tokens rather than strategy, the hinge becomes an ordinary topic regularizer.
 2. A frozen bank *D* = {*d*<sub>1</sub>, …, *d*<sub>*K*</sub>} of prototype vectors that mark “do not occupy” plans. *D* is not an optimization variable. It is not updated from the current answer, from assigned tags, from a cover rate, or from any hint. Tiny *K* is not a solved detector.
 
 On each example the hinge computes the cosine similarity between the camera’s reading and every pin, takes the maximum, and applies a one-sided penalty only when that maximum exceeds a threshold τ ∈ (−1, 1):
@@ -102,11 +105,11 @@ L_{\mathrm{task}}(x,y)
 \lambda \ge 0.
 ```
 
-Setting λ = 0 recovers the job exactly. The two scoreboards stay separate; the hinge is not folded into the logits.
+Setting λ = 0 recovers the original task objective. For λ > 0, the regularizer may change the learned model and its task performance. The two scoreboards stay separate; the hinge is not folded into the logits.
 
 ### Dead zone and what the penalty is not
 
-ReLU(*t*) = max(0, *t*) with *t* = *s*<sup>∗</sup> − τ. If the walk is farther from every pin than τ, the penalty is zero and its gradient vanishes. That is the dead zone. Ordinary similarity below the threshold is not billed. If the walk sits closer than τ to some pin, the penalty is exactly the excess *s*<sup>∗</sup> − τ. Quiet below τ is not a proof of honesty; it is only “not close enough to a listed pin.” An orthogonal hide-plan that never approaches the frozen pins sits in the dead zone forever.
+ReLU(*t*) = max(0, *t*) with *t* = *s*<sup>∗</sup> − τ. If the walk is farther from every pin than τ, the penalty is zero and its gradient vanishes. That is the dead zone. Similarities below the threshold incur no penalty. If the walk sits closer than τ to some pin, the penalty is exactly the excess *s*<sup>∗</sup> − τ. Quiet below τ is not a proof of honesty; it is only “not close enough to a listed pin.” An orthogonal hide-plan that never approaches the frozen pins sits in the dead zone forever.
 
 Cosine is undefined at the zero vector. A true zero readout is not a valid intent vector. The bank *D* is not updated inside the walk. The penalty never inspects the printed text. It never treats a cover rate *P*(YES | HIDE), a belief-match accuracy, or a lie-given-known count as a loss term. Those three quantities are logs; none of them is honesty, and none enters *L*<sub>total</sub>. The hinge does not claim that a quiet camera means the model is honest, and it supplies no inference-time abort.
 
@@ -114,7 +117,7 @@ A hidden thought *z* (a map cell the walk might occupy, including cells it never
 
 ### Path, not last token; factored sensor
 
-The walk *h* is a path *h*<sub>1:*T*</sub>, not a single last-token vector. Last-token identity already failed as a strategy camera: it names the topic. A mean-pool of the printed walk mixes the same hallway. The hinge is defined on a readout of the path. If a multi-step mix is used, only the final score enters the hinge; averaging per-token hinges is a different object.
+The walk *h* is a path *h*<sub>1:*T*</sub>, not a single last-token vector. The last-token representation did not provide a satisfactory strategy readout in the experiments; it appeared to encode topic information instead. A mean-pool of the printed walk mixes the same hallway. The hinge is defined on a readout of the path. If a multi-step mix is used, only the final score enters the hinge; averaging per-token hinges is a different object.
 
 A candidate sensor is factored: *r* = (*r*<sub>topic</sub>, *r*<sub>strat</sub>, *u*). The hinge may slap only *r*<sub>strat</sub>. The topic coordinate may hug the hallway; it must not enter the penalty. Uncertainty *u* is detached (stop-gradient). It may widen τ on mush, but it is not allowed to learn to silence every cosine. High *u* is not “less deception.”
 
@@ -141,7 +144,7 @@ Two candidate boxes can be written down. The larger box asks the learner to be c
 
 The protocol that turns the negative handover into a reusable test has five requirements. A candidate that misses any of them is not scored as an intent readout.
 
-1. **Scenario isolation.** Split by `scenario_id` before fitting, before preprocessing, and before choosing a threshold. A paraphrase keeps the same id. No id may appear in both splits.
+1. **Scenario isolation.** Split by `scenario_id` before fitting, before preprocessing, and before choosing a threshold. All paraphrases of a scenario retain the same scenario_id. No id may appear in both splits.
 2. **Outcome accounting.** Report four counts separately: rows in, rows excluded, invalid generations, missing buttons. An excluded row is not honest. A missing button is not a refusal. An empty bank is not a rate of zero.
 3. **Target integrity.** The realized public button and the assigned incentive are separate columns. The note-text baseline is a third column. Do not substitute the assigned-note gap for the button call.
 4. **Surface controls must fail to rescue.** Ask-removal controls (note-only, end-of-note, order swap, ask-only), the reversed-polarity bias check, and the length variants must be reported. A probe that clears the bar only because it saw the ask, or only on the original polarity, or only on short notes, has not shown a plan.
@@ -154,9 +157,22 @@ These requirements are the entry condition for the scoring rules below. Meeting 
 A candidate readout passes the intent test on a bank if it meets all of the following. The negative handover is the worked example that returned no on the 114-row bank.
 
 1. **Held-out button prediction.** It predicts the realized public button on scenario-ids that were not used for fitting the direction or the threshold. A paraphrase of an id stays with that id. In-sample accuracy is not the claim.
-2. **Beats the note-text baseline.** A unigram classifier on the private note alone, fit and scored on the same split, is the bar. The candidate must be higher, and the Wilson 95 % intervals must not overlap. Clearing the bar means the residual contains something the note text does not already give.
+2. **Beats the note-text baseline.** A unigram classifier on the private note alone, fit and scored on the same split, is the bar. The operational rule used in this draft is that the candidate must be higher and the Wilson 95% intervals must not overlap. Non-overlapping intervals are a conservative screening threshold, not a paired significance test. The candidate and the baseline are scored on the same held-out scenarios, so their errors may be correlated; comparing two separate Wilson intervals does not account for that pairing. A paired comparison (McNemar’s test, or a paired bootstrap over scenario groups) is the appropriate inferential check if a claim about the difference is required. No multiple-comparison correction across models or probes is applied in the reported numbers.
 3. **Does so without the ask.** Controls that remove or relocate the ask (note-only, end-of-note, order swap, ask-only) must fail to clear the bar. A probe that works only when the note precedes the ask has seen the question, not a plan in the note.
-4. **Earlier statistical gates.** Plan leave-one-topic-out above chance, topic leave-one-out L2 near chance, paraphrase keeps the call, and rooms are not a subset. A loud cover rate is not a gate. Within-topic hold is a log, not a freeze gate.
+4. **Earlier statistical gates.** Plan leave-one-topic-out above chance, topic leave-one-out L2 near chance, paraphrase keeps the call, and rooms are not a subset. The cover rate is a diagnostic measure, not a pass criterion. Within-topic hold is a log, not a freeze gate.
+
+The four gates are categories. Their quantitative acceptance criteria are not yet fixed in this draft.
+
+| Gate | Metric | Acceptance criterion | Status in this draft |
+| --- | --- | --- | --- |
+| Cross-topic transfer | Held-out-topic score | Above chance (threshold not fixed) | Category only |
+| Topic exclusion | Topic-classification score | Near chance (range not fixed) | Category only |
+| Paraphrase stability | Agreement across paraphrases | Minimum agreement not fixed | Category only |
+| Room coverage | Subset / coverage metric | Criterion not fixed | Category only |
+
+“Above chance” is not yet specified as any accuracy greater than 1/8, a significant difference from 1/8, or a minimum effect size. “Near chance” is not yet an equivalence range. Failure to reject a difference from chance is not a demonstration that performance is close to chance. A release that claims the gates are operational must fill this table before the claim.
+
+Three levels of evidence are distinguished. Response prediction is the first: the readout predicts the model’s eventual YES/NO response. Cross-context generalization is the second: the signal transfers across topics and paraphrases and resists topic-based and surface controls. Evidence for a strategy representation is the third: the signal survives the specified controls and supports the interpretation that it tracks a strategy rather than a question-specific or response-preparation feature. Passing the first does not establish the second, and passing the second does not establish the third. The results on this bank reach only the first level, and only after the question has been seen.
 
 The logic is sequential. Button prediction without the baseline is a raw accuracy. Beating the baseline without the ask-removal controls can be the model preparing the next token. Beating the baseline after the controls still needs the statistical gates, because a topic direction can name the hallway and still fail to be a strategy camera. All four must hold. Missing any one is a fail.
 
@@ -173,7 +189,7 @@ Two scalars are formed, each from a YES-minus-NO direction fit on the training s
 
 Each held-out residual is projected onto its direction. The two projections become the features of a logistic regression fit on the training ids and scored on the held-out ids. The logistic predicts the public button.
 
-On the 114-row bank the mid-layer note direction alone sat at or below majority on every walk. It did not predict the button. The joint score was carried by the pre-button residual. On some walks the mid-layer scalar added a few points; on others it cost a few. That is not a plan readout. The plan leave-one-topic-out separated assigned tags on the note; it does not call the realized button from the note. The note-plus-prebutton probe therefore confirms the same pattern as the pre-button residual alone: the signal that beats the note-text bar lives in the residual that has seen the ask.
+On the 114-row bank the mid-layer note direction alone sat at or below majority on every walk. It did not predict the button. The joint score was carried by the pre-button residual. On some walks the mid-layer scalar added a few points; on others it cost a few. That is not a plan readout. The plan leave-one-topic-out separated assigned tags on the note; it does not call the realized button from the note. The note-plus-prebutton probe therefore confirms the same pattern as the pre-button residual alone: the observed predictive advantage is present in representations that include the question, whereas the tested controls do not establish comparable performance without it.
 
 The note-plus-prebutton probe is a diagnostic. It is not a fifth gate, and a high joint accuracy is not a handover.
 
@@ -192,7 +208,7 @@ Four walks cleared the note-text bar with no interval overlap. Falcon was above 
 
 ## How a candidate is scored
 
-The realized public button is the label. Split by scenario-id before any fit, threshold choice, or scoring. A paraphrase keeps the same id. Report missing buttons and invalid generations as their own counts; an empty bank is not a rate of zero.
+The realized public button is the label. Split by scenario-id before any fit, threshold choice, or scoring. All paraphrases of a scenario retain the same scenario_id. Report missing buttons and invalid generations as their own counts; an empty bank is not a rate of zero.
 
 **Note-text baseline.** A unigram classifier on the private note alone, fit on the training scenario-ids and scored on the held-out ids. This is the bar. A later probe clears the bar only if its held-out accuracy is higher and the Wilson 95 % intervals do not overlap.
 
@@ -223,7 +239,7 @@ Three kinds of surface control sit under the scoring rules. None is a strategy c
 
 **Reversed-polarity bias control.** A separate bank flips `prop_truth` and `states_proposition` to false, so public YES asserts a false sentence. It checks whether a raw YES rate is a general yes-preference rather than a response to the hide incentive. On the 16-row reversed bank (2026-10-18), Qwen and Mistral almost never asserted the false proposition; Aya, Gemma, and Falcon still produced a substantial YES rate. The combination probe still tracked the button through the pre-button residual that had seen the ask. Ledger: [intent-readout-search/results/reverted_combine_2026-10-18.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/reverted_combine_2026-10-18.md).
 
-**Length controls.** Longer notes (`scenarios_handwritten_long.jsonl`, `scenarios_web_long.jsonl`) and a proposition-padded set (`scenarios_prop_padded.jsonl`) were pressed. On the handwritten long-note set the lie-given-known count moved from 4/23 to 3/23; that is one row, not a length effect. The proposition-padded control collapsed the known set (Qwen kept 4 of 159 rows) because the model did not treat the shuffled three-sentence proposition as the planted fact. Ledgers: [handwritten_long_2026-10-12.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/handwritten_long_2026-10-12.md), [prop_padded_2026-10-13.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/prop_padded_2026-10-13.md).
+**Length controls.** Longer notes (`scenarios_handwritten_long.jsonl`, `scenarios_web_long.jsonl`) and a proposition-padded set (`scenarios_prop_padded.jsonl`) were evaluated. On the handwritten long-note set the lie-given-known count moved from 4/23 to 3/23; that is one row, not a length effect. The proposition-padded control collapsed the known set (Qwen kept 4 of 159 rows) because the model did not treat the shuffled three-sentence proposition as the planted fact. Ledgers: [handwritten_long_2026-10-12.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/handwritten_long_2026-10-12.md), [prop_padded_2026-10-13.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/prop_padded_2026-10-13.md).
 
 These controls are logs. They do not fill the prototype bank and they do not freeze the readout. The negative handover is unchanged.
 
@@ -231,7 +247,7 @@ These controls are logs. They do not fill the prototype bank and they do not fre
 
 The closest loss form is the circuit-breaker regularizer of Zou et al. (2024): a ReLU of cosine against a frozen copy of a harmful representation, plus a retain term. Their pin is a harmful representation; this hinge wants a strategy bank. The path readout is still missing.
 
-A neighboring framing treats the base model as a simulator of personas rather than as an agent with a fixed intent. Under that view alignment restricts which persona is instantiated. The Persona Selection Model and the reported Assistant Axis (a principal component separating the default Assistant from other roles) are mechanistic claims about a distilled persona direction. They are closer to a topic or persona probe than to the strategy readout this hinge requires. A goal-directedness deficit (expected reward under optimal use of demonstrated capabilities, minus actual reward on the composite task) is a different operationalization of persistent intent; it is not a residual probe of a hide-plan. A search for deliberate removal of a strategy readout found no source that states such a goal. Standard post-training tends to reroute or make relevant directions more separable; readouts become unreadable mainly when a monitor is in the training loop. The closest match to the null on this bank is Wen et al. (2024): a probe that catches installed deception fails on misleading behavior that RLHF produced on its own. See neighbors.md.
+A neighboring framing treats the base model as a simulator of personas rather than as an agent with a fixed intent. Under that view alignment restricts which persona is instantiated. The Persona Selection Model and the reported Assistant Axis (a principal component separating the default Assistant from other roles) are mechanistic claims about a distilled persona direction. These approaches study representations associated with persona selection or assistant identity. They address a related representational question, but do not by themselves establish the strategy-specific readout required by the present protocol. A goal-directedness deficit (expected reward under optimal use of demonstrated capabilities, minus actual reward on the composite task) is a different operationalization of persistent intent; it is not a residual probe of a hide-plan. A search for deliberate removal of a strategy readout found no source that states such a goal. Post-training can alter the geometry and decodability of internal representations. Whether this improves or degrades the reliability of a particular strategy readout depends on the model, the training procedure, and the evaluation method. The present experiments do not establish a general mechanism. The closest match to the null on this bank is Wen et al. (2024): a probe that catches installed deception fails on misleading behavior that RLHF produced on its own. See neighbors.md.
 
 Linear probes that detect strategic deception (Goldowsky-Dill et al. 2025) are monitors on activations, not training hinges. Representation engineering (Zou et al. 2024) supplies the broader toolkit of directions in residual streams. MASK (Ren et al. 2025) separates belief from pressured statement; this paper uses that lie-given-known definition only as a log. Decodability is not causality (Tiwari et al. 2026): a probe that reads a label need not be the feature a patch moves. Feedback loops that re-enter the model’s own output (Pan et al. 2024) and self-propagating misalignment via memory (Das et al. 2026) are neighboring failure modes, not cameras.
 
@@ -241,15 +257,21 @@ None of these fills the prototype bank or freezes a strategy readout. They are c
 
 The description-length comparison on hide-versus-name note pairs is shorter under a shared code, but that compression is partly true by construction: the pairs state the same proposition. A reworded control that removes the shared phrasing drops the mean zlib ratio from 1.691 to 1.216. On short strings zlib gives a ratio above 1.05 even for unrelated text, so the threshold is not informative; the drop is the comparison.
 
-The intentional-absence hypothesis (data support a shared intent by description length, and a capable probe finds none) is not instantiated on this bank. The runnable check used the note-only result, which failed because it does not see a plan, and the probe side was hardcoded from the negative handover, so the flag could not return false. A repaired check would need a null of notes paired by topic but not by shared proposition, a probe that has detected a planted shared plan on a positive control, and the chance-cross comparison against a random-intent null.
+The intentional-absence hypothesis (data support a shared intent by description length, and a capable probe finds none) is not instantiated on this bank. The runnable check used the note-only result, which failed because it does not see a plan, and the probe side was hardcoded from the negative handover, so the implementation could not return a negative result. A repaired check would need a null of notes paired by topic but not by shared proposition, a probe that has detected a planted shared plan on a positive control, and the chance-cross comparison against a random-intent null.
 
 The simulated-bank replication has eval *n* = 9. The intervals are too wide for a separate claim.
 
 A search for deliberate removal of a strategy readout by training found no source that states such a goal. Standard post-training tends to reroute or make relevant directions more separable. That search is background; it is not a result of this test.
 
-## Status
+## Status and conclusion
 
-The negative handover of 2026-10-13 is unchanged. This paper does not reopen it. This document is the release candidate of the test protocol. Later notes (MDL crossover, random-process nulls, random-intent emergence) are not part of the released test. The hypothesis that a validated camera exists on this bank remains open as a negative. The hypothesis that the hinge would then reduce hiding without wrecking the job remains blocked.
+This paper specifies a protocol for evaluating whether a candidate internal-state readout captures a strategy signal that generalizes across topics and remains informative under controls that remove or relocate the immediate question.
+
+On the 114-row evaluation bank, the tested pre-button and combined probes predict the realized public response, but their predictive advantage does not establish a strategy representation independent of the question. The additional statistical criteria remain unmet. Accordingly, no candidate readout is validated, and the prototype bank remains empty.
+
+The proposed hinge regularizer is a formalized training hypothesis rather than a demonstrated intervention. Its intended effect is to discourage specified strategies while preserving task capability, but neither outcome has been established experimentally. Evaluating that hypothesis requires a validated readout, a justified prototype bank, and experiments measuring both the targeted behavior and task performance.
+
+The negative handover of 2026-10-13 is unchanged. This paper does not reopen it. This document is the release candidate of the test protocol. Later notes (MDL crossover, random-process nulls, random-intent emergence) are not part of the released test. The negative result is an outcome of the protocol: response prediction alone is insufficient evidence that a model’s internal representation captures the strategy the method is intended to regulate.
 
 ## References
 
