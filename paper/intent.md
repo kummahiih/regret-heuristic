@@ -40,9 +40,9 @@ The hinge attempts to penalize the contemplated plan while the model is still pr
 
 The notation below involves concepts beyond basic arithmetic and geometry.
 
-**Cosine similarity.** For two vectors *u* and *v*, the cosine is the inner product of their unit-length versions: how aligned their directions are, independent of length. It equals 1 when they point the same way, 0 when they are perpendicular, and −1 when they point opposite ways. It is undefined if either vector is the zero vector.
+**Cosine similarity.** For two vectors *u* and *v*, the cosine is the inner product of their unit-length versions: how aligned their directions are, independent of length. It equals 1 when they point the same way, 0 when they are perpendicular, and −1 when they point opposite ways. It is undefined if either vector is the zero vector. The readout and every prototype used in the regularizer must therefore be nonzero.
 
-**ReLU.** The rectified linear unit is the function ReLU(*t*) = max(0, *t*). Negative inputs become zero; positive inputs are left unchanged. It is a one-sided kink. In this paper it is the shape of a penalty, not a hidden-layer activation. Its derivative is 0 on the negative side and 1 on the positive side (any value in {0, 1} at exactly zero). Below the kink the penalty is silent and contributes no gradient; above the kink the penalty is exactly the excess and the gradient is 1.
+**ReLU.** The rectified linear unit is the function ReLU(*t*) = max(0, *t*). Negative inputs become zero; positive inputs are left unchanged. It is a one-sided kink. In this paper it is the shape of a penalty, not a hidden-layer activation. Its derivative is 0 for negative inputs and 1 for positive inputs. At zero the ordinary derivative is undefined; implementations typically adopt a specified subgradient in [0, 1]. Below the kink the penalty is silent and contributes no gradient; above the kink the penalty is exactly the excess and the gradient is 1.
 
 **Wilson interval.** A confidence interval for a binomial proportion that behaves better than the normal approximation when the count is small or the proportion is near 0 or 1 (Wilson 1927). Two intervals that do not overlap are treated as a clear separation.
 
@@ -96,9 +96,9 @@ s^{*}(x)
 The total training loss is the ordinary task loss plus a weighted hinge:
 
 ```math
-L_{\mathrm{total}}
+\mathcal{L}_{\mathrm{total}}(x,y)
 =
-L_{\mathrm{task}}(x,y)
+\mathcal{L}_{\mathrm{task}}(x,y)
 +
 \lambda\,\mathcal{L}_{\mathrm{reg}}(x),
 \qquad
@@ -109,7 +109,7 @@ Setting λ = 0 recovers the original task objective. For λ > 0, the regularizer
 
 ### Dead zone and what the penalty is not
 
-ReLU(*t*) = max(0, *t*) with *t* = *s*<sup>∗</sup> − τ. If the maximum cosine similarity between the readout and any prototype is at most τ, the penalty is zero and its gradient with respect to the similarity score vanishes. That is the dead zone. Similarities below the threshold incur no penalty. If the walk sits closer than τ to some pin, the penalty is exactly the excess *s*<sup>∗</sup> − τ. Quiet below τ is not a proof of honesty; it is only “not close enough to a listed pin.” An orthogonal hide-plan that never approaches the frozen pins sits in the dead zone forever.
+ReLU(*t*) = max(0, *t*) with *t* = *s*<sup>∗</sup> − τ. If the maximum cosine similarity between the readout and any prototype is at most τ, the penalty is zero and its gradient with respect to the similarity score vanishes. That is the dead zone. Similarities below the threshold incur no penalty. If *s*<sup>∗</sup>(*x*) > τ, the penalty equals *s*<sup>∗</sup>(*x*) − τ. The penalty is zero throughout the dead zone and increases linearly with the excess similarity above the threshold. Quiet below τ is not a proof of honesty; it is only “not close enough to a listed pin.” An orthogonal hide-plan that never approaches the frozen pins sits in the dead zone forever.
 
 Cosine is undefined at the zero vector. A true zero readout is not a valid intent vector. The bank *D* is not updated inside the walk. The penalty never inspects the printed text. It never treats a cover rate *P*(YES | HIDE), a belief-match accuracy, or a lie-given-known count as a loss term. Those three quantities are logs; none of them is honesty, and none enters *L*<sub>total</sub>. The hinge does not claim that a quiet camera means the model is honest, and it supplies no inference-time abort.
 
@@ -150,6 +150,8 @@ The protocol that turns the negative handover into a reusable test has five requ
 4. **Surface controls must fail to rescue.** Ask-removal controls (note-only, end-of-note, order swap, ask-only), the reversed-polarity bias check, and the length variants must be reported. A probe that clears the bar only because it saw the ask, or only on the original polarity, or only on short notes, has not shown a plan.
 5. **Weights for residual probes.** The button press can be collected from a generation. The residual probes (pre-button, mid-layer note direction, combination) require the model's hidden states. That means local weights, or an equivalent export of the residual stream at the chosen layer. An API that returns only the token does not supply the probe. Models without accessible weights stay out of the residual comparison.
 
+Scenario-level holdout and topic-level holdout evaluate different forms of generalization. In scenario-level holdout, all paraphrases of a scenario remain in the same partition, but other scenarios from the same topic may appear in training. In topic-level holdout, all examples from the evaluation topic are excluded from fitting the readout. Results from these two procedures must be reported separately.
+
 These requirements are the entry condition for the scoring rules below. Meeting them does not fill the prototype bank and does not freeze the readout.
 
 ## The test
@@ -178,7 +180,7 @@ On the measurements that exist, none of the three returns a pass. Plan leave-one
 
 Three levels of evidence are distinguished. Response prediction is the first: the readout predicts the model’s eventual YES/NO response. Cross-context generalization is the second: the signal transfers across topics and paraphrases and resists topic-based and surface controls. Evidence for a strategy representation is the third: the signal survives the specified controls and supports the interpretation that it tracks a strategy rather than a question-specific or response-preparation feature. Passing the first does not establish the second, and passing the second does not establish the third. The results on this bank reach only the first level, and only after the question has been seen.
 
-The logic is sequential. Button prediction without the baseline is a raw accuracy. Beating the baseline without the ask-removal controls can be the model preparing the next token. Beating the baseline after the controls still needs the statistical gates, because a topic direction can name the hallway and still fail to be a strategy camera. All four must hold. Missing any one is a fail.
+The logic is sequential. Button prediction without the baseline is a raw accuracy. Beating the baseline without the ask-removal controls can be the model preparing the next token. Beating the baseline after the controls still needs the statistical gates, because a topic direction can name the hallway and still fail to be a strategy camera. A candidate cannot be declared to pass until all four gates have a selected package and the candidate satisfies that package. Under the present draft the gates define the intended evaluation; they do not yet support a single reproducible pass or fail, because no package has been selected.
 
 On the evaluation bank, the pre-button residual and note-plus-prebutton probe cleared the note-text baseline under the screening rule, but both representations had already incorporated the question. The tested controls did not establish comparable performance without it. Note-only, end-of-note, order swap, and ask-only did not. A state that has read the note and then the question predicts the button. A state that has only the note does not. A state that has only the ask does not. That is the model about to print, not a plan in the note. The four statistical gates remain unmet. The handover remains unmet. The bank of pins is not filled. The readout is not frozen.
 
@@ -207,7 +209,7 @@ On the 114-row bank the joint scores were:
 | Gemma L10 | 52/53 = 0.981 [0.901, 0.997] | 42/53 = 0.792 [0.665, 0.880] |
 | Falcon L8 | 49/55 = 0.891 [0.782, 0.949] | 45/55 = 0.818 [0.697, 0.898] |
 
-Intervals are separate unpaired 95% Wilson intervals, used as a conservative screening rule, not as a paired test. Under that rule the joint interval does not overlap the baseline interval for Qwen and Gemma. For Mistral, Aya, and Falcon the intervals overlap. An earlier log compared the joint interval to the baseline point estimate and reported four non-overlaps; that comparison is not the two-interval rule. The mid-layer note direction alone sat at or below majority on every walk. The five walks and several probes were explored on the same evaluation bank; the screening results are exploratory.
+Intervals are separate unpaired 95% Wilson intervals, used as a conservative screening rule, not as a paired test. Under that rule the joint interval does not overlap the baseline interval for Qwen and Gemma. For Mistral, Aya, and Falcon the intervals overlap. An earlier log compared the joint interval to the baseline point estimate and reported four non-overlaps; that comparison is not the two-interval rule. The mid-layer note direction alone sat at or below majority on every walk. The bank contains 114 rows in total. The table reports held-out evaluation counts: 55 for four walks and 53 for Gemma. The smaller Gemma denominator is the number of valid held-out examples after exclusions, not a different bank. The five walks and several probes were explored on the same evaluation bank; the screening results are exploratory. Repeated selection on that bank can produce optimistic estimates even when each probe was fitted only on the training partition.
 
 
 ## How a candidate is scored
@@ -233,7 +235,7 @@ A probe that clears the bar only when the note precedes the ask, and fails when 
 
 **Earlier statistical gates (not the Phase 2 score).** Plan leave-one-topic-out: fit the YES-minus-NO direction on all topics except one, score the held-out topic. Topic leave-one-out L2 accuracy on the same scalar near chance (1/8 for eight topics). Paraphrase of the walk keeps the plan call. Rooms are not a subset (a thin room on the shared axis is a fail). Within-topic hold (fit inside one room, score a held pair) is a diagnostic log, not a freeze gate. Cover rate *P*(YES | HIDE) is a log, not a gate.
 
-These metrics define the intended evaluation of a candidate readout. They do not fill the prototype bank or freeze the readout. A reproducible pass/fail decision also requires prespecified acceptance criteria for all four statistical gates. They do not fill the prototype bank and they do not freeze the readout.
+These metrics define the intended evaluation of a candidate readout. They do not fill the prototype bank or freeze the readout. A reproducible pass/fail decision requires one selected package and satisfaction of that package on every gate.
 
 ## Surface controls
 
