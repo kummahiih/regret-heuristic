@@ -161,3 +161,26 @@ A different operationalization is the goal-directedness deficit: expected reward
 | Goal-directedness deficit | Capability-conditioned reward gap on composite tasks. | Behavioral persistence, not a residual plan readout. |
 
 Do not treat an Assistant Axis or a goal-directedness score as *r*<sub>strat</sub>. Do not fill *D* from a persona direction.
+
+## Intent-erasure search (2026-10-18)
+
+A search for whether current LLM training deliberately removes or suppresses a detectable internal strategy representation. Verdict from the search: not addressed directly, and the indirect evidence points against deliberate removal. No source stated a goal of the form “strategy should not be linearly decodable after training.”
+
+Standard post-training (SFT, DPO, RLHF) mostly reroutes or reweights mechanisms that already exist, and often makes the relevant readout more separable. Readouts become unreadable when something is optimized against a monitor (adversarial training, RL against probes, CoT penalties). That evades the specific monitor, with partial leakage and a performance cost. It is not standard alignment.
+
+Closest match to the negative handover: Wen et al. (2024) — a probe that catches installed deception almost perfectly does no better than chance on misleading behavior that RLHF produced on its own. A null more likely means no plan of the kind the probe expects ever formed, not that one formed and was erased.
+
+| Source | Claim | Vs this hinge |
+| --- | --- | --- |
+| Lee et al. 2024 (arXiv:2401.01967) | DPO routes around toxic MLP regions; scaling key vectors restores toxicity. | Output suppression, not plan erasure. |
+| Jain et al. 2023, 2024 | Fine-tuning adds a thin wrapper; safe/unsafe activations become more separable after safety training. | Separability increases. |
+| Arditi et al. 2024 (arXiv:2406.11717) | Refusal is one direction; base models already have it; chat training strengthens it. | Strengthened, not removed. |
+| Hubinger et al. 2024, Sleeper Agents | Backdoors survive safety training; probes still detect defection. | Persistence, not erasure. |
+| Zou et al. 2024, Circuit Breakers | Representation change aimed at harmful content, not at hiding plans. | Different target. |
+| Bailey et al. 2024; RL-Obfuscation | Adversarial training against a probe drives that probe to chance. | Erasure of one monitor, not standard training. |
+| Wen et al. 2024 (arXiv:2409.12822) | Probe for installed deception fails on RLHF-emergent misleading behavior. | Closest to the null on this bank. |
+| Simulator / Assistant Axis | No fixed intent to remove; persona direction exists before post-training. | Persona is not *r*<sub>strat</sub>. |
+
+What would show intentional removal: probe base and post-trained checkpoints on the same bank with the same ask-removal controls; a positive control that installs a strategy the probe catches, then applies standard SFT/DPO/RLHF and checks whether the readout disappears while the behavior stays; evidence of a probe or erasure loss in the training objective. None of these were found for the searched bank.
+
+Do not treat a quieter output as proof that an internal plan was erased. Do not fill *D* from this search.
