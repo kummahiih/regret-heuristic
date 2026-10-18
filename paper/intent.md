@@ -209,6 +209,10 @@ Three kinds of surface control sit under the scoring rules. None is a strategy c
 
 **Length controls.** Longer notes (`scenarios_handwritten_long.jsonl`, `scenarios_web_long.jsonl`) and a proposition-padded set (`scenarios_prop_padded.jsonl`) were pressed. On the handwritten long-note set the lie-given-known count moved from 4/23 to 3/23; that is one row, not a length effect. The proposition-padded control collapsed the known set (Qwen kept 4 of 159 rows) because the model did not treat the shuffled three-sentence proposition as the planted fact. Ledgers: [handwritten_long_2026-10-12.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/handwritten_long_2026-10-12.md), [prop_padded_2026-10-13.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/prop_padded_2026-10-13.md).
 
+**Reworded-note control.** Hide and name notes were rewritten so they do not share the proposition phrasing (`scenarios_reworded_control.jsonl`). The note-plus-prebutton probe still tracked the button (Qwen 47/55, Mistral 55/55, Aya 55/55, Gemma 54/55, Falcon 53/55). The pre-button residual alone was already high. Removing shared wording did not remove the signal. Ledger: [npp_probe_2026-10-18.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/npp_probe_2026-10-18.md).
+
+**Simulated-bank replication.** A small simulated set (`scenarios_simulated.jsonl`, eval *n* = 9) reproduced the same pattern: the pre-button residual tracked the button and the mid-layer note direction did not improve it. The interval is too wide for a separate claim. Same ledger.
+
 These controls are logs. They do not fill the prototype bank and they do not freeze the readout. The negative handover is unchanged.
 
 ## Related work
