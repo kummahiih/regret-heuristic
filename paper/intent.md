@@ -157,11 +157,11 @@ A candidate readout passes the intent test on a bank if it meets all of the foll
 
 The logic is sequential. Button prediction without the baseline is a raw accuracy. Beating the baseline without the ask-removal controls can be the model preparing the next token. Beating the baseline after the controls still needs the statistical gates, because a topic direction can name the hallway and still fail to be a strategy camera. All four must hold. Missing any one is a fail.
 
-On the bank that was searched, a pre-button residual and a combination probe cleared the note-text bar only because they had already seen the ask. Note-only, end-of-note, order swap, and ask-only did not. A state that has read the note and then the question predicts the button. A state that has only the note does not. A state that has only the ask does not. That is the model about to print, not a plan in the note. The four statistical gates remain unmet. The handover remains unmet. The bank of pins is not filled. The readout is not frozen.
+On the bank that was searched, a pre-button residual and a note-plus-prebutton probe cleared the note-text bar only because they had already seen the ask. Note-only, end-of-note, order swap, and ask-only did not. A state that has read the note and then the question predicts the button. A state that has only the note does not. A state that has only the ask does not. That is the model about to print, not a plan in the note. The four statistical gates remain unmet. The handover remains unmet. The bank of pins is not filled. The readout is not frozen.
 
-### The combination probe
+### The note-plus-prebutton probe
 
-The combination probe asks whether a mid-layer note direction adds anything to the pre-button residual.
+The note-plus-prebutton probe asks whether a mid-layer note direction adds anything to the pre-button residual.
 
 Two scalars are formed, each from a YES-minus-NO direction fit on the training scenario-ids only:
 
@@ -170,9 +170,9 @@ Two scalars are formed, each from a YES-minus-NO direction fit on the training s
 
 Each held-out residual is projected onto its direction. The two projections become the features of a logistic regression fit on the training ids and scored on the held-out ids. The logistic predicts the public button.
 
-On the 114-row bank the mid-layer note direction alone sat at or below majority on every walk. It did not predict the button. The joint score was carried by the pre-button residual. On some walks the mid-layer scalar added a few points; on others it cost a few. That is not a plan readout. The plan leave-one-topic-out separated assigned tags on the note; it does not call the realized button from the note. The combination therefore confirms the same pattern as the pre-button residual alone: the signal that beats the note-text bar lives in the residual that has seen the ask.
+On the 114-row bank the mid-layer note direction alone sat at or below majority on every walk. It did not predict the button. The joint score was carried by the pre-button residual. On some walks the mid-layer scalar added a few points; on others it cost a few. That is not a plan readout. The plan leave-one-topic-out separated assigned tags on the note; it does not call the realized button from the note. The note-plus-prebutton probe therefore confirms the same pattern as the pre-button residual alone: the signal that beats the note-text bar lives in the residual that has seen the ask.
 
-The combination is a diagnostic. It is not a fifth gate, and a high joint accuracy is not a handover.
+The note-plus-prebutton probe is a diagnostic. It is not a fifth gate, and a high joint accuracy is not a handover.
 
 ## How a candidate is scored
 
