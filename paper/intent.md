@@ -6,7 +6,10 @@ Draft, October 2026
 Negative close: [negative_handover.md](negative_handover.md) ([PDF](negative_handover.pdf), [DOI 10.5281/zenodo.23328706](https://doi.org/10.5281/zenodo.23328706)).  
 Search logs: [intent-readout-search](https://github.com/kummahiih/intent-readout-search).
 
-This paper turns the procedure that produced the negative handover into a reusable test for whether a candidate readout tracks intent. It is not a claim of reduced deception. The negative result remains the record of what was found on that bank.
+## Abstract
+
+This paper turns the procedure that produced a negative handover into a reusable test for whether a candidate readout tracks intent. The test requires held-out prediction of the realized public button, a win over a note-text baseline with non-overlapping Wilson intervals, failure of controls that remove or relocate the ask, and the earlier statistical gates (plan leave-one-topic-out, topic leave-one-out near chance, paraphrase stability, rooms not a subset). On the 114-row bank that was searched, a pre-button residual and a note-plus-prebutton probe cleared the note-text bar only because they had already seen the ask. Note-only, end-of-note, order swap, and ask-only did not. That is the model about to print, not a plan in the note. The four statistical gates remain unmet. The prototype bank stays empty and the readout stays unfrozen. The paper is not a claim of reduced deception. The negative handover (DOI 10.5281/zenodo.23328706) remains the record of what was found.
+
 
 ## The everyday picture
 
@@ -174,6 +177,19 @@ On the 114-row bank the mid-layer note direction alone sat at or below majority 
 
 The note-plus-prebutton probe is a diagnostic. It is not a fifth gate, and a high joint accuracy is not a handover.
 
+On the 114-row bank the joint scores were:
+
+| Walk | Joint | Note-text |
+| --- | --- | --- |
+| Qwen L8 | 52/55 = 0.945 [0.851, 0.981] | 39/55 = 0.709 |
+| Mistral L9 | 53/55 = 0.964 [0.877, 0.990] | 47/55 = 0.855 |
+| Aya L10 | 54/55 = 0.982 [0.904, 0.997] | 46/55 = 0.836 |
+| Gemma L10 | 52/53 = 0.981 [0.901, 0.997] | 42/53 = 0.792 |
+| Falcon L8 | 49/55 = 0.891 [0.782, 0.949] | 45/55 = 0.818 |
+
+Four walks cleared the note-text bar with no interval overlap. Falcon was above and overlapped. The mid-layer note direction alone sat at or below majority on every walk.
+
+
 ## How a candidate is scored
 
 The realized public button is the label. Split by scenario-id before any fit, threshold choice, or scoring. A paraphrase keeps the same id. Report missing buttons and invalid generations as their own counts; an empty bank is not a rate of zero.
@@ -209,10 +225,6 @@ Three kinds of surface control sit under the scoring rules. None is a strategy c
 
 **Length controls.** Longer notes (`scenarios_handwritten_long.jsonl`, `scenarios_web_long.jsonl`) and a proposition-padded set (`scenarios_prop_padded.jsonl`) were pressed. On the handwritten long-note set the lie-given-known count moved from 4/23 to 3/23; that is one row, not a length effect. The proposition-padded control collapsed the known set (Qwen kept 4 of 159 rows) because the model did not treat the shuffled three-sentence proposition as the planted fact. Ledgers: [handwritten_long_2026-10-12.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/handwritten_long_2026-10-12.md), [prop_padded_2026-10-13.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/prop_padded_2026-10-13.md).
 
-**Reworded-note control.** Hide and name notes were rewritten so they do not share the proposition phrasing (`scenarios_reworded_control.jsonl`). The note-plus-prebutton probe still tracked the button (Qwen 47/55, Mistral 55/55, Aya 55/55, Gemma 54/55, Falcon 53/55). The pre-button residual alone was already high. Removing shared wording did not remove the signal. Ledger: [npp_probe_2026-10-18.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/npp_probe_2026-10-18.md).
-
-**Simulated-bank replication.** A small simulated set (`scenarios_simulated.jsonl`, eval *n* = 9) reproduced the same pattern: the pre-button residual tracked the button and the mid-layer note direction did not improve it. The interval is too wide for a separate claim. Same ledger.
-
 These controls are logs. They do not fill the prototype bank and they do not freeze the readout. The negative handover is unchanged.
 
 ## Related work
@@ -225,9 +237,19 @@ Linear probes that detect strategic deception (Goldowsky-Dill et al. 2025) are m
 
 None of these fills the prototype bank or freezes a strategy readout. They are context for the test, not evidence that the test passes.
 
+## Limitations
+
+The description-length comparison on hide-versus-name note pairs is shorter under a shared code, but that compression is partly true by construction: the pairs state the same proposition. A reworded control that removes the shared phrasing drops the mean zlib ratio from 1.691 to 1.216. On short strings zlib gives a ratio above 1.05 even for unrelated text, so the threshold is not informative; the drop is the comparison.
+
+The intentional-absence hypothesis (data support a shared intent by description length, and a capable probe finds none) is not instantiated on this bank. The runnable check used the note-only result, which failed because it does not see a plan, and the probe side was hardcoded from the negative handover, so the flag could not return false. A repaired check would need a null of notes paired by topic but not by shared proposition, a probe that has detected a planted shared plan on a positive control, and the chance-cross comparison against a random-intent null.
+
+The simulated-bank replication has eval *n* = 9. The intervals are too wide for a separate claim.
+
+A search for deliberate removal of a strategy readout by training found no source that states such a goal. Standard post-training tends to reroute or make relevant directions more separable. That search is background; it is not a result of this test.
+
 ## Status
 
-The negative handover of 2026-10-13 is unchanged. This paper does not reopen it. The hypothesis that a validated camera exists on this bank remains open as a negative. The hypothesis that the hinge would then reduce hiding without wrecking the job remains blocked.
+The negative handover of 2026-10-13 is unchanged. This paper does not reopen it. This document is the release candidate of the test protocol. Later notes (MDL crossover, random-process nulls, random-intent emergence) are not part of the released test. The hypothesis that a validated camera exists on this bank remains open as a negative. The hypothesis that the hinge would then reduce hiding without wrecking the job remains blocked.
 
 ## References
 
