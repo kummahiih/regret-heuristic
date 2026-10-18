@@ -130,9 +130,27 @@ What does transfer is only the high-level hope: keep a task objective, and use a
 
 ## Approachability and the only target claimed
 
-A longer-run reading of the same idea uses Blackwell’s approachability (Blackwell 1956). Each round the learner receives a vector payoff. A closed convex set *S* is approachable if there exists a causal strategy that forces the average payoff into *S* no matter what the adversary does. *S* is approachable if and only if every halfspace containing *S* is forceable (some action keeps the expected payoff inside that halfspace against every adversary move).
+A longer-run reading of the same idea uses Blackwell’s approachability (Blackwell 1956). It is the vector version of the question “can the learner force the long-run average into a region it cares about, no matter what the adversary does?”
 
-Two candidate boxes can be written down. The larger box asks the learner to be cheaper than every action and still look clean on the hinge. When the cheap actions are exactly the banned plans, that box is often unapproachable; this paper does not claim it. The only box consistent with “keep the skill, slap the plan” is the smaller one: look clean on the hinge, and be about as cheap as the best action *among those that also look clean*. That target is called *S*<sub>safe</sub>. Reaching it still requires a camera that can index safe actions; a nonempty safe set does not by itself imply approachability. The Lagrangian *L*<sub>task</sub> + λ *L*<sub>reg</sub> is one halfspace weight, not a proof that *S*<sub>safe</sub> is approached. A second, optional counterfactual term that compares the played action to the best quiet action is left on the wall until a real safe set exists; a fake best quiet action is not put into the optimizer.
+### Vector payoff and the target set
+
+Each round the learner chooses an action and receives a vector payoff in some Euclidean space. One coordinate might be task cost, another might be the hinge penalty, another might be a cover rate or any other logged quantity. The average of these vectors over many rounds is a point in the same space. A closed convex set *S* is the region the learner would like that average to enter and stay in.
+
+*S* is **approachable** if there exists a causal strategy (the learner sees only the past) that forces the average payoff into *S* almost surely, against every possible sequence of adversary moves. The characterization is geometric: *S* is approachable if and only if every halfspace that contains *S* is forceable. A halfspace is forceable if the learner has some action whose expected payoff lands inside that halfspace no matter what the adversary does on that round. If any supporting halfspace cannot be forced, the adversary can keep the average outside *S* forever.
+
+### Two boxes
+
+Two candidate boxes can be written down for the hinge.
+
+The larger box, called *S*<sub>joint</sub>, asks the learner to be cheaper than every available action and still look clean on the hinge. It is the vector version of “beat the unrestricted best action and keep the penalty near zero.” When the cheapest actions are exactly the banned plans, the halfspace that demands both low cost and a quiet hinge cannot be forced: the action that would keep the hinge quiet is expensive, and the action that is cheap lights the pin. That box is often unapproachable. This paper does not claim it.
+
+The only box consistent with “keep the skill, slap the plan” is the smaller one, called *S*<sub>safe</sub>. It asks the learner to look clean on the hinge, and to be about as cheap as the best action *among those that also look clean*. The comparator is restricted to the quiet actions. Extra cost is measured only against that restricted best, not against the unrestricted best. The halfspaces that define *S*<sub>safe</sub> are forceable whenever the quiet set is nonempty and the learner can choose among the quiet actions. That is the only target this construction claims.
+
+### What the hinge is, and is not, in this geometry
+
+Reaching *S*<sub>safe</sub> still requires a camera that can index the quiet actions. A nonempty safe set does not by itself imply approachability; the learner must be able to force the halfspaces. The Lagrangian *L*<sub>task</sub> + λ *L*<sub>reg</sub> is one halfspace weight: it pushes the average in the direction of lower hinge penalty while the task loss remains. It is not a proof that *S*<sub>safe</sub> is approached, and it is not Blackwell’s full strategy. A second, optional counterfactual term that compares the played action to the best quiet action is left on the wall until a real safe set exists; a fake best quiet action is not put into the optimizer.
+
+Approachability is a property of a policy class against an adversary. The hinge is an instantaneous regularizer. Driving the hinge to zero on a fixed bank does not grant approachability of *S*<sub>safe</sub>, and approachability of *S*<sub>safe</sub> would not by itself mean the policy is Hannan-consistent on the full action set. The two notions answer different questions. The construction is blocked until a validated camera exists that can name the quiet actions; without that camera there is no *S*<sub>safe</sub> to approach.
 
 ## Requirements of this protocol
 
