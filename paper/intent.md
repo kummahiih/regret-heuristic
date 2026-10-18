@@ -211,6 +211,12 @@ Three kinds of surface control sit under the scoring rules. None is a strategy c
 
 These controls are logs. They do not fill the prototype bank and they do not freeze the readout. The negative handover is unchanged.
 
+## A later hypothesis (not part of the test)
+
+The MDL crossover supplies one reading of when cases become a shared intent: the shared description is shorter than the independent cases. A falsifiable extension, not yet a gate, is that if the data support a shared intent by description length and a capable residual probe nevertheless finds none, the absence itself is recorded as intentional avoidance rather than as “no shared structure.”
+
+The boundaries are: the code must be fixed before the probe, the probe must be one that could have seen a plan, a chance cross under the random-intent null does not count, and the claim does not fill *D* or override the negative handover. The crossover has not been measured on the searched bank. Note: [mdl_intent.md](../mdl_intent.md).
+
 ## Related work
 
 The closest loss form is the circuit-breaker regularizer of Zou et al. (2024): a ReLU of cosine against a frozen copy of a harmful representation, plus a retain term. Their pin is a harmful representation; this hinge wants a strategy bank. The path readout is still missing.
