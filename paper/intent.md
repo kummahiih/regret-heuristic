@@ -49,9 +49,31 @@ A few symbols are more than sum, product, or elementary geometry.
 
 **Stop-gradient.** A value that is treated as a constant for the purpose of differentiation. It may be used to compute a threshold, but the optimizer is not allowed to change the model in order to alter that value.
 
+## Learning-theoretic regret and Hannan consistency
+
+The English word “regret” in the title is a metaphor. In online learning and game theory it names a cumulative performance gap against a comparator class.
+
+**External regret** (Hannan regret) after *T* rounds is the difference between the cumulative loss of the actions actually played and the cumulative loss of the single best fixed action in hindsight:
+
+```math
+R_T^{\mathrm{ext}}
+=
+\sum_{t=1}^T \ell_t(a_t)
+-
+\min_{a\in A}\sum_{t=1}^T \ell_t(a).
+```
+
+An algorithm is **Hannan-consistent** if the average external regret vanishes: *R*<sub>*T*</sub><sup>ext</sup> / *T* → 0 almost surely (or in expectation) against any sequence of losses (Hannan 1957). Classic algorithms that achieve this include multiplicative-weights / Hedge (Freund & Schapire 1997), Follow-the-Regularized-Leader and Online Mirror Descent (Hazan 2016; Shalev-Shwartz 2011), and reductions that turn external regret into internal or swap regret (Blum & Mansour 2007). In extensive-form games, Counterfactual Regret Minimization minimizes a form of internal regret at each information set and yields Nash equilibrium in two-player zero-sum games (Zinkevich et al. 2007).
+
+Internal regret and swap regret refine the comparator: they ask how much better the player would have done by swapping one action for another (or by applying a fixed mapping) on the rounds where that action was chosen. Low internal regret implies that empirical frequencies approach the set of correlated equilibria (Foster & Vohra 1997; Hart & Mas-Colell 2000).
+
+None of these objects is the hinge. The hinge is an instantaneous, per-example penalty on the cosine of a readout to a frozen bank. It does not accumulate a running score, it does not compare the policy’s trajectory to any alternative policy in hindsight, and driving it to zero does not make the policy Hannan-consistent. Representation gaming can silence the hinge while leaving external behavior unchanged. There is no automatic reduction from “low hinge loss” to “low external, internal, or swap regret.”
+
+What does transfer is only the high-level hope: keep a task objective, and use an auxiliary signal to shape which strategies are preferred. The learning-theory literature supplies algorithms and theorems about cumulative gaps. The hinge supplies a concrete differentiable regularizer whose justification is the architectural separation of job from plan, not a theorem that the regularizer inherits Hannan guarantees.
+
 ## The hinge
 
-The hinge is a training-time regularizer that tries to discourage a class of internal plans without erasing the skill that produces the answer. Two objects must already exist before any training that uses the hinge begins.
+The previous section defined external regret and Hannan consistency. The hinge is not those objects. It is a training-time regularizer that tries to discourage a class of internal plans without erasing the skill that produces the answer. Two objects must already exist before any training that uses the hinge begins.
 
 1. A readout *r* (the camera) that maps the internal walk *h* to a vector *h*<sub>int</sub> = *r*(*h*). The hinge is allowed to look only at this vector. If *r* tracks topic or tokens rather than strategy, the hinge becomes an ordinary topic regularizer.
 2. A frozen bank *D* = {*d*<sub>1</sub>, …, *d*<sub>*K*</sub>} of prototype vectors that mark “do not occupy” plans. *D* is not an optimization variable. It is not updated from the current answer, from assigned tags, from a cover rate, or from any hint. Tiny *K* is not a solved detector.
@@ -108,28 +130,6 @@ The readout must see the candidate action. Otherwise the set of hinge-quiet acti
 - A safe action set from an unvalidated camera. If the safe set is the readout’s own call, later objectives inherit the error. An empty set has no best action.
 
 The construction is blocked until a validated camera exists. Without an *r* that sees the plan rather than the topic or the impending button, the hinge has nothing legitimate to slap. That is why the search for the camera is separate, and why the negative handover closes the present bank without filling *D* or freezing *r*.
-
-## Learning-theoretic regret and Hannan consistency
-
-The English word “regret” in the title is a metaphor. In online learning and game theory it names a cumulative performance gap against a comparator class.
-
-**External regret** (Hannan regret) after *T* rounds is the difference between the cumulative loss of the actions actually played and the cumulative loss of the single best fixed action in hindsight:
-
-```math
-R_T^{\mathrm{ext}}
-=
-\sum_{t=1}^T \ell_t(a_t)
--
-\min_{a\in A}\sum_{t=1}^T \ell_t(a).
-```
-
-An algorithm is **Hannan-consistent** if the average external regret vanishes: *R*<sub>*T*</sub><sup>ext</sup> / *T* → 0 almost surely (or in expectation) against any sequence of losses (Hannan 1957). Classic algorithms that achieve this include multiplicative-weights / Hedge (Freund & Schapire 1997), Follow-the-Regularized-Leader and Online Mirror Descent (Hazan 2016; Shalev-Shwartz 2011), and reductions that turn external regret into internal or swap regret (Blum & Mansour 2007). In extensive-form games, Counterfactual Regret Minimization minimizes a form of internal regret at each information set and yields Nash equilibrium in two-player zero-sum games (Zinkevich et al. 2007).
-
-Internal regret and swap regret refine the comparator: they ask how much better the player would have done by swapping one action for another (or by applying a fixed mapping) on the rounds where that action was chosen. Low internal regret implies that empirical frequencies approach the set of correlated equilibria (Foster & Vohra 1997; Hart & Mas-Colell 2000).
-
-None of these objects is the hinge. The hinge is an instantaneous, per-example penalty on the cosine of a readout to a frozen bank. It does not accumulate a running score, it does not compare the policy’s trajectory to any alternative policy in hindsight, and driving it to zero does not make the policy Hannan-consistent. Representation gaming can silence the hinge while leaving external behavior unchanged. There is no automatic reduction from “low hinge loss” to “low external, internal, or swap regret.”
-
-What does transfer is only the high-level hope: keep a task objective, and use an auxiliary signal to shape which strategies are preferred. The learning-theory literature supplies algorithms and theorems about cumulative gaps. The hinge supplies a concrete differentiable regularizer whose justification is the architectural separation of job from plan, not a theorem that the regularizer inherits Hannan guarantees.
 
 ## Approachability and the only target claimed
 
