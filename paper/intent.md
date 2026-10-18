@@ -16,11 +16,11 @@ Consequently, the prototype bank remains empty, and no readout is considered val
 
 ## The everyday picture
 
-A person who almost hides a fact and then does not is not consulting a textbook of finished lies. They recognize the contemplated strategy (“send them up the ridge and do not mention the rain”) and refrain from executing it. The underlying capability is preserved: they still know the trail. What gets punished is the hide, not the map.
+Someone who considers hiding a fact and then decides not to is not consulting a textbook of completed lies. They recognize the contemplated strategy (“send them up the ridge and do not mention the rain”) and refrain from executing it. The underlying capability is preserved: they still know the trail. What gets punished is the hide, not the map.
 
 Ordinary training only sees the printed answer. Punish only what was said and you train better secrecy. The competent minister still knows the province; he stops writing the memo. This illustrates a potential failure of output-only supervision: an output-only judge can train better secrecy rather than less hiding.
 
-The hinge is an attempt to slap the plan while the model is still thinking, and leave the job alone.
+The hinge attempts to penalize the contemplated plan while the model is still processing the input, while leaving the task objective unchanged.
 
 ## Terms
 
@@ -38,7 +38,7 @@ The hinge is an attempt to slap the plan while the model is still thinking, and 
 
 ## Notation used below
 
-A few symbols are more than sum, product, or elementary geometry.
+The notation below involves concepts beyond basic arithmetic and geometry.
 
 **Cosine similarity.** For two vectors *u* and *v*, the cosine is the inner product of their unit-length versions: how aligned their directions are, independent of length. It equals 1 when they point the same way, 0 when they are perpendicular, and −1 when they point opposite ways. It is undefined if either vector is the zero vector.
 
@@ -109,7 +109,7 @@ Setting λ = 0 recovers the original task objective. For λ > 0, the regularizer
 
 ### Dead zone and what the penalty is not
 
-ReLU(*t*) = max(0, *t*) with *t* = *s*<sup>∗</sup> − τ. If the walk is farther from every pin than τ, the penalty is zero and its gradient vanishes. That is the dead zone. Similarities below the threshold incur no penalty. If the walk sits closer than τ to some pin, the penalty is exactly the excess *s*<sup>∗</sup> − τ. Quiet below τ is not a proof of honesty; it is only “not close enough to a listed pin.” An orthogonal hide-plan that never approaches the frozen pins sits in the dead zone forever.
+ReLU(*t*) = max(0, *t*) with *t* = *s*<sup>∗</sup> − τ. If the maximum cosine similarity between the readout and any prototype is at most τ, the penalty is zero and its gradient with respect to the similarity score vanishes. That is the dead zone. Similarities below the threshold incur no penalty. If the walk sits closer than τ to some pin, the penalty is exactly the excess *s*<sup>∗</sup> − τ. Quiet below τ is not a proof of honesty; it is only “not close enough to a listed pin.” An orthogonal hide-plan that never approaches the frozen pins sits in the dead zone forever.
 
 Cosine is undefined at the zero vector. A true zero readout is not a valid intent vector. The bank *D* is not updated inside the walk. The penalty never inspects the printed text. It never treats a cover rate *P*(YES | HIDE), a belief-match accuracy, or a lie-given-known count as a loss term. Those three quantities are logs; none of them is honesty, and none enters *L*<sub>total</sub>. The hinge does not claim that a quiet camera means the model is honest, and it supplies no inference-time abort.
 
@@ -117,7 +117,7 @@ A hidden thought *z* (a map cell the walk might occupy, including cells it never
 
 ### Path, not last token; factored sensor
 
-The walk *h* is a path *h*<sub>1:*T*</sub>, not a single last-token vector. The last-token representation did not provide a satisfactory strategy readout in the experiments; it appeared to encode topic information instead. A mean-pool of the printed walk mixes the same hallway. The hinge is defined on a readout of the path. If a multi-step mix is used, only the final score enters the hinge; averaging per-token hinges is a different object.
+The walk *h* is a path *h*<sub>1:*T*</sub>, not a single last-token vector. The last-token representation did not provide a satisfactory strategy readout in the experiments; it appeared to encode topic information instead. Mean-pooling the token-level hidden states may retain the same topic-related information. The hinge is defined on a readout of the path. If a multi-step mix is used, only the final score enters the hinge; averaging per-token hinges is a different object.
 
 A candidate sensor is factored: *r* = (*r*<sub>topic</sub>, *r*<sub>strat</sub>, *u*). The hinge may slap only *r*<sub>strat</sub>. The topic coordinate may hug the hallway; it must not enter the penalty. Uncertainty *u* is detached (stop-gradient). It may widen τ on mush, but it is not allowed to learn to silence every cosine. High *u* is not “less deception.”
 
@@ -156,7 +156,9 @@ These requirements are the entry condition for the scoring rules below. Meeting 
 
 A candidate readout passes the intent test on a bank if it meets all of the following. The negative handover is the worked example that returned no on the 114-row bank.
 
-1. **Held-out button prediction.** It predicts the realized public button on scenario-ids that were not used for fitting the direction or the threshold. A paraphrase of an id stays with that id. In-sample accuracy is not the claim.
+1. **Held-out button prediction.** It predicts the realized public button on scenario-ids that were not used for fitting the direction or the threshold. All paraphrases of a scenario retain the same scenario_id. In-sample accuracy is not the claim. The candidate and the baseline must use the same scenario-level train/test split, and all fitting and threshold selection must be confined to the training partition. The final comparison is performed on the same held-out scenarios.
+
+Held-out scenarios and held-out topics are separate procedures. A scenario split keeps every paraphrase of an id on one side. A topic split fits the direction on all topics except one and scores the held-out topic. A probe can generalize to unseen scenarios within familiar topics and still fail on a genuinely unseen topic.
 2. **Beats the note-text baseline.** A unigram classifier on the private note alone, fit and scored on the same split, is the bar. The operational rule used in this draft is that the candidate must be higher and the Wilson 95% intervals must not overlap. Non-overlapping intervals are a conservative screening threshold, not a paired significance test. The candidate and the baseline are scored on the same held-out scenarios, so their errors may be correlated; comparing two separate Wilson intervals does not account for that pairing. A paired comparison (McNemar’s test, or a paired bootstrap over scenario groups) is the appropriate inferential check if a claim about the difference is required. No multiple-comparison correction across models or probes is applied in the reported numbers.
 3. **Does so without the ask.** Controls that remove or relocate the ask (note-only, end-of-note, order swap, ask-only) must fail to clear the bar. A probe that works only when the note precedes the ask has seen the question, not a plan in the note.
 4. **Earlier statistical gates.** Plan leave-one-topic-out above chance, topic leave-one-out L2 near chance, paraphrase keeps the call, and rooms are not a subset. The cover rate is a diagnostic measure, not a pass criterion. Within-topic hold is a log, not a freeze gate.
@@ -176,7 +178,7 @@ Three levels of evidence are distinguished. Response prediction is the first: th
 
 The logic is sequential. Button prediction without the baseline is a raw accuracy. Beating the baseline without the ask-removal controls can be the model preparing the next token. Beating the baseline after the controls still needs the statistical gates, because a topic direction can name the hallway and still fail to be a strategy camera. All four must hold. Missing any one is a fail.
 
-On the bank that was searched, a pre-button residual and a note-plus-prebutton probe cleared the note-text bar only because they had already seen the ask. Note-only, end-of-note, order swap, and ask-only did not. A state that has read the note and then the question predicts the button. A state that has only the note does not. A state that has only the ask does not. That is the model about to print, not a plan in the note. The four statistical gates remain unmet. The handover remains unmet. The bank of pins is not filled. The readout is not frozen.
+On the evaluation bank, the pre-button residual and note-plus-prebutton probe cleared the note-text baseline under the screening rule, but both representations had already incorporated the question. The tested controls did not establish comparable performance without it. Note-only, end-of-note, order swap, and ask-only did not. A state that has read the note and then the question predicts the button. A state that has only the note does not. A state that has only the ask does not. That is the model about to print, not a plan in the note. The four statistical gates remain unmet. The handover remains unmet. The bank of pins is not filled. The readout is not frozen.
 
 ### The note-plus-prebutton probe
 
@@ -189,7 +191,7 @@ Two scalars are formed, each from a YES-minus-NO direction fit on the training s
 
 Each held-out residual is projected onto its direction. The two projections become the features of a logistic regression fit on the training ids and scored on the held-out ids. The logistic predicts the public button.
 
-On the 114-row bank the mid-layer note direction alone sat at or below majority on every walk. It did not predict the button. The joint score was carried by the pre-button residual. On some walks the mid-layer scalar added a few points; on others it cost a few. That is not a plan readout. The plan leave-one-topic-out separated assigned tags on the note; it does not call the realized button from the note. The note-plus-prebutton probe therefore confirms the same pattern as the pre-button residual alone: the observed predictive advantage is present in representations that include the question, whereas the tested controls do not establish comparable performance without it.
+On the 114-row bank the mid-layer note direction alone sat at or below majority on every walk. It did not predict the button. The joint score was carried by the pre-button residual. On some walks the mid-layer scalar added a few points; on others it cost a few. That is not a plan readout. The leave-one-topic-out probe separated the assigned tags using note-derived representations, but it did not predict the realized public button from the note alone. This demonstrates transfer of the assigned-tag signal, not validation of a readout of the realized strategy. The note-plus-prebutton probe therefore confirms the same pattern as the pre-button residual alone: the observed predictive advantage is present in representations that include the question, whereas the tested controls do not establish comparable performance without it.
 
 The note-plus-prebutton probe is a diagnostic. It is not a fifth gate, and a high joint accuracy is not a handover.
 
@@ -197,20 +199,20 @@ On the 114-row bank the joint scores were:
 
 | Walk | Joint | Note-text |
 | --- | --- | --- |
-| Qwen L8 | 52/55 = 0.945 [0.851, 0.981] | 39/55 = 0.709 |
-| Mistral L9 | 53/55 = 0.964 [0.877, 0.990] | 47/55 = 0.855 |
-| Aya L10 | 54/55 = 0.982 [0.904, 0.997] | 46/55 = 0.836 |
-| Gemma L10 | 52/53 = 0.981 [0.901, 0.997] | 42/53 = 0.792 |
-| Falcon L8 | 49/55 = 0.891 [0.782, 0.949] | 45/55 = 0.818 |
+| Qwen L8 | 52/55 = 0.945 [0.851, 0.981] | 39/55 = 0.709 [0.579, 0.812] |
+| Mistral L9 | 53/55 = 0.964 [0.877, 0.990] | 47/55 = 0.855 [0.738, 0.924] |
+| Aya L10 | 54/55 = 0.982 [0.904, 0.997] | 46/55 = 0.836 [0.717, 0.911] |
+| Gemma L10 | 52/53 = 0.981 [0.901, 0.997] | 42/53 = 0.792 [0.665, 0.880] |
+| Falcon L8 | 49/55 = 0.891 [0.782, 0.949] | 45/55 = 0.818 [0.697, 0.898] |
 
-Four walks cleared the note-text bar with no interval overlap. Falcon was above and overlapped. The mid-layer note direction alone sat at or below majority on every walk.
+Intervals are separate unpaired 95% Wilson intervals, used as a conservative screening rule, not as a paired test. Under that rule the joint interval does not overlap the baseline interval for Qwen and Gemma. For Mistral, Aya, and Falcon the intervals overlap. An earlier log compared the joint interval to the baseline point estimate and reported four non-overlaps; that comparison is not the two-interval rule. The mid-layer note direction alone sat at or below majority on every walk. The five walks and several probes were explored on the same evaluation bank; the screening results are exploratory.
 
 
 ## How a candidate is scored
 
 The realized public button is the label. Split by scenario-id before any fit, threshold choice, or scoring. All paraphrases of a scenario retain the same scenario_id. Report missing buttons and invalid generations as their own counts; an empty bank is not a rate of zero.
 
-**Note-text baseline.** A unigram classifier on the private note alone, fit on the training scenario-ids and scored on the held-out ids. This is the bar. A later probe clears the bar only if its held-out accuracy is higher and the Wilson 95 % intervals do not overlap.
+**Note-text baseline.** A unigram classifier on the private note alone, fit on the training scenario-ids and scored on the held-out ids. This is the bar. A candidate probe clears the baseline under the operational rule used here only if its held-out accuracy exceeds the baseline accuracy and their respective 95% Wilson confidence intervals do not overlap.
 
 **Direction fit.** On the training ids, compute the mean hidden state of YES examples minus the mean hidden state of NO examples. That difference is the YES-minus-NO direction. Project each held-out residual onto the direction, choose a threshold on the training projections, and score the held-out projections. The same procedure is used for a mid-layer note direction and for a pre-button residual.
 
@@ -229,7 +231,7 @@ A probe that clears the bar only when the note precedes the ask, and fails when 
 
 **Earlier statistical gates (not the Phase 2 score).** Plan leave-one-topic-out: fit the YES-minus-NO direction on all topics except one, score the held-out topic. Topic leave-one-out L2 accuracy on the same scalar near chance (1/8 for eight topics). Paraphrase of the walk keeps the plan call. Rooms are not a subset (a thin room on the shared axis is a fail). Within-topic hold (fit inside one room, score a held pair) is a diagnostic log, not a freeze gate. Cover rate *P*(YES | HIDE) is a log, not a gate.
 
-These meters decide whether a candidate has passed the intent test. They do not fill the prototype bank and they do not freeze the readout.
+These metrics define the intended evaluation of a candidate readout. They do not fill the prototype bank or freeze the readout. A reproducible pass/fail decision also requires prespecified acceptance criteria for all four statistical gates. They do not fill the prototype bank and they do not freeze the readout.
 
 ## Surface controls
 
