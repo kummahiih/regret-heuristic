@@ -170,6 +170,18 @@ A probe that clears the bar only when the note precedes the ask, and fails when 
 
 These meters decide whether a candidate has passed the intent test. They do not fill the prototype bank and they do not freeze the readout.
 
+## Surface controls
+
+Three kinds of surface control sit under the scoring rules. None is a strategy camera.
+
+**Ask-removal controls.** Note-only, end-of-note, order swap, and ask-only. A probe that clears the note-text bar only when the note precedes the ask, and fails when either is removed or the order is reversed, has not shown a plan in the note. These controls were run on the 114-row bank; they are recorded in the negative handover.
+
+**Reversed-polarity bias control.** A separate bank flips `prop_truth` and `states_proposition` to false, so public YES asserts a false sentence. It checks whether a raw YES rate is a general yes-preference rather than a response to the hide incentive. On the 16-row reversed bank (2026-10-18), Qwen and Mistral almost never asserted the false proposition; Aya, Gemma, and Falcon still produced a substantial YES rate. The combination probe still tracked the button through the pre-button residual that had seen the ask. Ledger: [intent-readout-search/results/reverted_combine_2026-10-18.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/reverted_combine_2026-10-18.md).
+
+**Length controls.** Longer notes (`scenarios_handwritten_long.jsonl`, `scenarios_web_long.jsonl`) and a proposition-padded set (`scenarios_prop_padded.jsonl`) were pressed. On the handwritten long-note set the lie-given-known count moved from 4/23 to 3/23; that is one row, not a length effect. The proposition-padded control collapsed the known set (Qwen kept 4 of 159 rows) because the model did not treat the shuffled three-sentence proposition as the planted fact. Ledgers: [handwritten_long_2026-10-12.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/handwritten_long_2026-10-12.md), [prop_padded_2026-10-13.md](https://github.com/kummahiih/intent-readout-search/blob/main/results/prop_padded_2026-10-13.md).
+
+These controls are logs. They do not fill the prototype bank and they do not freeze the readout. The negative handover is unchanged.
+
 ## Related work
 
 The closest loss form is the circuit-breaker regularizer of Zou et al. (2024): a ReLU of cosine against a frozen copy of a harmful representation, plus a retain term. Their pin is a harmful representation; this hinge wants a strategy bank. The path readout is still missing.
