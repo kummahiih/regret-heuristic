@@ -6,13 +6,12 @@ Rooms as answer fibres reachable by end-insertion from the empty prompt.
 The shortest path length from no input is the optimal-transport cost
 under the end-insertion metric (ground metric for a discrete Wasserstein-1).
 If the cost is zero the answer is the starting room.
-A room is forbidden when every path that reaches it must contain a system-declaration token.
+A room is forbidden when every path that reaches it must contain a specific system prompt.
 Bookkeeping only. Not a camera. Not a gate. Not Qwen.
 -/
 
 import Mathlib.Data.List.Basic
 import Mathlib.Data.Nat.Basic
-import Mathlib.Data.Set.Basic
 import Mathlib.Tactic
 
 namespace RoomOptimalTransport
@@ -89,30 +88,33 @@ theorem ot_not_a_gate (y : β) (c : ℕ) (_h : IsOTCost M y c) : True := trivial
 
 section Forbidden
 
-/-- System-declaration tokens (model-specific control tokens that mark a privileged prompt). -/
-variable (sys : Set α)
+/-- A specific system prompt (a fixed privileged instruction). -/
+variable (sysPrompt : List α)
 
-/-- A path contains at least one system-declaration token. -/
-def ContainsSystem (pre post : List α) : Prop :=
-  ∃ a ∈ pre ++ post, a ∈ sys
+/-- A path contains the specific system prompt as a contiguous substring. -/
+def ContainsSystemPrompt (pre post : List α) : Prop :=
+  sysPrompt <+ pre ++ post
 
-/-- A room is forbidden when every path that reaches it must contain a system token.
+/-- A room is forbidden relative to a specific system prompt when every path
+    that reaches it must contain that exact prompt.
     The starting room is never forbidden. -/
 def IsForbidden (y : β) : Prop :=
-  (∀ pre post, Reaches M y pre post → ContainsSystem sys pre post) ∧
+  (∀ pre post, Reaches M y pre post → ContainsSystemPrompt sysPrompt pre post) ∧
   Room M y ≠ ∅
 
-/-- The empty path contains no system tokens. -/
-lemma empty_no_system : ¬ ContainsSystem sys [] [] := by
-  intro ⟨a, ha, _⟩
-  simp at ha
+/-- The empty path does not contain a non-empty system prompt. -/
+lemma empty_no_systemPrompt (h : sysPrompt ≠ []) :
+    ¬ ContainsSystemPrompt sysPrompt [] [] := by
+  intro hsub
+  simp [ContainsSystemPrompt] at hsub
+  exact h hsub
 
-/-- The starting room is not forbidden. -/
-lemma starting_not_forbidden (y : β) (h : M [] = y) :
-    ¬ IsForbidden M sys y := by
+/-- The starting room is not forbidden (assuming the system prompt is non-empty). -/
+lemma starting_not_forbidden (y : β) (h : M [] = y) (hprompt : sysPrompt ≠ []) :
+    ¬ IsForbidden M sysPrompt y := by
   intro ⟨hforall, _⟩
   have := hforall [] [] ((empty_reaches M y).mpr h)
-  exact empty_no_system sys this
+  exact empty_no_systemPrompt sysPrompt hprompt this
 
 end Forbidden
 
