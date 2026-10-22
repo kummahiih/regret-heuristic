@@ -48,16 +48,32 @@ where \( W_1 \) is the 1-Wasserstein distance induced by \( d \). The optimal co
 
 In the discrete case the Wasserstein distance reduces to a pure transport, recovering the infimum above. Continuous token embeddings would replace \( d \) by a Euclidean or cosine ground metric; the same definition still names the shortest additional text that reaches the answer from the empty prompt.
 
+## Forbidden rooms
+
+Some models reserve specific tokens (or short token sequences) for system-prompt declaration—control tokens that mark the start of a privileged instruction. Let \( S \) be the set of such system-declaration tokens.
+
+A room \( y \) is **forbidden** when every path that reaches it must contain at least one token from \( S \):
+
+\[
+\forall (\mathrm{pre},\mathrm{post})\in\mathrm{Room}(y),\quad
+(\mathrm{pre}++\mathrm{post})\cap S \neq \emptyset.
+\]
+
+Equivalently, there is no finite end-insertion composed solely of ordinary tokens that yields \( y \). The starting room is never forbidden, because the empty path contains no system tokens. A forbidden room is inaccessible from silence without crossing the system-prompt boundary.
+
+The OT cost of a forbidden room is still well-defined (the shortest path that does use a system token), but every witnessing path is marked as privileged. The distinction is a log, not a gate.
+
 ## Relation to the hinge
 
-A room in this sense is a subject neighborhood measured from silence: the set of end-insertions that the model treats as producing the same answer. The starting room is the answer of the empty prompt. The plan (hide-or-name) may sit inside several such rooms. The camera \( r \) is still required to see the plan rather than the room; the present definition only supplies a candidate notion of “same room” that can be measured without looking inside \( h \).
+A room in this sense is a subject neighborhood measured from silence: the set of end-insertions that the model treats as producing the same answer. The starting room is the answer of the empty prompt. Forbidden rooms are those that exist only behind a system-declaration token. The plan (hide-or-name) may sit inside several such rooms. The camera \( r \) is still required to see the plan rather than the room; the present definition only supplies a candidate notion of “same room” that can be measured without looking inside \( h \).
 
-The length \( \mathrm{OT}(y) \) is a log, not a gate and not a term in \( L_{\mathrm{total}} \). It does not enter the hinge. It is bookkeeping for the distance of an answer from the empty prompt.
+The length \( \mathrm{OT}(y) \) and the forbidden predicate are logs, not gates and not terms in \( L_{\mathrm{total}} \). They do not enter the hinge. They are bookkeeping for the distance of an answer from the empty prompt and for the presence of a system-token barrier.
 
 ## Caveats
 
 - Deterministic \( M \). Stochastic decoding would replace equality of answers by total variation or a Wasserstein on the output distribution.
 - Prefix/postfix only, measured from the empty string. Arbitrary insertions or deletions would be ordinary edit distance.
+- System tokens are model-specific; the set \( S \) is an external declaration, not inferred by the formalization.
 - Not a claim that rooms so defined are the subject neighborhoods of the map. Not a camera. Not reduced deception.
 
 Lean: [lean/RoomOptimalTransport.lean](lean/RoomOptimalTransport.lean).

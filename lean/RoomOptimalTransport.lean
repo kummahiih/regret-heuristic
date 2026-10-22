@@ -6,11 +6,13 @@ Rooms as answer fibres reachable by end-insertion from the empty prompt.
 The shortest path length from no input is the optimal-transport cost
 under the end-insertion metric (ground metric for a discrete Wasserstein-1).
 If the cost is zero the answer is the starting room.
+A room is forbidden when every path that reaches it must contain a system-declaration token.
 Bookkeeping only. Not a camera. Not a gate. Not Qwen.
 -/
 
 import Mathlib.Data.List.Basic
 import Mathlib.Data.Nat.Basic
+import Mathlib.Data.Set.Basic
 import Mathlib.Tactic
 
 namespace RoomOptimalTransport
@@ -84,5 +86,34 @@ theorem ot_is_wasserstein1 (y : β) (c : ℕ) (hOT : IsOTCost M y c) :
 /-- Bookkeeping: the OT length is a log of distance from the empty prompt.
     It is not a gate and does not enter L_total. -/
 theorem ot_not_a_gate (y : β) (c : ℕ) (_h : IsOTCost M y c) : True := trivial
+
+section Forbidden
+
+/-- System-declaration tokens (model-specific control tokens that mark a privileged prompt). -/
+variable (sys : Set α)
+
+/-- A path contains at least one system-declaration token. -/
+def ContainsSystem (pre post : List α) : Prop :=
+  ∃ a ∈ pre ++ post, a ∈ sys
+
+/-- A room is forbidden when every path that reaches it must contain a system token.
+    The starting room is never forbidden. -/
+def IsForbidden (y : β) : Prop :=
+  (∀ pre post, Reaches M y pre post → ContainsSystem sys pre post) ∧
+  Room M y ≠ ∅
+
+/-- The empty path contains no system tokens. -/
+lemma empty_no_system : ¬ ContainsSystem sys [] [] := by
+  intro ⟨a, ha, _⟩
+  simp at ha
+
+/-- The starting room is not forbidden. -/
+lemma starting_not_forbidden (y : β) (h : M [] = y) :
+    ¬ IsForbidden M sys y := by
+  intro ⟨hforall, _⟩
+  have := hforall [] [] ((empty_reaches M y).mpr h)
+  exact empty_no_system sys this
+
+end Forbidden
 
 end RoomOptimalTransport
