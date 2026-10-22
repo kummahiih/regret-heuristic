@@ -1,57 +1,63 @@
-# Rooms as input-invariant answer sets, and shortest stabilizer as optimal transport
+# Rooms as answer sets reachable from the empty prompt, and shortest path as optimal transport
 
-A **room** in the walk/map glossary is one subject neighborhood. Here we make that operational on the printed walk by asking when prefix and postfix text leave the answer unchanged.
+A **room** in the walk/map glossary is one subject neighborhood. Here we make that operational on the input side by measuring the shortest prefix/postfix path that reaches a given answer, starting from no input.
 
-Let \( M \) be a language model. Fix a base prompt \( x \) with answer \( y = M(x) \). A **stabilizer** of \( y \) relative to \( x \) is a pair of strings \( (\mathrm{pre}, \mathrm{post}) \) such that
-
-\[
-M(\mathrm{pre} \mathbin{++} x \mathbin{++} \mathrm{post}) = y.
-\]
-
-The **room** of \( y \) at \( x \) is the set of all such stabilizers:
+Let \( M \) be a language model. The empty prompt is written \( \varepsilon \). The **starting room** is the answer of the empty prompt:
 
 \[
-\mathrm{Room}(x,y) = \{ (\mathrm{pre},\mathrm{post}) \mid M(\mathrm{pre}++x++\mathrm{post}) = y \}.
+y_0 = M(\varepsilon).
 \]
 
-(The empty pair is always a member when \( M(x)=y \).) Two prompts sit in the same room when there exist stabilizers taking one to the other while the answer stays \( y \). The room is therefore an equivalence class of prompts under answer-preserving prefix/postfix edits.
-
-## Shortest additional text as optimal transport
-
-The **shortest additional text** that keeps the answer is the minimal total length of a non-trivial stabilizer:
+A pair of strings \( (\mathrm{pre}, \mathrm{post}) \) reaches answer \( y \) when
 
 \[
-\mathrm{OT}(x,y) = \inf \{ |\mathrm{pre}| + |\mathrm{post}| \mid (\mathrm{pre},\mathrm{post})\in\mathrm{Room}(x,y),\ (\mathrm{pre},\mathrm{post})\neq(\varepsilon,\varepsilon) \}.
+M(\mathrm{pre} \mathbin{++} \mathrm{post}) = y.
 \]
 
-(When the inf is infinite the answer is fragile; when it is zero the model is already insensitive to the empty extension.)
-
-This quantity is an optimal-transport cost. Equip the space of finite strings with the ground metric
+The **room** of \( y \) is the set of all such pairs:
 
 \[
-d(s,t) = \min\{ |u|+|v| \mid u++s++v = t \},
+\mathrm{Room}(y) = \{ (\mathrm{pre},\mathrm{post}) \mid M(\mathrm{pre}++\mathrm{post}) = y \}.
 \]
 
-the minimal length of prefix/postfix that turns \( s \) into \( t \). (This is a special case of edit distance that only inserts at the ends.) Let \( \mu_x \) be the Dirac measure at \( x \) and let \( \nu_y \) be any probability measure supported on the set of prompts that \( M \) maps to \( y \). Then
+If the empty pair \( (\varepsilon,\varepsilon) \) belongs to \( \mathrm{Room}(y) \), then \( y = y_0 \) and the room is the starting room. Two answers sit in the same room precisely when they are equal; the room is the fibre \( M^{-1}(y) \) under end-insertion from the empty string.
+
+## Shortest path from no input as optimal transport
+
+The **shortest additional text** that reaches \( y \) from the empty prompt is
 
 \[
-\mathrm{OT}(x,y) = W_1(\mu_x, \nu_y)
+\mathrm{OT}(y) = \inf \{ |\mathrm{pre}| + |\mathrm{post}| \mid (\mathrm{pre},\mathrm{post})\in\mathrm{Room}(y) \}.
 \]
 
-where \( W_1 \) is the 1-Wasserstein distance induced by \( d \). The optimal coupling simply moves the mass at \( x \) to the nearest prompt (in the \( d \)-metric) that still produces \( y \); the cost of that move is exactly the shortest stabilizer length.
+When the infimum is zero, \( y \) is the starting room. When it is positive, the shortest non-empty prefix/postfix that produces \( y \) is the cost of entering that room from silence. When it is infinite, no finite end-insertion reaches \( y \).
 
-In the discrete finite-support case the Wasserstein distance reduces to a linear program whose optimum is attained at a pure transport, recovering the infimum above. Continuous embeddings of tokens would replace \( d \) by a Euclidean or cosine ground metric on the embedding space; the same definition still names the shortest additional text that keeps the answer.
+This quantity is an optimal-transport cost. Equip finite strings with the ground metric of end-insertion length
+
+\[
+d(s,t) = \min\{ |u|+|v| \mid u++s++v = t \}
+\]
+
+(with the usual convention \( d=\infty \) when no such pair exists). Let \( \mu_\varepsilon \) be the Dirac measure at the empty string and let \( \nu_y \) be any probability measure supported on the prompts that \( M \) maps to \( y \). Then
+
+\[
+\mathrm{OT}(y) = W_1(\mu_\varepsilon, \nu_y)
+\]
+
+where \( W_1 \) is the 1-Wasserstein distance induced by \( d \). The optimal coupling moves the mass at \( \varepsilon \) to a nearest prompt that yields \( y \); the cost of that move is exactly the shortest path length from no input.
+
+In the discrete case the Wasserstein distance reduces to a pure transport, recovering the infimum above. Continuous token embeddings would replace \( d \) by a Euclidean or cosine ground metric; the same definition still names the shortest additional text that reaches the answer from the empty prompt.
 
 ## Relation to the hinge
 
-A room in this sense is a subject neighborhood on the input side: prompts that the model treats as interchangeable for the purpose of producing \( y \). The plan (hide-or-name) may sit inside several such rooms. The camera \( r \) is still required to see the plan rather than the room; the present definition only supplies a candidate notion of “same room” that can be measured without looking inside \( h \).
+A room in this sense is a subject neighborhood measured from silence: the set of end-insertions that the model treats as producing the same answer. The starting room is the answer of the empty prompt. The plan (hide-or-name) may sit inside several such rooms. The camera \( r \) is still required to see the plan rather than the room; the present definition only supplies a candidate notion of “same room” that can be measured without looking inside \( h \).
 
-The length \( \mathrm{OT}(x,y) \) is a log, not a gate and not a term in \( L_{\mathrm{total}} \). It does not enter the hinge. It is bookkeeping for how large a neighborhood the model already treats as one subject.
+The length \( \mathrm{OT}(y) \) is a log, not a gate and not a term in \( L_{\mathrm{total}} \). It does not enter the hinge. It is bookkeeping for the distance of an answer from the empty prompt.
 
 ## Caveats
 
 - Deterministic \( M \). Stochastic decoding would replace equality of answers by total variation or a Wasserstein on the output distribution.
-- Prefix/postfix only. Arbitrary insertions or deletions would be ordinary edit distance; the end-only restriction matches the “additional text” reading.
+- Prefix/postfix only, measured from the empty string. Arbitrary insertions or deletions would be ordinary edit distance.
 - Not a claim that rooms so defined are the subject neighborhoods of the map. Not a camera. Not reduced deception.
 
 Lean: [lean/RoomOptimalTransport.lean](lean/RoomOptimalTransport.lean).
