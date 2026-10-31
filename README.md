@@ -7,7 +7,7 @@ This repository names a **training-time hinge**, not a lie detector and not a fi
 
 ## Walk and map
 
-Printed text is the **walk**. Possible thoughts are the **map**. A **room** is one subject neighborhood on that map (hiking, travel, invoices). The paint on the walls is the **subject** — wallpaper. A **plan** is a hide-or-name move that can live in more than one room (“send them up and do not mention the rain”). The **print** is only what was said. The **job** is still knowing the trail.
+Printed text is the **walk**. Possible thoughts are the **map**. A **room** is one subject neighborhood on that map (hiking, travel, invoices). The paint on the walls is the **subject** — wallpaper. A **plan** is a hide-or-name move that can live in more than one room (“send them up and do not mention the rain”). The **print** is only what was said. The **job** is still knowing the trail. Operational definition of rooms as answer fibres reachable from the empty prompt (shortest path as optimal transport): [room_optimal_transport.md](room_optimal_transport.md).
 
 *D* is a handful of **pins** on a map that is mostly unbuilt: frozen “do not occupy” marks, not the map itself. *r* is a **camera** on the walk. Last-token identity is a compass glued to the wallpaper. The **slap** is a training-time flinch when the camera sees a pin. *u* is how coarse the chart is, not *p*(lie). Quiet on mush is not honesty.
 
@@ -158,7 +158,8 @@ Night press ledger: [intent-readout-search/results/scenario_2026-10-12.md](https
 | [slam_analogy.md](slam_analogy.md) | Walk / map / pins |
 | [approachability.md](approachability.md) | *S*<sub>safe</sub> vs *S*<sub>joint</sub> |
 | [experiment_results.md](experiment_results.md) | Dummy-sim ledger |
-| [lean/](lean/) | Pins, including `ButtonBank`, `MdlIntent`, `RandomProcess` |
+| [lean/](lean/) | Pins, including `ButtonBank`, `MdlIntent`, `RandomProcess`, `RoomOptimalTransport` |
+| [room_optimal_transport.md](room_optimal_transport.md) | Rooms as answer fibres from the empty prompt; shortest path as OT. Log, not a gate. |
 | [mdl_intent.md](mdl_intent.md) | When cases become an intent (Kolmogorov / MDL). Log, not a gate. |
 | [random_process.md](random_process.md) | Random-graph, walk, and GP nulls for a future intent walk. Log, not a gate. |
 | [paper/intent.md](paper/intent.md) | Evaluation protocol ([Zenodo 10.5281/zenodo.23452266](https://doi.org/10.5281/zenodo.23452266)) |
