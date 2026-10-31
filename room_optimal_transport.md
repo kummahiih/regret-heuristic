@@ -1,79 +1,85 @@
-# Rooms as answer sets reachable from the empty prompt, and shortest path as optimal transport
+# Rooms as high-mass sets on the model's probability map, and shortest path as optimal transport
 
-A **room** in the walk/map glossary is one subject neighborhood. Here we make that operational on the input side by measuring the shortest prefix/postfix path that reaches a given answer, starting from no input.
+A **room** in the walk/map glossary is one subject neighborhood. Here we make that operational by reading it from the model's own next-token distribution rather than from an external equality of decoded strings. A room may be a single answer, or a broader role (software engineer, sci-fi writer, helpful assistant, etc.).
 
-Let $M$ be a language model. The empty prompt is written $\varepsilon$. The **starting room** is the answer of the empty prompt:
-
-$$
-y_0 = M(\varepsilon).
-$$
-
-A pair of strings $(\mathrm{pre}, \mathrm{post})$ reaches answer $y$ when
+Let \(M\) be a language model with parameters \(\theta\). Write \(p_\theta(\cdot\mid x)\) for the next-token distribution given prefix \(x\). The empty prompt is \(\varepsilon\). The **starting room** is the high-mass set of the empty prompt:
 
 $$
-M(\mathrm{pre} \mathbin{++} \mathrm{post}) = y.
+R_0 = \{ y \mid p_\theta(y\mid\varepsilon)\ge\tau \}.
 $$
 
-The **room** of $y$ is the set of all such pairs:
+(The threshold \(\tau\) is a free parameter of the log; different values give coarser or finer partitions.)
+
+## Liberal rooms
+
+A room need not be a single string. Let \(R\) be any set of strings that the model treats as interchangeable for a purpose—an exact answer, a role description, a genre, a persona. Examples:
+
+- the singleton \(\{y\}\) for a concrete answer,
+- the set of strings that a human would label “software engineer” (or that a small classifier on the model’s own continuations labels that way),
+- the set of strings that a human would label “sci-fi writer”.
+
+The **room** of \(R\) is the set of prefixes that place high mass on \(R\):
 
 $$
-\mathrm{Room}(y) = \{ (\mathrm{pre},\mathrm{post}) \mid M(\mathrm{pre}++\mathrm{post}) = y \}.
+\mathrm{Room}(R) = \{ x \mid p_\theta(R\mid x)\ge\tau \},
 $$
 
-If the empty pair $(\varepsilon,\varepsilon)$ belongs to $\mathrm{Room}(y)$, then $y = y_0$ and the room is the starting room. Two answers sit in the same room precisely when they are equal; the room is the fibre $M^{-1}(y)$ under end-insertion from the empty string.
+where \(p_\theta(R\mid x)=\sum_{y\in R}p_\theta(y\mid x)\) (or the probability that a sampled continuation falls in \(R\)). Two roles sit in the same room when their high-mass sets coincide up to the chosen \(\tau\). The partition is now induced by the model’s probability map, not by an external decoder equality.
+
+When \(R=\{y\}\) and decoding is deterministic, this recovers the earlier fibre \(M^{-1}(y)\). The liberal version simply allows \(R\) to be any measurable set of interest.
 
 ## Shortest path from no input as optimal transport
 
-The **shortest additional text** that reaches $y$ from the empty prompt is
+The **shortest additional text** that reaches room \(R\) from the empty prompt is
 
 $$
-\mathrm{OT}(y) = \inf \{ |\mathrm{pre}| + |\mathrm{post}| \mid (\mathrm{pre},\mathrm{post})\in\mathrm{Room}(y) \}.
+\mathrm{OT}(R) = \inf\{ |u|+|v| \mid u++v\in\mathrm{Room}(R) \}.
 $$
 
-When the infimum is zero, $y$ is the starting room. When it is positive, the shortest non-empty prefix/postfix that produces $y$ is the cost of entering that room from silence. When it is infinite, no finite end-insertion reaches $y$.
+When the infimum is zero, \(R\) intersects the starting room. When it is positive, the shortest non-empty end-insertion that enters the high-mass set of \(R\) is the cost of entering that room from silence. When it is infinite, no finite end-insertion reaches the room.
 
 This quantity is an optimal-transport cost. Equip finite strings with the ground metric of end-insertion length
 
 $$
-d(s,t) = \min\{ |u|+|v| \mid u++s++v = t \}
+d(s,t)=\min\{ |u|+|v| \mid u++s++v=t \}
 $$
 
-(with the usual convention $d=\infty$ when no such pair exists). Let $\mu_\varepsilon$ be the Dirac measure at the empty string and let $\nu_y$ be any probability measure supported on the prompts that $M$ maps to $y$. Then
+(with the usual convention \(d=\infty\) when no such pair exists). Let \(\mu_\varepsilon\) be the Dirac measure at the empty string and let \(\nu_R\) be any probability measure supported on \(\mathrm{Room}(R)\). Then
 
 $$
-\mathrm{OT}(y) = W_1(\mu_\varepsilon, \nu_y)
+\mathrm{OT}(R)=W_1(\mu_\varepsilon,\nu_R)
 $$
 
-where $W_1$ is the 1-Wasserstein distance induced by $d$. The optimal coupling moves the mass at $\varepsilon$ to a nearest prompt that yields $y$; the cost of that move is exactly the shortest path length from no input.
+where \(W_1\) is the 1-Wasserstein distance induced by \(d\). The optimal coupling moves the mass at \(\varepsilon\) to a nearest prefix that places high mass on \(R\); the cost of that move is exactly the shortest path length from no input.
 
-In the discrete case the Wasserstein distance reduces to a pure transport, recovering the infimum above. Continuous token embeddings would replace $d$ by a Euclidean or cosine ground metric; the same definition still names the shortest additional text that reaches the answer from the empty prompt.
+Continuous token embeddings would replace \(d\) by a Euclidean or cosine ground metric; the same definition still names the shortest additional text that enters the high-mass set of the room.
 
 ## Forbidden rooms
 
-Some models treat a particular system prompt (a fixed privileged instruction, not an arbitrary system-role marker) as a gate. Let $s_*$ be that specific system prompt.
+Some models treat a particular system prompt (a fixed privileged instruction, not an arbitrary system-role marker) as a gate. Let \(s_*\) be that specific system prompt.
 
-A room $y$ is **forbidden** relative to $s_*$ when every path that reaches it must contain $s_*$ as a contiguous substring:
+A room \(R\) is **forbidden** relative to \(s_*\) when every prefix that places high mass on \(R\) must contain \(s_*\) as a contiguous substring:
 
 $$
-\forall (\mathrm{pre},\mathrm{post})\in\mathrm{Room}(y),\quad
- s_* \text{ occurs in } \mathrm{pre}++\mathrm{post}.
+\forall x\in\mathrm{Room}(R),\quad s_*\text{ occurs in }x.
 $$
 
-Equivalently, there is no finite end-insertion that yields $y$ without including the exact system prompt $s_*$. The starting room is never forbidden, because the empty path does not contain $s_*$. A forbidden room is inaccessible from silence without that specific privileged instruction.
+Equivalently, there is no finite end-insertion that enters the high-mass set of \(R\) without including the exact system prompt \(s_*\). The starting room is never forbidden. A forbidden room is inaccessible from silence without that specific privileged instruction.
 
-The OT cost of a forbidden room remains well-defined (the shortest path that does include $s_*$), but every witnessing path is marked as requiring the specific system prompt. The distinction is a log, not a gate.
+The OT cost of a forbidden room remains well-defined (the shortest path that does include \(s_*\)), but every witnessing path is marked as requiring the specific system prompt. The distinction is a log, not a gate.
 
 ## Relation to the hinge
 
-A room in this sense is a subject neighborhood measured from silence: the set of end-insertions that the model treats as producing the same answer. The starting room is the answer of the empty prompt. Forbidden rooms are those that exist only behind a specific system prompt. The plan (hide-or-name) may sit inside several such rooms. The camera $r$ is still required to see the plan rather than the room; the present definition only supplies a candidate notion of “same room” that can be measured without looking inside $h$.
+A room in this sense is a subject neighborhood (or a role) measured from silence by the model’s own probability map. The plan (hide-or-name) may sit inside several such rooms. The camera \(r\) is still required to see the plan rather than the room; the present definition only supplies a candidate notion of “same room” that can be read off \(p_\theta\) without looking inside \(h\).
 
-The length $\mathrm{OT}(y)$ and the forbidden predicate are logs, not gates and not terms in $L_{\mathrm{total}}$. They do not enter the hinge. They are bookkeeping for the distance of an answer from the empty prompt and for the presence of a specific system-prompt barrier.
+The length \(\mathrm{OT}(R)\) and the forbidden predicate are logs, not gates and not terms in \(L_{\mathrm{total}}\). They do not enter the hinge. They are bookkeeping for the distance of a role or answer from the empty prompt and for the presence of a specific system-prompt barrier.
 
 ## Caveats
 
-- Deterministic $M$. Stochastic decoding would replace equality of answers by total variation or a Wasserstein on the output distribution.
+- The threshold \(\tau\) and the set \(R\) are parameters of the log. Different choices give different partitions; none is claimed to be the unique subject neighborhood of the map.
 - Prefix/postfix only, measured from the empty string. Arbitrary insertions or deletions would be ordinary edit distance.
-- The specific system prompt $s_*$ is an external declaration, not inferred by the formalization.
-- Not a claim that rooms so defined are the subject neighborhoods of the map. Not a camera. Not reduced deception.
+- The specific system prompt \(s_*\) is an external declaration, not inferred by the formalization.
+- Not a claim that rooms so defined are the subject neighborhoods used by the model’s internal computation. Not a camera. Not reduced deception.
+- The deterministic fibre of the earlier note is the special case \(R=\{y\}\) under greedy decoding. The Lean file remains that special case.
 
 Lean: [lean/RoomOptimalTransport.lean](lean/RoomOptimalTransport.lean).
