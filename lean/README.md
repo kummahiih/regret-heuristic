@@ -36,6 +36,7 @@ lake build
 - Room is an illustrative type. The empirical voter set is eight topics. `other` is not that list.
 - Button bank: $S$ is the button. Cover rate is $P(\mathrm{YES}\mid\mathrm{HIDE})$. `cover_ignores_retag`, `cond_mul_marginal`, `cover_not_a_gate`, `filtered_rows_not_a_gate`. A kept file is not a gate. Not honesty.
 - Scenario contract: a different list. Public YES asserts $P$. `name_ask` YES asserts the same $P$. `field_pass_not_handover`, `missing_not_a_label`, `old_cover_not_this_lie`. Empty known set is `none`, not 0. Not a handover.
+- RoomOptimalTransport: rooms as answer fibres by end-insertion from empty; OT cost is shortest path (discrete Wasserstein-1 under end-insertion). `ot_not_a_gate`. Starting room never forbidden. Log, not a gate. See [../room_optimal_transport.md](../room_optimal_transport.md).
 
 - Basin readout: topic recovery is not plan separation. Sensitivity is a log. Soft pull is not a proved contraction. `candidate_not_handover`. Matching majority is not a pass. Not a camera.
 
