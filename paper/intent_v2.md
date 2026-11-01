@@ -130,6 +130,21 @@ The SOM asks whether the rooms are clusters in the residual stream. The OT asks 
 
 On every model tested, topic purity sits at the ceiling. Strategy purity sits at chance until the topic mean is subtracted, then it jumps to 1.0. Ask-removal does not collapse the rooms. Role purity on the wider bank stays near 0.3. The rooms are in the residual stream. The strategy is not a cluster of its own until the room is removed.
 
+| Walk | Topic purity | Strategy | Strategy after topic-mean | Role (12×3) |
+| --- | ---: | ---: | ---: | ---: |
+| Llama-3.1-8B-Instruct | 0.96 | 0.50 | 1.00 | 0.28 |
+| Gemma-2-2b-it | 1.00 | 0.50 | 1.00 | 0.32 |
+| Gemma-2-9b-it | 1.00 | 0.50 | 1.00 | 0.29 |
+| Qwen2.5-7B | 0.92 | 0.50 | 1.00 | 0.28 |
+| Mistral-7B | 0.83 | 0.50 | 1.00 | 0.29 |
+| aya-expanse-8b | 0.92 | 0.50 | 1.00 | 0.33 |
+| gemma-3-4b-it | 1.00 | 0.50 | 1.00 | 0.29 |
+| Falcon3-7B | 0.92 | 0.50 | 1.00 | 0.32 |
+| granite-4.2-8b | 0.92 | 0.54 | 1.00 | 0.30 |
+| Qwen3.5-9B | 0.92 | 0.50 | 1.00 | 0.31 |
+
+Llama-3.1-8B-Instruct, Gemma-2-2b-it, and Gemma-2-9b-it are the November additions. The rest are the original protocol walks. Phi-4-mini-instruct failed to load. That is a known dynamic-module miss, not a layout result.
+
 The OT cost, estimated by sampling 16 continuations and counting keyword hits, is binary. A room is either entered by the note or never entered. Intermediate costs do not appear. The keyword match is the bottleneck, not the sample size. Roles are mostly not entered.
 
 Neither diagnostic fills the prototype bank. Neither freezes the readout. Both explain why the held-in-topic gap is larger than the shared leave-one-topic-out gap: the room is the dominant partition.
