@@ -1,4 +1,4 @@
-# Rooms as high-mass sets on the model's probability map, and shortest path as optimal transport
+# Rooms as high-mass sets and minimum prompt-entry cost
 
 A **room** in the walk/map glossary is one subject neighborhood. Here we make that operational by reading it from the model's own next-token distribution rather than from an external equality of decoded strings. A room may be a single answer, or a broader role (software engineer, sci-fi writer, helpful assistant, etc.).
 
@@ -8,11 +8,23 @@ $$
 R_0 = \{ y \mid p_\theta(y\mid\varepsilon)\ge\tau \}.
 $$
 
-(The threshold \(\tau\) is a free parameter of the log; different values give coarser or finer partitions.)
+(The threshold \(\tau\) is a free parameter of the log; different values give coarser or finer sets. The sets can overlap and are not necessarily a partition.)
 
 ## Liberal rooms
 
-A room need not be a single string. Let \(R\) be any set of strings that the model treats as interchangeable for a purpose—an exact answer, a role description, a genre, a persona. Examples:
+A room need not be a single string. Let \(R\) be any set of completed strings that the model treats as interchangeable for a purpose—an exact answer, a role description, a genre, a persona. For sequence probability we write
+
+$$
+P_\theta(y\mid x) = \prod_{i=1}^{|y|} p_\theta(y_i \mid x, y_{<i})
+$$
+
+(with an explicit termination convention, e.g. EOS, so that prefix events do not overlap). Then
+
+$$
+P_\theta(R\mid x) = \sum_{y\in R} P_\theta(y,\mathrm{EOS}\mid x).
+$$
+
+Examples:
 
 - the singleton \(\{y\}\) for a concrete answer,
 - the set of strings that a human would label “software engineer” (or that a small classifier on the model’s own continuations labels that way),
@@ -21,14 +33,14 @@ A room need not be a single string. Let \(R\) be any set of strings that the mod
 The **room** of \(R\) is the set of prefixes that place high mass on \(R\):
 
 $$
-\mathrm{Room}(R) = \{ x \mid p_\theta(R\mid x)\ge\tau \},
+\mathrm{Room}(R) = \{ x \mid P_\theta(R\mid x)\ge\tau \}.
 $$
 
-where \(p_\theta(R\mid x)=\sum_{y\in R}p_\theta(y\mid x)\) (or the probability that a sampled continuation falls in \(R\)). Two roles sit in the same room when their high-mass sets coincide up to the chosen \(\tau\). The partition is now induced by the model’s probability map, not by an external decoder equality.
+Two roles sit in the same room when their high-mass sets coincide up to the chosen \(\tau\). The high-mass sets can overlap. They are not necessarily a partition. The sets are induced by the model’s probability map, not by an external decoder equality.
 
 When \(R=\{y\}\) and decoding is deterministic, this recovers the earlier fibre \(M^{-1}(y)\). The liberal version simply allows \(R\) to be any measurable set of interest.
 
-## Shortest path from no input as optimal transport
+## Minimum prompt-entry cost
 
 The **shortest additional text** that reaches room \(R\) from the empty prompt is
 
@@ -82,7 +94,7 @@ The length \(\mathrm{OT}(R)\) and the forbidden predicate are logs, not gates an
 
 ## Caveats
 
-- The threshold \(\tau\) and the set \(R\) are parameters of the log. Different choices give different partitions; none is claimed to be the unique subject neighborhood of the map.
+- The threshold \(\tau\) and the set \(R\) are parameters of the log. Different choices give different sets; none is claimed to be the unique subject neighborhood of the map. The sets can overlap.
 - Prefix/postfix only, measured from the empty string. Arbitrary insertions or deletions would be ordinary edit distance.
 - The specific system prompt \(s_*\) is an external declaration, not inferred by the formalization.
 - Not a claim that rooms so defined are the subject neighborhoods used by the model’s internal computation. Not a camera. Not reduced deception.
