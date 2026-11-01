@@ -386,6 +386,12 @@ Shai, A. S. et al. 2024. Transformers Represent Belief State Geometry in their R
 
 Lu, C. et al. 2026. The Assistant Axis. arXiv:2601.10387.
 
+Villani, C. 2009. Optimal Transport: Old and New. Springer.
+
+Peyré, G. and Cuturi, M. 2019. Computational Optimal Transport. Foundations and Trends in Machine Learning.
+
+Kohonen, T. 1982. Self-organized formation of topologically correct feature maps. Biological Cybernetics 43.
+
 Wilson, E. B. 1927. Probable inference, the law of succession, and statistical inference. *Journal of the American Statistical Association* 22(158): 209–212.
 
 Zinkevich, M., M. Johanson, M. Bowling, and C. Piccione. 2007. Regret minimization in games with incomplete information. In *Advances in Neural Information Processing Systems* 20.
