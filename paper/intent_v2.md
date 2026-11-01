@@ -110,8 +110,7 @@ This quantity is an optimal-transport cost. Equip finite strings with the ground
 d(s,t)=\min\{ |u|+|v| \mid u++s++v=t \}
 ```
 
-(with the usual convention d=\infty when no such pair exists). Let \mu_\epsilon be the Dirac measure at the empty string and let \(
-\nu_R\) be any probability measure supported on \mathrm{Room}(R). Then
+(with the usual convention d=\infty when no such pair exists). Let \mu_\epsilon be the Dirac measure at the empty string and let \nu_R be any probability measure supported on \mathrm{Room}(R). Then
 
 ```math
 \mathrm{OT}(R)=W_1(\mu_\epsilon,
