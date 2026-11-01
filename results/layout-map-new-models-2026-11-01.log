@@ -1,0 +1,117 @@
+===== night_sims/som_layout_run.py --model meta-llama/Llama-3.1-8B-Instruct --layer 8 --dump results/layout_map_llama8it.json =====
+som layout: expected vs measured. Not a camera. Do not fill D.
+model=meta-llama/Llama-3.1-8B-Instruct layer=8 grid=4 seeds=3
+prompts=22 topics=8 roles=6
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<01:37,  2.97it/s]Loading weights:   1%|          | 2/291 [00:00<01:34,  3.05it/s]Loading weights:   2%|▏         | 5/291 [00:00<00:34,  8.28it/s]Loading weights:   4%|▍         | 13/291 [00:00<00:11, 23.57it/s]Loading weights:   7%|▋         | 20/291 [00:00<00:07, 34.38it/s]Loading weights:   9%|▊         | 25/291 [00:01<00:07, 36.96it/s]Loading weights:  11%|█         | 32/291 [00:01<00:05, 45.25it/s]Loading weights:  14%|█▍        | 41/291 [00:01<00:04, 51.39it/s]Loading weights:  17%|█▋        | 49/291 [00:01<00:04, 58.25it/s]Loading weights:  19%|█▉        | 56/291 [00:01<00:03, 60.75it/s]Loading weights:  22%|██▏       | 63/291 [00:01<00:03, 58.42it/s]Loading weights:  24%|██▍       | 70/291 [00:01<00:03, 56.04it/s]Loading weights:  26%|██▋       | 77/291 [00:01<00:03, 59.47it/s]Loading weights:  29%|██▉       | 85/291 [00:02<00:03, 64.01it/s]Loading weights:  32%|███▏      | 92/291 [00:02<00:03, 64.84it/s]Loading weights:  35%|███▌      | 103/291 [00:02<00:02, 72.41it/s]Loading weights:  38%|███▊      | 111/291 [00:02<00:02, 64.46it/s]Loading weights:  41%|████      | 118/291 [00:02<00:02, 60.80it/s]Loading weights:  43%|████▎     | 125/291 [00:02<00:02, 60.72it/s]Loading weights:  45%|████▌     | 132/291 [00:02<00:02, 57.67it/s]Loading weights:  48%|████▊     | 140/291 [00:02<00:02, 60.34it/s]Loading weights:  51%|█████     | 148/291 [00:03<00:02, 64.56it/s]Loading weights:  53%|█████▎    | 155/291 [00:03<00:02, 65.45it/s]Loading weights:  56%|█████▌    | 162/291 [00:03<00:02, 61.06it/s]Loading weights:  58%|█████▊    | 169/291 [00:03<00:02, 59.33it/s]Loading weights:  60%|██████    | 176/291 [00:03<00:01, 61.97it/s]Loading weights:  63%|██████▎   | 184/291 [00:03<00:01, 66.41it/s]Loading weights:  66%|██████▌   | 191/291 [00:03<00:01, 66.84it/s]Loading weights:  68%|██████▊   | 198/291 [00:03<00:01, 62.91it/s]Loading weights:  70%|███████   | 205/291 [00:03<00:01, 55.83it/s]Loading weights:  73%|███████▎  | 212/291 [00:04<00:01, 56.39it/s]Loading weights:  75%|███████▍  | 218/291 [00:04<00:01, 49.65it/s]Loading weights:  77%|███████▋  | 224/291 [00:04<00:01, 49.65it/s]Loading weights:  79%|███████▉  | 230/291 [00:04<00:01, 37.00it/s]Loading weights:  82%|████████▏ | 238/291 [00:04<00:01, 45.29it/s]Loading weights:  84%|████████▍ | 245/291 [00:04<00:00, 50.33it/s]Loading weights:  86%|████████▋ | 251/291 [00:04<00:00, 50.86it/s]Loading weights:  88%|████████▊ | 257/291 [00:05<00:00, 52.48it/s]Loading weights:  91%|█████████ | 265/291 [00:05<00:00, 58.06it/s]Loading weights:  93%|█████████▎| 272/291 [00:05<00:00, 61.00it/s]Loading weights:  96%|█████████▌| 279/291 [00:05<00:00, 58.37it/s]Loading weights:  98%|█████████▊| 286/291 [00:05<00:00, 56.27it/s]Loading weights: 100%|██████████| 291/291 [00:05<00:00, 52.13it/s]
+loaded=meta-llama/Llama-3.1-8B-Instruct VRAM_GiB=5.32
+H shape=(22, 4096)
+topic labels on topic prompts:
+  topic seed=0 sklearn miss: No module named 'sklearn'
+  topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  topic seed=1 sklearn miss: No module named 'sklearn'
+  topic seed=1 purity=1.000 nmi=nan ari=nan n=16
+  topic seed=2 sklearn miss: No module named 'sklearn'
+  topic seed=2 purity=0.875 nmi=nan ari=nan n=16
+strategy labels on topic prompts:
+  strategy seed=0 sklearn miss: No module named 'sklearn'
+  strategy seed=0 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=1 sklearn miss: No module named 'sklearn'
+  strategy seed=1 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=2 sklearn miss: No module named 'sklearn'
+  strategy seed=2 purity=0.500 nmi=nan ari=nan n=16
+role labels on role prompts:
+  role seed=0 sklearn miss: No module named 'sklearn'
+  role seed=0 purity=0.833 nmi=nan ari=nan n=6
+  role seed=1 sklearn miss: No module named 'sklearn'
+  role seed=1 purity=0.667 nmi=nan ari=nan n=6
+  role seed=2 sklearn miss: No module named 'sklearn'
+  role seed=2 purity=0.500 nmi=nan ari=nan n=6
+topic-mean subtracted:
+  strategy_minus_topic seed=0 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=1 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=1 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=2 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=2 purity=1.000 nmi=nan ari=nan n=16
+topic-shuffle null n=20:
+  null purity mean=0.497 max=0.625
+dump=results/layout_map_llama8it.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
+===== night_sims/som_layout_run.py --model google/gemma-2-2b-it --layer 8 --dump results/layout_map_gemma2bit.json =====
+som layout: expected vs measured. Not a camera. Do not fill D.
+model=google/gemma-2-2b-it layer=8 grid=4 seeds=3
+prompts=22 topics=8 roles=6
+Loading weights:   0%|          | 0/288 [00:00<?, ?it/s]Loading weights:   0%|          | 1/288 [00:00<01:47,  2.67it/s]Loading weights:   5%|▍         | 14/288 [00:00<00:07, 37.00it/s]Loading weights:  12%|█▎        | 36/288 [00:00<00:02, 84.65it/s]Loading weights:  19%|█▉        | 55/288 [00:00<00:02, 113.10it/s]Loading weights:  26%|██▌       | 75/288 [00:00<00:01, 137.15it/s]Loading weights:  32%|███▏      | 93/288 [00:00<00:01, 147.38it/s]Loading weights:  40%|███▉      | 114/288 [00:01<00:01, 162.54it/s]Loading weights:  47%|████▋     | 136/288 [00:01<00:00, 173.56it/s]Loading weights:  55%|█████▍    | 158/288 [00:01<00:00, 184.96it/s]Loading weights:  62%|██████▎   | 180/288 [00:01<00:00, 189.95it/s]Loading weights:  70%|███████   | 202/288 [00:01<00:00, 197.17it/s]Loading weights:  78%|███████▊  | 224/288 [00:01<00:00, 202.48it/s]Loading weights:  85%|████████▌ | 246/288 [00:01<00:00, 200.08it/s]Loading weights:  93%|█████████▎| 268/288 [00:01<00:00, 200.84it/s]Loading weights: 100%|██████████| 288/288 [00:01<00:00, 155.92it/s]
+loaded=google/gemma-2-2b-it VRAM_GiB=2.07
+H shape=(22, 2304)
+topic labels on topic prompts:
+  topic seed=0 sklearn miss: No module named 'sklearn'
+  topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  topic seed=1 sklearn miss: No module named 'sklearn'
+  topic seed=1 purity=1.000 nmi=nan ari=nan n=16
+  topic seed=2 sklearn miss: No module named 'sklearn'
+  topic seed=2 purity=1.000 nmi=nan ari=nan n=16
+strategy labels on topic prompts:
+  strategy seed=0 sklearn miss: No module named 'sklearn'
+  strategy seed=0 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=1 sklearn miss: No module named 'sklearn'
+  strategy seed=1 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=2 sklearn miss: No module named 'sklearn'
+  strategy seed=2 purity=0.500 nmi=nan ari=nan n=16
+role labels on role prompts:
+  role seed=0 sklearn miss: No module named 'sklearn'
+  role seed=0 purity=0.833 nmi=nan ari=nan n=6
+  role seed=1 sklearn miss: No module named 'sklearn'
+  role seed=1 purity=0.833 nmi=nan ari=nan n=6
+  role seed=2 sklearn miss: No module named 'sklearn'
+  role seed=2 purity=1.000 nmi=nan ari=nan n=6
+topic-mean subtracted:
+  strategy_minus_topic seed=0 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=1 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=1 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=2 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=2 purity=1.000 nmi=nan ari=nan n=16
+topic-shuffle null n=20:
+  null purity mean=0.512 max=0.625
+dump=results/layout_map_gemma2bit.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
+===== night_sims/som_layout_run.py --model google/gemma-2-9b-it --layer 10 --dump results/layout_map_gemma9bit.json =====
+som layout: expected vs measured. Not a camera. Do not fill D.
+model=google/gemma-2-9b-it layer=10 grid=4 seeds=3
+prompts=22 topics=8 roles=6
+Loading weights:   0%|          | 0/464 [00:00<?, ?it/s]Loading weights:   0%|          | 1/464 [00:00<04:08,  1.86it/s]Loading weights:   1%|          | 5/464 [00:00<00:50,  9.11it/s]Loading weights:   3%|▎         | 15/464 [00:00<00:15, 28.39it/s]Loading weights:   5%|▌         | 25/464 [00:00<00:09, 44.91it/s]Loading weights:   7%|▋         | 34/464 [00:00<00:07, 55.50it/s]Loading weights:   9%|▉         | 42/464 [00:01<00:07, 60.24it/s]Loading weights:  11%|█         | 50/464 [00:01<00:07, 57.54it/s]Loading weights:  13%|█▎        | 59/464 [00:01<00:06, 65.27it/s]Loading weights:  15%|█▌        | 70/464 [00:01<00:05, 71.38it/s]Loading weights:  17%|█▋        | 80/464 [00:01<00:05, 75.07it/s]Loading weights:  19%|█▉        | 89/464 [00:01<00:04, 78.23it/s]Loading weights:  21%|██        | 98/464 [00:01<00:04, 76.46it/s]Loading weights:  23%|██▎       | 106/464 [00:01<00:04, 72.89it/s]Loading weights:  25%|██▍       | 114/464 [00:02<00:04, 73.45it/s]Loading weights:  27%|██▋       | 124/464 [00:02<00:04, 79.45it/s]Loading weights:  29%|██▊       | 133/464 [00:02<00:04, 75.46it/s]Loading weights:  30%|███       | 141/464 [00:02<00:04, 70.43it/s]Loading weights:  32%|███▏      | 149/464 [00:02<00:04, 67.45it/s]Loading weights:  34%|███▍      | 159/464 [00:02<00:04, 70.95it/s]Loading weights:  37%|███▋      | 170/464 [00:02<00:03, 75.78it/s]Loading weights:  39%|███▉      | 180/464 [00:02<00:03, 80.95it/s]Loading weights:  41%|████      | 190/464 [00:03<00:03, 82.86it/s]Loading weights:  43%|████▎     | 199/464 [00:03<00:03, 82.34it/s]Loading weights:  45%|████▍     | 208/464 [00:03<00:03, 80.07it/s]Loading weights:  47%|████▋     | 217/464 [00:03<00:03, 77.51it/s]Loading weights:  48%|████▊     | 225/464 [00:03<00:03, 71.93it/s]Loading weights:  51%|█████     | 235/464 [00:03<00:02, 78.56it/s]Loading weights:  53%|█████▎    | 245/464 [00:03<00:02, 81.39it/s]Loading weights:  55%|█████▍    | 254/464 [00:03<00:02, 81.12it/s]Loading weights:  57%|█████▋    | 263/464 [00:03<00:02, 81.21it/s]Loading weights:  59%|█████▊    | 272/464 [00:04<00:02, 81.03it/s]Loading weights:  61%|██████    | 281/464 [00:04<00:02, 78.13it/s]Loading weights:  63%|██████▎   | 291/464 [00:04<00:02, 75.87it/s]Loading weights:  65%|██████▍   | 301/464 [00:04<00:02, 78.72it/s]Loading weights:  67%|██████▋   | 311/464 [00:04<00:01, 83.88it/s]Loading weights:  69%|██████▉   | 320/464 [00:04<00:01, 84.88it/s]Loading weights:  71%|███████   | 329/464 [00:04<00:01, 83.01it/s]Loading weights:  73%|███████▎  | 338/464 [00:04<00:01, 78.78it/s]Loading weights:  75%|███████▍  | 346/464 [00:05<00:01, 74.33it/s]Loading weights:  77%|███████▋  | 357/464 [00:05<00:01, 78.39it/s]Loading weights:  79%|███████▉  | 367/464 [00:05<00:01, 83.79it/s]Loading weights:  81%|████████▏ | 378/464 [00:05<00:01, 84.25it/s]Loading weights:  84%|████████▎ | 388/464 [00:05<00:00, 86.95it/s]Loading weights:  86%|████████▌ | 399/464 [00:05<00:00, 85.76it/s]Loading weights:  88%|████████▊ | 410/464 [00:05<00:00, 63.38it/s]Loading weights:  91%|█████████ | 421/464 [00:06<00:00, 68.15it/s]Loading weights:  92%|█████████▏| 429/464 [00:06<00:01, 34.30it/s]Loading weights:  94%|█████████▍| 435/464 [00:06<00:00, 29.07it/s]Loading weights:  96%|█████████▌| 445/464 [00:07<00:00, 36.70it/s]Loading weights:  98%|█████████▊| 456/464 [00:07<00:00, 45.23it/s]Loading weights: 100%|██████████| 464/464 [00:07<00:00, 64.05it/s]
+loaded=google/gemma-2-9b-it VRAM_GiB=5.71
+H shape=(22, 3584)
+topic labels on topic prompts:
+  topic seed=0 sklearn miss: No module named 'sklearn'
+  topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  topic seed=1 sklearn miss: No module named 'sklearn'
+  topic seed=1 purity=1.000 nmi=nan ari=nan n=16
+  topic seed=2 sklearn miss: No module named 'sklearn'
+  topic seed=2 purity=1.000 nmi=nan ari=nan n=16
+strategy labels on topic prompts:
+  strategy seed=0 sklearn miss: No module named 'sklearn'
+  strategy seed=0 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=1 sklearn miss: No module named 'sklearn'
+  strategy seed=1 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=2 sklearn miss: No module named 'sklearn'
+  strategy seed=2 purity=0.500 nmi=nan ari=nan n=16
+role labels on role prompts:
+  role seed=0 sklearn miss: No module named 'sklearn'
+  role seed=0 purity=1.000 nmi=nan ari=nan n=6
+  role seed=1 sklearn miss: No module named 'sklearn'
+  role seed=1 purity=0.833 nmi=nan ari=nan n=6
+  role seed=2 sklearn miss: No module named 'sklearn'
+  role seed=2 purity=1.000 nmi=nan ari=nan n=6
+topic-mean subtracted:
+  strategy_minus_topic seed=0 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=1 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=1 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=2 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=2 purity=1.000 nmi=nan ari=nan n=16
+topic-shuffle null n=20:
+  null purity mean=0.528 max=0.625
+dump=results/layout_map_gemma9bit.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
