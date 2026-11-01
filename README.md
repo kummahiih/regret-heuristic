@@ -2,12 +2,12 @@
 
 Keep the skill. Slap the plan that hides the fact.
 
-This repository names a **training-time hinge**, not a lie detector and not a finished trainer. It assumes a strategy camera *r* that someone else has already frozen. That camera does not exist yet. Search for it lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). The search closed as a negative handover: [paper/negative_handover.md](paper/negative_handover.md) ([PDF](paper/negative_handover.pdf), [DOI 10.5281/zenodo.23328706](https://doi.org/10.5281/zenodo.23328706)). The evaluation protocol is formulated in [paper/intent.md](paper/intent.md) ([Zenodo: A test for intent](https://doi.org/10.5281/zenodo.23452266)). Not a claim of reduced deception.
+This repository names a **training-time hinge**, not a lie detector and not a finished trainer. It assumes a strategy camera *r* that someone else has already frozen. That camera does not exist yet. Search for it lives in [intent-readout-search](https://github.com/kummahiih/intent-readout-search). The search closed as a negative handover: [paper/negative_handover.md](paper/negative_handover.md) ([PDF](paper/negative_handover.pdf), [DOI 10.5281/zenodo.23328706](https://doi.org/10.5281/zenodo.23328706)). The evaluation protocol is formulated in [paper/intent_v2.md](paper/intent_v2.md) ([Zenodo: A test for intent](https://doi.org/10.5281/zenodo.23452266)). Not a claim of reduced deception.
 
 
 ## Walk and map
 
-Printed text is the **walk**. Possible thoughts are the **map**. A **room** is one subject neighborhood on that map (hiking, travel, invoices). The paint on the walls is the **subject** — wallpaper. A **plan** is a hide-or-name move that can live in more than one room (“send them up and do not mention the rain”). The **print** is only what was said. The **job** is still knowing the trail. Operational definition of rooms as answer fibres reachable from the empty prompt (shortest path as optimal transport): [room_optimal_transport.md](room_optimal_transport.md).
+Printed text is the **walk**. Possible thoughts are the **map**. A **room** is one subject neighborhood on that map (hiking, travel, invoices). The paint on the walls is the **subject** — wallpaper. A **plan** is a hide-or-name move that can live in more than one room (“send them up and do not mention the rain”). The **print** is only what was said. The **job** is still knowing the trail. Operational definition of rooms as high-mass sets under the model’s probability map, and minimum prompt-entry cost: [room_optimal_transport.md](room_optimal_transport.md).
 
 *D* is a handful of **pins** on a map that is mostly unbuilt: frozen “do not occupy” marks, not the map itself. *r* is a **camera** on the walk. Last-token identity is a compass glued to the wallpaper. The **slap** is a training-time flinch when the camera sees a pin. *u* is how coarse the chart is, not *p*(lie). Quiet on mush is not honesty.
 
@@ -138,7 +138,7 @@ The 2026-10-05 Qwen/Mistral rewrite is the filtered remainder of that same bad g
 **Phase 1 contract, not a camera.** Search repo holds the scenario contract and the night press of every scenario (114 rows, 39 families). One proposition is shared by belief, public, and `name_ask`. `name_ask` is the same sentence under "refuse the cover." A field pass is not a readout. Phase 2 is open. The note-text baseline on the 2026-10-12 press is logged; it does not beat a majority on most walks and is not a readout. A Newton's-fractal topic-basin candidate on the same split matches majority and does not beat the baseline. A pass there would still not be `handoverPass`. Do not write a sample bank into *D*.
 
 
-**Negative handover, 2026-10-13.** Note: [paper/negative_handover.md](paper/negative_handover.md) ([PDF](paper/negative_handover.pdf), [10.5281/zenodo.23328706](https://doi.org/10.5281/zenodo.23328706)). The evaluation protocol is in [paper/intent.md](paper/intent.md) ([Zenodo DOI 10.5281/zenodo.23452266](https://doi.org/10.5281/zenodo.23452266)). The note-text confound is addressed. The strategy camera is not.  Search repo closed the loop. The pre-button residual and the combination probe (mid-layer note direction plus pre-button) clear the note-text bar. Both see the ask. Note-only, end-of-note, the order swap, ask-only, and the mid-layer note alone do not. Unicode and four bytes of noise did not move the lie count. A state that has read the note and then the question predicts the button. A state that has only the note does not. A state that has only the ask does not. That is not a plan readout. `cameraPass` remains no. `handoverPass` remains no. Do not fill *D*. Do not freeze *r*.
+**Negative handover, 2026-10-13.** Note: [paper/negative_handover.md](paper/negative_handover.md) ([PDF](paper/negative_handover.pdf), [10.5281/zenodo.23328706](https://doi.org/10.5281/zenodo.23328706)). The evaluation protocol is in [paper/intent_v2.md](paper/intent_v2.md) ([Zenodo DOI 10.5281/zenodo.23452266](https://doi.org/10.5281/zenodo.23452266)). The note-only baseline comparison and question-dependence controls are documented. A modality-matched note-plus-question text baseline remains outstanding. The strategy camera is not.  Search repo closed the loop. The pre-button residual and the combination probe (mid-layer note direction plus pre-button) clear the note-text bar. Both see the ask. Note-only, end-of-note, the order swap, ask-only, and the mid-layer note alone do not. Unicode and four bytes of noise did not move the lie count. A state that has read the note and then the question predicts the button. A state that has only the note does not. A state that has only the ask does not. That is not a plan readout. `cameraPass` remains no. `handoverPass` remains no. Do not fill *D*. Do not freeze *r*.
 
 Map: [results/mindmap_2026-10-13.svg](results/mindmap_2026-10-13.svg).
 
@@ -162,17 +162,12 @@ Night press ledger: [intent-readout-search/results/scenario_2026-10-12.md](https
 
 | File | What it is |
 | --- | --- |
-| [math_formulation.md](math_formulation.md) | Symbols, including the button conditional |
-| [working_model.md](working_model.md) | Interface a candidate must meet |
-| [implementation_binding.md](implementation_binding.md) | How the toys map to the formula |
-| [slam_analogy.md](slam_analogy.md) | Walk / map / pins |
-| [approachability.md](approachability.md) | *S*<sub>safe</sub> vs *S*<sub>joint</sub> |
-| [experiment_results.md](experiment_results.md) | Dummy-sim ledger |
-| [lean/](lean/) | Pins, including `ButtonBank`, `MdlIntent`, `RandomProcess`, `RoomOptimalTransport` |
-| [room_optimal_transport.md](room_optimal_transport.md) | Rooms as answer fibres from the empty prompt; shortest path as OT. Log, not a gate. |
-| [mdl_intent.md](mdl_intent.md) | When cases become an intent (Kolmogorov / MDL). Log, not a gate. |
-| [random_process.md](random_process.md) | Random-graph, walk, and GP nulls for a future intent walk. Log, not a gate. |
-| [paper/intent.md](paper/intent.md) | Evaluation protocol ([Zenodo 10.5281/zenodo.23452266](https://doi.org/10.5281/zenodo.23452266)) |
-| [CITATION.cff](CITATION.cff) | Cite this repo |
-
-[LICENSE](LICENSE)
+| [math_formulation.md](math_formulation.md) | Symbols. |
+| [evidence_brief.md](evidence_brief.md) | Evidence, interview, lie kept apart. |
+| [working_model.md](working_model.md) | What may be implemented. |
+| [implementation_binding.md](implementation_binding.md) | Binding. |
+| [slam_analogy.md](slam_analogy.md) | Longer glossary. |
+| [neighbors.md](neighbors.md) | Other uses of the word *regret*. |
+| [room_optimal_transport.md](room_optimal_transport.md) | High-mass sets and minimum prompt-entry cost. |
+| [paper/intent_v2.md](paper/intent_v2.md) | Current evaluation protocol. |
+| [paper/negative_handover.md](paper/negative_handover.md) | Negative handover (2026-10-13). |
