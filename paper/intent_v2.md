@@ -145,6 +145,12 @@ On every model tested, topic purity sits at the ceiling. Strategy purity sits at
 
 Llama-3.1-8B-Instruct, Gemma-2-2b-it, and Gemma-2-9b-it are the November additions. The rest are the original protocol walks. Phi-4-mini-instruct failed to load. That is a known dynamic-module miss, not a layout result.
 
+**Null** is the topic-shuffle baseline. A purity near 0.5 is what a random assignment produces. Topic purity sits well above it.
+
+**With ask** and **Ask removed** are the ask-removal control. The rooms survive the ask. The partition is in the note, not in the question.
+
+**OT topics** and **OT roles** count how many candidate rooms were entered by at least one prompt at n=16 samples and tau=0.5. A room is entered when the sampled continuations place mass at least 0.5 on the room's keywords. The cost is then 0. If no prompt entered the room, the cost is infinite and the count does not include it. The cost itself is binary. There is no intermediate length. That is why the table shows a count rather than a mean cost. The keyword match is the bottleneck.
+
 The OT cost, estimated by sampling 16 continuations and counting keyword hits, is binary. A room is either entered by the note or never entered. Intermediate costs do not appear. The keyword match is the bottleneck, not the sample size. Roles are mostly not entered.
 
 Neither diagnostic fills the prototype bank. Neither freezes the readout. Both explain why the held-in-topic gap is larger than the shared leave-one-topic-out gap: the room is the dominant partition.
