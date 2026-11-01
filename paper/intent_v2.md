@@ -14,7 +14,7 @@ On the 114-row evaluation bank, the pre-button residual and combined note-plus-p
 
 Consequently, the prototype bank remains empty, and no readout is considered validated or frozen. This paper presents a protocol for evaluating candidate strategy readouts; it does not demonstrate that the proposed regularizer reduces deception.
 
-The November extension adds three diagnostics that ask whether an external room layout is present in the model, and whether a linear probe is powered. A self-organizing map on last-token residuals recovers the topic rooms at ceiling purity. Strategy purity sits at chance until the topic mean is subtracted, then it jumps to 1.0. Ask-removal does not collapse the rooms. An optimal-transport cost from silence, estimated by sampling continuations, remains binary at n=16: a room is either entered by the note or never entered. A purity-law diagnostic (Hai and Li, arXiv:2609.22337) shows that at full purity the audit is powered on every walk. The measured combination probe sits above the purity-law ceiling. The gap is small on the November models and larger on the October walks. The ceiling is a prediction under the purity law, not a measured upper bound. Neither diagnostic fills the prototype bank. Neither freezes the readout. Both explain why the held-in-topic gap is larger than the shared leave-one-topic-out gap: the room is the dominant partition.
+The November extension adds three diagnostics that ask whether an external room layout is present in the model, and whether a linear probe is powered. A self-organizing map on last-token residuals recovers the topic rooms at ceiling purity. Strategy purity sits at chance until the topic mean is subtracted, then it jumps to 1.0. Ask-removal does not collapse the rooms. An optimal-transport cost from silence, estimated by sampling continuations, remains binary at n=16: a room is either entered by the note or never entered. A purity-law diagnostic (Hai and Li, arXiv:2609.22337) shows that at full purity the audit is powered on every walk. The measured combination probe exceeds the purity-law predicted AUC on every walk. The gap is small on the November models and larger on the October walks. The purity law is a prediction under a generative model, not a proven upper bound. A measured accuracy above the prediction means the law is incomplete for this bank, or the separation estimate is low. Neither diagnostic fills the prototype bank. Neither freezes the readout. Both explain why the held-in-topic gap is larger than the shared leave-one-topic-out gap: the room is the dominant partition.
 
 This is the release candidate of the test protocol. The negative handover of 2026-10-13 is unchanged. This paper does not reopen it.
 
@@ -106,20 +106,25 @@ The shortest additional text that reaches room R from the empty prompt is
 
 When the infimum is zero, R intersects the starting room. When it is positive, the shortest non-empty end-insertion that enters the high-mass set of R is the cost of entering that room from silence. When it is infinite, no finite end-insertion reaches the room.
 
-This quantity is an optimal-transport cost. Equip finite strings with the ground metric of end-insertion length
+This quantity is a minimum-insertion cost, not a Wasserstein distance. The proposed ground cost
 
 ```math
 d(s,t)=\min\{ |u|+|v| \mid u++s++v=t \}
 ```
 
-(with the usual convention that the distance is infinite when no such pair exists). Let mu_epsilon be the Dirac measure at the empty string and let nu_R be any probability measure supported on Room(R). Then
+is asymmetric. It permits transforming s into t by insertion, but not the reverse. It is therefore not a metric. Standard Wasserstein distance requires a metric or a transport cost with stated assumptions. The equality
 
 ```math
-\mathrm{OT}(R)=W_1(\mu_\epsilon,
-\nu_R)
+\mathrm{OT}(R)=W_1(\mu_\epsilon,\nu_R)
 ```
 
-where W_1 is the 1-Wasserstein distance induced by d. The optimal coupling moves the mass at epsilon to a nearest prefix that places high mass on R; the cost of that move is exactly the shortest path length from no input.
+does not hold for an arbitrary destination measure nu_R. The correct quantity is the minimum distance to the set:
+
+```math
+\mathrm{OT}(R)=\inf_{x\in\mathrm{Room}(R)} d(\epsilon,x).
+```
+
+Under that definition the cost is the length of the shortest end-insertion that enters the room. When the infimum is zero, the room intersects the starting room. When it is infinite, no finite end-insertion reaches the room. The keyword-match estimate at n=16 is a lower bound on this cost, not a Wasserstein distance.
 
 ### Residual clusters
 
