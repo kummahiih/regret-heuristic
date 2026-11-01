@@ -82,19 +82,19 @@ A room is a subject neighborhood. Two diagnostics ask whether an external room l
 
 ### High-mass sets under the next-token distribution
 
-Let \(M\) be a language model with parameters \(	heta\). Write \(p_	heta(\cdot\mid x)\) for the next-token distribution given prefix \(x\). The empty prompt is \(arepsilon\). The starting room is the high-mass set of the empty prompt:
+Let \(M\) be a language model with parameters \(	heta\). Write \(p_\theta(\cdot\mid x)\) for the next-token distribution given prefix \(x\). The empty prompt is \(\varepsilon\). The starting room is the high-mass set of the empty prompt:
 
 $$
-R_0 = \{ y \mid p_	heta(y\midarepsilon)\ge	au \}.
+R_0 = \{ y \mid p_\theta(y\mid\varepsilon)\ge	au \}.
 $$
 
 A room need not be a single string. Let \(R\) be any set of strings that the model treats as interchangeable for a purpose — an exact answer, a role description, a genre, a persona. The room of \(R\) is the set of prefixes that place high mass on \(R\):
 
 $$
-\mathrm{Room}(R) = \{ x \mid p_	heta(R\mid x)\ge	au \},
+\mathrm{Room}(R) = \{ x \mid p_\theta(R\mid x)\ge	au \},
 $$
 
-where \(p_	heta(R\mid x)=\sum_{y\in R}p_	heta(y\mid x)\). Two roles sit in the same room when their high-mass sets coincide up to the chosen \(	au\). The partition is induced by the model's probability map, not by an external decoder equality.
+where \(p_\theta(R\mid x)=\sum_{y\in R}p_\theta(y\mid x)\). Two roles sit in the same room when their high-mass sets coincide up to the chosen \(	au\). The partition is induced by the model's probability map, not by an external decoder equality.
 
 The shortest additional text that reaches room \(R\) from the empty prompt is
 
@@ -110,21 +110,21 @@ $$
 d(s,t)=\min\{ |u|+|v| \mid u++s++v=t \}
 $$
 
-(with the usual convention \(d=\infty\) when no such pair exists). Let \(\mu_arepsilon\) be the Dirac measure at the empty string and let \(
-u_R\) be any probability measure supported on \(\mathrm{Room}(R)\). Then
+(with the usual convention \(d=\infty\) when no such pair exists). Let \(\mu_\varepsilon\) be the Dirac measure at the empty string and let \(
+\nu_R\) be any probability measure supported on \(\mathrm{Room}(R)\). Then
 
 $$
-\mathrm{OT}(R)=W_1(\mu_arepsilon,
-u_R)
+\mathrm{OT}(R)=W_1(\mu_\varepsilon,
+\nu_R)
 $$
 
-where \(W_1\) is the 1-Wasserstein distance induced by \(d\). The optimal coupling moves the mass at \(arepsilon\) to a nearest prefix that places high mass on \(R\); the cost of that move is exactly the shortest path length from no input.
+where \(W_1\) is the 1-Wasserstein distance induced by \(d\). The optimal coupling moves the mass at \(\varepsilon\) to a nearest prefix that places high mass on \(R\); the cost of that move is exactly the shortest path length from no input.
 
 ### Residual clusters
 
 Collect last-token residuals on a prompt set that covers candidate rooms. Train a 2-D self-organizing map. Score purity of each candidate label against unit assignments, with a topic-shuffle null and a topic-mean-subtracted control. Ask-removal drops the user question and re-scores. A wider role bank (12 roles × 3 shared tasks) tests whether roles are a stable layout.
 
-The SOM asks whether the rooms are clusters in the residual stream. The OT asks whether the same rooms are high-mass sets under \(p_	heta\). The protocol already shows the strategy direction is room-local. The OT cost asks how far those rooms sit from silence, and whether the strategy direction lives inside one room or spans several.
+The SOM asks whether the rooms are clusters in the residual stream. The OT asks whether the same rooms are high-mass sets under \(p_\theta\). The protocol already shows the strategy direction is room-local. The OT cost asks how far those rooms sit from silence, and whether the strategy direction lives inside one room or spans several.
 
 ### What the November diagnostics found
 
