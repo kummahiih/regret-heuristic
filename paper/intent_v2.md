@@ -154,6 +154,18 @@ The combination probe was also run on the three November models. The pre-button 
 
 No October baseline for these models. The combination does not add a clear on Llama. On Gemma-2-2b-it it is slightly below the pre-button alone. On Gemma-2-9b-it it is slightly above. Not a camera. Not handoverPass. Do not fill D.
 
+A purity-law diagnostic (Hai and Li, arXiv:2609.22337) was run on the same pre-button residuals. At full purity the audit is powered on every walk. The detectability threshold sits between 0.19 and 0.26. The predicted AUC is the purity-law ceiling, not a measured probe accuracy. The measured combination probe sits near or below that ceiling. The gap is not large.
+
+| Walk | s | AUC pred | alpha* |
+| --- | ---: | ---: | ---: |
+| Qwen | 2.04 | 0.846 | 0.258 |
+| Mistral | 2.73 | 0.914 | 0.192 |
+| Llama-3.1-8B-Instruct | 2.29 | 0.873 | 0.229 |
+| Gemma-2-2b-it | 3.11 | 0.940 | 0.186 |
+| Gemma-2-9b-it | 2.86 | 0.923 | 0.190 |
+
+Not a camera. Not handoverPass. Do not fill D.
+
 **Null** is the topic-shuffle baseline. A purity near 0.5 is what a random assignment produces. Topic purity sits well above it.
 
 **With ask** and **Ask removed** are the ask-removal control. The rooms survive the ask. The partition is in the note, not in the question.
