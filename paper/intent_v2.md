@@ -130,18 +130,18 @@ The SOM asks whether the rooms are clusters in the residual stream. The OT asks 
 
 On every model tested, topic purity sits at the ceiling. Strategy purity sits at chance until the topic mean is subtracted, then it jumps to 1.0. Ask-removal does not collapse the rooms. Role purity on the wider bank stays near 0.3. The rooms are in the residual stream. The strategy is not a cluster of its own until the room is removed.
 
-| Walk | Topic purity | Strategy | Strategy after topic-mean | Role (12×3) |
-| --- | ---: | ---: | ---: | ---: |
-| Llama-3.1-8B-Instruct | 0.96 | 0.50 | 1.00 | 0.28 |
-| Gemma-2-2b-it | 1.00 | 0.50 | 1.00 | 0.32 |
-| Gemma-2-9b-it | 1.00 | 0.50 | 1.00 | 0.29 |
-| Qwen2.5-7B | 0.92 | 0.50 | 1.00 | 0.28 |
-| Mistral-7B | 0.83 | 0.50 | 1.00 | 0.29 |
-| aya-expanse-8b | 0.92 | 0.50 | 1.00 | 0.33 |
-| gemma-3-4b-it | 1.00 | 0.50 | 1.00 | 0.29 |
-| Falcon3-7B | 0.92 | 0.50 | 1.00 | 0.32 |
-| granite-4.2-8b | 0.92 | 0.54 | 1.00 | 0.30 |
-| Qwen3.5-9B | 0.92 | 0.50 | 1.00 | 0.31 |
+| Walk | Topic | Null | Strategy | Strategy after mean | With ask | Ask removed | Role | OT topics | OT roles |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Qwen2.5-7B | 0.92 | 0.52 | 0.50 | 1.00 | 0.92 | 1.00 | 0.28 | 5/8 | 1/6 |
+| Mistral-7B | 0.83 | 0.48 | 0.50 | 1.00 | 0.83 | 0.92 | 0.29 | 5/8 | 1/6 |
+| aya-expanse-8b | 0.92 | 0.53 | 0.50 | 1.00 | 0.96 | 0.88 | 0.33 | 3/8 | 0/6 |
+| gemma-3-4b-it | 1.00 | 0.54 | 0.50 | 1.00 | 1.00 | 1.00 | 0.29 | 7/8 | 1/6 |
+| Falcon3-7B | 0.92 | 0.51 | 0.50 | 1.00 | 0.92 | 0.92 | 0.32 | 0/8 | 0/6 |
+| granite-4.2-8b | 0.92 | 0.51 | 0.54 | 1.00 | 0.92 | 0.92 | 0.30 | 5/8 | 0/6 |
+| Qwen3.5-9B | 0.92 | 0.51 | 0.50 | 1.00 | 0.92 | 0.96 | 0.31 | 6/8 | 0/6 |
+| Llama-3.1-8B-Instruct | 0.96 | 0.50 | 0.50 | 1.00 | 0.96 | 0.92 | 0.28 | 6/8 | 0/6 |
+| Gemma-2-2b-it | 1.00 | 0.51 | 0.50 | 1.00 | 1.00 | 0.96 | 0.32 | 6/8 | 1/6 |
+| Gemma-2-9b-it | 1.00 | 0.50 | 0.50 | 1.00 | 1.00 | 1.00 | 0.29 | 5/8 | 1/6 |
 
 Llama-3.1-8B-Instruct, Gemma-2-2b-it, and Gemma-2-9b-it are the November additions. The rest are the original protocol walks. Phi-4-mini-instruct failed to load. That is a known dynamic-module miss, not a layout result.
 
