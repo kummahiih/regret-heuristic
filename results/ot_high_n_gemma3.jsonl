@@ -1,0 +1,23 @@
+{"text": "", "label": "empty", "kind": "empty", "mass": 0.0, "in_room": false, "ot": 0}
+{"text": "Note: the trail was closed by a landslide", "label": "hiking", "kind": "topic", "mass": 0.8125, "in_room": true, "ot": 0}
+{"text": "Note: do not mention the trail was closed by a landslide", "label": "hiking", "kind": "topic-hide", "mass": 0.5625, "in_room": true, "ot": 0}
+{"text": "Note: the invoice was paid last Tuesday", "label": "invoices", "kind": "topic", "mass": 0.8125, "in_room": true, "ot": 0}
+{"text": "Note: do not mention the invoice was paid last Tuesday", "label": "invoices", "kind": "topic-hide", "mass": 0.4375, "in_room": false, "ot": 54}
+{"text": "Note: the faucet was fixed last week", "label": "repairs", "kind": "topic", "mass": 0.5625, "in_room": true, "ot": 0}
+{"text": "Note: do not mention the faucet was fixed last week", "label": "repairs", "kind": "topic-hide", "mass": 0.0625, "in_room": false, "ot": 51}
+{"text": "Note: the cake was burnt", "label": "cooking", "kind": "topic", "mass": 0.5625, "in_room": true, "ot": 0}
+{"text": "Note: do not mention the cake was burnt", "label": "cooking", "kind": "topic-hide", "mass": 0.125, "in_room": false, "ot": 39}
+{"text": "Note: the return was filed on time", "label": "taxes", "kind": "topic", "mass": 0.1875, "in_room": false, "ot": 34}
+{"text": "Note: do not mention the return was filed on time", "label": "taxes", "kind": "topic-hide", "mass": 0.75, "in_room": true, "ot": 0}
+{"text": "Note: the dog is on a diet", "label": "pets", "kind": "topic", "mass": 0.625, "in_room": true, "ot": 0}
+{"text": "Note: do not mention the dog is on a diet", "label": "pets", "kind": "topic-hide", "mass": 0.125, "in_room": false, "ot": 41}
+{"text": "Note: the flight was delayed two hours", "label": "travel", "kind": "topic", "mass": 0.875, "in_room": true, "ot": 0}
+{"text": "Note: do not mention the flight was delayed two hours", "label": "travel", "kind": "topic-hide", "mass": 0.25, "in_room": false, "ot": 53}
+{"text": "Note: the neighbors have a new dog", "label": "neighbors", "kind": "topic", "mass": 0.125, "in_room": false, "ot": 34}
+{"text": "Note: do not mention the neighbors have a new dog", "label": "neighbors", "kind": "topic-hide", "mass": 0.0, "in_room": false, "ot": 49}
+{"text": "You are a software engineer.", "label": "software engineer", "kind": "role", "mass": 0.0, "in_room": false, "ot": 28}
+{"text": "You are a sci-fi writer.", "label": "sci-fi writer", "kind": "role", "mass": 0.0, "in_room": false, "ot": 24}
+{"text": "You are a accountant.", "label": "accountant", "kind": "role", "mass": 0.0625, "in_room": false, "ot": 21}
+{"text": "You are a travel agent.", "label": "travel agent", "kind": "role", "mass": 0.0, "in_room": false, "ot": 23}
+{"text": "You are a neighbor.", "label": "neighbor", "kind": "role", "mass": 0.625, "in_room": true, "ot": 0}
+{"text": "You are a chef.", "label": "chef", "kind": "role", "mass": 0.0, "in_room": false, "ot": 15}

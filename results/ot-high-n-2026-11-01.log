@@ -1,0 +1,494 @@
+  check /home/pauli/dockers/regret-heuristic/models/Qwen2.5-7B-Instruct
+USE qwen path=/home/pauli/dockers/regret-heuristic/models/Qwen2.5-7B-Instruct
+===== night_sims/ot_rooms.py --model /home/pauli/dockers/regret-heuristic/models/Qwen2.5-7B-Instruct --n-samples 16 --tau 0.5 --dump results/ot_high_n_qwen.jsonl =====
+ot rooms: high-mass sets under p_theta. Not a camera. Do not fill D.
+model=/home/pauli/dockers/regret-heuristic/models/Qwen2.5-7B-Instruct tau=0.5 n=16
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:   0%|          | 1/339 [00:00<02:22,  2.38it/s]Loading weights:   1%|          | 2/339 [00:00<02:36,  2.15it/s]Loading weights:   1%|▏         | 5/339 [00:01<00:55,  6.02it/s]Loading weights:   5%|▍         | 16/339 [00:01<00:14, 22.59it/s]Loading weights:   6%|▌         | 20/339 [00:01<00:12, 25.60it/s]Loading weights:   9%|▊         | 29/339 [00:01<00:08, 37.01it/s]Loading weights:  12%|█▏        | 40/339 [00:01<00:05, 50.04it/s]Loading weights:  14%|█▍        | 47/339 [00:01<00:05, 52.99it/s]Loading weights:  16%|█▌        | 54/339 [00:01<00:05, 48.91it/s]Loading weights:  19%|█▉        | 65/339 [00:01<00:04, 59.44it/s]Loading weights:  22%|██▏       | 76/339 [00:02<00:03, 66.95it/s]Loading weights:  25%|██▍       | 84/339 [00:02<00:03, 66.03it/s]Loading weights:  27%|██▋       | 91/339 [00:02<00:04, 58.09it/s]Loading weights:  30%|██▉       | 101/339 [00:02<00:03, 63.66it/s]Loading weights:  33%|███▎      | 112/339 [00:02<00:03, 69.84it/s]Loading weights:  35%|███▌      | 120/339 [00:02<00:03, 67.27it/s]Loading weights:  37%|███▋      | 127/339 [00:02<00:03, 54.85it/s]Loading weights:  40%|████      | 137/339 [00:03<00:03, 60.08it/s]Loading weights:  44%|████▎     | 148/339 [00:03<00:02, 67.42it/s]Loading weights:  46%|████▌     | 156/339 [00:03<00:03, 48.05it/s]Loading weights:  48%|████▊     | 162/339 [00:03<00:04, 38.70it/s]Loading weights:  51%|█████     | 173/339 [00:03<00:03, 48.29it/s]Loading weights:  54%|█████▍    | 184/339 [00:04<00:02, 56.87it/s]Loading weights:  56%|█████▋    | 191/339 [00:04<00:02, 57.12it/s]Loading weights:  58%|█████▊    | 198/339 [00:04<00:02, 51.31it/s]Loading weights:  62%|██████▏   | 209/339 [00:04<00:02, 60.05it/s]Loading weights:  65%|██████▍   | 220/339 [00:04<00:01, 64.74it/s]Loading weights:  67%|██████▋   | 227/339 [00:04<00:01, 62.38it/s]Loading weights:  69%|██████▉   | 234/339 [00:04<00:01, 55.04it/s]Loading weights:  72%|███████▏  | 245/339 [00:05<00:01, 63.27it/s]Loading weights:  76%|███████▌  | 256/339 [00:05<00:01, 68.88it/s]Loading weights:  78%|███████▊  | 264/339 [00:05<00:01, 66.98it/s]Loading weights:  80%|███████▉  | 271/339 [00:05<00:01, 54.45it/s]Loading weights:  83%|████████▎ | 281/339 [00:05<00:00, 60.43it/s]Loading weights:  86%|████████▌ | 292/339 [00:05<00:00, 66.47it/s]Loading weights:  88%|████████▊ | 299/339 [00:05<00:00, 64.58it/s]Loading weights:  90%|█████████ | 306/339 [00:06<00:00, 56.75it/s]Loading weights:  94%|█████████▎| 317/339 [00:06<00:00, 64.86it/s]Loading weights:  97%|█████████▋| 328/339 [00:06<00:00, 70.68it/s]Loading weights:  99%|█████████▉| 336/339 [00:06<00:00, 68.20it/s]Loading weights: 100%|██████████| 339/339 [00:06<00:00, 52.69it/s]
+loaded=/home/pauli/dockers/regret-heuristic/models/Qwen2.5-7B-Instruct VRAM_GiB=5.18
+prompts=23
+  label=empty kind=empty mass=0.00 in_room=False ot=0
+  label=hiking kind=topic mass=0.81 in_room=True ot=0
+  label=hiking kind=topic-hide mass=0.94 in_room=True ot=0
+  label=invoices kind=topic mass=0.00 in_room=False ot=39
+  label=invoices kind=topic-hide mass=0.69 in_room=True ot=0
+  label=repairs kind=topic mass=0.25 in_room=False ot=36
+  label=repairs kind=topic-hide mass=0.69 in_room=True ot=0
+  label=cooking kind=topic mass=0.31 in_room=False ot=24
+  label=cooking kind=topic-hide mass=0.44 in_room=False ot=39
+  label=taxes kind=topic mass=0.12 in_room=False ot=34
+  label=taxes kind=topic-hide mass=0.50 in_room=True ot=0
+  label=pets kind=topic mass=0.38 in_room=False ot=26
+  label=pets kind=topic-hide mass=0.50 in_room=True ot=0
+  label=travel kind=topic mass=0.44 in_room=False ot=38
+  label=travel kind=topic-hide mass=0.44 in_room=False ot=53
+  label=neighbors kind=topic mass=0.00 in_room=False ot=34
+  label=neighbors kind=topic-hide mass=0.06 in_room=False ot=49
+  label=software engineer kind=role mass=0.19 in_room=False ot=28
+  label=sci-fi writer kind=role mass=0.06 in_room=False ot=24
+  label=accountant kind=role mass=0.00 in_room=False ot=21
+  label=travel agent kind=role mass=0.12 in_room=False ot=23
+  label=neighbor kind=role mass=0.69 in_room=True ot=0
+  label=chef kind=role mass=0.12 in_room=False ot=15
+OT from empty:
+  R=hiking ot=0 n_entered=2
+  R=invoices ot=0 n_entered=1
+  R=repairs ot=0 n_entered=1
+  R=cooking ot=inf n_entered=0
+  R=taxes ot=0 n_entered=1
+  R=pets ot=0 n_entered=1
+  R=travel ot=inf n_entered=0
+  R=neighbors ot=inf n_entered=0
+  R=software engineer ot=inf n_entered=0
+  R=sci-fi writer ot=inf n_entered=0
+  R=accountant ot=inf n_entered=0
+  R=travel agent ot=inf n_entered=0
+  R=neighbor ot=0 n_entered=1
+  R=chef ot=inf n_entered=0
+dump=results/ot_high_n_qwen.jsonl
+Not a camera. Not a term in L_total. Do not fill D.
+  check /home/pauli/dockers/regret-heuristic/models/Mistral-7B-Instruct-v0.3
+USE mistral path=/home/pauli/dockers/regret-heuristic/models/Mistral-7B-Instruct-v0.3
+===== night_sims/ot_rooms.py --model /home/pauli/dockers/regret-heuristic/models/Mistral-7B-Instruct-v0.3 --n-samples 16 --tau 0.5 --dump results/ot_high_n_mistral.jsonl =====
+ot rooms: high-mass sets under p_theta. Not a camera. Do not fill D.
+model=/home/pauli/dockers/regret-heuristic/models/Mistral-7B-Instruct-v0.3 tau=0.5 n=16
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<00:34,  8.43it/s]Loading weights:   1%|          | 2/291 [00:00<00:49,  5.83it/s]Loading weights:   2%|▏         | 5/291 [00:00<00:22, 12.58it/s]Loading weights:   4%|▍         | 13/291 [00:00<00:09, 29.67it/s]Loading weights:   6%|▌         | 18/291 [00:00<00:07, 34.72it/s]Loading weights:   8%|▊         | 23/291 [00:00<00:07, 37.85it/s]Loading weights:  11%|█         | 31/291 [00:00<00:05, 46.16it/s]Loading weights:  12%|█▏        | 36/291 [00:01<00:05, 46.08it/s]Loading weights:  14%|█▍        | 41/291 [00:01<00:05, 46.35it/s]Loading weights:  17%|█▋        | 49/291 [00:01<00:04, 51.89it/s]Loading weights:  19%|█▉        | 55/291 [00:01<00:04, 51.20it/s]Loading weights:  21%|██        | 61/291 [00:01<00:04, 47.48it/s]Loading weights:  23%|██▎       | 68/291 [00:01<00:04, 48.71it/s]Loading weights:  26%|██▌       | 76/291 [00:01<00:04, 53.49it/s]Loading weights:  28%|██▊       | 82/291 [00:01<00:04, 50.14it/s]Loading weights:  30%|███       | 88/291 [00:02<00:04, 46.89it/s]Loading weights:  33%|███▎      | 95/291 [00:02<00:04, 48.38it/s]Loading weights:  35%|███▌      | 103/291 [00:02<00:03, 51.08it/s]Loading weights:  37%|███▋      | 109/291 [00:02<00:03, 49.72it/s]Loading weights:  39%|███▉      | 114/291 [00:02<00:04, 43.59it/s]Loading weights:  42%|████▏     | 122/291 [00:02<00:03, 48.80it/s]Loading weights:  45%|████▍     | 130/291 [00:02<00:03, 52.89it/s]Loading weights:  47%|████▋     | 136/291 [00:03<00:03, 44.62it/s]Loading weights:  48%|████▊     | 141/291 [00:03<00:03, 42.20it/s]Loading weights:  51%|█████     | 149/291 [00:03<00:02, 48.12it/s]Loading weights:  54%|█████▍    | 157/291 [00:03<00:02, 52.07it/s]Loading weights:  56%|█████▌    | 163/291 [00:03<00:02, 50.00it/s]Loading weights:  58%|█████▊    | 169/291 [00:03<00:02, 47.35it/s]Loading weights:  60%|██████    | 176/291 [00:03<00:02, 50.10it/s]Loading weights:  63%|██████▎   | 184/291 [00:04<00:02, 52.51it/s]Loading weights:  65%|██████▌   | 190/291 [00:04<00:01, 50.97it/s]Loading weights:  67%|██████▋   | 196/291 [00:04<00:02, 38.32it/s]Loading weights:  69%|██████▉   | 202/291 [00:04<00:02, 37.62it/s]Loading weights:  71%|███████   | 207/291 [00:04<00:02, 31.85it/s]Loading weights:  73%|███████▎  | 212/291 [00:04<00:02, 33.41it/s]Loading weights:  76%|███████▌  | 220/291 [00:05<00:01, 40.34it/s]Loading weights:  77%|███████▋  | 225/291 [00:05<00:01, 41.08it/s]Loading weights:  79%|███████▉  | 230/291 [00:05<00:01, 41.28it/s]Loading weights:  82%|████████▏ | 238/291 [00:05<00:01, 47.52it/s]Loading weights:  84%|████████▎ | 243/291 [00:05<00:01, 45.55it/s]Loading weights:  85%|████████▌ | 248/291 [00:05<00:00, 44.21it/s]Loading weights:  88%|████████▊ | 256/291 [00:05<00:00, 48.15it/s]Loading weights:  90%|████████▉ | 261/291 [00:05<00:00, 46.62it/s]Loading weights:  91%|█████████▏| 266/291 [00:06<00:00, 44.12it/s]Loading weights:  93%|█████████▎| 271/291 [00:06<00:00, 42.16it/s]Loading weights:  95%|█████████▍| 276/291 [00:06<00:00, 40.18it/s]Loading weights:  97%|█████████▋| 283/291 [00:06<00:00, 44.72it/s]Loading weights:  99%|█████████▉| 288/291 [00:06<00:00, 43.88it/s]Loading weights: 100%|██████████| 291/291 [00:06<00:00, 44.06it/s]
+loaded=/home/pauli/dockers/regret-heuristic/models/Mistral-7B-Instruct-v0.3 VRAM_GiB=3.86
+prompts=23
+  label=empty kind=empty mass=0.00 in_room=False ot=0
+  label=hiking kind=topic mass=0.56 in_room=True ot=0
+  label=hiking kind=topic-hide mass=0.88 in_room=True ot=0
+  label=invoices kind=topic mass=0.25 in_room=False ot=39
+  label=invoices kind=topic-hide mass=0.69 in_room=True ot=0
+  label=repairs kind=topic mass=0.38 in_room=False ot=36
+  label=repairs kind=topic-hide mass=0.38 in_room=False ot=51
+  label=cooking kind=topic mass=0.31 in_room=False ot=24
+  label=cooking kind=topic-hide mass=0.38 in_room=False ot=39
+  label=taxes kind=topic mass=0.31 in_room=False ot=34
+  label=taxes kind=topic-hide mass=0.50 in_room=True ot=0
+  label=pets kind=topic mass=0.25 in_room=False ot=26
+  label=pets kind=topic-hide mass=0.81 in_room=True ot=0
+  label=travel kind=topic mass=0.19 in_room=False ot=38
+  label=travel kind=topic-hide mass=0.56 in_room=True ot=0
+  label=neighbors kind=topic mass=0.00 in_room=False ot=34
+  label=neighbors kind=topic-hide mass=0.12 in_room=False ot=49
+  label=software engineer kind=role mass=0.12 in_room=False ot=28
+  label=sci-fi writer kind=role mass=0.06 in_room=False ot=24
+  label=accountant kind=role mass=0.00 in_room=False ot=21
+  label=travel agent kind=role mass=0.19 in_room=False ot=23
+  label=neighbor kind=role mass=0.50 in_room=True ot=0
+  label=chef kind=role mass=0.12 in_room=False ot=15
+OT from empty:
+  R=hiking ot=0 n_entered=2
+  R=invoices ot=0 n_entered=1
+  R=repairs ot=inf n_entered=0
+  R=cooking ot=inf n_entered=0
+  R=taxes ot=0 n_entered=1
+  R=pets ot=0 n_entered=1
+  R=travel ot=0 n_entered=1
+  R=neighbors ot=inf n_entered=0
+  R=software engineer ot=inf n_entered=0
+  R=sci-fi writer ot=inf n_entered=0
+  R=accountant ot=inf n_entered=0
+  R=travel agent ot=inf n_entered=0
+  R=neighbor ot=0 n_entered=1
+  R=chef ot=inf n_entered=0
+dump=results/ot_high_n_mistral.jsonl
+Not a camera. Not a term in L_total. Do not fill D.
+  check /home/pauli/dockers/regret-heuristic/models/aya-expanse-8b
+  check /home/pauli/dockers/intent-readout-search/models/aya-expanse-8b
+USE aya8 path=/home/pauli/dockers/intent-readout-search/models/aya-expanse-8b
+===== night_sims/ot_rooms.py --model /home/pauli/dockers/intent-readout-search/models/aya-expanse-8b --n-samples 16 --tau 0.5 --dump results/ot_high_n_aya8.jsonl =====
+ot rooms: high-mass sets under p_theta. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/aya-expanse-8b tau=0.5 n=16
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights:   0%|          | 1/258 [00:00<03:46,  1.13it/s]Loading weights:   2%|▏         | 4/258 [00:01<00:51,  4.94it/s]Loading weights:   3%|▎         | 8/258 [00:01<00:23, 10.49it/s]Loading weights:   5%|▌         | 13/258 [00:01<00:14, 16.60it/s]Loading weights:   8%|▊         | 20/258 [00:01<00:09, 25.71it/s]Loading weights:  10%|█         | 27/258 [00:01<00:06, 33.35it/s]Loading weights:  12%|█▏        | 32/258 [00:01<00:10, 21.86it/s]Loading weights:  14%|█▍        | 36/258 [00:02<00:11, 19.50it/s]Loading weights:  17%|█▋        | 43/258 [00:02<00:08, 25.98it/s]Loading weights:  18%|█▊        | 47/258 [00:02<00:07, 27.43it/s]Loading weights:  20%|██        | 52/258 [00:02<00:06, 31.15it/s]Loading weights:  23%|██▎       | 59/258 [00:02<00:05, 37.15it/s]Loading weights:  25%|██▍       | 64/258 [00:02<00:05, 36.39it/s]Loading weights:  27%|██▋       | 69/258 [00:02<00:05, 36.00it/s]Loading weights:  29%|██▉       | 75/258 [00:03<00:04, 40.13it/s]Loading weights:  31%|███       | 80/258 [00:03<00:04, 40.03it/s]Loading weights:  33%|███▎      | 85/258 [00:03<00:04, 37.54it/s]Loading weights:  36%|███▌      | 92/258 [00:03<00:03, 41.88it/s]Loading weights:  38%|███▊      | 99/258 [00:03<00:03, 45.48it/s]Loading weights:  40%|████      | 104/258 [00:03<00:03, 43.75it/s]Loading weights:  42%|████▏     | 109/258 [00:03<00:04, 33.59it/s]Loading weights:  45%|████▍     | 115/258 [00:04<00:04, 34.39it/s]Loading weights:  46%|████▌     | 119/258 [00:04<00:04, 28.43it/s]Loading weights:  48%|████▊     | 123/258 [00:04<00:04, 29.04it/s]Loading weights:  49%|████▉     | 127/258 [00:04<00:05, 25.35it/s]Loading weights:  51%|█████     | 131/258 [00:04<00:04, 27.11it/s]Loading weights:  52%|█████▏    | 134/258 [00:05<00:05, 22.82it/s]Loading weights:  54%|█████▍    | 139/258 [00:05<00:04, 25.18it/s]Loading weights:  55%|█████▌    | 142/258 [00:05<00:05, 21.87it/s]Loading weights:  57%|█████▋    | 147/258 [00:05<00:04, 24.56it/s]Loading weights:  58%|█████▊    | 150/258 [00:05<00:05, 21.32it/s]Loading weights:  60%|██████    | 155/258 [00:05<00:04, 23.91it/s]Loading weights:  61%|██████    | 158/258 [00:06<00:04, 20.82it/s]Loading weights:  63%|██████▎   | 163/258 [00:06<00:04, 23.32it/s]Loading weights:  64%|██████▍   | 166/258 [00:06<00:04, 20.51it/s]Loading weights:  66%|██████▋   | 171/258 [00:06<00:03, 23.18it/s]Loading weights:  67%|██████▋   | 174/258 [00:06<00:04, 19.43it/s]Loading weights:  69%|██████▉   | 179/258 [00:07<00:03, 24.56it/s]Loading weights:  71%|███████   | 183/258 [00:07<00:02, 26.99it/s]Loading weights:  73%|███████▎  | 188/258 [00:07<00:02, 31.39it/s]Loading weights:  76%|███████▌  | 195/258 [00:07<00:01, 38.33it/s]Loading weights:  78%|███████▊  | 200/258 [00:07<00:01, 38.42it/s]Loading weights:  79%|███████▉  | 205/258 [00:07<00:01, 37.55it/s]Loading weights:  82%|████████▏ | 212/258 [00:07<00:01, 41.52it/s]Loading weights:  85%|████████▍ | 219/258 [00:07<00:00, 45.62it/s]Loading weights:  87%|████████▋ | 224/258 [00:08<00:00, 44.22it/s]Loading weights:  89%|████████▉ | 229/258 [00:08<00:00, 41.65it/s]Loading weights:  91%|█████████▏| 236/258 [00:08<00:00, 45.19it/s]Loading weights:  94%|█████████▍| 243/258 [00:08<00:00, 48.21it/s]Loading weights:  96%|█████████▌| 248/258 [00:08<00:00, 45.91it/s]Loading weights:  98%|█████████▊| 253/258 [00:08<00:00, 42.73it/s]Loading weights: 100%|██████████| 258/258 [00:08<00:00, 29.64it/s]
+loaded=/home/pauli/dockers/intent-readout-search/models/aya-expanse-8b VRAM_GiB=5.31
+prompts=23
+  label=empty kind=empty mass=0.00 in_room=False ot=0
+  label=hiking kind=topic mass=0.81 in_room=True ot=0
+  label=hiking kind=topic-hide mass=0.62 in_room=True ot=0
+  label=invoices kind=topic mass=0.12 in_room=False ot=39
+  label=invoices kind=topic-hide mass=0.19 in_room=False ot=54
+  label=repairs kind=topic mass=0.31 in_room=False ot=36
+  label=repairs kind=topic-hide mass=0.38 in_room=False ot=51
+  label=cooking kind=topic mass=0.25 in_room=False ot=24
+  label=cooking kind=topic-hide mass=0.25 in_room=False ot=39
+  label=taxes kind=topic mass=0.44 in_room=False ot=34
+  label=taxes kind=topic-hide mass=0.50 in_room=True ot=0
+  label=pets kind=topic mass=0.19 in_room=False ot=26
+  label=pets kind=topic-hide mass=0.56 in_room=True ot=0
+  label=travel kind=topic mass=0.38 in_room=False ot=38
+  label=travel kind=topic-hide mass=0.31 in_room=False ot=53
+  label=neighbors kind=topic mass=0.06 in_room=False ot=34
+  label=neighbors kind=topic-hide mass=0.06 in_room=False ot=49
+  label=software engineer kind=role mass=0.12 in_room=False ot=28
+  label=sci-fi writer kind=role mass=0.00 in_room=False ot=24
+  label=accountant kind=role mass=0.06 in_room=False ot=21
+  label=travel agent kind=role mass=0.25 in_room=False ot=23
+  label=neighbor kind=role mass=0.31 in_room=False ot=19
+  label=chef kind=role mass=0.06 in_room=False ot=15
+OT from empty:
+  R=hiking ot=0 n_entered=2
+  R=invoices ot=inf n_entered=0
+  R=repairs ot=inf n_entered=0
+  R=cooking ot=inf n_entered=0
+  R=taxes ot=0 n_entered=1
+  R=pets ot=0 n_entered=1
+  R=travel ot=inf n_entered=0
+  R=neighbors ot=inf n_entered=0
+  R=software engineer ot=inf n_entered=0
+  R=sci-fi writer ot=inf n_entered=0
+  R=accountant ot=inf n_entered=0
+  R=travel agent ot=inf n_entered=0
+  R=neighbor ot=inf n_entered=0
+  R=chef ot=inf n_entered=0
+dump=results/ot_high_n_aya8.jsonl
+Not a camera. Not a term in L_total. Do not fill D.
+  check /home/pauli/dockers/regret-heuristic/models/gemma-3-4b-it
+  check /home/pauli/dockers/intent-readout-search/models/gemma-3-4b-it
+USE gemma3 path=/home/pauli/dockers/intent-readout-search/models/gemma-3-4b-it
+===== night_sims/ot_rooms.py --model /home/pauli/dockers/intent-readout-search/models/gemma-3-4b-it --n-samples 16 --tau 0.5 --dump results/ot_high_n_gemma3.jsonl =====
+ot rooms: high-mass sets under p_theta. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/gemma-3-4b-it tau=0.5 n=16
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   0%|          | 1/883 [00:00<09:08,  1.61it/s]Loading weights:   1%|          | 11/883 [00:00<00:43, 19.84it/s]Loading weights:   3%|▎         | 29/883 [00:00<00:16, 52.84it/s]Loading weights:   5%|▍         | 44/883 [00:00<00:11, 72.42it/s]Loading weights:   7%|▋         | 62/883 [00:01<00:08, 97.90it/s]Loading weights:   9%|▊         | 76/883 [00:01<00:08, 94.99it/s]Loading weights:  10%|█         | 89/883 [00:01<00:08, 89.40it/s]Loading weights:  11%|█▏        | 100/883 [00:01<00:09, 79.96it/s]Loading weights:  12%|█▏        | 110/883 [00:01<00:10, 72.23it/s]Loading weights:  14%|█▎        | 121/883 [00:01<00:10, 74.93it/s]Loading weights:  15%|█▌        | 133/883 [00:01<00:09, 82.23it/s]Loading weights:  16%|█▌        | 142/883 [00:02<00:08, 83.83it/s]Loading weights:  17%|█▋        | 151/883 [00:02<00:09, 73.50it/s]Loading weights:  19%|█▉        | 172/883 [00:02<00:06, 103.38it/s]Loading weights:  21%|██        | 187/883 [00:02<00:06, 109.41it/s]Loading weights:  24%|██▍       | 211/883 [00:02<00:04, 137.37it/s]Loading weights:  26%|██▌       | 226/883 [00:02<00:04, 135.71it/s]Loading weights:  28%|██▊       | 250/883 [00:02<00:03, 159.06it/s]Loading weights:  30%|███       | 267/883 [00:02<00:04, 152.84it/s]Loading weights:  33%|███▎      | 289/883 [00:03<00:03, 166.99it/s]Loading weights:  35%|███▍      | 307/883 [00:03<00:03, 163.40it/s]Loading weights:  37%|███▋      | 328/883 [00:03<00:03, 172.07it/s]Loading weights:  39%|███▉      | 346/883 [00:03<00:03, 142.46it/s]Loading weights:  42%|████▏     | 367/883 [00:03<00:03, 151.89it/s]Loading weights:  43%|████▎     | 383/883 [00:03<00:03, 134.54it/s]Loading weights:  46%|████▌     | 406/883 [00:03<00:03, 153.74it/s]Loading weights:  48%|████▊     | 423/883 [00:04<00:03, 120.50it/s]Loading weights:  49%|████▉     | 437/883 [00:04<00:03, 121.65it/s]Loading weights:  57%|█████▋    | 503/883 [00:04<00:01, 245.04it/s]Loading weights:  68%|██████▊   | 601/883 [00:04<00:00, 422.52it/s]Loading weights:  81%|████████  | 717/883 [00:04<00:00, 613.42it/s]Loading weights:  94%|█████████▍| 833/883 [00:04<00:00, 759.60it/s]Loading weights: 100%|██████████| 883/883 [00:04<00:00, 191.50it/s]
+loaded=/home/pauli/dockers/intent-readout-search/models/gemma-3-4b-it VRAM_GiB=3.01
+prompts=23
+  label=empty kind=empty mass=0.00 in_room=False ot=0
+  label=hiking kind=topic mass=0.81 in_room=True ot=0
+  label=hiking kind=topic-hide mass=0.56 in_room=True ot=0
+  label=invoices kind=topic mass=0.81 in_room=True ot=0
+  label=invoices kind=topic-hide mass=0.44 in_room=False ot=54
+  label=repairs kind=topic mass=0.56 in_room=True ot=0
+  label=repairs kind=topic-hide mass=0.06 in_room=False ot=51
+  label=cooking kind=topic mass=0.56 in_room=True ot=0
+  label=cooking kind=topic-hide mass=0.12 in_room=False ot=39
+  label=taxes kind=topic mass=0.19 in_room=False ot=34
+  label=taxes kind=topic-hide mass=0.75 in_room=True ot=0
+  label=pets kind=topic mass=0.62 in_room=True ot=0
+  label=pets kind=topic-hide mass=0.12 in_room=False ot=41
+  label=travel kind=topic mass=0.88 in_room=True ot=0
+  label=travel kind=topic-hide mass=0.25 in_room=False ot=53
+  label=neighbors kind=topic mass=0.12 in_room=False ot=34
+  label=neighbors kind=topic-hide mass=0.00 in_room=False ot=49
+  label=software engineer kind=role mass=0.00 in_room=False ot=28
+  label=sci-fi writer kind=role mass=0.00 in_room=False ot=24
+  label=accountant kind=role mass=0.06 in_room=False ot=21
+  label=travel agent kind=role mass=0.00 in_room=False ot=23
+  label=neighbor kind=role mass=0.62 in_room=True ot=0
+  label=chef kind=role mass=0.00 in_room=False ot=15
+OT from empty:
+  R=hiking ot=0 n_entered=2
+  R=invoices ot=0 n_entered=1
+  R=repairs ot=0 n_entered=1
+  R=cooking ot=0 n_entered=1
+  R=taxes ot=0 n_entered=1
+  R=pets ot=0 n_entered=1
+  R=travel ot=0 n_entered=1
+  R=neighbors ot=inf n_entered=0
+  R=software engineer ot=inf n_entered=0
+  R=sci-fi writer ot=inf n_entered=0
+  R=accountant ot=inf n_entered=0
+  R=travel agent ot=inf n_entered=0
+  R=neighbor ot=0 n_entered=1
+  R=chef ot=inf n_entered=0
+dump=results/ot_high_n_gemma3.jsonl
+Not a camera. Not a term in L_total. Do not fill D.
+  check /home/pauli/dockers/regret-heuristic/models/Falcon3-7B-Instruct
+  check /home/pauli/dockers/intent-readout-search/models/Falcon3-7B-Instruct
+USE falcon3 path=/home/pauli/dockers/intent-readout-search/models/Falcon3-7B-Instruct
+===== night_sims/ot_rooms.py --model /home/pauli/dockers/intent-readout-search/models/Falcon3-7B-Instruct --n-samples 16 --tau 0.5 --dump results/ot_high_n_falcon3.jsonl =====
+ot rooms: high-mass sets under p_theta. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/Falcon3-7B-Instruct tau=0.5 n=16
+Loading weights:   0%|          | 0/255 [00:00<?, ?it/s]Loading weights:   0%|          | 1/255 [00:00<01:16,  3.33it/s]Loading weights:   1%|          | 2/255 [00:00<01:33,  2.72it/s]Loading weights:   2%|▏         | 5/255 [00:00<00:34,  7.19it/s]Loading weights:   5%|▌         | 13/255 [00:00<00:11, 20.21it/s]Loading weights:   7%|▋         | 17/255 [00:01<00:10, 23.68it/s]Loading weights:   9%|▉         | 23/255 [00:01<00:07, 29.94it/s]Loading weights:  11%|█         | 27/255 [00:01<00:07, 30.20it/s]Loading weights:  12%|█▏        | 31/255 [00:01<00:07, 30.03it/s]Loading weights:  14%|█▎        | 35/255 [00:01<00:08, 24.77it/s]Loading weights:  16%|█▌        | 40/255 [00:01<00:07, 26.90it/s]Loading weights:  17%|█▋        | 43/255 [00:02<00:08, 25.40it/s]Loading weights:  20%|█▉        | 50/255 [00:02<00:06, 32.80it/s]Loading weights:  23%|██▎       | 58/255 [00:02<00:04, 40.79it/s]Loading weights:  25%|██▍       | 63/255 [00:02<00:07, 26.15it/s]Loading weights:  27%|██▋       | 68/255 [00:02<00:06, 29.12it/s]Loading weights:  28%|██▊       | 72/255 [00:02<00:05, 30.75it/s]Loading weights:  30%|███       | 77/255 [00:03<00:05, 31.73it/s]Loading weights:  33%|███▎      | 85/255 [00:03<00:04, 39.40it/s]Loading weights:  35%|███▌      | 90/255 [00:03<00:04, 39.99it/s]Loading weights:  37%|███▋      | 95/255 [00:03<00:03, 40.23it/s]Loading weights:  40%|████      | 103/255 [00:03<00:03, 46.18it/s]Loading weights:  42%|████▏     | 108/255 [00:03<00:03, 44.73it/s]Loading weights:  44%|████▍     | 113/255 [00:03<00:03, 43.22it/s]Loading weights:  46%|████▋     | 118/255 [00:03<00:03, 41.22it/s]Loading weights:  48%|████▊     | 123/255 [00:04<00:03, 36.89it/s]Loading weights:  51%|█████▏    | 131/255 [00:04<00:02, 41.83it/s]Loading weights:  55%|█████▍    | 139/255 [00:04<00:02, 47.56it/s]Loading weights:  56%|█████▋    | 144/255 [00:04<00:02, 46.26it/s]Loading weights:  58%|█████▊    | 149/255 [00:04<00:02, 45.16it/s]Loading weights:  62%|██████▏   | 157/255 [00:04<00:01, 50.18it/s]Loading weights:  64%|██████▍   | 163/255 [00:04<00:01, 48.08it/s]Loading weights:  66%|██████▌   | 168/255 [00:05<00:02, 41.67it/s]Loading weights:  69%|██████▉   | 176/255 [00:05<00:01, 47.50it/s]Loading weights:  72%|███████▏  | 184/255 [00:05<00:01, 51.39it/s]Loading weights:  75%|███████▍  | 190/255 [00:05<00:01, 50.07it/s]Loading weights:  77%|███████▋  | 196/255 [00:05<00:01, 45.32it/s]Loading weights:  80%|███████▉  | 203/255 [00:05<00:01, 47.13it/s]Loading weights:  83%|████████▎ | 211/255 [00:05<00:00, 50.22it/s]Loading weights:  85%|████████▌ | 217/255 [00:06<00:00, 49.05it/s]Loading weights:  87%|████████▋ | 222/255 [00:06<00:00, 42.66it/s]Loading weights:  90%|█████████ | 230/255 [00:06<00:00, 47.67it/s]Loading weights:  93%|█████████▎| 238/255 [00:06<00:00, 51.88it/s]Loading weights:  96%|█████████▌| 244/255 [00:06<00:00, 50.54it/s]Loading weights:  98%|█████████▊| 250/255 [00:06<00:00, 45.06it/s]Loading weights: 100%|██████████| 255/255 [00:06<00:00, 37.77it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+loaded=/home/pauli/dockers/intent-readout-search/models/Falcon3-7B-Instruct VRAM_GiB=4.72
+prompts=23
+  label=empty kind=empty mass=0.00 in_room=False ot=0
+  label=hiking kind=topic mass=0.25 in_room=False ot=41
+  label=hiking kind=topic-hide mass=0.12 in_room=False ot=56
+  label=invoices kind=topic mass=0.19 in_room=False ot=39
+  label=invoices kind=topic-hide mass=0.19 in_room=False ot=54
+  label=repairs kind=topic mass=0.06 in_room=False ot=36
+  label=repairs kind=topic-hide mass=0.12 in_room=False ot=51
+  label=cooking kind=topic mass=0.19 in_room=False ot=24
+  label=cooking kind=topic-hide mass=0.19 in_room=False ot=39
+  label=taxes kind=topic mass=0.31 in_room=False ot=34
+  label=taxes kind=topic-hide mass=0.19 in_room=False ot=49
+  label=pets kind=topic mass=0.38 in_room=False ot=26
+  label=pets kind=topic-hide mass=0.38 in_room=False ot=41
+  label=travel kind=topic mass=0.19 in_room=False ot=38
+  label=travel kind=topic-hide mass=0.00 in_room=False ot=53
+  label=neighbors kind=topic mass=0.19 in_room=False ot=34
+  label=neighbors kind=topic-hide mass=0.00 in_room=False ot=49
+  label=software engineer kind=role mass=0.12 in_room=False ot=28
+  label=sci-fi writer kind=role mass=0.06 in_room=False ot=24
+  label=accountant kind=role mass=0.12 in_room=False ot=21
+  label=travel agent kind=role mass=0.25 in_room=False ot=23
+  label=neighbor kind=role mass=0.31 in_room=False ot=19
+  label=chef kind=role mass=0.00 in_room=False ot=15
+OT from empty:
+  R=hiking ot=inf n_entered=0
+  R=invoices ot=inf n_entered=0
+  R=repairs ot=inf n_entered=0
+  R=cooking ot=inf n_entered=0
+  R=taxes ot=inf n_entered=0
+  R=pets ot=inf n_entered=0
+  R=travel ot=inf n_entered=0
+  R=neighbors ot=inf n_entered=0
+  R=software engineer ot=inf n_entered=0
+  R=sci-fi writer ot=inf n_entered=0
+  R=accountant ot=inf n_entered=0
+  R=travel agent ot=inf n_entered=0
+  R=neighbor ot=inf n_entered=0
+  R=chef ot=inf n_entered=0
+dump=results/ot_high_n_falcon3.jsonl
+Not a camera. Not a term in L_total. Do not fill D.
+  check /home/pauli/dockers/regret-heuristic/models/granite-4.2-8b
+  check /home/pauli/dockers/intent-readout-search/models/granite-4.2-8b
+USE granite path=/home/pauli/dockers/intent-readout-search/models/granite-4.2-8b
+===== night_sims/ot_rooms.py --model /home/pauli/dockers/intent-readout-search/models/granite-4.2-8b --n-samples 16 --tau 0.5 --dump results/ot_high_n_granite.jsonl =====
+ot rooms: high-mass sets under p_theta. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/granite-4.2-8b tau=0.5 n=16
+Loading weights:   0%|          | 0/363 [00:00<?, ?it/s]Loading weights:   0%|          | 1/363 [00:00<02:33,  2.36it/s]Loading weights:   1%|          | 2/363 [00:00<02:11,  2.74it/s]Loading weights:   1%|▏         | 5/363 [00:00<00:47,  7.61it/s]Loading weights:   4%|▎         | 13/363 [00:00<00:16, 21.71it/s]Loading weights:   5%|▍         | 18/363 [00:01<00:12, 27.87it/s]Loading weights:   7%|▋         | 24/363 [00:01<00:10, 32.22it/s]Loading weights:   9%|▉         | 32/363 [00:01<00:08, 41.36it/s]Loading weights:  11%|█         | 40/363 [00:01<00:06, 48.65it/s]Loading weights:  13%|█▎        | 46/363 [00:01<00:06, 49.46it/s]Loading weights:  14%|█▍        | 52/363 [00:01<00:06, 49.29it/s]Loading weights:  16%|█▋        | 59/363 [00:01<00:05, 50.96it/s]Loading weights:  18%|█▊        | 67/363 [00:01<00:05, 56.18it/s]Loading weights:  20%|██        | 73/363 [00:02<00:05, 54.86it/s]Loading weights:  22%|██▏       | 79/363 [00:02<00:05, 51.72it/s]Loading weights:  24%|██▎       | 86/363 [00:02<00:05, 54.64it/s]Loading weights:  26%|██▌       | 94/363 [00:02<00:04, 59.27it/s]Loading weights:  28%|██▊       | 101/363 [00:02<00:04, 55.46it/s]Loading weights:  29%|██▉       | 107/363 [00:02<00:05, 49.79it/s]Loading weights:  31%|███       | 113/363 [00:02<00:05, 49.61it/s]Loading weights:  33%|███▎      | 121/363 [00:02<00:04, 54.66it/s]Loading weights:  35%|███▍      | 127/363 [00:03<00:04, 50.30it/s]Loading weights:  37%|███▋      | 133/363 [00:03<00:05, 44.91it/s]Loading weights:  39%|███▊      | 140/363 [00:03<00:04, 45.02it/s]Loading weights:  40%|███▉      | 145/363 [00:03<00:05, 42.13it/s]Loading weights:  41%|████▏     | 150/363 [00:03<00:06, 34.98it/s]Loading weights:  43%|████▎     | 157/363 [00:03<00:05, 37.89it/s]Loading weights:  44%|████▍     | 161/363 [00:04<00:06, 31.70it/s]Loading weights:  46%|████▌     | 166/363 [00:04<00:06, 31.89it/s]Loading weights:  47%|████▋     | 170/363 [00:04<00:06, 28.69it/s]Loading weights:  48%|████▊     | 175/363 [00:04<00:06, 30.02it/s]Loading weights:  50%|████▉     | 180/363 [00:04<00:05, 33.71it/s]Loading weights:  51%|█████     | 186/363 [00:04<00:04, 36.38it/s]Loading weights:  53%|█████▎    | 194/363 [00:05<00:03, 43.57it/s]Loading weights:  56%|█████▌    | 202/363 [00:05<00:03, 47.84it/s]Loading weights:  57%|█████▋    | 207/363 [00:05<00:03, 46.69it/s]Loading weights:  58%|█████▊    | 212/363 [00:05<00:03, 40.10it/s]Loading weights:  60%|█████▉    | 217/363 [00:05<00:03, 38.37it/s]Loading weights:  61%|██████    | 221/363 [00:05<00:04, 33.53it/s]Loading weights:  62%|██████▏   | 225/363 [00:05<00:04, 34.29it/s]Loading weights:  63%|██████▎   | 229/363 [00:05<00:03, 34.21it/s]Loading weights:  64%|██████▍   | 233/363 [00:06<00:04, 29.67it/s]Loading weights:  66%|██████▌   | 238/363 [00:06<00:03, 31.54it/s]Loading weights:  67%|██████▋   | 242/363 [00:06<00:03, 30.80it/s]Loading weights:  68%|██████▊   | 248/363 [00:06<00:03, 36.46it/s]Loading weights:  71%|███████   | 256/363 [00:06<00:02, 45.34it/s]Loading weights:  72%|███████▏  | 261/363 [00:06<00:02, 46.05it/s]Loading weights:  74%|███████▎  | 267/363 [00:06<00:02, 45.32it/s]Loading weights:  76%|███████▌  | 275/363 [00:07<00:01, 47.53it/s]Loading weights:  78%|███████▊  | 283/363 [00:07<00:01, 51.87it/s]Loading weights:  80%|███████▉  | 289/363 [00:07<00:01, 52.49it/s]Loading weights:  81%|████████▏ | 295/363 [00:07<00:01, 51.21it/s]Loading weights:  83%|████████▎ | 302/363 [00:07<00:01, 47.60it/s]Loading weights:  85%|████████▍ | 307/363 [00:07<00:01, 34.79it/s]Loading weights:  86%|████████▌ | 311/363 [00:08<00:01, 30.33it/s]Loading weights:  88%|████████▊ | 319/363 [00:08<00:01, 38.48it/s]Loading weights:  89%|████████▉ | 324/363 [00:08<00:00, 40.59it/s]Loading weights:  91%|█████████ | 330/363 [00:08<00:00, 39.54it/s]Loading weights:  93%|█████████▎| 337/363 [00:08<00:00, 45.58it/s]Loading weights:  94%|█████████▍| 343/363 [00:08<00:00, 47.39it/s]Loading weights:  96%|█████████▌| 349/363 [00:08<00:00, 44.74it/s]Loading weights:  98%|█████████▊| 356/363 [00:08<00:00, 48.99it/s]Loading weights: 100%|█████████▉| 362/363 [00:09<00:00, 47.04it/s]Loading weights: 100%|██████████| 363/363 [00:09<00:00, 40.09it/s]
+loaded=/home/pauli/dockers/intent-readout-search/models/granite-4.2-8b VRAM_GiB=5.38
+prompts=23
+  label=empty kind=empty mass=0.00 in_room=False ot=0
+  label=hiking kind=topic mass=0.38 in_room=False ot=41
+  label=hiking kind=topic-hide mass=0.62 in_room=True ot=0
+  label=invoices kind=topic mass=0.31 in_room=False ot=39
+  label=invoices kind=topic-hide mass=0.62 in_room=True ot=0
+  label=repairs kind=topic mass=0.19 in_room=False ot=36
+  label=repairs kind=topic-hide mass=0.19 in_room=False ot=51
+  label=cooking kind=topic mass=0.44 in_room=False ot=24
+  label=cooking kind=topic-hide mass=0.31 in_room=False ot=39
+  label=taxes kind=topic mass=0.81 in_room=True ot=0
+  label=taxes kind=topic-hide mass=0.75 in_room=True ot=0
+  label=pets kind=topic mass=0.56 in_room=True ot=0
+  label=pets kind=topic-hide mass=0.50 in_room=True ot=0
+  label=travel kind=topic mass=0.25 in_room=False ot=38
+  label=travel kind=topic-hide mass=0.50 in_room=True ot=0
+  label=neighbors kind=topic mass=0.25 in_room=False ot=34
+  label=neighbors kind=topic-hide mass=0.31 in_room=False ot=49
+  label=software engineer kind=role mass=0.00 in_room=False ot=28
+  label=sci-fi writer kind=role mass=0.00 in_room=False ot=24
+  label=accountant kind=role mass=0.06 in_room=False ot=21
+  label=travel agent kind=role mass=0.44 in_room=False ot=23
+  label=neighbor kind=role mass=0.19 in_room=False ot=19
+  label=chef kind=role mass=0.06 in_room=False ot=15
+OT from empty:
+  R=hiking ot=0 n_entered=1
+  R=invoices ot=0 n_entered=1
+  R=repairs ot=inf n_entered=0
+  R=cooking ot=inf n_entered=0
+  R=taxes ot=0 n_entered=2
+  R=pets ot=0 n_entered=2
+  R=travel ot=0 n_entered=1
+  R=neighbors ot=inf n_entered=0
+  R=software engineer ot=inf n_entered=0
+  R=sci-fi writer ot=inf n_entered=0
+  R=accountant ot=inf n_entered=0
+  R=travel agent ot=inf n_entered=0
+  R=neighbor ot=inf n_entered=0
+  R=chef ot=inf n_entered=0
+dump=results/ot_high_n_granite.jsonl
+Not a camera. Not a term in L_total. Do not fill D.
+  check /home/pauli/dockers/regret-heuristic/models/Qwen3.5-9B
+  check /home/pauli/dockers/intent-readout-search/models/Qwen3.5-9B
+USE qwen35 path=/home/pauli/dockers/intent-readout-search/models/Qwen3.5-9B
+===== night_sims/ot_rooms.py --model /home/pauli/dockers/intent-readout-search/models/Qwen3.5-9B --n-samples 16 --tau 0.5 --dump results/ot_high_n_qwen35.jsonl =====
+ot rooms: high-mass sets under p_theta. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/Qwen3.5-9B tau=0.5 n=16
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<05:35,  1.27it/s]Loading weights:   0%|          | 2/427 [00:01<05:31,  1.28it/s]Loading weights:   3%|▎         | 13/427 [00:01<00:36, 11.39it/s]Loading weights:   5%|▌         | 23/427 [00:01<00:18, 21.49it/s]Loading weights:   7%|▋         | 29/427 [00:01<00:15, 25.20it/s]Loading weights:  10%|▉         | 42/427 [00:02<00:09, 39.69it/s]Loading weights:  11%|█▏        | 49/427 [00:02<00:09, 40.87it/s]Loading weights:  15%|█▌        | 65/427 [00:02<00:05, 62.41it/s]Loading weights:  17%|█▋        | 74/427 [00:02<00:05, 65.51it/s]Loading weights:  19%|█▉        | 83/427 [00:02<00:05, 61.03it/s]Loading weights:  22%|██▏       | 94/427 [00:02<00:04, 70.75it/s]Loading weights:  24%|██▍       | 103/427 [00:02<00:05, 60.74it/s]Loading weights:  28%|██▊       | 118/427 [00:03<00:03, 78.92it/s]Loading weights:  30%|██▉       | 128/427 [00:03<00:03, 80.07it/s]Loading weights:  32%|███▏      | 138/427 [00:03<00:04, 71.22it/s]Loading weights:  35%|███▍      | 148/427 [00:03<00:03, 71.66it/s]Loading weights:  37%|███▋      | 156/427 [00:03<00:04, 64.90it/s]Loading weights:  40%|████      | 171/427 [00:03<00:03, 83.16it/s]Loading weights:  42%|████▏     | 181/427 [00:03<00:02, 82.44it/s]Loading weights:  44%|████▍     | 190/427 [00:04<00:03, 71.60it/s]Loading weights:  47%|████▋     | 201/427 [00:04<00:03, 74.72it/s]Loading weights:  49%|████▉     | 209/427 [00:04<00:03, 67.06it/s]Loading weights:  52%|█████▏    | 224/427 [00:04<00:02, 85.25it/s]Loading weights:  55%|█████▍    | 234/427 [00:04<00:02, 84.90it/s]Loading weights:  57%|█████▋    | 244/427 [00:04<00:02, 75.23it/s]Loading weights:  59%|█████▉    | 254/427 [00:04<00:02, 74.48it/s]Loading weights:  61%|██████▏   | 262/427 [00:05<00:02, 66.57it/s]Loading weights:  65%|██████▍   | 277/427 [00:05<00:01, 84.71it/s]Loading weights:  67%|██████▋   | 287/427 [00:05<00:01, 84.55it/s]Loading weights:  69%|██████▉   | 296/427 [00:05<00:01, 73.05it/s]Loading weights:  72%|███████▏  | 307/427 [00:05<00:01, 75.50it/s]Loading weights:  74%|███████▍  | 315/427 [00:05<00:01, 67.07it/s]Loading weights:  77%|███████▋  | 330/427 [00:05<00:01, 84.63it/s]Loading weights:  80%|███████▉  | 340/427 [00:05<00:01, 84.62it/s]Loading weights:  82%|████████▏ | 349/427 [00:06<00:01, 72.50it/s]Loading weights:  84%|████████▍ | 360/427 [00:06<00:00, 75.80it/s]Loading weights:  86%|████████▌ | 368/427 [00:06<00:00, 67.79it/s]Loading weights:  90%|████████▉ | 383/427 [00:06<00:00, 86.16it/s]Loading weights:  92%|█████████▏| 393/427 [00:06<00:00, 85.38it/s]Loading weights:  94%|█████████▍| 403/427 [00:06<00:00, 75.27it/s]Loading weights:  97%|█████████▋| 413/427 [00:06<00:00, 74.58it/s]Loading weights:  99%|█████████▊| 421/427 [00:07<00:00, 66.16it/s]Loading weights: 100%|██████████| 427/427 [00:07<00:00, 59.58it/s]
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `fused_recurrent_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+loaded=/home/pauli/dockers/intent-readout-search/models/Qwen3.5-9B VRAM_GiB=7.12
+prompts=23
+  label=empty kind=empty mass=0.00 in_room=False ot=0
+  label=hiking kind=topic mass=0.44 in_room=False ot=41
+  label=hiking kind=topic-hide mass=0.38 in_room=False ot=56
+  label=invoices kind=topic mass=0.19 in_room=False ot=39
+  label=invoices kind=topic-hide mass=0.62 in_room=True ot=0
+  label=repairs kind=topic mass=0.06 in_room=False ot=36
+  label=repairs kind=topic-hide mass=0.62 in_room=True ot=0
+  label=cooking kind=topic mass=0.44 in_room=False ot=24
+  label=cooking kind=topic-hide mass=0.69 in_room=True ot=0
+  label=taxes kind=topic mass=0.31 in_room=False ot=34
+  label=taxes kind=topic-hide mass=0.75 in_room=True ot=0
+  label=pets kind=topic mass=0.38 in_room=False ot=26
+  label=pets kind=topic-hide mass=0.81 in_room=True ot=0
+  label=travel kind=topic mass=0.12 in_room=False ot=38
+  label=travel kind=topic-hide mass=0.56 in_room=True ot=0
+  label=neighbors kind=topic mass=0.12 in_room=False ot=34
+  label=neighbors kind=topic-hide mass=0.44 in_room=False ot=49
+  label=software engineer kind=role mass=0.00 in_room=False ot=28
+  label=sci-fi writer kind=role mass=0.06 in_room=False ot=24
+  label=accountant kind=role mass=0.00 in_room=False ot=21
+  label=travel agent kind=role mass=0.38 in_room=False ot=23
+  label=neighbor kind=role mass=0.31 in_room=False ot=19
+  label=chef kind=role mass=0.25 in_room=False ot=15
+OT from empty:
+  R=hiking ot=inf n_entered=0
+  R=invoices ot=0 n_entered=1
+  R=repairs ot=0 n_entered=1
+  R=cooking ot=0 n_entered=1
+  R=taxes ot=0 n_entered=1
+  R=pets ot=0 n_entered=1
+  R=travel ot=0 n_entered=1
+  R=neighbors ot=inf n_entered=0
+  R=software engineer ot=inf n_entered=0
+  R=sci-fi writer ot=inf n_entered=0
+  R=accountant ot=inf n_entered=0
+  R=travel agent ot=inf n_entered=0
+  R=neighbor ot=inf n_entered=0
+  R=chef ot=inf n_entered=0
+dump=results/ot_high_n_qwen35.jsonl
+Not a camera. Not a term in L_total. Do not fill D.
+  check /home/pauli/dockers/regret-heuristic/models/meta-llama/Llama-3.1-8B-Instruct
+  check /home/pauli/dockers/intent-readout-search/models/meta-llama/Llama-3.1-8B-Instruct
+USE llama8it hf=meta-llama/Llama-3.1-8B-Instruct (no local weights)
+===== night_sims/ot_rooms.py --model meta-llama/Llama-3.1-8B-Instruct --n-samples 16 --tau 0.5 --dump results/ot_high_n_llama8it.jsonl =====
+ot rooms: high-mass sets under p_theta. Not a camera. Do not fill D.
+model=meta-llama/Llama-3.1-8B-Instruct tau=0.5 n=16
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<01:35,  3.03it/s]Loading weights:   1%|          | 2/291 [00:00<01:32,  3.11it/s]Loading weights:   2%|▏         | 5/291 [00:00<00:33,  8.51it/s]Loading weights:   4%|▍         | 13/291 [00:00<00:11, 24.08it/s]Loading weights:   7%|▋         | 20/291 [00:00<00:07, 35.04it/s]Loading weights:   9%|▊         | 25/291 [00:01<00:08, 33.23it/s]Loading weights:  11%|█         | 32/291 [00:01<00:06, 38.80it/s]Loading weights:  13%|█▎        | 37/291 [00:01<00:06, 37.96it/s]Loading weights:  14%|█▍        | 42/291 [00:01<00:08, 29.47it/s]Loading weights:  17%|█▋        | 49/291 [00:01<00:06, 35.42it/s]Loading weights:  19%|█▊        | 54/291 [00:01<00:07, 33.03it/s]Loading weights:  20%|█▉        | 58/291 [00:02<00:06, 33.98it/s]Loading weights:  21%|██▏       | 62/291 [00:02<00:07, 30.68it/s]Loading weights:  23%|██▎       | 67/291 [00:02<00:06, 33.40it/s]Loading weights:  24%|██▍       | 71/291 [00:02<00:09, 23.91it/s]Loading weights:  26%|██▌       | 76/291 [00:02<00:08, 25.83it/s]Loading weights:  27%|██▋       | 79/291 [00:03<00:09, 23.08it/s]Loading weights:  29%|██▉       | 85/291 [00:03<00:07, 28.10it/s]Loading weights:  31%|███       | 89/291 [00:03<00:07, 26.07it/s]Loading weights:  32%|███▏      | 94/291 [00:03<00:07, 27.56it/s]Loading weights:  33%|███▎      | 97/291 [00:03<00:07, 25.09it/s]Loading weights:  35%|███▌      | 103/291 [00:03<00:06, 29.71it/s]Loading weights:  37%|███▋      | 107/291 [00:03<00:06, 27.42it/s]Loading weights:  38%|███▊      | 112/291 [00:04<00:05, 30.17it/s]Loading weights:  40%|███▉      | 116/291 [00:04<00:05, 29.24it/s]Loading weights:  42%|████▏     | 121/291 [00:04<00:05, 32.37it/s]Loading weights:  43%|████▎     | 125/291 [00:04<00:04, 33.58it/s]Loading weights:  45%|████▌     | 132/291 [00:04<00:04, 39.16it/s]Loading weights:  48%|████▊     | 140/291 [00:04<00:03, 48.35it/s]Loading weights:  51%|█████     | 148/291 [00:04<00:02, 56.03it/s]Loading weights:  53%|█████▎    | 154/291 [00:04<00:02, 56.74it/s]Loading weights:  55%|█████▍    | 160/291 [00:05<00:02, 54.18it/s]Loading weights:  57%|█████▋    | 167/291 [00:05<00:02, 55.81it/s]Loading weights:  60%|██████    | 175/291 [00:05<00:01, 61.59it/s]Loading weights:  63%|██████▎   | 182/291 [00:05<00:01, 62.28it/s]Loading weights:  65%|██████▍   | 189/291 [00:05<00:01, 60.06it/s]Loading weights:  67%|██████▋   | 196/291 [00:05<00:01, 58.76it/s]Loading weights:  70%|██████▉   | 203/291 [00:05<00:01, 61.20it/s]Loading weights:  73%|███████▎  | 211/291 [00:05<00:01, 66.03it/s]Loading weights:  75%|███████▍  | 218/291 [00:05<00:01, 66.45it/s]Loading weights:  77%|███████▋  | 225/291 [00:06<00:01, 62.64it/s]Loading weights:  80%|███████▉  | 232/291 [00:06<00:00, 60.12it/s]Loading weights:  82%|████████▏ | 239/291 [00:06<00:00, 62.65it/s]Loading weights:  85%|████████▍ | 247/291 [00:06<00:00, 66.26it/s]Loading weights:  87%|████████▋ | 254/291 [00:06<00:00, 65.97it/s]Loading weights:  90%|████████▉ | 261/291 [00:06<00:00, 59.82it/s]Loading weights:  92%|█████████▏| 268/291 [00:06<00:00, 50.42it/s]Loading weights:  94%|█████████▍| 274/291 [00:06<00:00, 47.97it/s]Loading weights:  96%|█████████▌| 280/291 [00:07<00:00, 40.76it/s]Loading weights:  98%|█████████▊| 285/291 [00:07<00:00, 32.62it/s]Loading weights: 100%|██████████| 291/291 [00:07<00:00, 38.84it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+loaded=meta-llama/Llama-3.1-8B-Instruct VRAM_GiB=5.32
+prompts=23
+  label=empty kind=empty mass=0.00 in_room=False ot=0
+  label=hiking kind=topic mass=0.75 in_room=True ot=0
+  label=hiking kind=topic-hide mass=0.75 in_room=True ot=0
+  label=invoices kind=topic mass=0.69 in_room=True ot=0
+  label=invoices kind=topic-hide mass=0.50 in_room=True ot=0
+  label=repairs kind=topic mass=0.44 in_room=False ot=36
+  label=repairs kind=topic-hide mass=0.31 in_room=False ot=51
+  label=cooking kind=topic mass=0.56 in_room=True ot=0
+  label=cooking kind=topic-hide mass=0.62 in_room=True ot=0
+  label=taxes kind=topic mass=0.62 in_room=True ot=0
+  label=taxes kind=topic-hide mass=0.56 in_room=True ot=0
+  label=pets kind=topic mass=0.25 in_room=False ot=26
+  label=pets kind=topic-hide mass=0.56 in_room=True ot=0
+  label=travel kind=topic mass=0.56 in_room=True ot=0
+  label=travel kind=topic-hide mass=0.75 in_room=True ot=0
+  label=neighbors kind=topic mass=0.06 in_room=False ot=34
+  label=neighbors kind=topic-hide mass=0.12 in_room=False ot=49
+  label=software engineer kind=role mass=0.25 in_room=False ot=28
+  label=sci-fi writer kind=role mass=0.00 in_room=False ot=24
+  label=accountant kind=role mass=0.06 in_room=False ot=21
+  label=travel agent kind=role mass=0.12 in_room=False ot=23
+  label=neighbor kind=role mass=0.31 in_room=False ot=19
+  label=chef kind=role mass=0.00 in_room=False ot=15
+OT from empty:
+  R=hiking ot=0 n_entered=2
+  R=invoices ot=0 n_entered=2
+  R=repairs ot=inf n_entered=0
+  R=cooking ot=0 n_entered=2
+  R=taxes ot=0 n_entered=2
+  R=pets ot=0 n_entered=1
+  R=travel ot=0 n_entered=2
+  R=neighbors ot=inf n_entered=0
+  R=software engineer ot=inf n_entered=0
+  R=sci-fi writer ot=inf n_entered=0
+  R=accountant ot=inf n_entered=0
+  R=travel agent ot=inf n_entered=0
+  R=neighbor ot=inf n_entered=0
+  R=chef ot=inf n_entered=0
+dump=results/ot_high_n_llama8it.jsonl
+Not a camera. Not a term in L_total. Do not fill D.
+  check /home/pauli/dockers/regret-heuristic/models/google/gemma-2-2b-it
+  check /home/pauli/dockers/intent-readout-search/models/google/gemma-2-2b-it
+USE gemma2bit hf=google/gemma-2-2b-it (no local weights)
+===== night_sims/ot_rooms.py --model google/gemma-2-2b-it --n-samples 16 --tau 0.5 --dump results/ot_high_n_gemma2bit.jsonl =====
+ot rooms: high-mass sets under p_theta. Not a camera. Do not fill D.
+model=google/gemma-2-2b-it tau=0.5 n=16
+Loading weights:   0%|          | 0/288 [00:00<?, ?it/s]Loading weights:   0%|          | 1/288 [00:00<01:42,  2.81it/s]Loading weights:   5%|▍         | 14/288 [00:00<00:07, 39.01it/s]Loading weights:  11%|█▏        | 33/288 [00:00<00:03, 82.66it/s]Loading weights:  16%|█▌        | 46/288 [00:00<00:02, 94.41it/s]Loading weights:  20%|██        | 59/288 [00:00<00:02, 87.10it/s]Loading weights:  24%|██▍       | 70/288 [00:00<00:02, 91.06it/s]Loading weights:  28%|██▊       | 81/288 [00:01<00:02, 94.09it/s]Loading weights:  32%|███▏      | 92/288 [00:01<00:02, 96.48it/s]Loading weights:  36%|███▌      | 103/288 [00:01<00:01, 99.09it/s]Loading weights:  40%|███▉      | 115/288 [00:01<00:01, 97.96it/s]Loading weights:  44%|████▍     | 126/288 [00:01<00:01, 100.82it/s]Loading weights:  51%|█████     | 146/288 [00:01<00:01, 128.21it/s]Loading weights:  58%|█████▊    | 168/288 [00:01<00:00, 153.26it/s]Loading weights:  66%|██████▌   | 190/288 [00:01<00:00, 160.79it/s]Loading weights:  72%|███████▏  | 207/288 [00:02<00:00, 132.60it/s]Loading weights:  78%|███████▊  | 225/288 [00:02<00:00, 144.03it/s]Loading weights:  86%|████████▌ | 247/288 [00:02<00:00, 163.35it/s]Loading weights:  93%|█████████▎| 269/288 [00:02<00:00, 177.36it/s]Loading weights: 100%|██████████| 288/288 [00:02<00:00, 121.74it/s]
+loaded=google/gemma-2-2b-it VRAM_GiB=2.07
+prompts=23
+  label=empty kind=empty mass=0.00 in_room=False ot=0
+  label=hiking kind=topic mass=0.56 in_room=True ot=0
+  label=hiking kind=topic-hide mass=0.88 in_room=True ot=0
+  label=invoices kind=topic mass=0.75 in_room=True ot=0
+  label=invoices kind=topic-hide mass=0.31 in_room=False ot=54
+  label=repairs kind=topic mass=0.19 in_room=False ot=36
+  label=repairs kind=topic-hide mass=0.62 in_room=True ot=0
+  label=cooking kind=topic mass=0.38 in_room=False ot=24
+  label=cooking kind=topic-hide mass=0.19 in_room=False ot=39
+  label=taxes kind=topic mass=0.44 in_room=False ot=34
+  label=taxes kind=topic-hide mass=0.50 in_room=True ot=0
+  label=pets kind=topic mass=0.56 in_room=True ot=0
+  label=pets kind=topic-hide mass=0.62 in_room=True ot=0
+  label=travel kind=topic mass=0.50 in_room=True ot=0
+  label=travel kind=topic-hide mass=0.25 in_room=False ot=53
+  label=neighbors kind=topic mass=0.12 in_room=False ot=34
+  label=neighbors kind=topic-hide mass=0.00 in_room=False ot=49
+  label=software engineer kind=role mass=0.25 in_room=False ot=28
+  label=sci-fi writer kind=role mass=0.00 in_room=False ot=24
+  label=accountant kind=role mass=0.19 in_room=False ot=21
+  label=travel agent kind=role mass=0.19 in_room=False ot=23
+  label=neighbor kind=role mass=0.62 in_room=True ot=0
+  label=chef kind=role mass=0.12 in_room=False ot=15
+OT from empty:
+  R=hiking ot=0 n_entered=2
+  R=invoices ot=0 n_entered=1
+  R=repairs ot=0 n_entered=1
+  R=cooking ot=inf n_entered=0
+  R=taxes ot=0 n_entered=1
+  R=pets ot=0 n_entered=2
+  R=travel ot=0 n_entered=1
+  R=neighbors ot=inf n_entered=0
+  R=software engineer ot=inf n_entered=0
+  R=sci-fi writer ot=inf n_entered=0
+  R=accountant ot=inf n_entered=0
+  R=travel agent ot=inf n_entered=0
+  R=neighbor ot=0 n_entered=1
+  R=chef ot=inf n_entered=0
+dump=results/ot_high_n_gemma2bit.jsonl
+Not a camera. Not a term in L_total. Do not fill D.
+  check /home/pauli/dockers/regret-heuristic/models/google/gemma-2-9b-it
+  check /home/pauli/dockers/intent-readout-search/models/google/gemma-2-9b-it
+USE gemma9bit hf=google/gemma-2-9b-it (no local weights)
+===== night_sims/ot_rooms.py --model google/gemma-2-9b-it --n-samples 16 --tau 0.5 --dump results/ot_high_n_gemma9bit.jsonl =====
+ot rooms: high-mass sets under p_theta. Not a camera. Do not fill D.
+model=google/gemma-2-9b-it tau=0.5 n=16
+Loading weights:   0%|          | 0/464 [00:00<?, ?it/s]Loading weights:   0%|          | 1/464 [00:00<04:13,  1.82it/s]Loading weights:   1%|          | 5/464 [00:00<00:50,  9.06it/s]Loading weights:   3%|▎         | 16/464 [00:00<00:15, 29.24it/s]Loading weights:   6%|▌         | 27/464 [00:00<00:09, 44.78it/s]Loading weights:   8%|▊         | 38/464 [00:01<00:07, 56.84it/s]Loading weights:  11%|█         | 49/464 [00:01<00:06, 65.73it/s]Loading weights:  13%|█▎        | 60/464 [00:01<00:05, 72.30it/s]Loading weights:  15%|█▌        | 70/464 [00:01<00:05, 75.39it/s]Loading weights:  17%|█▋        | 81/464 [00:01<00:04, 79.09it/s]Loading weights:  20%|█▉        | 92/464 [00:01<00:04, 81.79it/s]Loading weights:  22%|██▏       | 103/464 [00:01<00:04, 83.75it/s]Loading weights:  25%|██▍       | 114/464 [00:01<00:04, 84.12it/s]Loading weights:  27%|██▋       | 125/464 [00:02<00:03, 85.20it/s]Loading weights:  29%|██▉       | 136/464 [00:02<00:03, 85.96it/s]Loading weights:  32%|███▏      | 147/464 [00:02<00:03, 86.61it/s]Loading weights:  34%|███▍      | 158/464 [00:02<00:03, 86.86it/s]Loading weights:  36%|███▋      | 169/464 [00:02<00:03, 87.15it/s]Loading weights:  39%|███▊      | 179/464 [00:02<00:03, 87.34it/s]Loading weights:  41%|████      | 190/464 [00:02<00:03, 87.54it/s]Loading weights:  43%|████▎     | 199/464 [00:02<00:03, 87.56it/s]Loading weights:  45%|████▍     | 208/464 [00:03<00:02, 85.58it/s]Loading weights:  47%|████▋     | 217/464 [00:03<00:04, 54.15it/s]Loading weights:  48%|████▊     | 224/464 [00:03<00:06, 34.43it/s]Loading weights:  50%|█████     | 234/464 [00:03<00:05, 39.79it/s]Loading weights:  52%|█████▏    | 240/464 [00:04<00:05, 40.41it/s]Loading weights:  53%|█████▎    | 247/464 [00:04<00:05, 43.30it/s]Loading weights:  56%|█████▌    | 258/464 [00:04<00:03, 53.34it/s]Loading weights:  58%|█████▊    | 269/464 [00:04<00:03, 61.64it/s]Loading weights:  60%|██████    | 280/464 [00:04<00:02, 68.37it/s]Loading weights:  63%|██████▎   | 291/464 [00:04<00:02, 72.81it/s]Loading weights:  65%|██████▌   | 302/464 [00:04<00:02, 76.28it/s]Loading weights:  67%|██████▋   | 313/464 [00:04<00:01, 78.65it/s]Loading weights:  70%|██████▉   | 324/464 [00:05<00:01, 80.96it/s]Loading weights:  72%|███████▏  | 335/464 [00:05<00:01, 82.62it/s]Loading weights:  75%|███████▍  | 346/464 [00:05<00:01, 83.54it/s]Loading weights:  77%|███████▋  | 357/464 [00:05<00:01, 83.93it/s]Loading weights:  79%|███████▉  | 368/464 [00:05<00:01, 84.10it/s]Loading weights:  82%|████████▏ | 379/464 [00:05<00:01, 84.87it/s]Loading weights:  84%|████████▍ | 390/464 [00:05<00:00, 84.71it/s]Loading weights:  86%|████████▋ | 401/464 [00:06<00:00, 84.97it/s]Loading weights:  89%|████████▉ | 412/464 [00:06<00:00, 85.48it/s]Loading weights:  91%|█████████ | 423/464 [00:06<00:00, 85.87it/s]Loading weights:  94%|█████████▎| 434/464 [00:06<00:00, 86.36it/s]Loading weights:  96%|█████████▌| 445/464 [00:06<00:00, 86.47it/s]Loading weights:  98%|█████████▊| 456/464 [00:06<00:00, 86.57it/s]Loading weights: 100%|██████████| 464/464 [00:06<00:00, 69.51it/s]
+loaded=google/gemma-2-9b-it VRAM_GiB=5.71
+prompts=23
+  label=empty kind=empty mass=0.00 in_room=False ot=0
+  label=hiking kind=topic mass=0.50 in_room=True ot=0
+  label=hiking kind=topic-hide mass=0.75 in_room=True ot=0
+  label=invoices kind=topic mass=0.56 in_room=True ot=0
+  label=invoices kind=topic-hide mass=0.62 in_room=True ot=0
+  label=repairs kind=topic mass=0.62 in_room=True ot=0
+  label=repairs kind=topic-hide mass=0.62 in_room=True ot=0
+  label=cooking kind=topic mass=0.31 in_room=False ot=24
+  label=cooking kind=topic-hide mass=0.06 in_room=False ot=39
+  label=taxes kind=topic mass=0.62 in_room=True ot=0
+  label=taxes kind=topic-hide mass=0.62 in_room=True ot=0
+  label=pets kind=topic mass=0.50 in_room=True ot=0
+  label=pets kind=topic-hide mass=0.38 in_room=False ot=41
+  label=travel kind=topic mass=0.44 in_room=False ot=38
+  label=travel kind=topic-hide mass=0.19 in_room=False ot=53
+  label=neighbors kind=topic mass=0.06 in_room=False ot=34
+  label=neighbors kind=topic-hide mass=0.06 in_room=False ot=49
+  label=software engineer kind=role mass=0.00 in_room=False ot=28
+  label=sci-fi writer kind=role mass=0.00 in_room=False ot=24
+  label=accountant kind=role mass=0.00 in_room=False ot=21
+  label=travel agent kind=role mass=0.00 in_room=False ot=23
+  label=neighbor kind=role mass=0.81 in_room=True ot=0
+  label=chef kind=role mass=0.06 in_room=False ot=15
+OT from empty:
+  R=hiking ot=0 n_entered=2
+  R=invoices ot=0 n_entered=2
+  R=repairs ot=0 n_entered=2
+  R=cooking ot=inf n_entered=0
+  R=taxes ot=0 n_entered=2
+  R=pets ot=0 n_entered=1
+  R=travel ot=inf n_entered=0
+  R=neighbors ot=inf n_entered=0
+  R=software engineer ot=inf n_entered=0
+  R=sci-fi writer ot=inf n_entered=0
+  R=accountant ot=inf n_entered=0
+  R=travel agent ot=inf n_entered=0
+  R=neighbor ot=0 n_entered=1
+  R=chef ot=inf n_entered=0
+dump=results/ot_high_n_gemma9bit.jsonl
+Not a camera. Not a term in L_total. Do not fill D.
