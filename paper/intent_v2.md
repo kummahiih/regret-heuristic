@@ -134,7 +134,7 @@ The SOM asks whether the rooms are clusters in the residual stream. The OT asks 
 
 ### What the November diagnostics found
 
-On every model tested, topic purity sits at the ceiling. Strategy purity sits at chance until the topic mean is subtracted, then it jumps to 1.0. Ask-removal does not collapse the rooms. Role purity on the wider bank stays near 0.3. The rooms are in the residual stream. The strategy is not a cluster of its own until the room is removed.
+On every model tested, topic purity sits at the ceiling. Strategy purity sits at chance until the topic mean is subtracted, then it jumps to 1.0. That is perfect separability after topic-conditioned centering, not evidence of a generalizable strategy. The topic means were not confirmed to be estimated on training data only. A purity of 1.0 on a two-class problem does not establish a strategy representation. The result is a diagnostic, not a camera. Ask-removal does not collapse the rooms. Role purity on the wider bank stays near 0.3. The rooms are in the residual stream. The strategy is not a cluster of its own until the room is removed.
 
 | Walk | Topic | Null | Strategy | Strategy after mean | With ask | Ask removed | Role | OT topics | OT roles |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -384,6 +384,8 @@ A search for deliberate removal of a strategy readout by training found no sourc
 ## Status and conclusion
 
 This paper specifies a protocol for evaluating whether a candidate internal-state readout captures a strategy signal that generalizes across topics and remains informative under controls that remove or relocate the immediate question.
+
+The 114-row bank is too small for a general claim. The held-out sets are 53 to 55 rows. Scenario dependence is not accounted for in the Wilson intervals. The intervals treat rows as independent. A paired test would be more appropriate. The acceptance criteria are not frozen. No package has been selected. The protocol does not have a single reproducible pass/fail definition.
 
 On the 114-row evaluation bank, the tested pre-button and combined probes predict the realized public response, but their predictive advantage does not establish a strategy representation independent of the question. The additional statistical criteria remain unmet. Accordingly, no candidate readout is validated, and the prototype bank remains empty.
 
