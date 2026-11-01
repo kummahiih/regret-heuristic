@@ -386,16 +386,6 @@ The proposed hinge regularizer is a formalized training hypothesis rather than a
 
 The negative handover of 2026-10-13 is unchanged. This paper does not reopen it. This document is the release candidate of the test protocol. Later notes (MDL crossover, random-process nulls, random-intent emergence) are not part of the released test. The negative result is an outcome of the protocol: response prediction alone is insufficient evidence that a model’s internal representation captures the strategy the method is intended to regulate.
 
-## Neighbors
-
-These are context. None of them is this hinge, and none fills the prototype bank.
-
-- Park et al., 2024. The Linear Representation Hypothesis and the Geometry of Large Language Models. arXiv:2406.01506. Concept polytopes (Park et al. 2024). Categories as simplices. The main confound for any strategy layout.
-- Shai et al., 2024. Transformers Represent Belief State Geometry in their Residual Stream. arXiv:2405.15943. Belief simplex in the residual stream (Shai et al. 2024). So far only on small synthetic models.
-- Lu et al., 2026. The Assistant Axis. arXiv:2601.10387. Top principal component of role vectors separates Assistant from role-play (Lu et al. 2026). The axis already exists in the base model. A persona room shows a character, not a plan formed before the ask.
-- Goldowsky-Dill et al., ICML 2025. Detecting Strategic Deception with Linear Probes. A monitor on activations (Goldowsky-Dill et al. 2025). Not a training hinge. arXiv:2502.03407.
-- Zou et al., 2024. Representation Engineering. arXiv:2310.01405. Circuit Breakers (Zou et al. 2024) is the closest loss: ReLU of cosine against a frozen copy, plus a retain term. Their pin is a harmful representation. This hinge wants a strategy bank. The path is still missing.
-
 ## References
 
 Blackwell, D. 1956. An analog of the minimax theorem for vector payoffs. *Pacific Journal of Mathematics* 6(1): 1–8.
