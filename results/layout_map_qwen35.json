@@ -1,0 +1,1 @@
+{"model": "/home/pauli/dockers/intent-readout-search/models/Qwen3.5-9B", "layer": 10, "n_topic": 16, "n_role": 6, "null_purity_mean": 0.5125}

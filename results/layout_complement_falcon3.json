@@ -1,0 +1,1 @@
+{"model": "/home/pauli/dockers/intent-readout-search/models/Falcon3-7B-Instruct", "layer": 8, "topic_with_ask": 0.9166666666666666, "topic_no_ask": 0.9166666666666666, "role": 0.3148148148148148}

@@ -1,0 +1,1 @@
+{"model": "/home/pauli/dockers/regret-heuristic/models/Qwen2.5-7B-Instruct", "layer": 8, "topic_with_ask": 0.9166666666666666, "topic_no_ask": 1.0, "role": 0.2777777777777778}

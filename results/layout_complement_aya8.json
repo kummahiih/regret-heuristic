@@ -1,0 +1,1 @@
+{"model": "/home/pauli/dockers/intent-readout-search/models/aya-expanse-8b", "layer": 10, "topic_with_ask": 0.9583333333333334, "topic_no_ask": 0.875, "role": 0.3333333333333333}

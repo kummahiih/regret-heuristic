@@ -1,0 +1,534 @@
+  check /home/pauli/dockers/regret-heuristic/models/Qwen2.5-7B-Instruct
+USE qwen path=/home/pauli/dockers/regret-heuristic/models/Qwen2.5-7B-Instruct layer=8
+===== night_sims/som_layout_run.py --model /home/pauli/dockers/regret-heuristic/models/Qwen2.5-7B-Instruct --layer 8 --dump results/layout_map_qwen.json =====
+som layout: expected vs measured. Not a camera. Do not fill D.
+model=/home/pauli/dockers/regret-heuristic/models/Qwen2.5-7B-Instruct layer=8 grid=4 seeds=3
+prompts=22 topics=8 roles=6
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:   0%|          | 1/339 [00:00<02:17,  2.45it/s]Loading weights:   1%|          | 2/339 [00:00<02:21,  2.38it/s]Loading weights:   1%|▏         | 5/339 [00:00<00:51,  6.54it/s]Loading weights:   5%|▍         | 16/339 [00:01<00:13, 24.11it/s]Loading weights:   6%|▌         | 21/339 [00:01<00:11, 28.72it/s]Loading weights:   9%|▊         | 29/339 [00:01<00:08, 37.63it/s]Loading weights:  12%|█▏        | 40/339 [00:01<00:05, 50.80it/s]Loading weights:  14%|█▍        | 47/339 [00:01<00:05, 53.54it/s]Loading weights:  16%|█▌        | 54/339 [00:01<00:05, 49.40it/s]Loading weights:  19%|█▉        | 65/339 [00:01<00:04, 59.74it/s]Loading weights:  22%|██▏       | 76/339 [00:02<00:03, 67.37it/s]Loading weights:  25%|██▍       | 84/339 [00:02<00:03, 66.39it/s]Loading weights:  27%|██▋       | 91/339 [00:02<00:04, 58.26it/s]Loading weights:  30%|██▉       | 101/339 [00:02<00:03, 63.78it/s]Loading weights:  33%|███▎      | 112/339 [00:02<00:03, 70.03it/s]Loading weights:  35%|███▌      | 120/339 [00:02<00:03, 68.04it/s]Loading weights:  37%|███▋      | 127/339 [00:02<00:03, 58.21it/s]Loading weights:  40%|████      | 137/339 [00:02<00:03, 62.55it/s]Loading weights:  44%|████▎     | 148/339 [00:03<00:02, 69.41it/s]Loading weights:  46%|████▌     | 156/339 [00:03<00:02, 67.16it/s]Loading weights:  48%|████▊     | 163/339 [00:03<00:02, 59.34it/s]Loading weights:  51%|█████     | 173/339 [00:03<00:02, 64.36it/s]Loading weights:  54%|█████▍    | 184/339 [00:03<00:02, 70.74it/s]Loading weights:  57%|█████▋    | 192/339 [00:03<00:02, 68.12it/s]Loading weights:  59%|█████▊    | 199/339 [00:04<00:04, 34.59it/s]Loading weights:  62%|██████▏   | 209/339 [00:04<00:03, 41.57it/s]Loading weights:  65%|██████▍   | 220/339 [00:04<00:02, 48.82it/s]Loading weights:  67%|██████▋   | 227/339 [00:04<00:02, 49.92it/s]Loading weights:  69%|██████▊   | 233/339 [00:04<00:02, 47.65it/s]Loading weights:  72%|███████▏  | 244/339 [00:05<00:01, 55.30it/s]Loading weights:  74%|███████▍  | 251/339 [00:05<00:01, 53.68it/s]Loading weights:  76%|███████▌  | 257/339 [00:05<00:01, 44.67it/s]Loading weights:  77%|███████▋  | 262/339 [00:05<00:01, 42.15it/s]Loading weights:  79%|███████▉  | 269/339 [00:05<00:01, 42.78it/s]Loading weights:  81%|████████▏ | 276/339 [00:05<00:01, 47.41it/s]Loading weights:  83%|████████▎ | 282/339 [00:05<00:01, 41.34it/s]Loading weights:  86%|████████▋ | 293/339 [00:06<00:00, 51.13it/s]Loading weights:  90%|████████▉ | 304/339 [00:06<00:00, 58.41it/s]Loading weights:  92%|█████████▏| 311/339 [00:06<00:00, 56.79it/s]Loading weights:  94%|█████████▎| 317/339 [00:06<00:00, 52.99it/s]Loading weights:  97%|█████████▋| 328/339 [00:06<00:00, 60.49it/s]Loading weights:  99%|█████████▉| 335/339 [00:06<00:00, 58.63it/s]Loading weights: 100%|██████████| 339/339 [00:06<00:00, 49.82it/s]
+loaded=/home/pauli/dockers/regret-heuristic/models/Qwen2.5-7B-Instruct VRAM_GiB=5.18
+H shape=(22, 3584)
+topic labels on topic prompts:
+  topic seed=0 sklearn miss: No module named 'sklearn'
+  topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  topic seed=1 sklearn miss: No module named 'sklearn'
+  topic seed=1 purity=0.875 nmi=nan ari=nan n=16
+  topic seed=2 sklearn miss: No module named 'sklearn'
+  topic seed=2 purity=0.875 nmi=nan ari=nan n=16
+strategy labels on topic prompts:
+  strategy seed=0 sklearn miss: No module named 'sklearn'
+  strategy seed=0 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=1 sklearn miss: No module named 'sklearn'
+  strategy seed=1 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=2 sklearn miss: No module named 'sklearn'
+  strategy seed=2 purity=0.500 nmi=nan ari=nan n=16
+role labels on role prompts:
+  role seed=0 sklearn miss: No module named 'sklearn'
+  role seed=0 purity=0.833 nmi=nan ari=nan n=6
+  role seed=1 sklearn miss: No module named 'sklearn'
+  role seed=1 purity=0.833 nmi=nan ari=nan n=6
+  role seed=2 sklearn miss: No module named 'sklearn'
+  role seed=2 purity=0.833 nmi=nan ari=nan n=6
+topic-mean subtracted:
+  strategy_minus_topic seed=0 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=1 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=1 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=2 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=2 purity=1.000 nmi=nan ari=nan n=16
+topic-shuffle null n=20:
+  null purity mean=0.516 max=0.625
+dump=results/layout_map_qwen.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
+===== night_sims/som_layout_complement.py --model /home/pauli/dockers/regret-heuristic/models/Qwen2.5-7B-Instruct --layer 8 --dump results/layout_complement_qwen.json =====
+som complement: ask-removal and wider roles. Not a camera. Do not fill D.
+model=/home/pauli/dockers/regret-heuristic/models/Qwen2.5-7B-Instruct layer=8
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:   1%|          | 2/339 [00:00<00:19, 17.01it/s]Loading weights:   8%|▊         | 28/339 [00:00<00:02, 147.58it/s]Loading weights:  19%|█▉        | 66/339 [00:00<00:01, 241.18it/s]Loading weights:  33%|███▎      | 112/339 [00:00<00:00, 314.75it/s]Loading weights:  44%|████▍     | 150/339 [00:00<00:00, 334.24it/s]Loading weights:  58%|█████▊    | 197/339 [00:00<00:00, 366.20it/s]Loading weights:  71%|███████   | 240/339 [00:00<00:00, 385.02it/s]Loading weights:  83%|████████▎ | 281/339 [00:00<00:00, 387.02it/s]Loading weights:  96%|█████████▌| 326/339 [00:00<00:00, 405.97it/s]Loading weights: 100%|██████████| 339/339 [00:00<00:00, 344.51it/s]
+loaded=/home/pauli/dockers/regret-heuristic/models/Qwen2.5-7B-Instruct VRAM_GiB=5.18
+topic prompts with_ask=16 no_ask=16
+topic purity with ask:
+  with_ask seed=0 purity=1.000 n=16
+  with_ask seed=1 purity=0.875 n=16
+  with_ask seed=2 purity=0.875 n=16
+  with_ask mean=0.917
+topic purity ask removed:
+  no_ask seed=0 purity=1.000 n=16
+  no_ask seed=1 purity=1.000 n=16
+  no_ask seed=2 purity=1.000 n=16
+  no_ask mean=1.000
+role prompts=36 roles=12 tasks=3
+role purity on wider bank:
+  role seed=0 purity=0.278 n=36
+  role seed=1 purity=0.278 n=36
+  role seed=2 purity=0.278 n=36
+  role mean=0.278
+dump=results/layout_complement_qwen.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
+  check /home/pauli/dockers/regret-heuristic/models/Mistral-7B-Instruct-v0.3
+USE mistral path=/home/pauli/dockers/regret-heuristic/models/Mistral-7B-Instruct-v0.3 layer=9
+===== night_sims/som_layout_run.py --model /home/pauli/dockers/regret-heuristic/models/Mistral-7B-Instruct-v0.3 --layer 9 --dump results/layout_map_mistral.json =====
+som layout: expected vs measured. Not a camera. Do not fill D.
+model=/home/pauli/dockers/regret-heuristic/models/Mistral-7B-Instruct-v0.3 layer=9 grid=4 seeds=3
+prompts=22 topics=8 roles=6
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<00:29,  9.93it/s]Loading weights:   1%|          | 2/291 [00:00<00:29,  9.94it/s]Loading weights:   2%|▏         | 5/291 [00:00<00:17, 16.56it/s]Loading weights:   4%|▍         | 13/291 [00:00<00:07, 36.26it/s]Loading weights:   6%|▌         | 17/291 [00:00<00:07, 37.11it/s]Loading weights:   8%|▊         | 23/291 [00:00<00:06, 40.34it/s]Loading weights:  11%|█         | 31/291 [00:00<00:05, 47.95it/s]Loading weights:  12%|█▏        | 36/291 [00:00<00:05, 46.76it/s]Loading weights:  14%|█▍        | 41/291 [00:01<00:05, 44.68it/s]Loading weights:  17%|█▋        | 49/291 [00:01<00:04, 49.49it/s]Loading weights:  19%|█▊        | 54/291 [00:01<00:05, 47.14it/s]Loading weights:  20%|██        | 59/291 [00:01<00:05, 45.81it/s]Loading weights:  23%|██▎       | 67/291 [00:01<00:04, 50.05it/s]Loading weights:  25%|██▍       | 72/291 [00:01<00:04, 48.95it/s]Loading weights:  26%|██▋       | 77/291 [00:01<00:04, 48.17it/s]Loading weights:  29%|██▉       | 85/291 [00:01<00:03, 53.16it/s]Loading weights:  31%|███▏      | 91/291 [00:02<00:03, 52.06it/s]Loading weights:  33%|███▎      | 97/291 [00:02<00:03, 48.57it/s]Loading weights:  36%|███▌      | 104/291 [00:02<00:03, 48.80it/s]Loading weights:  37%|███▋      | 109/291 [00:02<00:03, 46.90it/s]Loading weights:  39%|███▉      | 114/291 [00:02<00:04, 43.10it/s]Loading weights:  42%|████▏     | 122/291 [00:02<00:03, 48.71it/s]Loading weights:  45%|████▍     | 130/291 [00:02<00:03, 53.48it/s]Loading weights:  47%|████▋     | 136/291 [00:02<00:02, 52.42it/s]Loading weights:  49%|████▉     | 142/291 [00:03<00:03, 49.15it/s]Loading weights:  51%|█████     | 148/291 [00:03<00:02, 49.23it/s]Loading weights:  53%|█████▎    | 153/291 [00:03<00:02, 47.96it/s]Loading weights:  54%|█████▍    | 158/291 [00:03<00:02, 47.48it/s]Loading weights:  57%|█████▋    | 166/291 [00:03<00:02, 51.79it/s]Loading weights:  59%|█████▉    | 172/291 [00:03<00:02, 50.80it/s]Loading weights:  61%|██████    | 178/291 [00:03<00:02, 48.32it/s]Loading weights:  64%|██████▎   | 185/291 [00:03<00:02, 50.56it/s]Loading weights:  66%|██████▋   | 193/291 [00:04<00:01, 54.68it/s]Loading weights:  68%|██████▊   | 199/291 [00:04<00:01, 52.94it/s]Loading weights:  70%|███████   | 205/291 [00:04<00:01, 49.07it/s]Loading weights:  73%|███████▎  | 212/291 [00:04<00:01, 51.10it/s]Loading weights:  76%|███████▌  | 220/291 [00:04<00:01, 54.61it/s]Loading weights:  78%|███████▊  | 226/291 [00:04<00:01, 53.24it/s]Loading weights:  80%|███████▉  | 232/291 [00:04<00:01, 49.84it/s]Loading weights:  82%|████████▏ | 239/291 [00:04<00:01, 50.88it/s]Loading weights:  85%|████████▍ | 247/291 [00:05<00:00, 54.58it/s]Loading weights:  87%|████████▋ | 253/291 [00:05<00:00, 53.38it/s]Loading weights:  89%|████████▉ | 259/291 [00:05<00:00, 50.09it/s]Loading weights:  91%|█████████▏| 266/291 [00:05<00:00, 51.93it/s]Loading weights:  94%|█████████▍| 274/291 [00:05<00:00, 54.96it/s]Loading weights:  96%|█████████▌| 280/291 [00:05<00:00, 52.25it/s]Loading weights:  98%|█████████▊| 286/291 [00:05<00:00, 49.08it/s]Loading weights: 100%|██████████| 291/291 [00:05<00:00, 49.06it/s]
+loaded=/home/pauli/dockers/regret-heuristic/models/Mistral-7B-Instruct-v0.3 VRAM_GiB=3.86
+H shape=(22, 4096)
+topic labels on topic prompts:
+  topic seed=0 sklearn miss: No module named 'sklearn'
+  topic seed=0 purity=0.875 nmi=nan ari=nan n=16
+  topic seed=1 sklearn miss: No module named 'sklearn'
+  topic seed=1 purity=0.875 nmi=nan ari=nan n=16
+  topic seed=2 sklearn miss: No module named 'sklearn'
+  topic seed=2 purity=0.750 nmi=nan ari=nan n=16
+strategy labels on topic prompts:
+  strategy seed=0 sklearn miss: No module named 'sklearn'
+  strategy seed=0 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=1 sklearn miss: No module named 'sklearn'
+  strategy seed=1 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=2 sklearn miss: No module named 'sklearn'
+  strategy seed=2 purity=0.500 nmi=nan ari=nan n=16
+role labels on role prompts:
+  role seed=0 sklearn miss: No module named 'sklearn'
+  role seed=0 purity=0.667 nmi=nan ari=nan n=6
+  role seed=1 sklearn miss: No module named 'sklearn'
+  role seed=1 purity=0.667 nmi=nan ari=nan n=6
+  role seed=2 sklearn miss: No module named 'sklearn'
+  role seed=2 purity=0.500 nmi=nan ari=nan n=6
+topic-mean subtracted:
+  strategy_minus_topic seed=0 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=1 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=1 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=2 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=2 purity=1.000 nmi=nan ari=nan n=16
+topic-shuffle null n=20:
+  null purity mean=0.481 max=0.625
+dump=results/layout_map_mistral.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
+===== night_sims/som_layout_complement.py --model /home/pauli/dockers/regret-heuristic/models/Mistral-7B-Instruct-v0.3 --layer 9 --dump results/layout_complement_mistral.json =====
+som complement: ask-removal and wider roles. Not a camera. Do not fill D.
+model=/home/pauli/dockers/regret-heuristic/models/Mistral-7B-Instruct-v0.3 layer=9
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   4%|▍         | 11/291 [00:00<00:02, 109.57it/s]Loading weights:  14%|█▍        | 42/291 [00:00<00:01, 222.75it/s]Loading weights:  26%|██▋       | 77/291 [00:00<00:00, 277.92it/s]Loading weights:  38%|███▊      | 112/291 [00:00<00:00, 304.11it/s]Loading weights:  50%|████▉     | 145/291 [00:00<00:00, 313.17it/s]Loading weights:  61%|██████    | 177/291 [00:00<00:00, 310.77it/s]Loading weights:  73%|███████▎  | 212/291 [00:00<00:00, 321.44it/s]Loading weights:  85%|████████▍ | 247/291 [00:00<00:00, 323.89it/s]Loading weights:  96%|█████████▌| 280/291 [00:00<00:00, 324.78it/s]Loading weights: 100%|██████████| 291/291 [00:00<00:00, 306.33it/s]
+loaded=/home/pauli/dockers/regret-heuristic/models/Mistral-7B-Instruct-v0.3 VRAM_GiB=3.86
+topic prompts with_ask=16 no_ask=16
+topic purity with ask:
+  with_ask seed=0 purity=0.875 n=16
+  with_ask seed=1 purity=0.875 n=16
+  with_ask seed=2 purity=0.750 n=16
+  with_ask mean=0.833
+topic purity ask removed:
+  no_ask seed=0 purity=0.875 n=16
+  no_ask seed=1 purity=0.875 n=16
+  no_ask seed=2 purity=1.000 n=16
+  no_ask mean=0.917
+role prompts=36 roles=12 tasks=3
+role purity on wider bank:
+  role seed=0 purity=0.278 n=36
+  role seed=1 purity=0.278 n=36
+  role seed=2 purity=0.306 n=36
+  role mean=0.287
+dump=results/layout_complement_mistral.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
+  check /home/pauli/dockers/regret-heuristic/models/aya-expanse-8b
+  check /home/pauli/dockers/intent-readout-search/models/aya-expanse-8b
+USE aya8 path=/home/pauli/dockers/intent-readout-search/models/aya-expanse-8b layer=10
+===== night_sims/som_layout_run.py --model /home/pauli/dockers/intent-readout-search/models/aya-expanse-8b --layer 10 --dump results/layout_map_aya8.json =====
+som layout: expected vs measured. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/aya-expanse-8b layer=10 grid=4 seeds=3
+prompts=22 topics=8 roles=6
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights:   0%|          | 1/258 [00:00<03:21,  1.27it/s]Loading weights:   2%|▏         | 4/258 [00:00<00:46,  5.47it/s]Loading weights:   4%|▍         | 11/258 [00:01<00:15, 16.08it/s]Loading weights:   6%|▌         | 15/258 [00:01<00:12, 20.03it/s]Loading weights:   8%|▊         | 20/258 [00:01<00:09, 25.35it/s]Loading weights:  10%|█         | 27/258 [00:01<00:06, 33.72it/s]Loading weights:  12%|█▏        | 32/258 [00:01<00:06, 35.50it/s]Loading weights:  14%|█▍        | 37/258 [00:01<00:07, 29.34it/s]Loading weights:  16%|█▌        | 41/258 [00:01<00:07, 27.16it/s]Loading weights:  17%|█▋        | 45/258 [00:02<00:10, 19.50it/s]Loading weights:  20%|██        | 52/258 [00:02<00:07, 25.92it/s]Loading weights:  23%|██▎       | 59/258 [00:02<00:06, 32.08it/s]Loading weights:  24%|██▍       | 63/258 [00:02<00:05, 33.13it/s]Loading weights:  26%|██▋       | 68/258 [00:02<00:05, 35.83it/s]Loading weights:  29%|██▉       | 75/258 [00:02<00:04, 40.43it/s]Loading weights:  31%|███       | 80/258 [00:03<00:04, 40.65it/s]Loading weights:  33%|███▎      | 85/258 [00:03<00:04, 38.19it/s]Loading weights:  36%|███▌      | 92/258 [00:03<00:03, 42.83it/s]Loading weights:  38%|███▊      | 99/258 [00:03<00:03, 45.14it/s]Loading weights:  40%|████      | 104/258 [00:03<00:03, 43.15it/s]Loading weights:  42%|████▏     | 109/258 [00:03<00:03, 39.52it/s]Loading weights:  45%|████▍     | 116/258 [00:03<00:03, 43.58it/s]Loading weights:  48%|████▊     | 123/258 [00:04<00:02, 45.74it/s]Loading weights:  50%|████▉     | 128/258 [00:04<00:03, 40.45it/s]Loading weights:  52%|█████▏    | 133/258 [00:04<00:03, 38.01it/s]Loading weights:  54%|█████▍    | 140/258 [00:04<00:02, 42.27it/s]Loading weights:  57%|█████▋    | 147/258 [00:04<00:02, 45.67it/s]Loading weights:  59%|█████▉    | 152/258 [00:04<00:02, 44.09it/s]Loading weights:  61%|██████    | 157/258 [00:04<00:02, 41.07it/s]Loading weights:  64%|██████▎   | 164/258 [00:04<00:02, 44.79it/s]Loading weights:  66%|██████▋   | 171/258 [00:05<00:01, 47.77it/s]Loading weights:  68%|██████▊   | 176/258 [00:05<00:02, 38.00it/s]Loading weights:  70%|███████   | 181/258 [00:05<00:02, 28.61it/s]Loading weights:  72%|███████▏  | 187/258 [00:05<00:02, 30.75it/s]Loading weights:  74%|███████▍  | 191/258 [00:05<00:02, 27.13it/s]Loading weights:  76%|███████▌  | 196/258 [00:06<00:02, 30.57it/s]Loading weights:  79%|███████▊  | 203/258 [00:06<00:01, 36.53it/s]Loading weights:  81%|████████  | 208/258 [00:06<00:01, 36.69it/s]Loading weights:  83%|████████▎ | 213/258 [00:06<00:01, 36.04it/s]Loading weights:  85%|████████▌ | 220/258 [00:06<00:00, 38.87it/s]Loading weights:  88%|████████▊ | 227/258 [00:06<00:00, 42.39it/s]Loading weights:  90%|████████▉ | 232/258 [00:06<00:00, 41.49it/s]Loading weights:  92%|█████████▏| 237/258 [00:07<00:00, 38.93it/s]Loading weights:  95%|█████████▍| 244/258 [00:07<00:00, 42.45it/s]Loading weights:  97%|█████████▋| 251/258 [00:07<00:00, 45.29it/s]Loading weights:  99%|█████████▉| 256/258 [00:07<00:00, 43.74it/s]Loading weights: 100%|██████████| 258/258 [00:07<00:00, 34.51it/s]
+loaded=/home/pauli/dockers/intent-readout-search/models/aya-expanse-8b VRAM_GiB=5.31
+H shape=(22, 4096)
+topic labels on topic prompts:
+  topic seed=0 sklearn miss: No module named 'sklearn'
+  topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  topic seed=1 sklearn miss: No module named 'sklearn'
+  topic seed=1 purity=0.875 nmi=nan ari=nan n=16
+  topic seed=2 sklearn miss: No module named 'sklearn'
+  topic seed=2 purity=1.000 nmi=nan ari=nan n=16
+strategy labels on topic prompts:
+  strategy seed=0 sklearn miss: No module named 'sklearn'
+  strategy seed=0 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=1 sklearn miss: No module named 'sklearn'
+  strategy seed=1 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=2 sklearn miss: No module named 'sklearn'
+  strategy seed=2 purity=0.500 nmi=nan ari=nan n=16
+role labels on role prompts:
+  role seed=0 sklearn miss: No module named 'sklearn'
+  role seed=0 purity=0.667 nmi=nan ari=nan n=6
+  role seed=1 sklearn miss: No module named 'sklearn'
+  role seed=1 purity=0.500 nmi=nan ari=nan n=6
+  role seed=2 sklearn miss: No module named 'sklearn'
+  role seed=2 purity=0.500 nmi=nan ari=nan n=6
+topic-mean subtracted:
+  strategy_minus_topic seed=0 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=1 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=1 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=2 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=2 purity=1.000 nmi=nan ari=nan n=16
+topic-shuffle null n=20:
+  null purity mean=0.534 max=0.625
+dump=results/layout_map_aya8.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
+===== night_sims/som_layout_complement.py --model /home/pauli/dockers/intent-readout-search/models/aya-expanse-8b --layer 10 --dump results/layout_complement_aya8.json =====
+som complement: ask-removal and wider roles. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/aya-expanse-8b layer=10
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights:   0%|          | 1/258 [00:00<00:32,  7.97it/s]Loading weights:   7%|▋         | 19/258 [00:00<00:02, 99.49it/s]Loading weights:  17%|█▋        | 45/258 [00:00<00:01, 167.12it/s]Loading weights:  29%|██▉       | 76/258 [00:00<00:00, 217.60it/s]Loading weights:  41%|████▏     | 107/258 [00:00<00:00, 245.53it/s]Loading weights:  52%|█████▏    | 135/258 [00:00<00:00, 255.15it/s]Loading weights:  64%|██████▎   | 164/258 [00:00<00:00, 265.01it/s]Loading weights:  76%|███████▌  | 195/258 [00:00<00:00, 275.19it/s]Loading weights:  86%|████████▋ | 223/258 [00:00<00:00, 274.48it/s]Loading weights:  98%|█████████▊| 252/258 [00:01<00:00, 277.60it/s]Loading weights: 100%|██████████| 258/258 [00:01<00:00, 242.52it/s]
+loaded=/home/pauli/dockers/intent-readout-search/models/aya-expanse-8b VRAM_GiB=5.31
+topic prompts with_ask=16 no_ask=16
+topic purity with ask:
+  with_ask seed=0 purity=1.000 n=16
+  with_ask seed=1 purity=0.875 n=16
+  with_ask seed=2 purity=1.000 n=16
+  with_ask mean=0.958
+topic purity ask removed:
+  no_ask seed=0 purity=0.875 n=16
+  no_ask seed=1 purity=0.875 n=16
+  no_ask seed=2 purity=0.875 n=16
+  no_ask mean=0.875
+role prompts=36 roles=12 tasks=3
+role purity on wider bank:
+  role seed=0 purity=0.333 n=36
+  role seed=1 purity=0.306 n=36
+  role seed=2 purity=0.361 n=36
+  role mean=0.333
+dump=results/layout_complement_aya8.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
+  check /home/pauli/dockers/regret-heuristic/models/gemma-3-4b-it
+  check /home/pauli/dockers/intent-readout-search/models/gemma-3-4b-it
+USE gemma3 path=/home/pauli/dockers/intent-readout-search/models/gemma-3-4b-it layer=8
+===== night_sims/som_layout_run.py --model /home/pauli/dockers/intent-readout-search/models/gemma-3-4b-it --layer 8 --dump results/layout_map_gemma3.json =====
+som layout: expected vs measured. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/gemma-3-4b-it layer=8 grid=4 seeds=3
+prompts=22 topics=8 roles=6
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   0%|          | 1/883 [00:00<07:46,  1.89it/s]Loading weights:   1%|          | 5/883 [00:00<01:30,  9.72it/s]Loading weights:   3%|▎         | 29/883 [00:00<00:14, 59.36it/s]Loading weights:   5%|▍         | 44/883 [00:00<00:11, 76.08it/s]Loading weights:   8%|▊         | 68/883 [00:01<00:07, 109.60it/s]Loading weights:   9%|▉         | 82/883 [00:01<00:06, 116.41it/s]Loading weights:  11%|█         | 96/883 [00:01<00:06, 119.32it/s]Loading weights:  14%|█▎        | 120/883 [00:01<00:05, 144.92it/s]Loading weights:  15%|█▌        | 136/883 [00:01<00:05, 139.93it/s]Loading weights:  18%|█▊        | 159/883 [00:01<00:04, 157.03it/s]Loading weights:  20%|█▉        | 176/883 [00:01<00:04, 150.72it/s]Loading weights:  22%|██▏       | 198/883 [00:01<00:04, 162.05it/s]Loading weights:  24%|██▍       | 215/883 [00:01<00:04, 155.25it/s]Loading weights:  27%|██▋       | 237/883 [00:02<00:03, 169.02it/s]Loading weights:  29%|██▉       | 255/883 [00:02<00:03, 165.04it/s]Loading weights:  31%|███▏      | 276/883 [00:02<00:03, 168.16it/s]Loading weights:  33%|███▎      | 293/883 [00:02<00:04, 123.75it/s]Loading weights:  36%|███▌      | 315/883 [00:02<00:04, 141.67it/s]Loading weights:  37%|███▋      | 331/883 [00:02<00:03, 139.51it/s]Loading weights:  40%|████      | 354/883 [00:02<00:03, 158.14it/s]Loading weights:  42%|████▏     | 371/883 [00:02<00:03, 155.40it/s]Loading weights:  45%|████▍     | 393/883 [00:03<00:02, 168.48it/s]Loading weights:  47%|████▋     | 411/883 [00:03<00:02, 164.50it/s]Loading weights:  49%|████▉     | 432/883 [00:03<00:02, 173.12it/s]Loading weights:  56%|█████▌    | 495/883 [00:03<00:01, 296.49it/s]Loading weights:  70%|██████▉   | 615/883 [00:03<00:00, 545.61it/s]Loading weights:  81%|████████  | 713/883 [00:03<00:00, 665.21it/s]Loading weights:  93%|█████████▎| 825/883 [00:03<00:00, 790.71it/s]Loading weights: 100%|██████████| 883/883 [00:03<00:00, 234.63it/s]
+loaded=/home/pauli/dockers/intent-readout-search/models/gemma-3-4b-it VRAM_GiB=3.01
+H shape=(22, 2560)
+topic labels on topic prompts:
+  topic seed=0 sklearn miss: No module named 'sklearn'
+  topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  topic seed=1 sklearn miss: No module named 'sklearn'
+  topic seed=1 purity=1.000 nmi=nan ari=nan n=16
+  topic seed=2 sklearn miss: No module named 'sklearn'
+  topic seed=2 purity=1.000 nmi=nan ari=nan n=16
+strategy labels on topic prompts:
+  strategy seed=0 sklearn miss: No module named 'sklearn'
+  strategy seed=0 purity=0.562 nmi=nan ari=nan n=16
+  strategy seed=1 sklearn miss: No module named 'sklearn'
+  strategy seed=1 purity=0.562 nmi=nan ari=nan n=16
+  strategy seed=2 sklearn miss: No module named 'sklearn'
+  strategy seed=2 purity=0.500 nmi=nan ari=nan n=16
+role labels on role prompts:
+  role seed=0 sklearn miss: No module named 'sklearn'
+  role seed=0 purity=0.667 nmi=nan ari=nan n=6
+  role seed=1 sklearn miss: No module named 'sklearn'
+  role seed=1 purity=0.667 nmi=nan ari=nan n=6
+  role seed=2 sklearn miss: No module named 'sklearn'
+  role seed=2 purity=1.000 nmi=nan ari=nan n=6
+topic-mean subtracted:
+  strategy_minus_topic seed=0 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=1 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=1 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=2 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=2 purity=1.000 nmi=nan ari=nan n=16
+topic-shuffle null n=20:
+  null purity mean=0.537 max=0.625
+dump=results/layout_map_gemma3.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
+===== night_sims/som_layout_complement.py --model /home/pauli/dockers/intent-readout-search/models/gemma-3-4b-it --layer 8 --dump results/layout_complement_gemma3.json =====
+som complement: ask-removal and wider roles. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/gemma-3-4b-it layer=8
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   0%|          | 3/883 [00:00<00:36, 23.93it/s]Loading weights:  11%|█         | 96/883 [00:00<00:01, 502.46it/s]Loading weights:  23%|██▎       | 199/883 [00:00<00:00, 722.68it/s]Loading weights:  33%|███▎      | 291/883 [00:00<00:00, 789.06it/s]Loading weights:  45%|████▍     | 394/883 [00:00<00:00, 866.69it/s]Loading weights:  75%|███████▌  | 663/883 [00:00<00:00, 1466.72it/s]Loading weights: 100%|██████████| 883/883 [00:00<00:00, 1283.94it/s]
+loaded=/home/pauli/dockers/intent-readout-search/models/gemma-3-4b-it VRAM_GiB=3.01
+topic prompts with_ask=16 no_ask=16
+topic purity with ask:
+  with_ask seed=0 purity=1.000 n=16
+  with_ask seed=1 purity=1.000 n=16
+  with_ask seed=2 purity=1.000 n=16
+  with_ask mean=1.000
+topic purity ask removed:
+  no_ask seed=0 purity=1.000 n=16
+  no_ask seed=1 purity=1.000 n=16
+  no_ask seed=2 purity=1.000 n=16
+  no_ask mean=1.000
+role prompts=36 roles=12 tasks=3
+role purity on wider bank:
+  role seed=0 purity=0.278 n=36
+  role seed=1 purity=0.278 n=36
+  role seed=2 purity=0.306 n=36
+  role mean=0.287
+dump=results/layout_complement_gemma3.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
+  check /home/pauli/dockers/regret-heuristic/models/Falcon3-7B-Instruct
+  check /home/pauli/dockers/intent-readout-search/models/Falcon3-7B-Instruct
+USE falcon3 path=/home/pauli/dockers/intent-readout-search/models/Falcon3-7B-Instruct layer=8
+===== night_sims/som_layout_run.py --model /home/pauli/dockers/intent-readout-search/models/Falcon3-7B-Instruct --layer 8 --dump results/layout_map_falcon3.json =====
+som layout: expected vs measured. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/Falcon3-7B-Instruct layer=8 grid=4 seeds=3
+prompts=22 topics=8 roles=6
+Loading weights:   0%|          | 0/255 [00:00<?, ?it/s]Loading weights:   0%|          | 1/255 [00:00<01:16,  3.33it/s]Loading weights:   1%|          | 2/255 [00:00<01:17,  3.28it/s]Loading weights:   2%|▏         | 5/255 [00:00<00:30,  8.25it/s]Loading weights:   5%|▌         | 13/255 [00:00<00:10, 22.62it/s]Loading weights:   7%|▋         | 17/255 [00:00<00:09, 25.76it/s]Loading weights:   9%|▉         | 23/255 [00:01<00:07, 31.65it/s]Loading weights:  11%|█         | 28/255 [00:01<00:06, 35.88it/s]Loading weights:  13%|█▎        | 33/255 [00:01<00:06, 33.72it/s]Loading weights:  16%|█▌        | 41/255 [00:01<00:05, 41.86it/s]Loading weights:  19%|█▉        | 49/255 [00:01<00:04, 46.01it/s]Loading weights:  21%|██        | 54/255 [00:02<00:07, 28.69it/s]Loading weights:  23%|██▎       | 59/255 [00:02<00:06, 31.18it/s]Loading weights:  26%|██▋       | 67/255 [00:02<00:05, 36.54it/s]Loading weights:  28%|██▊       | 72/255 [00:02<00:04, 36.79it/s]Loading weights:  30%|███       | 77/255 [00:02<00:04, 37.54it/s]Loading weights:  33%|███▎      | 85/255 [00:02<00:03, 42.95it/s]Loading weights:  35%|███▌      | 90/255 [00:02<00:03, 42.48it/s]Loading weights:  37%|███▋      | 95/255 [00:02<00:03, 41.44it/s]Loading weights:  40%|████      | 103/255 [00:03<00:03, 46.33it/s]Loading weights:  42%|████▏     | 108/255 [00:03<00:03, 44.66it/s]Loading weights:  44%|████▍     | 113/255 [00:03<00:03, 43.03it/s]Loading weights:  47%|████▋     | 121/255 [00:03<00:02, 48.12it/s]Loading weights:  49%|████▉     | 126/255 [00:03<00:02, 45.43it/s]Loading weights:  51%|█████▏    | 131/255 [00:03<00:02, 44.14it/s]Loading weights:  55%|█████▍    | 139/255 [00:03<00:02, 49.72it/s]Loading weights:  56%|█████▋    | 144/255 [00:03<00:02, 47.43it/s]Loading weights:  58%|█████▊    | 149/255 [00:04<00:02, 45.84it/s]Loading weights:  62%|██████▏   | 157/255 [00:04<00:01, 50.69it/s]Loading weights:  64%|██████▍   | 163/255 [00:04<00:01, 49.42it/s]Loading weights:  66%|██████▌   | 168/255 [00:04<00:02, 42.58it/s]Loading weights:  69%|██████▉   | 176/255 [00:04<00:01, 47.44it/s]Loading weights:  72%|███████▏  | 184/255 [00:04<00:01, 51.15it/s]Loading weights:  75%|███████▍  | 190/255 [00:04<00:01, 49.95it/s]Loading weights:  77%|███████▋  | 196/255 [00:05<00:01, 43.54it/s]Loading weights:  79%|███████▉  | 202/255 [00:05<00:01, 46.06it/s]Loading weights:  81%|████████  | 207/255 [00:05<00:01, 44.13it/s]Loading weights:  83%|████████▎ | 212/255 [00:05<00:00, 43.06it/s]Loading weights:  86%|████████▋ | 220/255 [00:05<00:00, 48.06it/s]Loading weights:  88%|████████▊ | 225/255 [00:05<00:00, 46.32it/s]Loading weights:  90%|█████████ | 230/255 [00:05<00:00, 45.12it/s]Loading weights:  93%|█████████▎| 238/255 [00:05<00:00, 49.89it/s]Loading weights:  95%|█████████▌| 243/255 [00:06<00:00, 47.50it/s]Loading weights:  97%|█████████▋| 248/255 [00:06<00:00, 45.54it/s]Loading weights: 100%|██████████| 255/255 [00:06<00:00, 40.46it/s]
+loaded=/home/pauli/dockers/intent-readout-search/models/Falcon3-7B-Instruct VRAM_GiB=4.72
+H shape=(22, 3072)
+topic labels on topic prompts:
+  topic seed=0 sklearn miss: No module named 'sklearn'
+  topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  topic seed=1 sklearn miss: No module named 'sklearn'
+  topic seed=1 purity=0.875 nmi=nan ari=nan n=16
+  topic seed=2 sklearn miss: No module named 'sklearn'
+  topic seed=2 purity=0.875 nmi=nan ari=nan n=16
+strategy labels on topic prompts:
+  strategy seed=0 sklearn miss: No module named 'sklearn'
+  strategy seed=0 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=1 sklearn miss: No module named 'sklearn'
+  strategy seed=1 purity=0.562 nmi=nan ari=nan n=16
+  strategy seed=2 sklearn miss: No module named 'sklearn'
+  strategy seed=2 purity=0.562 nmi=nan ari=nan n=16
+role labels on role prompts:
+  role seed=0 sklearn miss: No module named 'sklearn'
+  role seed=0 purity=0.833 nmi=nan ari=nan n=6
+  role seed=1 sklearn miss: No module named 'sklearn'
+  role seed=1 purity=0.833 nmi=nan ari=nan n=6
+  role seed=2 sklearn miss: No module named 'sklearn'
+  role seed=2 purity=0.667 nmi=nan ari=nan n=6
+topic-mean subtracted:
+  strategy_minus_topic seed=0 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=1 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=1 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=2 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=2 purity=1.000 nmi=nan ari=nan n=16
+topic-shuffle null n=20:
+  null purity mean=0.506 max=0.625
+dump=results/layout_map_falcon3.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
+===== night_sims/som_layout_complement.py --model /home/pauli/dockers/intent-readout-search/models/Falcon3-7B-Instruct --layer 8 --dump results/layout_complement_falcon3.json =====
+som complement: ask-removal and wider roles. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/Falcon3-7B-Instruct layer=8
+Loading weights:   0%|          | 0/255 [00:00<?, ?it/s]Loading weights:   2%|▏         | 4/255 [00:00<00:08, 28.32it/s]Loading weights:  13%|█▎        | 32/255 [00:00<00:01, 153.95it/s]Loading weights:  24%|██▎       | 60/255 [00:00<00:00, 205.87it/s]Loading weights:  37%|███▋      | 94/255 [00:00<00:00, 253.26it/s]Loading weights:  48%|████▊     | 123/255 [00:00<00:00, 259.17it/s]Loading weights:  62%|██████▏   | 157/255 [00:00<00:00, 282.62it/s]Loading weights:  73%|███████▎  | 186/255 [00:00<00:00, 278.64it/s]Loading weights:  86%|████████▋ | 220/255 [00:00<00:00, 295.33it/s]Loading weights:  98%|█████████▊| 250/255 [00:00<00:00, 289.34it/s]Loading weights: 100%|██████████| 255/255 [00:00<00:00, 260.52it/s]
+loaded=/home/pauli/dockers/intent-readout-search/models/Falcon3-7B-Instruct VRAM_GiB=4.72
+topic prompts with_ask=16 no_ask=16
+topic purity with ask:
+  with_ask seed=0 purity=1.000 n=16
+  with_ask seed=1 purity=0.875 n=16
+  with_ask seed=2 purity=0.875 n=16
+  with_ask mean=0.917
+topic purity ask removed:
+  no_ask seed=0 purity=1.000 n=16
+  no_ask seed=1 purity=0.875 n=16
+  no_ask seed=2 purity=0.875 n=16
+  no_ask mean=0.917
+role prompts=36 roles=12 tasks=3
+role purity on wider bank:
+  role seed=0 purity=0.333 n=36
+  role seed=1 purity=0.306 n=36
+  role seed=2 purity=0.306 n=36
+  role mean=0.315
+dump=results/layout_complement_falcon3.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
+  check /home/pauli/dockers/regret-heuristic/models/Phi-4-mini-instruct
+  check /home/pauli/dockers/intent-readout-search/models/Phi-4-mini-instruct
+USE phi4 path=/home/pauli/dockers/intent-readout-search/models/Phi-4-mini-instruct layer=10
+===== night_sims/som_layout_run.py --model /home/pauli/dockers/intent-readout-search/models/Phi-4-mini-instruct --layer 10 --dump results/layout_map_phi4.json =====
+/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/configuration_utils.py:723: FutureWarning: `rope_scaling` is deprecated and will be removed in a future version. Set `rope_parameters` instead, with `rope_type` and `rope_theta` included.
+  warnings.warn(
+[transformers] This model config has set a `rope_parameters['original_max_position_embeddings']` field, to be used together with `max_position_embeddings` to determine a scaling factor. Please set the `factor` field of `rope_parameters`with this ratio instead -- we recommend the use of this field over `original_max_position_embeddings`, as it is compatible with most model architectures.
+som layout: expected vs measured. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/Phi-4-mini-instruct layer=10 grid=4 seeds=3
+prompts=22 topics=8 roles=6
+Traceback (most recent call last):
+  File "/home/pauli/dockers/regret-heuristic/night_sims/som_layout_run.py", line 246, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/pauli/dockers/regret-heuristic/night_sims/som_layout_run.py", line 177, in main
+    tok, model = load_model(args.model)
+                 ~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/pauli/dockers/regret-heuristic/night_sims/som_layout_run.py", line 55, in load_model
+    model = AutoModelForCausalLM.from_pretrained(
+        name, quantization_config=bnb, device_map="auto", trust_remote_code=True
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/models/auto/auto_factory.py", line 381, in from_pretrained
+    model_class = get_class_from_dynamic_module(
+        class_ref, pretrained_model_name_or_path, code_revision=code_revision, **hub_kwargs, **kwargs
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/dynamic_module_utils.py", line 625, in get_class_from_dynamic_module
+    return get_class_in_module(class_name, final_module, force_reload=force_download)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/dynamic_module_utils.py", line 309, in get_class_in_module
+    module_spec.loader.exec_module(module)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 759, in exec_module
+  File "<frozen importlib._bootstrap>", line 491, in _call_with_frames_removed
+  File "/home/pauli/.cache/huggingface/modules/transformers_modules/Phi_hyphen_4_hyphen_mini_hyphen_instruct/3886b25a63d271ee/modeling_phi3.py", line 37, in <module>
+    from transformers.utils import (
+    ...<6 lines>...
+    )
+ImportError: cannot import name 'LossKwargs' from 'transformers.utils' (/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/utils/__init__.py)
+===== night_sims/som_layout_complement.py --model /home/pauli/dockers/intent-readout-search/models/Phi-4-mini-instruct --layer 10 --dump results/layout_complement_phi4.json =====
+/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/configuration_utils.py:723: FutureWarning: `rope_scaling` is deprecated and will be removed in a future version. Set `rope_parameters` instead, with `rope_type` and `rope_theta` included.
+  warnings.warn(
+[transformers] This model config has set a `rope_parameters['original_max_position_embeddings']` field, to be used together with `max_position_embeddings` to determine a scaling factor. Please set the `factor` field of `rope_parameters`with this ratio instead -- we recommend the use of this field over `original_max_position_embeddings`, as it is compatible with most model architectures.
+som complement: ask-removal and wider roles. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/Phi-4-mini-instruct layer=10
+Traceback (most recent call last):
+  File "/home/pauli/dockers/regret-heuristic/night_sims/som_layout_complement.py", line 203, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/pauli/dockers/regret-heuristic/night_sims/som_layout_complement.py", line 168, in main
+    tok, model = load_model(args.model)
+                 ~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/pauli/dockers/regret-heuristic/night_sims/som_layout_complement.py", line 59, in load_model
+    model = AutoModelForCausalLM.from_pretrained(
+        name, quantization_config=bnb, device_map="auto", trust_remote_code=True
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/models/auto/auto_factory.py", line 381, in from_pretrained
+    model_class = get_class_from_dynamic_module(
+        class_ref, pretrained_model_name_or_path, code_revision=code_revision, **hub_kwargs, **kwargs
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/dynamic_module_utils.py", line 625, in get_class_from_dynamic_module
+    return get_class_in_module(class_name, final_module, force_reload=force_download)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/dynamic_module_utils.py", line 309, in get_class_in_module
+    module_spec.loader.exec_module(module)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 759, in exec_module
+  File "<frozen importlib._bootstrap>", line 491, in _call_with_frames_removed
+  File "/home/pauli/.cache/huggingface/modules/transformers_modules/Phi_hyphen_4_hyphen_mini_hyphen_instruct/3886b25a63d271ee/modeling_phi3.py", line 37, in <module>
+    from transformers.utils import (
+    ...<6 lines>...
+    )
+ImportError: cannot import name 'LossKwargs' from 'transformers.utils' (/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/utils/__init__.py)
+  check /home/pauli/dockers/regret-heuristic/models/granite-4.2-8b
+  check /home/pauli/dockers/intent-readout-search/models/granite-4.2-8b
+USE granite path=/home/pauli/dockers/intent-readout-search/models/granite-4.2-8b layer=12
+===== night_sims/som_layout_run.py --model /home/pauli/dockers/intent-readout-search/models/granite-4.2-8b --layer 12 --dump results/layout_map_granite.json =====
+som layout: expected vs measured. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/granite-4.2-8b layer=12 grid=4 seeds=3
+prompts=22 topics=8 roles=6
+Loading weights:   0%|          | 0/363 [00:00<?, ?it/s]Loading weights:   0%|          | 1/363 [00:00<01:52,  3.21it/s]Loading weights:   1%|          | 2/363 [00:00<01:51,  3.23it/s]Loading weights:   1%|▏         | 5/363 [00:00<00:41,  8.59it/s]Loading weights:   4%|▎         | 13/363 [00:00<00:14, 23.88it/s]Loading weights:   5%|▌         | 19/363 [00:00<00:10, 31.49it/s]Loading weights:   7%|▋         | 24/363 [00:01<00:10, 33.51it/s]Loading weights:   9%|▉         | 32/363 [00:01<00:07, 42.17it/s]Loading weights:  10%|█         | 37/363 [00:01<00:08, 40.51it/s]Loading weights:  12%|█▏        | 42/363 [00:01<00:08, 35.81it/s]Loading weights:  14%|█▍        | 50/363 [00:01<00:07, 44.43it/s]Loading weights:  16%|█▌        | 58/363 [00:01<00:05, 51.01it/s]Loading weights:  18%|█▊        | 64/363 [00:01<00:05, 51.68it/s]Loading weights:  19%|█▉        | 70/363 [00:02<00:05, 50.36it/s]Loading weights:  21%|██        | 77/363 [00:02<00:05, 52.70it/s]Loading weights:  23%|██▎       | 85/363 [00:02<00:04, 56.65it/s]Loading weights:  25%|██▌       | 91/363 [00:02<00:04, 55.80it/s]Loading weights:  27%|██▋       | 97/363 [00:02<00:05, 52.09it/s]Loading weights:  29%|██▊       | 104/363 [00:02<00:04, 54.43it/s]Loading weights:  31%|███       | 112/363 [00:02<00:04, 58.60it/s]Loading weights:  33%|███▎      | 118/363 [00:02<00:04, 57.33it/s]Loading weights:  34%|███▍      | 124/363 [00:02<00:04, 54.24it/s]Loading weights:  36%|███▌      | 131/363 [00:03<00:04, 55.31it/s]Loading weights:  38%|███▊      | 139/363 [00:03<00:03, 57.94it/s]Loading weights:  40%|███▉      | 145/363 [00:03<00:03, 56.83it/s]Loading weights:  42%|████▏     | 151/363 [00:03<00:04, 52.06it/s]Loading weights:  43%|████▎     | 157/363 [00:03<00:03, 53.01it/s]Loading weights:  45%|████▍     | 163/363 [00:03<00:03, 53.33it/s]Loading weights:  47%|████▋     | 169/363 [00:03<00:03, 51.54it/s]Loading weights:  48%|████▊     | 176/363 [00:03<00:03, 54.59it/s]Loading weights:  51%|█████     | 184/363 [00:04<00:03, 53.17it/s]Loading weights:  52%|█████▏    | 190/363 [00:04<00:03, 53.48it/s]Loading weights:  54%|█████▍    | 196/363 [00:04<00:03, 52.02it/s]Loading weights:  56%|█████▌    | 203/363 [00:04<00:02, 54.12it/s]Loading weights:  58%|█████▊    | 211/363 [00:04<00:03, 50.18it/s]Loading weights:  60%|█████▉    | 217/363 [00:04<00:03, 41.14it/s]Loading weights:  61%|██████    | 222/363 [00:05<00:04, 33.16it/s]Loading weights:  63%|██████▎   | 229/363 [00:05<00:03, 36.49it/s]Loading weights:  64%|██████▍   | 233/363 [00:05<00:04, 31.71it/s]Loading weights:  66%|██████▌   | 238/363 [00:05<00:03, 31.90it/s]Loading weights:  67%|██████▋   | 242/363 [00:05<00:04, 28.87it/s]Loading weights:  68%|██████▊   | 247/363 [00:05<00:03, 30.63it/s]Loading weights:  69%|██████▉   | 251/363 [00:06<00:03, 28.78it/s]Loading weights:  71%|███████   | 256/363 [00:06<00:03, 31.13it/s]Loading weights:  72%|███████▏  | 260/363 [00:06<00:03, 32.14it/s]Loading weights:  73%|███████▎  | 265/363 [00:06<00:02, 34.38it/s]Loading weights:  74%|███████▍  | 269/363 [00:06<00:03, 27.37it/s]Loading weights:  75%|███████▌  | 274/363 [00:06<00:03, 25.82it/s]Loading weights:  76%|███████▋  | 277/363 [00:07<00:04, 19.87it/s]Loading weights:  78%|███████▊  | 284/363 [00:07<00:02, 27.30it/s]Loading weights:  80%|████████  | 292/363 [00:07<00:01, 36.23it/s]Loading weights:  82%|████████▏ | 297/363 [00:07<00:01, 38.61it/s]Loading weights:  83%|████████▎ | 302/363 [00:07<00:01, 33.63it/s]Loading weights:  84%|████████▍ | 306/363 [00:07<00:01, 34.34it/s]Loading weights:  85%|████████▌ | 310/363 [00:07<00:01, 34.90it/s]Loading weights:  87%|████████▋ | 314/363 [00:08<00:01, 33.70it/s]Loading weights:  88%|████████▊ | 320/363 [00:08<00:01, 38.56it/s]Loading weights:  90%|█████████ | 328/363 [00:08<00:00, 47.06it/s]Loading weights:  92%|█████████▏| 334/363 [00:08<00:00, 48.79it/s]Loading weights:  94%|█████████▎| 340/363 [00:08<00:00, 48.42it/s]Loading weights:  96%|█████████▌| 347/363 [00:08<00:00, 52.06it/s]Loading weights:  98%|█████████▊| 355/363 [00:08<00:00, 57.08it/s]Loading weights:  99%|█████████▉| 361/363 [00:08<00:00, 55.65it/s]Loading weights: 100%|██████████| 363/363 [00:08<00:00, 40.99it/s]
+loaded=/home/pauli/dockers/intent-readout-search/models/granite-4.2-8b VRAM_GiB=5.38
+H shape=(22, 4096)
+topic labels on topic prompts:
+  topic seed=0 sklearn miss: No module named 'sklearn'
+  topic seed=0 purity=0.875 nmi=nan ari=nan n=16
+  topic seed=1 sklearn miss: No module named 'sklearn'
+  topic seed=1 purity=0.938 nmi=nan ari=nan n=16
+  topic seed=2 sklearn miss: No module named 'sklearn'
+  topic seed=2 purity=0.938 nmi=nan ari=nan n=16
+strategy labels on topic prompts:
+  strategy seed=0 sklearn miss: No module named 'sklearn'
+  strategy seed=0 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=1 sklearn miss: No module named 'sklearn'
+  strategy seed=1 purity=0.562 nmi=nan ari=nan n=16
+  strategy seed=2 sklearn miss: No module named 'sklearn'
+  strategy seed=2 purity=0.562 nmi=nan ari=nan n=16
+role labels on role prompts:
+  role seed=0 sklearn miss: No module named 'sklearn'
+  role seed=0 purity=0.667 nmi=nan ari=nan n=6
+  role seed=1 sklearn miss: No module named 'sklearn'
+  role seed=1 purity=0.667 nmi=nan ari=nan n=6
+  role seed=2 sklearn miss: No module named 'sklearn'
+  role seed=2 purity=0.833 nmi=nan ari=nan n=6
+topic-mean subtracted:
+  strategy_minus_topic seed=0 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=1 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=1 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=2 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=2 purity=1.000 nmi=nan ari=nan n=16
+topic-shuffle null n=20:
+  null purity mean=0.506 max=0.625
+dump=results/layout_map_granite.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
+===== night_sims/som_layout_complement.py --model /home/pauli/dockers/intent-readout-search/models/granite-4.2-8b --layer 12 --dump results/layout_complement_granite.json =====
+som complement: ask-removal and wider roles. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/granite-4.2-8b layer=12
+Loading weights:   0%|          | 0/363 [00:00<?, ?it/s]Loading weights:   1%|          | 2/363 [00:00<00:18, 19.26it/s]Loading weights:   6%|▋         | 23/363 [00:00<00:02, 127.83it/s]Loading weights:  16%|█▋        | 59/363 [00:00<00:01, 228.19it/s]Loading weights:  26%|██▌       | 95/363 [00:00<00:00, 276.84it/s]Loading weights:  36%|███▌      | 131/363 [00:00<00:00, 303.50it/s]Loading weights:  46%|████▌     | 167/363 [00:00<00:00, 319.56it/s]Loading weights:  56%|█████▌    | 203/363 [00:00<00:00, 328.05it/s]Loading weights:  66%|██████▌   | 239/363 [00:00<00:00, 336.92it/s]Loading weights:  76%|███████▌  | 275/363 [00:00<00:00, 339.33it/s]Loading weights:  86%|████████▌ | 312/363 [00:01<00:00, 343.07it/s]Loading weights:  96%|█████████▋| 350/363 [00:01<00:00, 353.67it/s]Loading weights: 100%|██████████| 363/363 [00:01<00:00, 311.95it/s]
+loaded=/home/pauli/dockers/intent-readout-search/models/granite-4.2-8b VRAM_GiB=5.38
+topic prompts with_ask=16 no_ask=16
+topic purity with ask:
+  with_ask seed=0 purity=0.875 n=16
+  with_ask seed=1 purity=0.938 n=16
+  with_ask seed=2 purity=0.938 n=16
+  with_ask mean=0.917
+topic purity ask removed:
+  no_ask seed=0 purity=0.875 n=16
+  no_ask seed=1 purity=1.000 n=16
+  no_ask seed=2 purity=0.875 n=16
+  no_ask mean=0.917
+role prompts=36 roles=12 tasks=3
+role purity on wider bank:
+  role seed=0 purity=0.306 n=36
+  role seed=1 purity=0.278 n=36
+  role seed=2 purity=0.306 n=36
+  role mean=0.296
+dump=results/layout_complement_granite.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
+  check /home/pauli/dockers/regret-heuristic/models/Qwen3.5-9B
+  check /home/pauli/dockers/intent-readout-search/models/Qwen3.5-9B
+USE qwen35 path=/home/pauli/dockers/intent-readout-search/models/Qwen3.5-9B layer=10
+===== night_sims/som_layout_run.py --model /home/pauli/dockers/intent-readout-search/models/Qwen3.5-9B --layer 10 --dump results/layout_map_qwen35.json =====
+som layout: expected vs measured. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/Qwen3.5-9B layer=10 grid=4 seeds=3
+prompts=22 topics=8 roles=6
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<05:33,  1.28it/s]Loading weights:   0%|          | 2/427 [00:01<05:27,  1.30it/s]Loading weights:   3%|▎         | 13/427 [00:01<00:36, 11.43it/s]Loading weights:   5%|▌         | 23/427 [00:01<00:18, 21.40it/s]Loading weights:   7%|▋         | 29/427 [00:01<00:15, 24.98it/s]Loading weights:  10%|▉         | 42/427 [00:02<00:09, 39.48it/s]Loading weights:  11%|█▏        | 49/427 [00:02<00:09, 40.62it/s]Loading weights:  15%|█▌        | 65/427 [00:02<00:05, 62.18it/s]Loading weights:  17%|█▋        | 74/427 [00:02<00:05, 65.37it/s]Loading weights:  19%|█▉        | 83/427 [00:02<00:05, 60.87it/s]Loading weights:  22%|██▏       | 95/427 [00:02<00:04, 68.32it/s]Loading weights:  24%|██▍       | 103/427 [00:02<00:05, 62.75it/s]Loading weights:  28%|██▊       | 118/427 [00:03<00:03, 80.88it/s]Loading weights:  30%|██▉       | 128/427 [00:03<00:03, 81.68it/s]Loading weights:  32%|███▏      | 137/427 [00:03<00:04, 69.69it/s]Loading weights:  34%|███▍      | 146/427 [00:03<00:03, 73.98it/s]Loading weights:  36%|███▋      | 155/427 [00:03<00:04, 56.21it/s]Loading weights:  40%|████      | 171/427 [00:03<00:03, 76.32it/s]Loading weights:  42%|████▏     | 181/427 [00:03<00:03, 77.48it/s]Loading weights:  44%|████▍     | 190/427 [00:04<00:03, 67.62it/s]Loading weights:  47%|████▋     | 201/427 [00:04<00:03, 71.82it/s]Loading weights:  49%|████▉     | 209/427 [00:04<00:03, 65.47it/s]Loading weights:  52%|█████▏    | 224/427 [00:04<00:02, 83.51it/s]Loading weights:  55%|█████▍    | 234/427 [00:04<00:02, 83.87it/s]Loading weights:  57%|█████▋    | 244/427 [00:04<00:02, 74.51it/s]Loading weights:  59%|█████▉    | 254/427 [00:04<00:02, 74.33it/s]Loading weights:  61%|██████▏   | 262/427 [00:05<00:02, 66.57it/s]Loading weights:  65%|██████▍   | 277/427 [00:05<00:01, 84.96it/s]Loading weights:  67%|██████▋   | 287/427 [00:05<00:01, 85.06it/s]Loading weights:  70%|██████▉   | 297/427 [00:05<00:02, 58.20it/s]Loading weights:  71%|███████▏  | 305/427 [00:05<00:02, 61.00it/s]Loading weights:  73%|███████▎  | 313/427 [00:06<00:02, 44.79it/s]Loading weights:  77%|███████▋  | 330/427 [00:06<00:01, 66.03it/s]Loading weights:  80%|███████▉  | 340/427 [00:06<00:01, 70.03it/s]Loading weights:  82%|████████▏ | 349/427 [00:06<00:01, 64.14it/s]Loading weights:  84%|████████▍ | 360/427 [00:06<00:00, 69.24it/s]Loading weights:  86%|████████▌ | 368/427 [00:06<00:00, 63.93it/s]Loading weights:  90%|████████▉ | 383/427 [00:06<00:00, 82.03it/s]Loading weights:  92%|█████████▏| 393/427 [00:06<00:00, 81.82it/s]Loading weights:  94%|█████████▍| 402/427 [00:07<00:00, 64.74it/s]Loading weights:  96%|█████████▋| 411/427 [00:07<00:00, 69.88it/s]Loading weights:  98%|█████████▊| 419/427 [00:07<00:00, 41.58it/s]Loading weights: 100%|██████████| 427/427 [00:07<00:00, 55.02it/s]
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+loaded=/home/pauli/dockers/intent-readout-search/models/Qwen3.5-9B VRAM_GiB=7.12
+H shape=(22, 4096)
+topic labels on topic prompts:
+  topic seed=0 sklearn miss: No module named 'sklearn'
+  topic seed=0 purity=0.875 nmi=nan ari=nan n=16
+  topic seed=1 sklearn miss: No module named 'sklearn'
+  topic seed=1 purity=1.000 nmi=nan ari=nan n=16
+  topic seed=2 sklearn miss: No module named 'sklearn'
+  topic seed=2 purity=0.875 nmi=nan ari=nan n=16
+strategy labels on topic prompts:
+  strategy seed=0 sklearn miss: No module named 'sklearn'
+  strategy seed=0 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=1 sklearn miss: No module named 'sklearn'
+  strategy seed=1 purity=0.500 nmi=nan ari=nan n=16
+  strategy seed=2 sklearn miss: No module named 'sklearn'
+  strategy seed=2 purity=0.500 nmi=nan ari=nan n=16
+role labels on role prompts:
+  role seed=0 sklearn miss: No module named 'sklearn'
+  role seed=0 purity=0.667 nmi=nan ari=nan n=6
+  role seed=1 sklearn miss: No module named 'sklearn'
+  role seed=1 purity=0.667 nmi=nan ari=nan n=6
+  role seed=2 sklearn miss: No module named 'sklearn'
+  role seed=2 purity=0.500 nmi=nan ari=nan n=6
+topic-mean subtracted:
+  strategy_minus_topic seed=0 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=0 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=1 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=1 purity=1.000 nmi=nan ari=nan n=16
+  strategy_minus_topic seed=2 sklearn miss: No module named 'sklearn'
+  strategy_minus_topic seed=2 purity=1.000 nmi=nan ari=nan n=16
+topic-shuffle null n=20:
+  null purity mean=0.512 max=0.625
+dump=results/layout_map_qwen35.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
+===== night_sims/som_layout_complement.py --model /home/pauli/dockers/intent-readout-search/models/Qwen3.5-9B --layer 10 --dump results/layout_complement_qwen35.json =====
+som complement: ask-removal and wider roles. Not a camera. Do not fill D.
+model=/home/pauli/dockers/intent-readout-search/models/Qwen3.5-9B layer=10
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<00:52,  8.12it/s]Loading weights:   0%|          | 2/427 [00:00<00:48,  8.84it/s]Loading weights:   9%|▉         | 38/427 [00:00<00:02, 158.39it/s]Loading weights:  19%|█▉        | 82/427 [00:00<00:01, 259.09it/s]Loading weights:  31%|███▏      | 134/427 [00:00<00:00, 343.33it/s]Loading weights:  44%|████▎     | 186/427 [00:00<00:00, 393.68it/s]Loading weights:  55%|█████▌    | 235/427 [00:00<00:00, 421.86it/s]Loading weights:  65%|██████▌   | 279/427 [00:00<00:00, 426.06it/s]Loading weights:  78%|███████▊  | 331/427 [00:00<00:00, 446.64it/s]Loading weights:  89%|████████▉ | 380/427 [00:01<00:00, 458.85it/s]Loading weights: 100%|██████████| 427/427 [00:01<00:00, 453.74it/s]Loading weights: 100%|██████████| 427/427 [00:01<00:00, 367.56it/s]
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+loaded=/home/pauli/dockers/intent-readout-search/models/Qwen3.5-9B VRAM_GiB=7.12
+topic prompts with_ask=16 no_ask=16
+topic purity with ask:
+  with_ask seed=0 purity=0.875 n=16
+  with_ask seed=1 purity=1.000 n=16
+  with_ask seed=2 purity=0.875 n=16
+  with_ask mean=0.917
+topic purity ask removed:
+  no_ask seed=0 purity=1.000 n=16
+  no_ask seed=1 purity=1.000 n=16
+  no_ask seed=2 purity=0.875 n=16
+  no_ask mean=0.958
+role prompts=36 roles=12 tasks=3
+role purity on wider bank:
+  role seed=0 purity=0.306 n=36
+  role seed=1 purity=0.306 n=36
+  role seed=2 purity=0.306 n=36
+  role mean=0.306
+dump=results/layout_complement_qwen35.json
+Not a camera. Not a claim that SOM nodes are rooms. Do not fill D.
