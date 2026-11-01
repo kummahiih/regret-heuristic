@@ -96,7 +96,7 @@ A room need not be a single string. Let R be any set of strings that the model t
 \mathrm{Room}(R) = \{ x \mid p_\theta(R\mid x)\ge\tau \},
 ```
 
-where p_theta(R|x) is the sum of p_theta(y|x) over y in R. Two roles sit in the same room when their high-mass sets coincide up to the chosen tau. The partition is induced by the model's probability map, not by an external decoder equality.
+where p_theta(R|x) is the sum of p_theta(y|x) over y in R. Two roles sit in the same room when their high-mass sets coincide up to the chosen tau. The high-mass sets can overlap. They are not necessarily a partition. The sets are induced by the model's probability map, not by an external decoder equality.
 
 The shortest additional text that reaches room R from the empty prompt is
 
@@ -134,7 +134,7 @@ The SOM asks whether the rooms are clusters in the residual stream. The OT asks 
 
 ### What the November diagnostics found
 
-On every model tested, topic purity sits at the ceiling. Strategy purity sits at chance until the topic mean is subtracted, then it jumps to 1.0. That is perfect separability after topic-conditioned centering, not evidence of a generalizable strategy. The topic means were not confirmed to be estimated on training data only. A purity of 1.0 on a two-class problem does not establish a strategy representation. The result is a diagnostic, not a camera. Ask-removal does not collapse the rooms. Role purity on the wider bank stays near 0.3. The rooms are in the residual stream. The strategy is not a cluster of its own until the room is removed.
+On every model tested, topic purity sits at the ceiling. Strategy purity sits at chance until the topic mean is subtracted, then it jumps to 1.0. That is perfect separability after topic-conditioned centering, not evidence of a generalizable strategy. The topic means were not confirmed to be estimated on training data only. The SOM dimensions, seeds, and held-out evaluation were not frozen before the result. A purity of 1.0 on a two-class problem does not establish a strategy representation. The result is a diagnostic, not a camera. Ask-removal does not collapse the rooms. Role purity on the wider bank stays near 0.3. The rooms are in the residual stream. The strategy is not a cluster of its own until the room is removed.
 
 | Walk | Topic | Null | Strategy | Strategy after mean | With ask | Ask removed | Role | OT topics | OT roles |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -436,6 +436,8 @@ Peyré, G. and Cuturi, M. 2019. Computational Optimal Transport. Foundations and
 Kohonen, T. 1982. Self-organized formation of topologically correct feature maps. Biological Cybernetics 43.
 
 Hai, M., and H. Li. 2026. When and Why Do Linear Bias Probes Fail? arXiv:2609.22337.
+
+Wen, J., et al. 2024. Language Models Represent Beliefs of Self and Others. arXiv:2402.18496.
 
 Wilson, E. B. 1927. Probable inference, the law of succession, and statistical inference. *Journal of the American Statistical Association* 22(158): 209–212.
 
