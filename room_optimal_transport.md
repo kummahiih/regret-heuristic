@@ -38,19 +38,25 @@ $$
 
 When the infimum is zero, \(R\) intersects the starting room. When it is positive, the shortest non-empty end-insertion that enters the high-mass set of \(R\) is the cost of entering that room from silence. When it is infinite, no finite end-insertion reaches the room.
 
-This quantity is an optimal-transport cost. Equip finite strings with the ground metric of end-insertion length
+This quantity is a minimum-insertion cost, not a Wasserstein distance. The proposed ground cost
 
 $$
 d(s,t)=\min\{ |u|+|v| \mid u++s++v=t \}
 $$
 
-(with the usual convention \(d=\infty\) when no such pair exists). Let \(\mu_\varepsilon\) be the Dirac measure at the empty string and let \(\nu_R\) be any probability measure supported on \(\mathrm{Room}(R)\). Then
+is asymmetric. It permits transforming \(s\) into \(t\) by insertion, but not the reverse. It is therefore not a metric. Standard Wasserstein distance requires a metric or a transport cost with stated assumptions. The equality
 
 $$
 \mathrm{OT}(R)=W_1(\mu_\varepsilon,\nu_R)
 $$
 
-where \(W_1\) is the 1-Wasserstein distance induced by \(d\). The optimal coupling moves the mass at \(\varepsilon\) to a nearest prefix that places high mass on \(R\); the cost of that move is exactly the shortest path length from no input.
+does not hold for an arbitrary destination measure \(\nu_R\). The correct quantity is the minimum distance to the set:
+
+$$
+\mathrm{OT}(R)=\inf_{x\in\mathrm{Room}(R)} d(\varepsilon,x).
+$$
+
+Under that definition the cost is the length of the shortest end-insertion that enters the room. When the infimum is zero, the room intersects the starting room. When it is infinite, no finite end-insertion reaches the room. The keyword-match estimate at n=16 is a lower bound on this cost, not a Wasserstein distance.
 
 Continuous token embeddings would replace \(d\) by a Euclidean or cosine ground metric; the same definition still names the shortest additional text that enters the high-mass set of the room.
 
