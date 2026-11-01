@@ -82,41 +82,41 @@ A room is a subject neighborhood. Two diagnostics ask whether an external room l
 
 ### High-mass sets under the next-token distribution
 
-Let \(M\) be a language model with parameters \(	heta\). Write \(p_\theta(\cdot\mid x)\) for the next-token distribution given prefix \(x\). The empty prompt is \(\varepsilon\). The starting room is the high-mass set of the empty prompt:
+Let \(M\) be a language model with parameters \(\theta\). Write \(p_\theta(\cdot\mid x)\) for the next-token distribution given prefix \(x\). The empty prompt is \(\varepsilon\). The starting room is the high-mass set of the empty prompt:
 
-$$
+```math
 R_0 = \{ y \mid p_\theta(y\mid\varepsilon)\ge	au \}.
-$$
+```
 
 A room need not be a single string. Let \(R\) be any set of strings that the model treats as interchangeable for a purpose — an exact answer, a role description, a genre, a persona. The room of \(R\) is the set of prefixes that place high mass on \(R\):
 
-$$
+```math
 \mathrm{Room}(R) = \{ x \mid p_\theta(R\mid x)\ge	au \},
-$$
+```
 
 where \(p_\theta(R\mid x)=\sum_{y\in R}p_\theta(y\mid x)\). Two roles sit in the same room when their high-mass sets coincide up to the chosen \(	au\). The partition is induced by the model's probability map, not by an external decoder equality.
 
 The shortest additional text that reaches room \(R\) from the empty prompt is
 
-$$
+```math
 \mathrm{OT}(R) = \inf\{ |u|+|v| \mid u++v\in\mathrm{Room}(R) \}.
-$$
+```
 
 When the infimum is zero, \(R\) intersects the starting room. When it is positive, the shortest non-empty end-insertion that enters the high-mass set of \(R\) is the cost of entering that room from silence. When it is infinite, no finite end-insertion reaches the room.
 
 This quantity is an optimal-transport cost. Equip finite strings with the ground metric of end-insertion length
 
-$$
+```math
 d(s,t)=\min\{ |u|+|v| \mid u++s++v=t \}
-$$
+```
 
 (with the usual convention \(d=\infty\) when no such pair exists). Let \(\mu_\varepsilon\) be the Dirac measure at the empty string and let \(
 \nu_R\) be any probability measure supported on \(\mathrm{Room}(R)\). Then
 
-$$
+```math
 \mathrm{OT}(R)=W_1(\mu_\varepsilon,
 \nu_R)
-$$
+```
 
 where \(W_1\) is the 1-Wasserstein distance induced by \(d\). The optimal coupling moves the mass at \(\varepsilon\) to a nearest prefix that places high mass on \(R\); the cost of that move is exactly the shortest path length from no input.
 
