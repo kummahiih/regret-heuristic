@@ -1,0 +1,65 @@
+wrote 114 labels to results/purity_labels_qwen.npy
+===== night_sims/purity_probe.py --activations /home/pauli/dockers/intent-readout-search/results/prebutton_qwen_L-1.npy --labels results/purity_labels_qwen.npy --alpha 1.0 =====
+{
+  "s": 2.037,
+  "alpha": 1.0,
+  "auc_pred": 0.846,
+  "alpha_star": 0.258,
+  "underpowered": false,
+  "n": 114,
+  "n_te": 57
+}
+powered: null result is informative
+not a camera. not handoverPass. Do not fill D.
+wrote 114 labels to results/purity_labels_mistral.npy
+===== night_sims/purity_probe.py --activations /home/pauli/dockers/intent-readout-search/results/prebutton_mistral_L-1.npy --labels results/purity_labels_mistral.npy --alpha 1.0 =====
+{
+  "s": 2.73,
+  "alpha": 1.0,
+  "auc_pred": 0.914,
+  "alpha_star": 0.192,
+  "underpowered": false,
+  "n": 114,
+  "n_te": 57
+}
+powered: null result is informative
+not a camera. not handoverPass. Do not fill D.
+wrote 114 labels to results/purity_labels_llama8it.npy
+===== night_sims/purity_probe.py --activations /home/pauli/dockers/intent-readout-search/results/prebutton_llama8it_2026-11-01_L-1.npy --labels results/purity_labels_llama8it.npy --alpha 1.0 =====
+{
+  "s": 2.286,
+  "alpha": 1.0,
+  "auc_pred": 0.873,
+  "alpha_star": 0.229,
+  "underpowered": false,
+  "n": 114,
+  "n_te": 57
+}
+powered: null result is informative
+not a camera. not handoverPass. Do not fill D.
+wrote 95 labels to results/purity_labels_gemma2bit.npy
+===== night_sims/purity_probe.py --activations /home/pauli/dockers/intent-readout-search/results/prebutton_gemma2bit_2026-11-01_L-1.npy --labels results/purity_labels_gemma2bit.npy --alpha 1.0 =====
+{
+  "s": 3.109,
+  "alpha": 1.0,
+  "auc_pred": 0.94,
+  "alpha_star": 0.186,
+  "underpowered": false,
+  "n": 95,
+  "n_te": 47
+}
+powered: null result is informative
+not a camera. not handoverPass. Do not fill D.
+wrote 106 labels to results/purity_labels_gemma9bit.npy
+===== night_sims/purity_probe.py --activations /home/pauli/dockers/intent-readout-search/results/prebutton_gemma9bit_2026-11-01_L-1.npy --labels results/purity_labels_gemma9bit.npy --alpha 1.0 =====
+{
+  "s": 2.855,
+  "alpha": 1.0,
+  "auc_pred": 0.923,
+  "alpha_star": 0.19,
+  "underpowered": false,
+  "n": 106,
+  "n_te": 53
+}
+powered: null result is informative
+not a camera. not handoverPass. Do not fill D.
