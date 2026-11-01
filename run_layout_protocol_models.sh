@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Layout diagnostic on the original protocol models.
-# Prefer local weights (MODELS_ROOT or HF cache). HF name is the fallback.
+# Prefer local weights. HF name is the fallback.
 # Continues on failure. Not a camera. Do not fill D.
 set -u
 cd "$(dirname "$0")"
@@ -8,15 +8,13 @@ mkdir -p results
 LOG="results/layout-protocol-models-$(date +%Y-%m-%d).log"
 : >"$LOG"
 
-# Where the intent-readout-search models/ tree lives.
-# Example: MODELS_ROOT=../intent-readout-search/models
-# Default: sibling intent-readout-search/models, or set MODELS_ROOT.
-MODELS_ROOT="${MODELS_ROOT:-$HOME/dockers/intent-readout-search/models}"
-HF="${HF_HOME:-${HF_HUB:-/media/pauli/datapata/hf}}/hub"
-# also check the intent-readout-search HF cache if HF_HOME is unset
-if [[ -z "${HF_HOME:-}" && -d "/media/pauli/datapata/hf/hub" ]]; then
-  HF="/media/pauli/datapata/hf/hub"
-fi
+# Two trees. Qwen and Mistral live in regret-heuristic/models.
+# The rest live in intent-readout-search/models.
+MODELS_ROOTS=(
+  "$HOME/dockers/regret-heuristic/models"
+  "$HOME/dockers/intent-readout-search/models"
+)
+HF="${HF_HOME:-/media/pauli/datapata/hf}/hub"
 
 weights_ok() {
   local d="$1"
@@ -70,11 +68,13 @@ for spec in "${SPECS[@]}"; do
   layer=${rest##*|}
 
   path=""
-  if [[ -n "$MODELS_ROOT" ]]; then
-    path=$(first_dir "$MODELS_ROOT/$localdir") || true
-  fi
+  for root in "${MODELS_ROOTS[@]}"; do
+    cand="$root/$localdir"
+    echo "  check $cand" | tee -a "$LOG"
+    path=$(first_dir "$cand") || true
+    [[ -n "$path" ]] && break
+  done
   if [[ -z "$path" ]]; then
-    # HF cache snapshots
     for snap in "$HF"/models--*/snapshots/*; do
       [[ -d "$snap" ]] || continue
       if [[ "$(basename "$(dirname "$(dirname "$snap")")")" == *"${localdir}"* ]]; then
