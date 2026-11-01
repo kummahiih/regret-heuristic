@@ -390,11 +390,11 @@ The negative handover of 2026-10-13 is unchanged. This paper does not reopen it.
 
 These are context. None of them is this hinge, and none fills the prototype bank.
 
-- Park et al., 2024. The Linear Representation Hypothesis and the Geometry of Large Language Models. arXiv:2406.01506. Concept polytopes. Categories as simplices. The main confound for any strategy layout.
-- Shai et al., 2024. Transformers Represent Belief State Geometry in their Residual Stream. arXiv:2405.15943. Belief simplex in the residual stream. So far only on small synthetic models.
-- Lu et al., 2026. The Assistant Axis. arXiv:2601.10387. Top principal component of role vectors separates Assistant from role-play. The axis already exists in the base model. A persona room shows a character, not a plan formed before the ask.
-- Goldowsky-Dill et al., ICML 2025. Detecting Strategic Deception with Linear Probes. A monitor on activations. Not a training hinge. arXiv:2502.03407.
-- Zou et al., 2024. Representation Engineering. arXiv:2310.01405. Circuit Breakers (arXiv:2406.04313) is the closest loss: ReLU of cosine against a frozen copy, plus a retain term. Their pin is a harmful representation. This hinge wants a strategy bank. The path is still missing.
+- Park et al., 2024. The Linear Representation Hypothesis and the Geometry of Large Language Models. arXiv:2406.01506. Concept polytopes (Park et al. 2024). Categories as simplices. The main confound for any strategy layout.
+- Shai et al., 2024. Transformers Represent Belief State Geometry in their Residual Stream. arXiv:2405.15943. Belief simplex in the residual stream (Shai et al. 2024). So far only on small synthetic models.
+- Lu et al., 2026. The Assistant Axis. arXiv:2601.10387. Top principal component of role vectors separates Assistant from role-play (Lu et al. 2026). The axis already exists in the base model. A persona room shows a character, not a plan formed before the ask.
+- Goldowsky-Dill et al., ICML 2025. Detecting Strategic Deception with Linear Probes. A monitor on activations (Goldowsky-Dill et al. 2025). Not a training hinge. arXiv:2502.03407.
+- Zou et al., 2024. Representation Engineering. arXiv:2310.01405. Circuit Breakers (Zou et al. 2024) is the closest loss: ReLU of cosine against a frozen copy, plus a retain term. Their pin is a harmful representation. This hinge wants a strategy bank. The path is still missing.
 
 ## References
 
