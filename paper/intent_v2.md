@@ -42,7 +42,7 @@ The following terms are used for intuition. Technical sections prefer the standa
 
 ## Notation
 
-**Cosine similarity.** For nonzero vectors *u* and *v*, \(\cos(u,v)\) is the inner product of their \(\ell_2\)-normalized versions. It equals 1 for parallel vectors, 0 for orthogonal vectors, and −1 for anti-parallel vectors. Both the strategy probe and every prototype must be nonzero.
+**Cosine similarity.** For nonzero vectors *u* and *v*, \cos(u,v) is the inner product of their \ell_2-normalized versions. It equals 1 for parallel vectors, 0 for orthogonal vectors, and −1 for anti-parallel vectors. Both the strategy probe and every prototype must be nonzero.
 
 **ReLU.** The rectified linear unit is the function ReLU(*t*) = max(0, *t*). Negative inputs become zero; positive inputs are left unchanged. It is a one-sided kink. In this paper it is the shape of a penalty, not a hidden-layer activation. Its derivative with respect to its input is 0 for negative inputs and 1 for positive inputs. At zero the ordinary derivative is undefined; implementations typically adopt a specified subgradient in [0, 1]. Below the kink, the penalty has zero derivative with respect to its input. Above the kink, its derivative with respect to its input is 1, and the penalty equals the excess over the threshold. The gradient with respect to model parameters follows by the chain rule.
 
@@ -82,27 +82,27 @@ A room is a subject neighborhood. Two diagnostics ask whether an external room l
 
 ### High-mass sets under the next-token distribution
 
-Let \(M\) be a language model with parameters \(\theta\). Write \(p_\theta(\cdot\mid x)\) for the next-token distribution given prefix \(x\). The empty prompt is \(\epsilon\). The starting room is the high-mass set of the empty prompt:
+Let M be a language model with parameters \theta. Write p_\theta(\cdot\mid x) for the next-token distribution given prefix x. The empty prompt is \epsilon. The starting room is the high-mass set of the empty prompt:
 
 ```math
 R_0 = \{ y \mid p_\theta(y\mid\epsilon)\ge\tau \}.
 ```
 
-A room need not be a single string. Let \(R\) be any set of strings that the model treats as interchangeable for a purpose — an exact answer, a role description, a genre, a persona. The room of \(R\) is the set of prefixes that place high mass on \(R\):
+A room need not be a single string. Let R be any set of strings that the model treats as interchangeable for a purpose — an exact answer, a role description, a genre, a persona. The room of R is the set of prefixes that place high mass on R:
 
 ```math
 \mathrm{Room}(R) = \{ x \mid p_\theta(R\mid x)\ge\tau \},
 ```
 
-where \(p_\theta(R\mid x)=\sum_{y\in R}p_\theta(y\mid x)\). Two roles sit in the same room when their high-mass sets coincide up to the chosen \(\tau\). The partition is induced by the model's probability map, not by an external decoder equality.
+where p_\theta(R\mid x)=\sum_{y\in R}p_\theta(y\mid x). Two roles sit in the same room when their high-mass sets coincide up to the chosen \tau. The partition is induced by the model's probability map, not by an external decoder equality.
 
-The shortest additional text that reaches room \(R\) from the empty prompt is
+The shortest additional text that reaches room R from the empty prompt is
 
 ```math
 \mathrm{OT}(R) = \inf\{ |u|+|v| \mid u++v\in\mathrm{Room}(R) \}.
 ```
 
-When the infimum is zero, \(R\) intersects the starting room. When it is positive, the shortest non-empty end-insertion that enters the high-mass set of \(R\) is the cost of entering that room from silence. When it is infinite, no finite end-insertion reaches the room.
+When the infimum is zero, R intersects the starting room. When it is positive, the shortest non-empty end-insertion that enters the high-mass set of R is the cost of entering that room from silence. When it is infinite, no finite end-insertion reaches the room.
 
 This quantity is an optimal-transport cost. Equip finite strings with the ground metric of end-insertion length
 
@@ -110,21 +110,21 @@ This quantity is an optimal-transport cost. Equip finite strings with the ground
 d(s,t)=\min\{ |u|+|v| \mid u++s++v=t \}
 ```
 
-(with the usual convention \(d=\infty\) when no such pair exists). Let \(\mu_\epsilon\) be the Dirac measure at the empty string and let \(
-\nu_R\) be any probability measure supported on \(\mathrm{Room}(R)\). Then
+(with the usual convention d=\infty when no such pair exists). Let \mu_\epsilon be the Dirac measure at the empty string and let \(
+\nu_R\) be any probability measure supported on \mathrm{Room}(R). Then
 
 ```math
 \mathrm{OT}(R)=W_1(\mu_\epsilon,
 \nu_R)
 ```
 
-where \(W_1\) is the 1-Wasserstein distance induced by \(d\). The optimal coupling moves the mass at \(\epsilon\) to a nearest prefix that places high mass on \(R\); the cost of that move is exactly the shortest path length from no input.
+where W_1 is the 1-Wasserstein distance induced by d. The optimal coupling moves the mass at \epsilon to a nearest prefix that places high mass on R; the cost of that move is exactly the shortest path length from no input.
 
 ### Residual clusters
 
 Collect last-token residuals on a prompt set that covers candidate rooms. Train a 2-D self-organizing map. Score purity of each candidate label against unit assignments, with a topic-shuffle null and a topic-mean-subtracted control. Ask-removal drops the user question and re-scores. A wider role bank (12 roles × 3 shared tasks) tests whether roles are a stable layout.
 
-The SOM asks whether the rooms are clusters in the residual stream. The OT asks whether the same rooms are high-mass sets under \(p_\theta\). The protocol already shows the strategy direction is room-local. The OT cost asks how far those rooms sit from silence, and whether the strategy direction lives inside one room or spans several.
+The SOM asks whether the rooms are clusters in the residual stream. The OT asks whether the same rooms are high-mass sets under p_\theta. The protocol already shows the strategy direction is room-local. The OT cost asks how far those rooms sit from silence, and whether the strategy direction lives inside one room or spans several.
 
 ### What the November diagnostics found
 
