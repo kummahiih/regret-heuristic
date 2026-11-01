@@ -156,13 +156,15 @@ No October baseline for these models. The combination does not add a clear on Ll
 
 A purity-law diagnostic (Hai and Li, arXiv:2609.22337) was run on the same pre-button residuals. At full purity the audit is powered on every walk. The detectability threshold sits between 0.19 and 0.26. The predicted AUC is the purity-law ceiling, not a measured probe accuracy. The measured combination probe sits near or below that ceiling. The gap is not large.
 
-| Walk | s | AUC pred | alpha* |
-| --- | ---: | ---: | ---: |
-| Qwen | 2.04 | 0.846 | 0.258 |
-| Mistral | 2.73 | 0.914 | 0.192 |
-| Llama-3.1-8B-Instruct | 2.29 | 0.873 | 0.229 |
-| Gemma-2-2b-it | 3.11 | 0.940 | 0.186 |
-| Gemma-2-9b-it | 2.86 | 0.923 | 0.190 |
+| Walk | s | AUC pred | Combination | Gap |
+| --- | ---: | ---: | ---: | ---: |
+| Qwen | 2.04 | 0.846 | 0.945 | +0.099 |
+| Mistral | 2.73 | 0.914 | 0.964 | +0.050 |
+| Llama-3.1-8B-Instruct | 2.29 | 0.873 | 0.909 | +0.036 |
+| Gemma-2-2b-it | 3.11 | 0.940 | 0.952 | +0.012 |
+| Gemma-2-9b-it | 2.86 | 0.923 | 0.942 | +0.019 |
+
+The combination sits above the purity-law ceiling on every walk. The gap is small on the November models and larger on the October walks. The ceiling is a prediction under the purity law, not a measured upper bound. A measured accuracy above the ceiling means the law is incomplete for this bank, or the separation estimate is low. The mid-layer note direction does not carry the win on either set.
 
 Not a camera. Not handoverPass. Do not fill D.
 
