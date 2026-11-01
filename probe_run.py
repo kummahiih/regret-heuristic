@@ -2,6 +2,11 @@
 """Home 4070 Ti 12GB probe: 4-bit load + N linear r heads + frozen D + four eval metrics.
 --pool last (default) or mean over last-layer tokens (pad masked).
 D and eval use the same pool. Not a strategy readout.
+
+Access granted models (use --model):
+- meta-llama/Llama-3.1-8B (base)
+- meta-llama/Llama-3.1-8B-Instruct (default)
+- google/gemma-2-2b, google/gemma-2-2b-it, google/gemma-2-9b-it (4-bit for 9B)
 """
 
 import argparse
@@ -74,7 +79,8 @@ def main():
     parser = argparse.ArgumentParser(
         description="4-bit instruct load + N linear r heads + frozen D + four metrics"
     )
-    parser.add_argument("--model", default="meta-llama/Llama-3.1-8B-Instruct")
+    parser.add_argument("--model", default="meta-llama/Llama-3.1-8B-Instruct",
+                        help="Llama-3.1-8B(-Instruct) or Gemma-2-2b/9b. 4-bit load.")
     parser.add_argument("--data", default="data/probe_split.jsonl")
     parser.add_argument("--max-length", type=int, default=512)
     parser.add_argument("--tau", type=float, default=0.0)
