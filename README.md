@@ -108,7 +108,7 @@ Until `handoverPass`: freeze nothing, do not fill *D*, do not run PPO against *S
 
 ## Status (2026-11-01)
 
-November diagnostics. SOM on last-token residuals: topic purity sits at the ceiling on every model. Strategy purity sits at chance until the topic mean is subtracted, then it jumps to 1.0. Ask-removal does not collapse the rooms. Role purity on the wider bank stays near 0.3. OT rooms at n=16: the cost is still binary. A room is either entered by the note or never entered. The keyword match is the bottleneck. Roles are mostly not entered. Falcon3 entered nothing. Neither diagnostic fills D. Neither replaces the hinge. The rooms are present. The strategy is not a cluster until the room is removed.
+November diagnostics. SOM on last-token residuals: topic purity sits at the ceiling on every model. Strategy purity sits at chance until the topic mean is subtracted, then it jumps to 1.0. Ask-removal does not collapse the rooms. Role purity on the wider bank stays near 0.3. OT rooms at n=16: the cost is a minimum-insertion cost, not a Wasserstein distance. The ground cost is asymmetric. A room is either entered by the note or never entered. The keyword match is the bottleneck. Roles are mostly not entered. Falcon3 entered nothing. A purity-law diagnostic shows the combination exceeds the predicted AUC on every walk. The law is a prediction under a generative model, not a proven upper bound. Neither diagnostic fills D. Neither replaces the hinge. The rooms are present. The strategy is not a cluster until the room is removed.
 
 Map: [intent-readout-search/results/mindmap_full_2026-11-01.svg](https://github.com/kummahiih/intent-readout-search/blob/main/results/mindmap_full_2026-11-01.svg).
 
