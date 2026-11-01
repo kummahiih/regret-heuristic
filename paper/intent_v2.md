@@ -76,6 +76,64 @@ None of these objects is the hinge. The hinge is an instantaneous, per-example p
 
 What does transfer is only the high-level hope: keep a task objective, and use an auxiliary signal to shape which strategies are preferred. The learning-theory literature supplies algorithms and theorems about cumulative gaps. The hinge supplies a concrete differentiable regularizer whose justification is the architectural separation of job from plan, not a theorem that the regularizer inherits Hannan guarantees.
 
+## Rooms as high-mass sets and residual clusters
+
+A room is a subject neighborhood. Two diagnostics ask whether an external room layout is present in the model. Neither is a term in the total loss. Neither fills the prototype bank. Neither freezes the readout.
+
+### High-mass sets under the next-token distribution
+
+Let \(M\) be a language model with parameters \(	heta\). Write \(p_	heta(\cdot\mid x)\) for the next-token distribution given prefix \(x\). The empty prompt is \(arepsilon\). The starting room is the high-mass set of the empty prompt:
+
+$$
+R_0 = \{ y \mid p_	heta(y\midarepsilon)\ge	au \}.
+$$
+
+A room need not be a single string. Let \(R\) be any set of strings that the model treats as interchangeable for a purpose — an exact answer, a role description, a genre, a persona. The room of \(R\) is the set of prefixes that place high mass on \(R\):
+
+$$
+\mathrm{Room}(R) = \{ x \mid p_	heta(R\mid x)\ge	au \},
+$$
+
+where \(p_	heta(R\mid x)=\sum_{y\in R}p_	heta(y\mid x)\). Two roles sit in the same room when their high-mass sets coincide up to the chosen \(	au\). The partition is induced by the model's probability map, not by an external decoder equality.
+
+The shortest additional text that reaches room \(R\) from the empty prompt is
+
+$$
+\mathrm{OT}(R) = \inf\{ |u|+|v| \mid u++v\in\mathrm{Room}(R) \}.
+$$
+
+When the infimum is zero, \(R\) intersects the starting room. When it is positive, the shortest non-empty end-insertion that enters the high-mass set of \(R\) is the cost of entering that room from silence. When it is infinite, no finite end-insertion reaches the room.
+
+This quantity is an optimal-transport cost. Equip finite strings with the ground metric of end-insertion length
+
+$$
+d(s,t)=\min\{ |u|+|v| \mid u++s++v=t \}
+$$
+
+(with the usual convention \(d=\infty\) when no such pair exists). Let \(\mu_arepsilon\) be the Dirac measure at the empty string and let \(
+u_R\) be any probability measure supported on \(\mathrm{Room}(R)\). Then
+
+$$
+\mathrm{OT}(R)=W_1(\mu_arepsilon,
+u_R)
+$$
+
+where \(W_1\) is the 1-Wasserstein distance induced by \(d\). The optimal coupling moves the mass at \(arepsilon\) to a nearest prefix that places high mass on \(R\); the cost of that move is exactly the shortest path length from no input.
+
+### Residual clusters
+
+Collect last-token residuals on a prompt set that covers candidate rooms. Train a 2-D self-organizing map. Score purity of each candidate label against unit assignments, with a topic-shuffle null and a topic-mean-subtracted control. Ask-removal drops the user question and re-scores. A wider role bank (12 roles × 3 shared tasks) tests whether roles are a stable layout.
+
+The SOM asks whether the rooms are clusters in the residual stream. The OT asks whether the same rooms are high-mass sets under \(p_	heta\). The protocol already shows the strategy direction is room-local. The OT cost asks how far those rooms sit from silence, and whether the strategy direction lives inside one room or spans several.
+
+### What the November diagnostics found
+
+On every model tested, topic purity sits at the ceiling. Strategy purity sits at chance until the topic mean is subtracted, then it jumps to 1.0. Ask-removal does not collapse the rooms. Role purity on the wider bank stays near 0.3. The rooms are in the residual stream. The strategy is not a cluster of its own until the room is removed.
+
+The OT cost, estimated by sampling 16 continuations and counting keyword hits, is binary. A room is either entered by the note or never entered. Intermediate costs do not appear. The keyword match is the bottleneck, not the sample size. Roles are mostly not entered.
+
+Neither diagnostic fills the prototype bank. Neither freezes the readout. Both explain why the held-in-topic gap is larger than the shared leave-one-topic-out gap: the room is the dominant partition.
+
 ## The hinge
 
 The previous section defined external regret and Hannan consistency. The hinge is not those objects. It is a training-time regularizer that tries to discourage a class of internal plans without erasing the skill that produces the answer. Two objects must already exist before any training that uses the hinge begins.
