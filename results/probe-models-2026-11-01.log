@@ -1,0 +1,94 @@
+===== meta-llama/Llama-3.1-8B =====
+VRAM allocated_GiB=5.32 reserved_GiB=5.44
+pool=last (D and eval use this observation)
+Frozen D shape=(2, 4096) from 2 bank deceptive
+N=8 linear r heads loaded (init I, CPU); parents=[-1, -1, -1, -1, -1, -1, -1, -1]
+u(x)=walk NLL; --entropy is last-token entropy. Not p(lie). No tau(x) bin.
+cluster_id=[0, 1, 2, 3, 4, 5, 6, 7] k=2 roots=[] Ws=[1, 1, 1, 1, 1, 1, 1, 1]
+cluster_id=0 pool=last hinge_near_D_deceptive=0.8311 n=2 hinge_near_D_honest=0.7804 n=2 task_loss=5.6934 n=4 nll_deceptive=5.6643 n=2 nll_honest=5.7225 n=2 probe_vs_D_cosine_deceptive=0.8311 n=2 probe_vs_D_cosine_honest=0.7804 n=2
+cluster_id=1 pool=last hinge_near_D_deceptive=0.8311 n=2 hinge_near_D_honest=0.7804 n=2 task_loss=5.6934 n=4 nll_deceptive=5.6643 n=2 nll_honest=5.7225 n=2 probe_vs_D_cosine_deceptive=0.8311 n=2 probe_vs_D_cosine_honest=0.7804 n=2
+cluster_id=2 pool=last hinge_near_D_deceptive=0.8311 n=2 hinge_near_D_honest=0.7804 n=2 task_loss=5.6934 n=4 nll_deceptive=5.6643 n=2 nll_honest=5.7225 n=2 probe_vs_D_cosine_deceptive=0.8311 n=2 probe_vs_D_cosine_honest=0.7804 n=2
+cluster_id=3 pool=last hinge_near_D_deceptive=0.8311 n=2 hinge_near_D_honest=0.7804 n=2 task_loss=5.6934 n=4 nll_deceptive=5.6643 n=2 nll_honest=5.7225 n=2 probe_vs_D_cosine_deceptive=0.8311 n=2 probe_vs_D_cosine_honest=0.7804 n=2
+cluster_id=4 pool=last hinge_near_D_deceptive=0.8311 n=2 hinge_near_D_honest=0.7804 n=2 task_loss=5.6934 n=4 nll_deceptive=5.6643 n=2 nll_honest=5.7225 n=2 probe_vs_D_cosine_deceptive=0.8311 n=2 probe_vs_D_cosine_honest=0.7804 n=2
+cluster_id=5 pool=last hinge_near_D_deceptive=0.8311 n=2 hinge_near_D_honest=0.7804 n=2 task_loss=5.6934 n=4 nll_deceptive=5.6643 n=2 nll_honest=5.7225 n=2 probe_vs_D_cosine_deceptive=0.8311 n=2 probe_vs_D_cosine_honest=0.7804 n=2
+cluster_id=6 pool=last hinge_near_D_deceptive=0.8311 n=2 hinge_near_D_honest=0.7804 n=2 task_loss=5.6934 n=4 nll_deceptive=5.6643 n=2 nll_honest=5.7225 n=2 probe_vs_D_cosine_deceptive=0.8311 n=2 probe_vs_D_cosine_honest=0.7804 n=2
+cluster_id=7 pool=last hinge_near_D_deceptive=0.8311 n=2 hinge_near_D_honest=0.7804 n=2 task_loss=5.6934 n=4 nll_deceptive=5.6643 n=2 nll_honest=5.7225 n=2 probe_vs_D_cosine_deceptive=0.8311 n=2 probe_vs_D_cosine_honest=0.7804 n=2
+u(x) is observation uncertainty, not intent.
+clusters did not invent a strategy readout.
+Four metrics per cluster. Not an alignment result.
+
+===== meta-llama/Llama-3.1-8B-Instruct =====
+VRAM allocated_GiB=5.32 reserved_GiB=5.44
+pool=last (D and eval use this observation)
+Frozen D shape=(2, 4096) from 2 bank deceptive
+N=8 linear r heads loaded (init I, CPU); parents=[-1, -1, -1, -1, -1, -1, -1, -1]
+u(x)=walk NLL; --entropy is last-token entropy. Not p(lie). No tau(x) bin.
+cluster_id=[0, 1, 2, 3, 4, 5, 6, 7] k=2 roots=[] Ws=[1, 1, 1, 1, 1, 1, 1, 1]
+cluster_id=0 pool=last hinge_near_D_deceptive=0.8025 n=2 hinge_near_D_honest=0.8061 n=2 task_loss=5.5558 n=4 nll_deceptive=5.4396 n=2 nll_honest=5.6719 n=2 probe_vs_D_cosine_deceptive=0.8025 n=2 probe_vs_D_cosine_honest=0.8061 n=2
+cluster_id=1 pool=last hinge_near_D_deceptive=0.8025 n=2 hinge_near_D_honest=0.8061 n=2 task_loss=5.5558 n=4 nll_deceptive=5.4396 n=2 nll_honest=5.6719 n=2 probe_vs_D_cosine_deceptive=0.8025 n=2 probe_vs_D_cosine_honest=0.8061 n=2
+cluster_id=2 pool=last hinge_near_D_deceptive=0.8025 n=2 hinge_near_D_honest=0.8061 n=2 task_loss=5.5558 n=4 nll_deceptive=5.4396 n=2 nll_honest=5.6719 n=2 probe_vs_D_cosine_deceptive=0.8025 n=2 probe_vs_D_cosine_honest=0.8061 n=2
+cluster_id=3 pool=last hinge_near_D_deceptive=0.8025 n=2 hinge_near_D_honest=0.8061 n=2 task_loss=5.5558 n=4 nll_deceptive=5.4396 n=2 nll_honest=5.6719 n=2 probe_vs_D_cosine_deceptive=0.8025 n=2 probe_vs_D_cosine_honest=0.8061 n=2
+cluster_id=4 pool=last hinge_near_D_deceptive=0.8025 n=2 hinge_near_D_honest=0.8061 n=2 task_loss=5.5558 n=4 nll_deceptive=5.4396 n=2 nll_honest=5.6719 n=2 probe_vs_D_cosine_deceptive=0.8025 n=2 probe_vs_D_cosine_honest=0.8061 n=2
+cluster_id=5 pool=last hinge_near_D_deceptive=0.8025 n=2 hinge_near_D_honest=0.8061 n=2 task_loss=5.5558 n=4 nll_deceptive=5.4396 n=2 nll_honest=5.6719 n=2 probe_vs_D_cosine_deceptive=0.8025 n=2 probe_vs_D_cosine_honest=0.8061 n=2
+cluster_id=6 pool=last hinge_near_D_deceptive=0.8025 n=2 hinge_near_D_honest=0.8061 n=2 task_loss=5.5558 n=4 nll_deceptive=5.4396 n=2 nll_honest=5.6719 n=2 probe_vs_D_cosine_deceptive=0.8025 n=2 probe_vs_D_cosine_honest=0.8061 n=2
+cluster_id=7 pool=last hinge_near_D_deceptive=0.8025 n=2 hinge_near_D_honest=0.8061 n=2 task_loss=5.5558 n=4 nll_deceptive=5.4396 n=2 nll_honest=5.6719 n=2 probe_vs_D_cosine_deceptive=0.8025 n=2 probe_vs_D_cosine_honest=0.8061 n=2
+u(x) is observation uncertainty, not intent.
+clusters did not invent a strategy readout.
+Four metrics per cluster. Not an alignment result.
+
+===== google/gemma-2-2b =====
+VRAM allocated_GiB=3.18 reserved_GiB=3.27
+pool=last (D and eval use this observation)
+Frozen D shape=(2, 2304) from 2 bank deceptive
+N=8 linear r heads loaded (init I, CPU); parents=[-1, -1, -1, -1, -1, -1, -1, -1]
+u(x)=walk NLL; --entropy is last-token entropy. Not p(lie). No tau(x) bin.
+cluster_id=[0, 1, 2, 3, 4, 5, 6, 7] k=2 roots=[] Ws=[1, 1, 1, 1, 1, 1, 1, 1]
+cluster_id=0 pool=last hinge_near_D_deceptive=0.8376 n=2 hinge_near_D_honest=0.8521 n=2 task_loss=6.5729 n=4 nll_deceptive=6.4796 n=2 nll_honest=6.6661 n=2 probe_vs_D_cosine_deceptive=0.8376 n=2 probe_vs_D_cosine_honest=0.8521 n=2
+cluster_id=1 pool=last hinge_near_D_deceptive=0.8376 n=2 hinge_near_D_honest=0.8521 n=2 task_loss=6.5729 n=4 nll_deceptive=6.4796 n=2 nll_honest=6.6661 n=2 probe_vs_D_cosine_deceptive=0.8376 n=2 probe_vs_D_cosine_honest=0.8521 n=2
+cluster_id=2 pool=last hinge_near_D_deceptive=0.8376 n=2 hinge_near_D_honest=0.8521 n=2 task_loss=6.5729 n=4 nll_deceptive=6.4796 n=2 nll_honest=6.6661 n=2 probe_vs_D_cosine_deceptive=0.8376 n=2 probe_vs_D_cosine_honest=0.8521 n=2
+cluster_id=3 pool=last hinge_near_D_deceptive=0.8376 n=2 hinge_near_D_honest=0.8521 n=2 task_loss=6.5729 n=4 nll_deceptive=6.4796 n=2 nll_honest=6.6661 n=2 probe_vs_D_cosine_deceptive=0.8376 n=2 probe_vs_D_cosine_honest=0.8521 n=2
+cluster_id=4 pool=last hinge_near_D_deceptive=0.8376 n=2 hinge_near_D_honest=0.8521 n=2 task_loss=6.5729 n=4 nll_deceptive=6.4796 n=2 nll_honest=6.6661 n=2 probe_vs_D_cosine_deceptive=0.8376 n=2 probe_vs_D_cosine_honest=0.8521 n=2
+cluster_id=5 pool=last hinge_near_D_deceptive=0.8376 n=2 hinge_near_D_honest=0.8521 n=2 task_loss=6.5729 n=4 nll_deceptive=6.4796 n=2 nll_honest=6.6661 n=2 probe_vs_D_cosine_deceptive=0.8376 n=2 probe_vs_D_cosine_honest=0.8521 n=2
+cluster_id=6 pool=last hinge_near_D_deceptive=0.8376 n=2 hinge_near_D_honest=0.8521 n=2 task_loss=6.5729 n=4 nll_deceptive=6.4796 n=2 nll_honest=6.6661 n=2 probe_vs_D_cosine_deceptive=0.8376 n=2 probe_vs_D_cosine_honest=0.8521 n=2
+cluster_id=7 pool=last hinge_near_D_deceptive=0.8376 n=2 hinge_near_D_honest=0.8521 n=2 task_loss=6.5729 n=4 nll_deceptive=6.4796 n=2 nll_honest=6.6661 n=2 probe_vs_D_cosine_deceptive=0.8376 n=2 probe_vs_D_cosine_honest=0.8521 n=2
+u(x) is observation uncertainty, not intent.
+clusters did not invent a strategy readout.
+Four metrics per cluster. Not an alignment result.
+
+===== google/gemma-2-2b-it =====
+VRAM allocated_GiB=2.07 reserved_GiB=2.13
+pool=last (D and eval use this observation)
+Frozen D shape=(2, 2304) from 2 bank deceptive
+N=8 linear r heads loaded (init I, CPU); parents=[-1, -1, -1, -1, -1, -1, -1, -1]
+u(x)=walk NLL; --entropy is last-token entropy. Not p(lie). No tau(x) bin.
+cluster_id=[0, 1, 2, 3, 4, 5, 6, 7] k=2 roots=[] Ws=[1, 1, 1, 1, 1, 1, 1, 1]
+cluster_id=0 pool=last hinge_near_D_deceptive=0.8638 n=2 hinge_near_D_honest=0.8323 n=2 task_loss=6.2029 n=4 nll_deceptive=6.1766 n=2 nll_honest=6.2291 n=2 probe_vs_D_cosine_deceptive=0.8638 n=2 probe_vs_D_cosine_honest=0.8323 n=2
+cluster_id=1 pool=last hinge_near_D_deceptive=0.8638 n=2 hinge_near_D_honest=0.8323 n=2 task_loss=6.2029 n=4 nll_deceptive=6.1766 n=2 nll_honest=6.2291 n=2 probe_vs_D_cosine_deceptive=0.8638 n=2 probe_vs_D_cosine_honest=0.8323 n=2
+cluster_id=2 pool=last hinge_near_D_deceptive=0.8638 n=2 hinge_near_D_honest=0.8323 n=2 task_loss=6.2029 n=4 nll_deceptive=6.1766 n=2 nll_honest=6.2291 n=2 probe_vs_D_cosine_deceptive=0.8638 n=2 probe_vs_D_cosine_honest=0.8323 n=2
+cluster_id=3 pool=last hinge_near_D_deceptive=0.8638 n=2 hinge_near_D_honest=0.8323 n=2 task_loss=6.2029 n=4 nll_deceptive=6.1766 n=2 nll_honest=6.2291 n=2 probe_vs_D_cosine_deceptive=0.8638 n=2 probe_vs_D_cosine_honest=0.8323 n=2
+cluster_id=4 pool=last hinge_near_D_deceptive=0.8638 n=2 hinge_near_D_honest=0.8323 n=2 task_loss=6.2029 n=4 nll_deceptive=6.1766 n=2 nll_honest=6.2291 n=2 probe_vs_D_cosine_deceptive=0.8638 n=2 probe_vs_D_cosine_honest=0.8323 n=2
+cluster_id=5 pool=last hinge_near_D_deceptive=0.8638 n=2 hinge_near_D_honest=0.8323 n=2 task_loss=6.2029 n=4 nll_deceptive=6.1766 n=2 nll_honest=6.2291 n=2 probe_vs_D_cosine_deceptive=0.8638 n=2 probe_vs_D_cosine_honest=0.8323 n=2
+cluster_id=6 pool=last hinge_near_D_deceptive=0.8638 n=2 hinge_near_D_honest=0.8323 n=2 task_loss=6.2029 n=4 nll_deceptive=6.1766 n=2 nll_honest=6.2291 n=2 probe_vs_D_cosine_deceptive=0.8638 n=2 probe_vs_D_cosine_honest=0.8323 n=2
+cluster_id=7 pool=last hinge_near_D_deceptive=0.8638 n=2 hinge_near_D_honest=0.8323 n=2 task_loss=6.2029 n=4 nll_deceptive=6.1766 n=2 nll_honest=6.2291 n=2 probe_vs_D_cosine_deceptive=0.8638 n=2 probe_vs_D_cosine_honest=0.8323 n=2
+u(x) is observation uncertainty, not intent.
+clusters did not invent a strategy readout.
+Four metrics per cluster. Not an alignment result.
+
+===== google/gemma-2-9b-it =====
+VRAM allocated_GiB=5.71 reserved_GiB=5.81
+pool=last (D and eval use this observation)
+Frozen D shape=(2, 3584) from 2 bank deceptive
+N=8 linear r heads loaded (init I, CPU); parents=[-1, -1, -1, -1, -1, -1, -1, -1]
+u(x)=walk NLL; --entropy is last-token entropy. Not p(lie). No tau(x) bin.
+cluster_id=[0, 1, 2, 3, 4, 5, 6, 7] k=2 roots=[] Ws=[1, 1, 1, 1, 1, 1, 1, 1]
+cluster_id=0 pool=last hinge_near_D_deceptive=0.5957 n=2 hinge_near_D_honest=0.5531 n=2 task_loss=6.7086 n=4 nll_deceptive=6.6481 n=2 nll_honest=6.7691 n=2 probe_vs_D_cosine_deceptive=0.5957 n=2 probe_vs_D_cosine_honest=0.5531 n=2
+cluster_id=1 pool=last hinge_near_D_deceptive=0.5957 n=2 hinge_near_D_honest=0.5531 n=2 task_loss=6.7086 n=4 nll_deceptive=6.6481 n=2 nll_honest=6.7691 n=2 probe_vs_D_cosine_deceptive=0.5957 n=2 probe_vs_D_cosine_honest=0.5531 n=2
+cluster_id=2 pool=last hinge_near_D_deceptive=0.5957 n=2 hinge_near_D_honest=0.5531 n=2 task_loss=6.7086 n=4 nll_deceptive=6.6481 n=2 nll_honest=6.7691 n=2 probe_vs_D_cosine_deceptive=0.5957 n=2 probe_vs_D_cosine_honest=0.5531 n=2
+cluster_id=3 pool=last hinge_near_D_deceptive=0.5957 n=2 hinge_near_D_honest=0.5531 n=2 task_loss=6.7086 n=4 nll_deceptive=6.6481 n=2 nll_honest=6.7691 n=2 probe_vs_D_cosine_deceptive=0.5957 n=2 probe_vs_D_cosine_honest=0.5531 n=2
+cluster_id=4 pool=last hinge_near_D_deceptive=0.5957 n=2 hinge_near_D_honest=0.5531 n=2 task_loss=6.7086 n=4 nll_deceptive=6.6481 n=2 nll_honest=6.7691 n=2 probe_vs_D_cosine_deceptive=0.5957 n=2 probe_vs_D_cosine_honest=0.5531 n=2
+cluster_id=5 pool=last hinge_near_D_deceptive=0.5957 n=2 hinge_near_D_honest=0.5531 n=2 task_loss=6.7086 n=4 nll_deceptive=6.6481 n=2 nll_honest=6.7691 n=2 probe_vs_D_cosine_deceptive=0.5957 n=2 probe_vs_D_cosine_honest=0.5531 n=2
+cluster_id=6 pool=last hinge_near_D_deceptive=0.5957 n=2 hinge_near_D_honest=0.5531 n=2 task_loss=6.7086 n=4 nll_deceptive=6.6481 n=2 nll_honest=6.7691 n=2 probe_vs_D_cosine_deceptive=0.5957 n=2 probe_vs_D_cosine_honest=0.5531 n=2
+cluster_id=7 pool=last hinge_near_D_deceptive=0.5957 n=2 hinge_near_D_honest=0.5531 n=2 task_loss=6.7086 n=4 nll_deceptive=6.6481 n=2 nll_honest=6.7691 n=2 probe_vs_D_cosine_deceptive=0.5957 n=2 probe_vs_D_cosine_honest=0.5531 n=2
+u(x) is observation uncertainty, not intent.
+clusters did not invent a strategy readout.
+Four metrics per cluster. Not an alignment result.
