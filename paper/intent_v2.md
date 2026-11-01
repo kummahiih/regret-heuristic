@@ -144,6 +144,16 @@ On every model tested, topic purity sits at the ceiling. Strategy purity sits at
 
 Llama-3.1-8B-Instruct, Gemma-2-2b-it, and Gemma-2-9b-it are the November additions. The rest are the original protocol walks. Phi-4-mini-instruct failed to load. That is a known dynamic-module miss, not a layout result.
 
+The combination probe was also run on the three November models. The pre-button residual already sees the ask. The mid-layer note direction does not carry the win.
+
+| Walk | Pre-button | Combination |
+| --- | --- | --- |
+| Llama-3.1-8B-Instruct | 50/55 = 0.909 [0.804, 0.961] | 50/55 = 0.909 [0.804, 0.961] |
+| Gemma-2-2b-it | 41/42 = 0.976 [0.877, 0.996] | 40/42 = 0.952 [0.842, 0.987] |
+| Gemma-2-9b-it | 47/52 = 0.904 [0.794, 0.958] | 49/52 = 0.942 [0.844, 0.980] |
+
+No October baseline for these models. The combination does not add a clear on Llama. On Gemma-2-2b-it it is slightly below the pre-button alone. On Gemma-2-9b-it it is slightly above. Not a camera. Not handoverPass. Do not fill D.
+
 **Null** is the topic-shuffle baseline. A purity near 0.5 is what a random assignment produces. Topic purity sits well above it.
 
 **With ask** and **Ask removed** are the ask-removal control. The rooms survive the ask. The partition is in the note, not in the question.
