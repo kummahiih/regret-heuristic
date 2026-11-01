@@ -10,7 +10,8 @@ LOG="results/layout-protocol-models-$(date +%Y-%m-%d).log"
 
 # Where the intent-readout-search models/ tree lives.
 # Example: MODELS_ROOT=../intent-readout-search/models
-MODELS_ROOT="${MODELS_ROOT:-}"
+# Default: sibling intent-readout-search/models, or set MODELS_ROOT.
+MODELS_ROOT="${MODELS_ROOT:-$HOME/dockers/intent-readout-search/models}"
 HF="${HF_HOME:-${HF_HUB:-/media/pauli/datapata/hf}}/hub"
 # also check the intent-readout-search HF cache if HF_HOME is unset
 if [[ -z "${HF_HOME:-}" && -d "/media/pauli/datapata/hf/hub" ]]; then
