@@ -151,7 +151,7 @@ On every model tested, topic purity sits at the ceiling. Strategy purity sits at
 
 Llama-3.1-8B-Instruct, Gemma-2-2b-it, and Gemma-2-9b-it are the November additions. The rest are the original protocol walks. Phi-4-mini-instruct failed to load. That is a known dynamic-module miss, not a layout result.
 
-The combination probe was also run on the three November models. The pre-button residual already sees the ask. The mid-layer note direction does not carry the win.
+The combination probe was also run on the three November models. The pre-button residual already sees the ask. The mid-layer note direction does not carry the win. The note-text baseline sees only the note. The residual probe sees the note plus the question. That is a confound. A concatenated note-plus-question text baseline has not been run. The comparison does not establish that the residual contains information beyond what is available from the input text.
 
 | Walk | Pre-button | Combination |
 | --- | --- | --- |
@@ -432,6 +432,8 @@ Villani, C. 2009. Optimal Transport: Old and New. Springer.
 Peyré, G. and Cuturi, M. 2019. Computational Optimal Transport. Foundations and Trends in Machine Learning.
 
 Kohonen, T. 1982. Self-organized formation of topologically correct feature maps. Biological Cybernetics 43.
+
+Hai, M., and H. Li. 2026. When and Why Do Linear Bias Probes Fail? arXiv:2609.22337.
 
 Wilson, E. B. 1927. Probable inference, the law of succession, and statistical inference. *Journal of the American Statistical Association* 22(158): 209–212.
 
