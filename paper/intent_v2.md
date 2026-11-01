@@ -85,16 +85,16 @@ A room is a subject neighborhood. Two diagnostics ask whether an external room l
 Let \(M\) be a language model with parameters \(\theta\). Write \(p_\theta(\cdot\mid x)\) for the next-token distribution given prefix \(x\). The empty prompt is \(\varepsilon\). The starting room is the high-mass set of the empty prompt:
 
 ```math
-R_0 = \{ y \mid p_\theta(y\mid\varepsilon)\ge	au \}.
+R_0 = \{ y \mid p_\theta(y\mid\varepsilon)\ge\tau \}.
 ```
 
 A room need not be a single string. Let \(R\) be any set of strings that the model treats as interchangeable for a purpose — an exact answer, a role description, a genre, a persona. The room of \(R\) is the set of prefixes that place high mass on \(R\):
 
 ```math
-\mathrm{Room}(R) = \{ x \mid p_\theta(R\mid x)\ge	au \},
+\mathrm{Room}(R) = \{ x \mid p_\theta(R\mid x)\ge\tau \},
 ```
 
-where \(p_\theta(R\mid x)=\sum_{y\in R}p_\theta(y\mid x)\). Two roles sit in the same room when their high-mass sets coincide up to the chosen \(	au\). The partition is induced by the model's probability map, not by an external decoder equality.
+where \(p_\theta(R\mid x)=\sum_{y\in R}p_\theta(y\mid x)\). Two roles sit in the same room when their high-mass sets coincide up to the chosen \(\tau\). The partition is induced by the model's probability map, not by an external decoder equality.
 
 The shortest additional text that reaches room \(R\) from the empty prompt is
 
