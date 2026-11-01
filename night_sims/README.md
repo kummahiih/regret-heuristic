@@ -42,6 +42,19 @@ python som_layout.py --smoke
 
 No real data pipeline exists yet. A proper comparison (single linear, IOSD bank, PCA baseline, topic-only, note-text) on identical held-out topics is the next implementation step, not an overnight run.
 
+
+## Models (access granted)
+
+Home 12 GB setup. Prefer 4-bit for the 8 B class.
+
+| Model | Notes |
+| --- | --- |
+| `meta-llama/Llama-3.1-8B` | Base. Access granted. Useful for base-vs-instruct comparison. |
+| `meta-llama/Llama-3.1-8B-Instruct` | Default in `probe_run.py`. |
+| Gemma family (e.g. `google/gemma-2-2b`, `google/gemma-2-2b-it`, `google/gemma-2-9b-it`) | Access granted to the family. 2 B fits more easily; 9 B needs 4-bit. |
+
+Use the same pool (last or mean) for D and eval. Do not treat a result on one model as transfer to another.
+
 ## What this batch does not do
 
 - It does not insert a hinge term.
