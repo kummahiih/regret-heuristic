@@ -106,6 +106,16 @@ Neighbors that use the word *regret* for something else: [neighbors.md](neighbor
 
 Until `handoverPass`: freeze nothing, do not fill *D*, do not run PPO against *S*<sub>safe</sub>. After `handoverPass`: freeze *r*, *D*, τ; train the hinge here; keep a frozen copy as the alarm. A `cameraPass` alone does not freeze.
 
+## Status (2026-11-01)
+
+November diagnostics. SOM on last-token residuals: topic purity sits at the ceiling on every model. Strategy purity sits at chance until the topic mean is subtracted, then it jumps to 1.0. Ask-removal does not collapse the rooms. Role purity on the wider bank stays near 0.3. OT rooms at n=16: the cost is still binary. A room is either entered by the note or never entered. The keyword match is the bottleneck. Roles are mostly not entered. Falcon3 entered nothing. Neither diagnostic fills D. Neither replaces the hinge. The rooms are present. The strategy is not a cluster until the room is removed.
+
+Map: [intent-readout-search/results/mindmap_full_2026-11-01.svg](https://github.com/kummahiih/intent-readout-search/blob/main/results/mindmap_full_2026-11-01.svg).
+
+![Search map](https://raw.githubusercontent.com/kummahiih/intent-readout-search/main/results/mindmap_full_2026-11-01.svg)
+
+Intent v2: [paper/intent_v2.md](paper/intent_v2.md). Negative handover v2: [paper/negative_handover_v2.md](paper/negative_handover_v2.md). The October drafts stay as historical notes.
+
 ## Status (2026-10-12)
 
 Ledger snapshot: search repo night press and Phase 2 note-text baseline (2026-10-12). Parent pointer was `f14df36`; neighbors at `8f059bf`. This repo does not own the camera.
